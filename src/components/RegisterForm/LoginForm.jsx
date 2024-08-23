@@ -15,8 +15,9 @@ function LoginForm({ onClose }) {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      alert("Login exitoso");
       onClose(); // Cierra el modal después de un login exitoso
+      console.log(user.firstName)
+
     } catch (error) {
       setError("Usuario o contraseña incorrectos, revisalos y vuelve a ingresarlos por favor");
     }
