@@ -53,7 +53,7 @@ function RegisterForm({ onClose }) {
     <div className="modal">
       <div className="modal-content">
         <span className="close" onClick={onClose}>&times;</span>
-        <h2>Registro</h2>
+        <h2 className='register-title'> Registro</h2>
 
         <div className="tabs">
           <button

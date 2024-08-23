@@ -108,3 +108,9 @@ button[type="submit"]:hover {
     color: red;
     margin-bottom: 10px;
 }
+.register-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
