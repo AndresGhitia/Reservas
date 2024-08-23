@@ -1,4 +1,3 @@
-/* Fondo desenfocado y oscurecido */
 .modal {
     position: fixed;
     top: 0;
@@ -30,6 +29,26 @@
     font-size: 25px;
     cursor: pointer;
     color: #333;
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    transition: background-color 0.3s;
+}
+
+.tab.active {
+    background-color: #5a67d8;
+    color: white;
 }
 
 .form-group {
@@ -74,6 +93,7 @@ button[type="submit"] {
     border-radius: 5px;
     cursor: pointer;
     margin-top: 15px;
+    transition: background-color 0.3s;
 }
 
 button[type="submit"]:hover {
