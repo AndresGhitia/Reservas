@@ -1,24 +1,27 @@
-import { Route, Routes } from "react-router-dom"
-import Navbar from "./components/Navbar/Navbar"
-import Home from "./pages/Home/Home"
-import Cart from "./pages/Cart/Cart"
-import PlaceOrder from "./pages/PlaceOrder/PlaceOrder"
-import RubroDetailContainer from "./components/RubroDetailContainer/RubroDetailContainer"
+import { Route, Routes, useLocation } from "react-router-dom";
+import Navbar from "./components/Navbar/Navbar";
+import Home from "./pages/Home/Home";
+import Cart from "./pages/Cart/Cart";
+import PlaceOrder from "./pages/PlaceOrder/PlaceOrder";
+import RubroDetailContainer from "./components/RubroDetailContainer/RubroDetailContainer";
+import Dashboard from './components/Dashboard/Dashboard'; 
 
+const App = () => {
+  const location = useLocation();
+  const hideNavbar = location.pathname.startsWith('/dashboard');
 
-const App = () =>{
   return (
     <div className="app">
-      <Navbar/>
+      {!hideNavbar && <Navbar />}
       <Routes>
-        <Route path='/' element={<Home/>} />
-        <Route path='/item/:itemId' element={<RubroDetailContainer/>}/>
-        <Route path='/cart' element={<Cart/>} />
-        <Route path='/order' element={<PlaceOrder/>} />
-      </Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/item/:itemId' element={<RubroDetailContainer />} />
+        <Route path='/cart' element={<Cart />} />
+        <Route path='/order' element={<PlaceOrder />} />
+        <Route path="/dashboard/:establishmentName" element={<Dashboard />} />
+        </Routes>
     </div>
-  )
+  );
 }
 
-
-export default App
+export default App;

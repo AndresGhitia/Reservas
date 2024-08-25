@@ -1,34 +1,51 @@
 import React, { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../firebase';
-import './LoginForm.css'; // Usa el CSS separado para estilos de Login
+import { auth, db } from '../../firebase';
+import './LoginForm.css';
 import RegisterForm from './RegisterForm';
+import { useNavigate } from 'react-router-dom';
+import { doc, getDoc } from 'firebase/firestore';
 
 function LoginForm({ onClose }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showRegister, setShowRegister] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // Estado para mostrar/ocultar contraseña
+  const [showPassword, setShowPassword] = useState(false); 
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      onClose(); // Cierra el modal después de un login exitoso
-      console.log(user.firstName)
-
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+  
+      const ownerDoc = await getDoc(doc(db, 'owners', user.uid));
+      if (ownerDoc.exists()) {
+        const ownerData = ownerDoc.data();
+  
+        // Redirige al Dashboard después de cerrar el modal
+        onClose();
+        setTimeout(() => {
+          // Reemplaza espacios con guiones para evitar el problema
+          const dashboardUrl = `/dashboard/${encodeURIComponent(ownerData.establishmentName.replace(/\s+/g, '-'))}`;
+          navigate(dashboardUrl);
+        }, 300); // Le da tiempo al modal para cerrarse
+      } else {
+        onClose(); // Si no es un owner, simplemente cierra el modal
+      }
+  
     } catch (error) {
       setError("Usuario o contraseña incorrectos, revisalos y vuelve a ingresarlos por favor");
     }
   };
-
+  
   const openRegisterModal = () => {
-    setShowRegister(true); // Abre el modal de registro
+    setShowRegister(true); 
   };
 
   const closeRegisterModal = () => {
-    setShowRegister(false); // Cierra el modal de registro
+    setShowRegister(false);
   };
 
   const togglePasswordVisibility = () => {
@@ -37,13 +54,11 @@ function LoginForm({ onClose }) {
 
   return (
     <>
-      {/* Modal de login */}
       <div className="modal">
         <div className="modal-content">
-          {/* Botón de cierre (X) dentro del modal */}
           <span className="close" onClick={onClose}>&times;</span>
 
-          <h2 className="centered">Iniciar Sesión</h2> {/* Centrado del título */}
+          <h2 className="centered">Iniciar Sesión</h2> 
           {error && <p className="error">{error}</p>}
           <form onSubmit={handleSubmit}>
             <div className="form-group">
@@ -75,8 +90,7 @@ function LoginForm({ onClose }) {
           <button className="create-account-btn" onClick={openRegisterModal}>Crear Cuenta</button>
         </div>
       </div>
-
-      {/* Modal de registro */}
+      
       {showRegister && <RegisterForm onClose={closeRegisterModal} />}
     </>
   );
