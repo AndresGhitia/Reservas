@@ -55,7 +55,6 @@ function Dashboard() {
     <div>
       <h1>Hola, {ownerData.ownerName}</h1>
       <p>Bienvenido al panel de administración de {decodedName}.</p>
-      {/* Aquí puedes agregar más contenido para el Dashboard */}
     </div>
   );
 }

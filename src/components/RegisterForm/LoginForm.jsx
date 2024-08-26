@@ -19,24 +19,17 @@ function LoginForm({ onClose }) {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-  
-      const ownerDoc = await getDoc(doc(db, 'owners', user.uid));
-      if (ownerDoc.exists()) {
-        const ownerData = ownerDoc.data();
-  
-        // Redirige al Dashboard después de cerrar el modal
-        onClose();
-        setTimeout(() => {
-          // Reemplaza espacios con guiones para evitar el problema
-          const dashboardUrl = `/dashboard/${encodeURIComponent(ownerData.establishmentName.replace(/\s+/g, '-'))}`;
-          navigate(dashboardUrl);
-        }, 300); // Le da tiempo al modal para cerrarse
+
+      // Verificar si el correo electrónico está verificado
+      if (user.emailVerified) {
+        // Redirigir o permitir acceso a la aplicación
+        onClose(); // Cierra el formulario de inicio de sesión
       } else {
-        onClose(); // Si no es un owner, simplemente cierra el modal
+        setError("Por favor, verifica tu correo electrónico antes de iniciar sesión.");
+        await signOut(auth); // Cierra sesión si el correo no está verificado
       }
-  
     } catch (error) {
-      setError("Usuario o contraseña incorrectos, revisalos y vuelve a ingresarlos por favor");
+      setError("Primero débes crear tu cuenta. Si ya lo hiciste, verifica tu correo electrónico antes de iniciar sesión.");
     }
   };
   

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth, db } from '../../firebase'; 
+import { createUserWithEmailAndPassword, sendEmailVerification, signOut } from 'firebase/auth';
+import { auth, db } from '../../firebase';
 import { doc, setDoc } from 'firebase/firestore';
 import './RegisterForm.css';
 
@@ -13,7 +13,7 @@ function RegisterForm({ onClose }) {
   const [ownerName, setOwnerName] = useState('');
   const [businessType, setBusinessType] = useState('');
   const [error, setError] = useState('');
-  const [showPassword, setShowPassword] = useState(false); 
+  const [showPassword, setShowPassword] = useState(false);
   const [accountType, setAccountType] = useState('user'); // Estado para el tipo de cuenta
 
   const handleSubmit = async (e) => {
@@ -38,7 +38,14 @@ function RegisterForm({ onClose }) {
         });
       }
 
-      alert("Usuario registrado con éxito");
+      // Enviar correo de verificación
+      await sendEmailVerification(user);
+
+      // Cerrar sesión después de enviar el correo de verificación
+      await signOut(auth);
+
+      // Notificar al usuario que debe verificar su correo
+      alert("Registro exitoso. Por favor, verifica tu correo electrónico para activar tu cuenta.");
       onClose();
     } catch (error) {
       setError("Error al registrar el usuario: " + error.message);
@@ -53,7 +60,7 @@ function RegisterForm({ onClose }) {
     <div className="modal">
       <div className="modal-content">
         <span className="close" onClick={onClose}>&times;</span>
-        <h2 className='register-title'> Registro</h2>
+        <h2 className='register-title'>Registro</h2>
 
         <div className="tabs">
           <button
@@ -92,6 +99,16 @@ function RegisterForm({ onClose }) {
                   placeholder="Apellido"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Correo Electrónico <span className="required">*</span></label>
+                <input
+                  type="email"
+                  placeholder="Correo Electrónico"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                 />
               </div>
