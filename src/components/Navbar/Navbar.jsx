@@ -10,19 +10,16 @@ import { doc, getDoc } from 'firebase/firestore';
 function Navbar() {
   const [showLogin, setShowLogin] = useState(false);
   const [user, setUser] = useState(null);
-  const [userData, setUserData] = useState(null); 
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    // Verifica si el usuario ya está autenticado y obtiene los datos del usuario
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
       if (currentUser) {
-        // Primero, intenta obtener los datos del usuario desde la colección 'users'
         const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
         if (userDoc.exists()) {
           setUserData(userDoc.data());
         } else {
-          // Si no existe en 'users', intenta con 'owners'
           const ownerDoc = await getDoc(doc(db, 'owners', currentUser.uid));
           if (ownerDoc.exists()) {
             setUserData(ownerDoc.data());
@@ -33,8 +30,41 @@ function Navbar() {
       }
     });
 
-    return () => unsubscribe(); 
+    return () => unsubscribe();
   }, []);
+
+  // Cerrar sesión automáticamente después de 10 segundos de inactividad
+  useEffect(() => {
+    let inactivityTimeout;
+
+    const handleInactivity = () => {
+      signOut(auth)
+        .then(() => {
+          setUser(null);
+          setUserData(null); 
+        })
+        .catch((error) => {
+          console.error("Error al cerrar sesión: ", error);
+        });
+    };
+
+    const resetTimer = () => {
+      clearTimeout(inactivityTimeout);
+      inactivityTimeout = setTimeout(handleInactivity, 90000); // Al minuto y medio se cierra sesion
+    };
+
+    if (user) {
+      window.addEventListener('mousemove', resetTimer);
+      window.addEventListener('keydown', resetTimer);
+      resetTimer(); // Inicializar temporizador cuando el usuario inicia sesión
+    }
+
+    return () => {
+      clearTimeout(inactivityTimeout);
+      window.removeEventListener('mousemove', resetTimer);
+      window.removeEventListener('keydown', resetTimer);
+    };
+  }, [user]);
 
   const handleSignInClick = () => {
     setShowLogin(true);
@@ -78,7 +108,7 @@ function Navbar() {
             <button className='signout-btn' onClick={handleSignOut}>Cerrar Sesión</button>
           </div>
         ) : (
-          <button className='signin-btn' onClick={handleSignInClick}>Sign In</button>
+          <button className='signin-btn' onClick={handleSignInClick}>Sign In / Crear Cuenta</button>
         )}
       </div>
       {showLogin && <LoginForm onClose={handleCloseModal} />}
