@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../../firebase';
@@ -21,6 +22,19 @@ export const handleAuthStateChange = (setUser, setUserData) => {
   });
 };
 
+export const handleSignOut = (setUser, setUserData, isAutomatic = false) => {
+  if (isAutomatic || window.confirm("¿Estás seguro que quieres cerrar sesión?")) {
+    signOut(auth)
+      .then(() => {
+        setUser(null);
+        setUserData(null);
+      })
+      .catch((error) => {
+        console.error("Error al cerrar sesión: ", error);
+      });
+  }
+};
+
 export const resetInactivityTimer = (
   user,
   setShowWarningModal,
@@ -31,37 +45,47 @@ export const resetInactivityTimer = (
 ) => {
   let inactivityTimeout;
   let warningTimeout;
+  let countdownInterval;
 
   const handleInactivity = () => {
-    handleSignOut(auth);
-    setUser(null);
-    setUserData(null);
-    setShowWarningModal(false); 
+    handleSignOut(setUser, setUserData, true); // Cierre de sesión automático
+    setShowWarningModal(false);
   };
 
   const showWarning = () => {
     setShowWarningModal(true);
-    setCountdown(30); 
+    setCountdown(30);
+
+    countdownInterval = setInterval(() => {
+      setCountdown((prevCountdown) => {
+        if (prevCountdown <= 1) {
+          clearInterval(countdownInterval); // Detener la cuenta regresiva
+        }
+        return prevCountdown - 1;
+      });
+    }, 1000); // Decrementar cada segundo
   };
 
   const resetTimer = () => {
     clearTimeout(inactivityTimeout);
     clearTimeout(warningTimeout);
-    setShowWarningModal(false); 
+    clearInterval(countdownInterval); // Limpiar el intervalo de la cuenta regresiva
+    setShowWarningModal(false);
 
-    warningTimeout = setTimeout(showWarning, 60000); 
-    inactivityTimeout = setTimeout(handleInactivity, 90000); 
+    warningTimeout = setTimeout(showWarning, 10000); // Mostrar advertencia tras 60 segundos
+    inactivityTimeout = setTimeout(handleInactivity, 40000); // Cerrar sesión tras 90 segundos
   };
 
   if (user) {
     window.addEventListener('mousemove', resetTimer);
     window.addEventListener('keydown', resetTimer);
-    resetTimer(); 
+    resetTimer();
   }
 
   return () => {
     clearTimeout(inactivityTimeout);
     clearTimeout(warningTimeout);
+    clearInterval(countdownInterval);
     window.removeEventListener('mousemove', resetTimer);
     window.removeEventListener('keydown', resetTimer);
   };

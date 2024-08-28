@@ -43,8 +43,8 @@ function Navbar() {
         {user ? (
           <div className='user-info'>
             <span>Hola, {userData?.firstName || userData?.ownerName || user.email}</span>
-            <button className='signout-btn' onClick={handleSignOut}>Cerrar Sesión</button>
-          </div>
+            <button className='signout-btn' onClick={() => handleSignOut(setUser, setUserData, false)}>Cerrar Sesión</button>
+            </div>
         ) : (
           <button className='signin-btn' onClick={handleSignInClick}>Sign In / Crear Cuenta</button>
         )}
