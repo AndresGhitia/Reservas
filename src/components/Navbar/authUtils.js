@@ -42,12 +42,12 @@ export const resetInactivityTimer = (
   setUser,
   setUserData
 ) => {
-  let inactivityTimeout;
-  let warningTimeout;
-  let countdownInterval;
+  var inactivityTimeout;
+  var warningTimeout;
+  var countdownInterval;
 
   const handleInactivity = () => {
-    handleSignOut(setUser, setUserData, true); // Cierre de sesión automático
+    handleSignOut(setUser, setUserData, true); 
     setShowWarningModal(false);
   };
 
@@ -58,7 +58,7 @@ export const resetInactivityTimer = (
     countdownInterval = setInterval(() => {
       setCountdown((prevCountdown) => {
         if (prevCountdown <= 1) {
-          clearInterval(countdownInterval); // Detener la cuenta regresiva
+          clearInterval(countdownInterval); 
         }
         return prevCountdown - 1;
       });
@@ -72,7 +72,7 @@ export const resetInactivityTimer = (
     setShowWarningModal(false);
 
     warningTimeout = setTimeout(showWarning, 10000); // Mostrar advertencia tras 10 segundos
-    inactivityTimeout = setTimeout(handleInactivity, 15000); // Cerrar sesión tras 40 segundos
+    inactivityTimeout = setTimeout(handleInactivity, 40000); // Cerrar sesión tras 40 segundos
   };
 
   if (user) {

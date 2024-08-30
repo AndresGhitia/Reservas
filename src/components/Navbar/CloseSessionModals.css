@@ -1,0 +1,94 @@
+/* Fondo borroso */
+.warning-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5); /* Fondo oscuro semi-transparente */
+  backdrop-filter: blur(10px); /* Efecto de desenfoque */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Estilo del modal */
+.warning-modal {
+  background-color: white;
+  padding: 20px 30px;
+  border-radius: 8px;
+  border: 2px solid black; /* Borde negro */
+  width: 400px; /* Ancho del modal */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra suave */
+  text-align: center; /* Texto centrado */
+}
+
+/* Estilo del título */
+.warning-modal h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: black;
+}
+
+/* Estilo del párrafo */
+.warning-modal p {
+  font-size: 18px;
+  color: black;
+}
+
+.session-closed-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5); /* Fondo oscuro semi-transparente */
+  backdrop-filter: blur(10px); /* Efecto de desenfoque */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Estilo del modal */
+.session-closed-modal {
+  background-color: white;
+  padding: 20px 30px;
+  border-radius: 8px;
+  border: 2px solid black; /* Borde negro */
+  width: 400px; /* Ancho del modal */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra suave */
+  text-align: center; /* Texto centrado */
+}
+
+/* Estilo del título */
+.session-closed-modal h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: black;
+}
+
+/* Estilo del párrafo */
+.session-closed-modal p {
+  font-size: 18px;
+  color: black;
+  margin-bottom: 20px;
+}
+
+/* Estilo del botón */
+.session-closed-modal button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.session-closed-modal button:hover {
+  background-color: #45a049;
+}
