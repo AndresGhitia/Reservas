@@ -1,32 +1,36 @@
+// src/components/Navbar.js
+
 import React, { useState, useEffect } from 'react';
 import './Navbar.css';
 import { assets } from '../../assets/assets';
 import { Link, useNavigate } from 'react-router-dom';
-import LoginForm from '../RegisterForm/LoginForm'; 
-import { auth, db } from '../../firebase'; 
+import LoginForm from '../RegisterForm/LoginForm';
+import { auth, db } from '../../firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore'; 
+import { doc, getDoc } from 'firebase/firestore';
+import { WarningModal, SessionClosedModal } from './CloseSessionModals.jsx'; // Importa los modales
+import { resetInactivityTimer } from './authUtils.js';
 
 function Navbar() {
   const [showLogin, setShowLogin] = useState(false);
   const [user, setUser] = useState(null);
-  const [userData, setUserData] = useState(null); 
-  const navigate = useNavigate(); 
+  const [userData, setUserData] = useState(null);
+  const [showWarningModal, setShowWarningModal] = useState(false);
+  const [showSessionClosedModal, setShowSessionClosedModal] = useState(false);
+  const [countdown, setCountdown] = useState(30);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
       if (currentUser) {
-        // Primero, intenta obtener los datos del usuario desde la colección 'users'
         const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
         if (userDoc.exists()) {
           setUserData(userDoc.data());
         } else {
-          // Si no existe en 'users', intenta con 'owners'
           const ownerDoc = await getDoc(doc(db, 'owners', currentUser.uid));
           if (ownerDoc.exists()) {
-            const ownerData = ownerDoc.data();
-            setUserData(ownerData);
+            setUserData(ownerDoc.data());
           }
         }
       } else {
@@ -34,8 +38,22 @@ function Navbar() {
       }
     });
 
-    return () => unsubscribe(); 
+    return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      const clearInactivity = resetInactivityTimer(
+        user,
+        setShowWarningModal,
+        setCountdown,
+        handleSignOut,
+        setUser,
+        setUserData
+      );
+      return clearInactivity;
+    }
+  }, [user]);
 
   const handleSignInClick = () => {
     setShowLogin(true);
@@ -45,16 +63,22 @@ function Navbar() {
     setShowLogin(false);
   };
 
-  const handleSignOut = () => {
-    if (window.confirm("¿Estás seguro que quieres cerrar sesión?")) {
-      signOut(auth).then(() => {
+  const handleSignOut = (isAutomatic = false) => {
+    if (!isAutomatic && !window.confirm("¿Estás seguro que quieres cerrar sesión?")) {
+      return;
+    }
+    signOut(auth)
+      .then(() => {
         setUser(null);
-        setUserData(null); 
-        navigate('/'); 
-      }).catch((error) => {
+        setUserData(null);
+        navigate('/');
+        if (isAutomatic) {
+          setShowSessionClosedModal(true);
+        }
+      })
+      .catch((error) => {
         console.error("Error al cerrar sesión: ", error);
       });
-    }
   };
 
   const handleOwnerDashboardClick = () => {
@@ -89,13 +113,22 @@ function Navbar() {
             {userData?.establishmentName && (
               <button className='dashboard-btn' onClick={handleOwnerDashboardClick}>Panel de Comercio</button>
             )}
-            <button className='signout-btn' onClick={handleSignOut}>Cerrar Sesión</button>
+            <button className='signout-btn' onClick={() => handleSignOut(false)}>Cerrar Sesión</button>
           </div>
         ) : (
           <button className='signin-btn' onClick={handleSignInClick}>Sign In | Crear Cuenta</button>
         )}
       </div>
       {showLogin && <LoginForm onClose={handleCloseModal} />}
+      {showWarningModal && (
+        <WarningModal
+          countdown={countdown}
+          onStayLoggedIn={() => setShowWarningModal(false)}
+        />
+      )}
+      {showSessionClosedModal && (
+        <SessionClosedModal onClose={() => setShowSessionClosedModal(false)} />
+      )}
     </div>
   );
 }

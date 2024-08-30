@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth, db } from '../../firebase';
 import './LoginForm.css';
 import RegisterForm from './RegisterForm';
@@ -11,7 +11,7 @@ function LoginForm({ onClose }) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showRegister, setShowRegister] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); 
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -19,32 +19,32 @@ function LoginForm({ onClose }) {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-  
+
       if (!user.emailVerified) {
         setError("Tu correo electrónico no ha sido verificado. Por favor, revisa tu correo y sigue las instrucciones para verificarlo.");
+        await signOut(auth); // Asegúrate de que signOut esté correctamente importado
         return;
       }
-  
+
       const ownerDoc = await getDoc(doc(db, 'owners', user.uid));
       if (ownerDoc.exists()) {
         const ownerData = ownerDoc.data();
-  
         onClose();
         setTimeout(() => {
           const dashboardUrl = `/dashboard/${encodeURIComponent(ownerData.establishmentName.replace(/\s+/g, '-'))}`;
-          // navigate(dashboardUrl); // Descomenta esta línea si usas `react-router-dom`
+    //      navigate(dashboardUrl); // Descomenta esta línea si usas `react-router-dom`
         }, 100);
       } else {
         onClose();
       }
-  
+
     } catch (error) {
       setError("Usuario o contraseña incorrectos, revisalos y vuelve a ingresarlos por favor");
     }
   };
-  
+
   const openRegisterModal = () => {
-    setShowRegister(true); 
+    setShowRegister(true);
   };
 
   const closeRegisterModal = () => {
@@ -61,7 +61,7 @@ function LoginForm({ onClose }) {
         <div className="modal-content">
           <span className="close" onClick={onClose}>&times;</span>
 
-          <h2 className="centered">Iniciar Sesión</h2> 
+          <h2 className="centered">Iniciar Sesión</h2>
           {error && <p className="error">{error}</p>}
           <form onSubmit={handleLogin}>
             <div className="form-group">
@@ -93,7 +93,7 @@ function LoginForm({ onClose }) {
           <button className="create-account-btn" onClick={openRegisterModal}>Crear Cuenta</button>
         </div>
       </div>
-      
+
       {showRegister && <RegisterForm onClose={closeRegisterModal} />}
     </>
   );
