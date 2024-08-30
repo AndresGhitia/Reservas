@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Navbar.css';
 import { assets } from '../../assets/assets';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LoginForm from '../RegisterForm/LoginForm'; 
 import { auth, db } from '../../firebase'; 
 import { onAuthStateChanged, signOut } from 'firebase/auth';
@@ -11,9 +11,9 @@ function Navbar() {
   const [showLogin, setShowLogin] = useState(false);
   const [user, setUser] = useState(null);
   const [userData, setUserData] = useState(null); 
+  const navigate = useNavigate(); 
 
   useEffect(() => {
-    // Verifica si el usuario ya está autenticado y obtiene los datos del usuario
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
       if (currentUser) {
@@ -25,7 +25,8 @@ function Navbar() {
           // Si no existe en 'users', intenta con 'owners'
           const ownerDoc = await getDoc(doc(db, 'owners', currentUser.uid));
           if (ownerDoc.exists()) {
-            setUserData(ownerDoc.data());
+            const ownerData = ownerDoc.data();
+            setUserData(ownerData);
           }
         }
       } else {
@@ -49,9 +50,19 @@ function Navbar() {
       signOut(auth).then(() => {
         setUser(null);
         setUserData(null); 
+        navigate('/'); 
       }).catch((error) => {
         console.error("Error al cerrar sesión: ", error);
       });
+    }
+  };
+
+  const handleOwnerDashboardClick = () => {
+    if (userData?.establishmentName) {
+      const establishmentName = userData.establishmentName.replace(/\s+/g, '-');
+      navigate(`/dashboard/${establishmentName}`);
+    } else {
+      navigate('/owner-dashboard');
     }
   };
 
@@ -75,10 +86,13 @@ function Navbar() {
         {user ? (
           <div className='user-info'>
             <span>Hola, {userData?.firstName || userData?.ownerName || user.email}</span>
+            {userData?.establishmentName && (
+              <button className='dashboard-btn' onClick={handleOwnerDashboardClick}>Panel de Comercio</button>
+            )}
             <button className='signout-btn' onClick={handleSignOut}>Cerrar Sesión</button>
           </div>
         ) : (
-          <button className='signin-btn' onClick={handleSignInClick}>Sign In</button>
+          <button className='signin-btn' onClick={handleSignInClick}>Sign In | Crear Cuenta</button>
         )}
       </div>
       {showLogin && <LoginForm onClose={handleCloseModal} />}

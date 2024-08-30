@@ -29,8 +29,8 @@ function LoginForm({ onClose }) {
         setTimeout(() => {
           // Reemplaza espacios con guiones para evitar el problema
           const dashboardUrl = `/dashboard/${encodeURIComponent(ownerData.establishmentName.replace(/\s+/g, '-'))}`;
-          navigate(dashboardUrl);
-        }, 300); // Le da tiempo al modal para cerrarse
+      //    navigate(dashboardUrl);
+        }, 100); // Le da tiempo al modal para cerrarse
       } else {
         onClose(); // Si no es un owner, simplemente cierra el modal
       }

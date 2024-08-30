@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom'; // Importar Link
 import { doc, getDoc } from 'firebase/firestore';
 import { db, auth } from '../../firebase'; 
 import './Dashboard.css';
@@ -55,7 +55,7 @@ function Dashboard() {
     <div>
       <h1>Hola, {ownerData.ownerName}</h1>
       <p>Bienvenido al panel de administración de {decodedName}.</p>
-      {/* Aquí puedes agregar más contenido para el Dashboard */}
+      <Link to="/" className="home-button">Home</Link>
     </div>
   );
 }

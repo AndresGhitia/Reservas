@@ -21,7 +21,7 @@ function RegisterForm({ onClose }) {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-
+  
       if (accountType === 'user') {
         await setDoc(doc(db, 'users', user.uid), {
           firstName,
@@ -37,14 +37,15 @@ function RegisterForm({ onClose }) {
           createdAt: new Date()
         });
       }
-
+  
       alert("Usuario registrado con éxito");
       onClose();
     } catch (error) {
+      console.error("Firebase Error:", error); // Agrega este console.error
       setError("Error al registrar el usuario: " + error.message);
     }
   };
-
+  
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -95,6 +96,16 @@ function RegisterForm({ onClose }) {
                   required
                 />
               </div>
+              <div className="form-group">
+              <label>Email <span className="required">*</span></label>
+              <input
+  type="email"
+  placeholder="Correo Electrónico"
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+  required
+/>
+</div>
             </>
           )}
 
