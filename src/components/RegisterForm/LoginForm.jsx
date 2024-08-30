@@ -14,25 +14,28 @@ function LoginForm({ onClose }) {
   const [showPassword, setShowPassword] = useState(false); 
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
   
+      if (!user.emailVerified) {
+        setError("Tu correo electrónico no ha sido verificado. Por favor, revisa tu correo y sigue las instrucciones para verificarlo.");
+        return;
+      }
+  
       const ownerDoc = await getDoc(doc(db, 'owners', user.uid));
       if (ownerDoc.exists()) {
         const ownerData = ownerDoc.data();
   
-        // Redirige al Dashboard después de cerrar el modal
         onClose();
         setTimeout(() => {
-          // Reemplaza espacios con guiones para evitar el problema
           const dashboardUrl = `/dashboard/${encodeURIComponent(ownerData.establishmentName.replace(/\s+/g, '-'))}`;
-      //    navigate(dashboardUrl);
-        }, 100); // Le da tiempo al modal para cerrarse
+          // navigate(dashboardUrl); // Descomenta esta línea si usas `react-router-dom`
+        }, 100);
       } else {
-        onClose(); // Si no es un owner, simplemente cierra el modal
+        onClose();
       }
   
     } catch (error) {
@@ -60,7 +63,7 @@ function LoginForm({ onClose }) {
 
           <h2 className="centered">Iniciar Sesión</h2> 
           {error && <p className="error">{error}</p>}
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleLogin}>
             <div className="form-group">
               <label>Correo electrónico</label>
               <input

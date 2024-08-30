@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { auth, db } from '../../firebase'; 
 import { doc, setDoc } from 'firebase/firestore';
 import './RegisterForm.css';
@@ -22,6 +22,9 @@ function RegisterForm({ onClose }) {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
   
+      // Enviar correo de verificación
+      await sendEmailVerification(user);
+  
       if (accountType === 'user') {
         await setDoc(doc(db, 'users', user.uid), {
           firstName,
@@ -38,10 +41,10 @@ function RegisterForm({ onClose }) {
         });
       }
   
-      alert("Usuario registrado con éxito");
+      alert("Usuario registrado con éxito. Por favor, revisa tu correo electrónico para verificar tu cuenta.");
       onClose();
     } catch (error) {
-      console.error("Firebase Error:", error); // Agrega este console.error
+      console.error("Firebase Error:", error);
       setError("Error al registrar el usuario: " + error.message);
     }
   };
