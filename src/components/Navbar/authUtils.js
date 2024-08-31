@@ -53,7 +53,7 @@ export const resetInactivityTimer = (
 
   const showWarning = () => {
     setShowWarningModal(true);
-    setCountdown(30);
+    setCountdown(10);
 
     countdownInterval = setInterval(() => {
       setCountdown((prevCountdown) => {
@@ -72,7 +72,7 @@ export const resetInactivityTimer = (
     setShowWarningModal(false);
 
     warningTimeout = setTimeout(showWarning, 10000); // Mostrar advertencia tras 10 segundos
-    inactivityTimeout = setTimeout(handleInactivity, 40000); // Cerrar sesión tras 40 segundos
+    inactivityTimeout = setTimeout(handleInactivity, 20000); // Cerrar sesión tras 40 segundos
   };
 
   if (user) {

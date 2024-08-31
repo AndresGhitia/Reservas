@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import './Navbar.css';
 import { assets } from '../../assets/assets';
 import { Link, useNavigate } from 'react-router-dom';
-import LoginForm from '../RegisterForm/LoginForm';
+import LoginForm from '../LoginForm/LoginForm.jsx';
 import { auth, db } from '../../firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
