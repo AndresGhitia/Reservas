@@ -54,24 +54,48 @@ function Dashboard() {
     setUniqueError(null); // Limpiar cualquier error anterior
 
     try {
-      const user = auth.currentUser;
-      if (user) {
-        const spacesRef = collection(db, 'owners', user.uid, 'spaces');
-        const q = query(spacesRef, where("name", "==", newSpaceName));
-        const querySnapshot = await getDocs(q);
+        const user = auth.currentUser;
+        if (user) {
+            const spacesRef = collection(db, 'owners', user.uid, 'spaces');
+            const q = query(spacesRef, where("name", "==", newSpaceName));
+            const querySnapshot = await getDocs(q);
 
-        if (!querySnapshot.empty) {
-          setUniqueError("Ya existe un espacio con este nombre."); // Mostrar error si el nombre no es único
-        } else {
-          const docRef = await addDoc(spacesRef, { name: newSpaceName });
-          setSpaces(prevSpaces => [...prevSpaces, { id: docRef.id, name: newSpaceName }]);
-          setNewSpaceName(""); // Clear the input field after adding
+            if (!querySnapshot.empty) {
+                setUniqueError("Ya existe un espacio con este nombre."); // Mostrar error si el nombre no es único
+            } else {
+                const spaceDocRef = await addDoc(spacesRef, { name: newSpaceName });
+                setSpaces(prevSpaces => [...prevSpaces, { id: spaceDocRef.id, name: newSpaceName }]);
+
+                // Crear calendario mensual para el espacio recién creado
+                const calendarRef = collection(spaceDocRef, 'calendar');
+                const currentDate = new Date();
+                const year = currentDate.getFullYear();
+                const month = currentDate.getMonth() + 1; // Los meses en JS van de 0 a 11, por eso sumamos 1
+
+                // Obtener el número de días en el mes actual
+                const daysInMonth = new Date(year, month, 0).getDate(); // Este método da el último día del mes
+
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const formattedDay = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+                    await addDoc(calendarRef, {
+                        date: formattedDay,
+                        timeslots: [
+                            { time: '09:00', available: true },
+                            { time: '10:00', available: true },
+                            { time: '11:00', available: true },
+                            // Puedes añadir más horarios aquí según necesites
+                        ]
+                    });
+                }
+
+                setNewSpaceName(""); // Limpiar el campo de entrada después de agregar
+            }
         }
-      }
     } catch (error) {
-      console.error("Error al agregar un nuevo espacio: ", error);
+        console.error("Error al agregar un nuevo espacio: ", error);
     }
-  };
+};
+
 
   const handleDeleteSpace = async (spaceId) => {
     try {
