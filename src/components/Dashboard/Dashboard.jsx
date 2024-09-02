@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { doc, getDoc, collection, addDoc, getDocs, deleteDoc, query, where } from 'firebase/firestore';
+import { doc, getDoc, collection, addDoc, getDocs, deleteDoc, query, where, setDoc } from 'firebase/firestore';
 import { db, auth } from '../../firebase';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -21,7 +21,6 @@ function Dashboard() {
   const [showModal, setShowModal] = useState(false);
   const [timeSlots, setTimeSlots] = useState([]);
 
-  // Obtener datos del propietario y los espacios
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -32,7 +31,6 @@ function Dashboard() {
           if (docSnap.exists()) {
             setOwnerData(docSnap.data());
 
-            // Obtener los espacios
             const spacesRef = collection(docRef, 'spaces');
             const spacesSnap = await getDocs(spacesRef);
             const spacesList = spacesSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -53,7 +51,6 @@ function Dashboard() {
     fetchData();
   }, []);
 
-  // Agregar nuevo espacio y calendario
   const handleAddSpace = async () => {
     if (newSpaceName.trim() === "") return;
     setUniqueError(null);
@@ -69,53 +66,6 @@ function Dashboard() {
           setUniqueError("Ya existe un espacio con este nombre.");
         } else {
           const docRef = await addDoc(spacesRef, { name: newSpaceName });
-
-          // Crear calendario para el nuevo espacio
-          const calendarRef = collection(docRef, 'calendar');
-          const currentDate = new Date();
-          const year = currentDate.getFullYear();
-          const month = currentDate.getMonth() + 1;
-
-          const daysInMonth = new Date(year, month, 0).getDate();
-
-          // Guardar cada día del mes con horarios disponibles
-          const batchPromises = [];
-          for (let day = 1; day <= daysInMonth; day++) {
-            const formattedDay = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-            const timeslots = [
-              { time: '09:00', available: true },
-              { time: '10:00', available: true },
-              { time: '11:00', available: true },
-              { time: '12:00', available: true },
-              { time: '13:00', available: true },
-              { time: '14:00', available: true },
-              { time: '15:00', available: true },
-              { time: '16:00', available: true },
-              { time: '17:00', available: true },
-              { time: '18:00', available: true },
-              { time: '19:00', available: true },
-              { time: '20:00', available: true },
-              { time: '21:00', available: true },
-              { time: '22:00', available: true },
-              { time: '23:00', available: true },
-
-
-
-
-
-            ];
-            batchPromises.push(
-              addDoc(calendarRef, {
-                date: formattedDay,
-                timeslots: timeslots,
-              })
-            );
-          }
-
-          // Esperar a que todos los documentos se guarden
-          await Promise.all(batchPromises);
-
-          // Actualizar el estado con el nuevo espacio
           setSpaces(prevSpaces => [...prevSpaces, { id: docRef.id, name: newSpaceName }]);
           setNewSpaceName("");
         }
@@ -125,7 +75,6 @@ function Dashboard() {
     }
   };
 
-  // Ver disponibilidad de un espacio
   const handleViewAvailability = async (space) => {
     setSelectedSpace(space);
     setLoading(true);
@@ -146,7 +95,6 @@ function Dashboard() {
     }
   };
 
-  // Cerrar el modal
   const handleCloseModal = () => {
     setShowModal(false);
     setSelectedSpace(null);
@@ -155,35 +103,96 @@ function Dashboard() {
     setTimeSlots([]);
   };
 
-  // Cambiar la fecha seleccionada en el calendario
-  const handleDateChange = (date) => {
+  const handleDateChange = async (date) => {
     setSelectedDate(date);
     const formattedDate = date.toISOString().split('T')[0];
 
-    // Encontrar los horarios disponibles para la fecha seleccionada
     const selectedDayData = calendarData.find(day => day.date === formattedDate);
-    setTimeSlots(selectedDayData ? selectedDayData.timeslots : []);
+    if (selectedDayData) {
+      setTimeSlots(selectedDayData.timeslots);
+    } else {
+      try {
+        const user = auth.currentUser;
+        if (user && selectedSpace) {
+          const calendarRef = doc(db, 'owners', user.uid, 'spaces', selectedSpace.id, 'calendar', formattedDate);
+          const calendarSnap = await getDoc(calendarRef);
+
+          if (calendarSnap.exists()) {
+            setTimeSlots(calendarSnap.data().timeslots);
+          } else {
+            // Generar y guardar horarios para esta fecha solo si se solicita
+            const timeslots = [
+              { time: '09:00', available: true },
+              { time: '10:00', available: true },
+              { time: '11:00', available: true },
+            ];
+            await setDoc(calendarRef, {
+              date: formattedDate,
+              timeslots: timeslots,
+            });
+            setTimeSlots(timeslots);
+          }
+        }
+      } catch (error) {
+        console.error("Error al cambiar la fecha: ", error);
+      }
+    }
   };
 
-  // Borrar espacio y su calendario
+  const handleReserveSlot = async (slotIndex) => {
+    try {
+      const user = auth.currentUser;
+      if (user && selectedSpace && selectedDate) {
+        const formattedDate = selectedDate.toISOString().split('T')[0];
+        const calendarRef = doc(db, 'owners', user.uid, 'spaces', selectedSpace.id, 'calendar', formattedDate);
+        const updatedSlots = [...timeSlots];
+        updatedSlots[slotIndex].available = false;
+  
+        await setDoc(calendarRef, {
+          date: formattedDate,
+          timeslots: updatedSlots,
+        });
+  
+        setTimeSlots(updatedSlots);
+      }
+    } catch (error) {
+      console.error("Error al reservar el horario: ", error);
+    }
+  };
+
+  const handleCancelReservation = async (slotIndex) => {
+    try {
+      const user = auth.currentUser;
+      if (user && selectedSpace && selectedDate) {
+        const formattedDate = selectedDate.toISOString().split('T')[0];
+        const calendarRef = doc(db, 'owners', user.uid, 'spaces', selectedSpace.id, 'calendar', formattedDate);
+        const updatedSlots = [...timeSlots];
+        updatedSlots[slotIndex].available = true;
+
+        await setDoc(calendarRef, {
+          date: formattedDate,
+          timeslots: updatedSlots,
+        });
+
+        setTimeSlots(updatedSlots);
+      }
+    } catch (error) {
+      console.error("Error al cancelar la reserva: ", error);
+    }
+  };
+
   const handleDeleteSpace = async (spaceId) => {
     try {
       const user = auth.currentUser;
       if (user) {
         const spaceDocRef = doc(db, 'owners', user.uid, 'spaces', spaceId);
-
-        // Obtener referencia a la colección de calendario
         const calendarCollectionRef = collection(spaceDocRef, 'calendar');
         const calendarSnapshot = await getDocs(calendarCollectionRef);
 
-        // Eliminar documentos del calendario
         const deletePromises = calendarSnapshot.docs.map((doc) => deleteDoc(doc.ref));
         await Promise.all(deletePromises);
 
-        // Eliminar el espacio después de eliminar el calendario
         await deleteDoc(spaceDocRef);
-
-        // Actualizar el estado eliminando el espacio del array
         setSpaces((prevSpaces) => prevSpaces.filter((space) => space.id !== spaceId));
       }
     } catch (error) {
@@ -208,23 +217,23 @@ function Dashboard() {
       <h1>Hola, {ownerData.ownerName}</h1>
       <p>Bienvenido al panel de administración de {decodedName}.</p>
       <Link to="/" className="home-button">Home</Link>
-      
+
       <div className="spaces-section">
         <h2>Espacios / Canchas</h2>
         <ul>
           {spaces.map((space) => (
             <li key={space.id}>
-              {space.name} 
+              {space.name}
               <button onClick={() => handleDeleteSpace(space.id)}>Borrar</button>
               <button onClick={() => handleViewAvailability(space)}>Ver disponibilidad</button>
             </li>
           ))}
         </ul>
-        <input 
-          type="text" 
-          placeholder="Nombre del nuevo espacio" 
-          value={newSpaceName} 
-          onChange={(e) => setNewSpaceName(e.target.value)} 
+        <input
+          type="text"
+          placeholder="Nombre del nuevo espacio"
+          value={newSpaceName}
+          onChange={(e) => setNewSpaceName(e.target.value)}
         />
         <button onClick={handleAddSpace}>Agregar Espacio</button>
         {uniqueError && <p className="error">{uniqueError}</p>}
@@ -243,22 +252,21 @@ function Dashboard() {
               />
             </div>
 
-            {selectedDate && (
-              <div className="time-slots">
-                <h3>Horarios para {selectedDate.toDateString()}</h3>
-                {timeSlots.length > 0 ? (
-                  <ul>
-                    {timeSlots.map((slot, index) => (
-                      <li key={index}>
-                        {slot.time} - {slot.available ? 'Disponible' : 'No Disponible'}
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p>No hay horarios disponibles para esta fecha.</p>
-                )}
-              </div>
-            )}
+            <div className="timeslot-container">
+              {timeSlots.length > 0 ? (
+                timeSlots.map((slot, index) => (
+                  <button
+                    key={index}
+                    onClick={() => slot.available ? handleReserveSlot(index) : handleCancelReservation(index)}
+                    className={`timeslot-button ${slot.available ? 'available' : 'reserved'}`}
+                  >
+                    {slot.time} - {slot.available ? "Reservar" : "Anular reserva"}
+                  </button>
+                ))
+              ) : (
+                <p>Seleccione una fecha para ver los horarios disponibles.</p>
+              )}
+            </div>
           </div>
         </div>
       )}
