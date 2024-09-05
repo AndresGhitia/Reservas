@@ -182,33 +182,33 @@ function Dashboard() {
   }
 
   return (
-    <div>
+    <div className="container">
       <h1>Hola, {ownerData.ownerName}</h1>
       <p>Bienvenido al panel de administración de {decodedName}.</p>
-
-      <div>
+  
+      <div className="spaces-container">
         <h2>Espacios</h2>
         <ul>
           {spaces.map(space => (
             <li key={space.id}>
               {space.name}
-              <button onClick={() => handleViewAvailability(space)}>Ver disponibilidad</button>
-              <button onClick={() => handleDeleteSpace(space.id)}>Eliminar</button>
+              <div>
+                <button onClick={() => handleViewAvailability(space)}>Ver disponibilidad</button>
+                <button onClick={() => handleDeleteSpace(space.id)} style={{ marginLeft: '10px' }}>Eliminar</button>
+              </div>
             </li>
           ))}
         </ul>
-        <div>
-          <input
-            type="text"
-            value={newSpaceName}
-            onChange={(e) => setNewSpaceName(e.target.value)}
-            placeholder="Nombre del nuevo espacio"
-          />
-          <button onClick={handleAddSpace}>Agregar Espacio</button>
-          {uniqueError && <p>{uniqueError}</p>}
-        </div>
+        <input
+          type="text"
+          value={newSpaceName}
+          onChange={(e) => setNewSpaceName(e.target.value)}
+          placeholder="Nombre del nuevo espacio"
+        />
+        <button onClick={handleAddSpace}>Agregar Espacio</button>
+        {uniqueError && <p>{uniqueError}</p>}
       </div>
-
+  
       {showModal && (
         <div className="modal">
           <button onClick={handleCloseModal}>Cerrar</button>
@@ -219,8 +219,7 @@ function Dashboard() {
             setCalendarData={setCalendarData}
             setTimeSlots={setTimeSlots}
             setSelectedDate={setSelectedDate}
-            onClose={handleCloseModal} // Pasamos la función de cerrar
-
+            onClose={handleCloseModal}
           />
           {selectedDate && (
             <div className="time-slots">

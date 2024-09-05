@@ -9,7 +9,6 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setTi
   const [date, setDate] = useState(null);
   const [timeSlots, setLocalTimeSlots] = useState([]);
 
-  // Fetch calendar data for the selected date
   useEffect(() => {
     if (selectedSpace && date) {
       const fetchCalendarData = async () => {
@@ -33,6 +32,16 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setTi
                 { time: '12:00', available: true },
                 { time: '13:00', available: true },
                 { time: '14:00', available: true },
+                { time: '15:00', available: true },
+                { time: '16:00', available: true },
+                { time: '17:00', available: true },
+                { time: '18:00', available: true },
+                { time: '19:00', available: true },
+                { time: '20:00', available: true },
+                { time: '21:00', available: true },
+                { time: '22:00', available: true },
+                { time: '23:00', available: true },
+
               ];
               await setDoc(calendarRef, { date: formattedDate, timeslots });
               setLocalTimeSlots(timeslots);
@@ -47,14 +56,12 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setTi
     }
   }, [date, selectedSpace, calendarData]);
 
-  // Handle booking or unbooking a time slot
   const handleTimeslotClick = async (slotIndex) => {
     if (!date || !selectedSpace) return;
 
     const formattedDate = date.toISOString().split('T')[0];
     const calendarRef = doc(db, 'owners', auth.currentUser.uid, 'spaces', selectedSpace.id, 'calendar', formattedDate);
     
-    // Toggle the availability of the time slot
     const updatedTimeSlots = timeSlots.map((slot, index) => {
       if (index === slotIndex) {
         return { ...slot, available: !slot.available };
@@ -64,7 +71,7 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setTi
 
     try {
       await setDoc(calendarRef, { date: formattedDate, timeslots: updatedTimeSlots });
-      setLocalTimeSlots(updatedTimeSlots); // Update local state
+      setLocalTimeSlots(updatedTimeSlots);
     } catch (error) {
       console.error('Error al actualizar los horarios:', error);
     }
@@ -77,11 +84,11 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setTi
   }, [date, setSelectedDate]);
 
   return (
-    <div className="modal">
+    <div className="Calendar-modal">
       <div className="modal-content">
         <div className="modal-header">
-        <h3>Disponibilidad de {selectedSpace?.name || "Espacio"}</h3>
-        <button className="modal-close-button" onClick={onClose}>✖</button> {/* Cruz para cerrar el modal */}
+          <h3>Disponibilidad de {selectedSpace?.name || "Espacio"}</h3>
+          <button className="modal-close-button" onClick={onClose}>✖</button>
         </div>
         
         <div className="calendar-container">
