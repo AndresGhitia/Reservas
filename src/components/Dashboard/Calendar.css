@@ -1,0 +1,97 @@
+/* Modal container */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  /* Modal content styling */
+  .modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 400px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Modal header with closing button */
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .modal-close-button {
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  /* Calendar container */
+  .calendar-container {
+    margin-bottom: 20px;
+  }
+  
+  /* Improved Calendar Style */
+  .react-calendar {
+    border: none;
+    font-family: Arial, sans-serif;
+  }
+  
+  .react-calendar__tile {
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .react-calendar__tile--now {
+    background-color: #ffe0b2;
+  }
+  
+  .react-calendar__tile--active {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  /* Time slot button styling */
+  .timeslot-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .timeslot-button {
+    width: 30%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .timeslot-button.available {
+    background-color: #28a745;
+  }
+  
+  .timeslot-button.reserved {
+    background-color: #dc3545;
+  }
+  
+  .timeslot-button:hover {
+    opacity: 0.85;
+  }
+  
