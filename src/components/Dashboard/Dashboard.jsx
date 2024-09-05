@@ -21,7 +21,10 @@ function Dashboard() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [timeSlots, setTimeSlots] = useState([]);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -216,6 +219,8 @@ function Dashboard() {
             setCalendarData={setCalendarData}
             setTimeSlots={setTimeSlots}
             setSelectedDate={setSelectedDate}
+            onClose={handleCloseModal} // Pasamos la función de cerrar
+
           />
           {selectedDate && (
             <div className="time-slots">

@@ -5,7 +5,7 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db, auth } from '../../firebase';
 import './Calendar.css';
 
-function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setTimeSlots, setSelectedDate }) {
+function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setTimeSlots, setSelectedDate, onClose }) {
   const [date, setDate] = useState(null);
   const [timeSlots, setLocalTimeSlots] = useState([]);
 
@@ -80,8 +80,8 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setTi
     <div className="modal">
       <div className="modal-content">
         <div className="modal-header">
-          <h3>Disponibilidad de Padel</h3>
-          <button className="modal-close-button" onClick={() => {/* Close Modal Logic */}}>✖</button>
+        <h3>Disponibilidad de {selectedSpace?.name || "Espacio"}</h3>
+        <button className="modal-close-button" onClick={onClose}>✖</button> {/* Cruz para cerrar el modal */}
         </div>
         
         <div className="calendar-container">
