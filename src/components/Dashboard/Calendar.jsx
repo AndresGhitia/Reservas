@@ -95,6 +95,7 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setTi
           <Calendar
             onChange={setDate}
             value={date}
+            showNeighboringMonth={false}
           />
         </div>
 
