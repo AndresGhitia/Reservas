@@ -16,6 +16,13 @@ const App = () => {
   // Mostrar el Navbar solo si estamos en una ruta exacta de las permitidas o comienza con "/item"
   const showNavbar = showNavbarRoutes.includes(location.pathname) || location.pathname.startsWith('/item');
 
+
+  // Rutas exactas donde debe aparecer el Navbar
+  const routesWithNavbar = ['/', '/item', '/cart', '/order'];
+
+  // Verificamos si la ruta actual es exactamente alguna de las rutas donde se muestra el Navbar
+  const hideNavbar = !routesWithNavbar.includes(location.pathname);
+
   return (
     <div className="app">
       {showNavbar && <Navbar />}
