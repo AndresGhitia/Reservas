@@ -9,7 +9,12 @@ import BusinessPage from "./components/Dashboard/BusinessPage";
 
 const App = () => {
   const location = useLocation();
-  const hideNavbar = location.pathname.startsWith('/dashboard');
+
+  // Rutas exactas donde debe aparecer el Navbar
+  const routesWithNavbar = ['/', '/item', '/cart', '/order'];
+
+  // Verificamos si la ruta actual es exactamente alguna de las rutas donde se muestra el Navbar
+  const hideNavbar = !routesWithNavbar.includes(location.pathname);
 
   return (
     <div className="app">
@@ -21,7 +26,7 @@ const App = () => {
         <Route path='/order' element={<PlaceOrder />} />
         <Route path="/dashboard/:establishmentName" element={<Dashboard />} />
         <Route path="/:establishmentName" element={<BusinessPage />} />
-        </Routes>
+      </Routes>
     </div>
   );
 }
