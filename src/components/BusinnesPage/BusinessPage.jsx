@@ -1,85 +1,121 @@
-import React, { useState, useEffect } from 'react';
-import { getDocs, collection } from 'firebase/firestore';
-import { db } from '../../firebase';
+// src/pages/BusinessPage.jsx
+
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import CalendarComponent from './Calendar';
-const PublicBusinessPage = () => {
-  const [businessData, setBusinessData] = useState(null);
+import { doc, getDoc, collection, getDocs } from 'firebase/firestore';
+import { db } from '../../firebase';
+import CalendarComponent from '../Dashboard/Calendar';
+//import './BusinessPage.css';
+
+function BusinessPage() {
+  const { establishmentName } = useParams();
+  const decodedName = decodeURIComponent(establishmentName).replace(/-/g, ' '); // Convierte Hulk-Padel a Hulk Padel
+  const [ownerData, setOwnerData] = useState(null);
   const [spaces, setSpaces] = useState([]);
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [selectedSpace, setSelectedSpace] = useState(null);
   const [calendarData, setCalendarData] = useState([]);
+  const [showModal, setShowModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
-  const [calendarVisible, setCalendarVisible] = useState(false);
-  const { businessName } = useParams();
 
   useEffect(() => {
-    const fetchAndLogData = async () => {
-      try {
-        console.log(`Decodificando nombre del establecimiento: ${businessName}`);
-
-        const ownersRef = collection(db, 'owners');
-        const ownersSnap = await getDocs(ownersRef);
-
-        let found = false;
-        for (const ownerDoc of ownersSnap.docs) {
-          if (ownerDoc.data().businessName === businessName) {
-            found = true;
-            setBusinessData(ownerDoc.data());
-
-            const spacesRef = collection(ownerDoc.ref, 'spaces');
-            const spacesSnap = await getDocs(spacesRef);
-
-            const spacesList = spacesSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            setSpaces(spacesList);
-            break;
-          }
-        }
-
-        if (!found) {
-          setError("No se encontraron datos del negocio.");
-        }
-      } catch (error) {
-        console.error("Error al obtener los datos del negocio:", error);
-        setError("Hubo un error al cargar los datos.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAndLogData();
-  }, [businessName]);
-
-  const handleViewAvailability = async (space) => {
-    setSelectedSpace(space);
-    setCalendarVisible(true);
+  const fetchData = async () => {
+    console.log('Fetching data for:', decodedName);
 
     try {
-      const calendarRef = collection(db, 'owners', 'owner-id-placeholder', 'spaces', space.id, 'calendar'); // Reemplaza 'owner-id-placeholder' con el id correcto del propietario si es necesario
-      const calendarSnap = await getDocs(calendarRef);
-      const calendarList = calendarSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setCalendarData(calendarList);
+      const businessQuerySnapshot = await getDocs(collection(db, 'owners'));
+
+      let foundBusiness = null;
+
+      businessQuerySnapshot.forEach((doc) => {
+        const businessData = doc.data();
+        console.log('Checking business:', businessData);
+
+        if (businessData && businessData.establishmentName) {
+          // Normalizar el nombre del negocio y el nombre decodificado
+          const normalizedDecodedName = decodedName.trim().toLowerCase();
+          const normalizedBusinessName = businessData.establishmentName.trim().toLowerCase();
+
+          console.log('Comparing:', normalizedBusinessName, normalizedDecodedName);
+
+          // Comparar los nombres normalizados
+          if (normalizedBusinessName === normalizedDecodedName) {
+            foundBusiness = { id: doc.id, ...businessData };
+            console.log('Business found:', foundBusiness);
+          }
+        }
+      });
+
+      if (foundBusiness) {
+        setOwnerData(foundBusiness);
+
+        const spacesRef = collection(db, 'owners', foundBusiness.id, 'spaces');
+        const spacesSnap = await getDocs(spacesRef);
+        const spacesList = spacesSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        setSpaces(spacesList);
+      } else {
+        console.log('No business found with the name:', decodedName);
+        setError(`No se encontró ningún negocio con el nombre: ${decodedName}`);
+      }
     } catch (error) {
-      console.error("Error al obtener los datos del calendario:", error);
-      setError("Hubo un error al cargar el calendario.");
+      console.error('Error al obtener los datos del negocio: ', error);
+      setError(`Hubo un error al cargar los datos: ${error.message}`);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleCloseCalendar = () => {
-    setCalendarVisible(false);
-    setSelectedDate(null);
+  fetchData();
+}, [decodedName]);
+
+const handleCloseModal = () => {
+  setShowModal(false);
+  setSelectedSpace(null);
+  setCalendarData([]);
+  setSelectedDate(null);
+  setTimeSlots([]);
+};
+  
+  
+  
+  
+
+  const handleViewAvailability = async (space) => {
+    setSelectedSpace(space);
+    setLoading(true);
+
+    try {
+      const calendarRef = collection(db, 'owners', ownerData.id, 'spaces', space.id, 'calendar');
+      const calendarSnap = await getDocs(calendarRef);
+      const calendarList = calendarSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      setCalendarData(calendarList);
+    } catch (error) {
+      console.error('Error al obtener el calendario: ', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  if (loading) return <p>Cargando...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) {
+    return <div>Cargando...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  if (!ownerData) {
+    return <div>No se encontraron datos del negocio.</div>;
+  }
 
   return (
-    <div>
-      <h1>{businessData?.businessName}</h1>
-      <p>{businessData?.address}</p>
-      <h2>Canchas disponibles del complejo</h2>
-      {spaces.length > 0 ? (
+    <div className="business-container">
+      <h1>{ownerData.businessName}</h1>
+      <p>Bienvenido a la página pública del negocio.</p>
+
+      <div className="spaces-container">
+        <h2>Espacios</h2>
         <ul>
           {spaces.map(space => (
             <li key={space.id}>
@@ -88,22 +124,25 @@ const PublicBusinessPage = () => {
             </li>
           ))}
         </ul>
-      ) : (
-        <p>No hay canchas disponibles.</p>
-      )}
+      </div>
 
-      {calendarVisible && (
-        <CalendarComponent
-          selectedSpace={selectedSpace}
-          calendarData={calendarData}
-          setCalendarData={setCalendarData}
-          setSelectedDate={setSelectedDate} 
-          onClose={handleCloseCalendar}
+      {selectedSpace && (
+        <div>
+          <h2>Disponibilidad de {selectedSpace.name}</h2>
+          <CalendarComponent
+            selectedSpace={selectedSpace}
+            calendarData={calendarData}
+            setCalendarData={setCalendarData}
+            onClose={handleCloseModal}
+            setSelectedDate={setSelectedDate}
 
-        />
+          />
+        </div>
       )}
     </div>
   );
-};
+}
 
-export default PublicBusinessPage;
+export default BusinessPage;
+
+

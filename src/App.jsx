@@ -5,7 +5,7 @@ import Cart from "./pages/Cart/Cart";
 import PlaceOrder from "./pages/PlaceOrder/PlaceOrder";
 import RubroDetailContainer from "./components/RubroDetailContainer/RubroDetailContainer";
 import Dashboard from './components/Dashboard/Dashboard'; 
-import BusinessPage from "./components/Dashboard/BusinessPage";
+import BusinessPage from "./components/BusinnesPage/BusinessPage";
 
 const App = () => {
   const location = useLocation();
