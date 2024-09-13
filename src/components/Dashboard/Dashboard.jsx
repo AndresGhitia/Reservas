@@ -239,7 +239,7 @@ function Dashboard() {
       <div className="spaces-container">
   {/* Lista de espacios */}
   <button onClick={() => navigator.clipboard.writeText(`http://localhost:5173/${encodeURIComponent(decodedName.replace(/ /g, '-'))}`)}>
-    Compartir URL pública
+    Compartir URL 
   </button>
   <button
   onClick={() => window.open(`http://localhost:5173/${establishmentName}`, '_blank')}

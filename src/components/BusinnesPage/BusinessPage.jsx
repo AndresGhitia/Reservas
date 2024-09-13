@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { doc, getDoc, collection, getDocs } from 'firebase/firestore';
+import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebase';
 import CalendarComponent from '../Dashboard/Calendar';
 //import './BusinessPage.css';
@@ -20,15 +20,14 @@ function BusinessPage() {
   const [selectedDate, setSelectedDate] = useState(null);
 
   useEffect(() => {
-  const fetchData = async () => {
-    console.log('Fetching data for:', decodedName);
+    const businessRef = collection(db, 'owners');
 
-    try {
-      const businessQuerySnapshot = await getDocs(collection(db, 'owners'));
-
+    const unsubscribeBusiness = onSnapshot(businessRef, (querySnapshot) => {
       let foundBusiness = null;
 
-      businessQuerySnapshot.forEach((doc) => {
+      console.log('Fetching data for:', decodedName);
+
+      querySnapshot.forEach((doc) => {
         const businessData = doc.data();
         console.log('Checking business:', businessData);
 
@@ -51,50 +50,47 @@ function BusinessPage() {
         setOwnerData(foundBusiness);
 
         const spacesRef = collection(db, 'owners', foundBusiness.id, 'spaces');
-        const spacesSnap = await getDocs(spacesRef);
-        const spacesList = spacesSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-        setSpaces(spacesList);
+        const unsubscribeSpaces = onSnapshot(spacesRef, (spacesSnap) => {
+          const spacesList = spacesSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+          console.log('Spaces updated:', spacesList);
+          setSpaces(spacesList);
+          setLoading(false); // Asegúrate de establecer loading en false aquí
+        });
+
+        // Limpiar la suscripción de espacios cuando el componente se desmonte
+        return () => unsubscribeSpaces();
       } else {
         console.log('No business found with the name:', decodedName);
         setError(`No se encontró ningún negocio con el nombre: ${decodedName}`);
+        setLoading(false); // Asegúrate de establecer loading en false aquí también
       }
-    } catch (error) {
-      console.error('Error al obtener los datos del negocio: ', error);
-      setError(`Hubo un error al cargar los datos: ${error.message}`);
-    } finally {
-      setLoading(false);
-    }
+    });
+
+    // Limpiar la suscripción del negocio cuando el componente se desmonte
+    return () => unsubscribeBusiness();
+  }, [decodedName]);
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedSpace(null);
+    setCalendarData([]);
+    setSelectedDate(null);
   };
 
-  fetchData();
-}, [decodedName]);
-
-const handleCloseModal = () => {
-  setShowModal(false);
-  setSelectedSpace(null);
-  setCalendarData([]);
-  setSelectedDate(null);
-  setTimeSlots([]);
-};
-  
-  
-  
-  
-
-  const handleViewAvailability = async (space) => {
+  const handleViewAvailability = (space) => {
     setSelectedSpace(space);
     setLoading(true);
 
-    try {
-      const calendarRef = collection(db, 'owners', ownerData.id, 'spaces', space.id, 'calendar');
-      const calendarSnap = await getDocs(calendarRef);
+    const calendarRef = collection(db, 'owners', ownerData.id, 'spaces', space.id, 'calendar');
+    const unsubscribeCalendar = onSnapshot(calendarRef, (calendarSnap) => {
       const calendarList = calendarSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      console.log('Calendar updated:', calendarList);
       setCalendarData(calendarList);
-    } catch (error) {
-      console.error('Error al obtener el calendario: ', error);
-    } finally {
-      setLoading(false);
-    }
+      setLoading(false); // Establecer loading en false después de obtener datos
+    });
+
+    // Limpiar la suscripción del calendario cuando el componente se desmonte
+    return () => unsubscribeCalendar();
   };
 
   if (loading) {
@@ -135,7 +131,6 @@ const handleCloseModal = () => {
             setCalendarData={setCalendarData}
             onClose={handleCloseModal}
             setSelectedDate={setSelectedDate}
-
           />
         </div>
       )}
@@ -144,5 +139,3 @@ const handleCloseModal = () => {
 }
 
 export default BusinessPage;
-
-
