@@ -1,3 +1,5 @@
+// src/components/CalendarComponent.jsx
+
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -5,7 +7,7 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db, auth } from '../../firebase';
 import './Calendar.css';
 
-function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setTimeSlots, setSelectedDate, onClose }) {
+function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSelectedDate, onClose, disableBooking }) {
   const [date, setDate] = useState(null);
   const [timeSlots, setLocalTimeSlots] = useState([]);
 
@@ -41,7 +43,6 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setTi
                 { time: '21:00', available: true },
                 { time: '22:00', available: true },
                 { time: '23:00', available: true },
-
               ];
               await setDoc(calendarRef, { date: formattedDate, timeslots });
               setLocalTimeSlots(timeslots);
@@ -57,11 +58,11 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setTi
   }, [date, selectedSpace, calendarData]);
 
   const handleTimeslotClick = async (slotIndex) => {
-    if (!date || !selectedSpace) return;
+    if (!date || !selectedSpace || disableBooking) return;
 
     const formattedDate = date.toISOString().split('T')[0];
     const calendarRef = doc(db, 'owners', auth.currentUser.uid, 'spaces', selectedSpace.id, 'calendar', formattedDate);
-    
+
     const updatedTimeSlots = timeSlots.map((slot, index) => {
       if (index === slotIndex) {
         return { ...slot, available: !slot.available };
@@ -105,8 +106,9 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setTi
               key={index}
               className={`timeslot-button ${slot.available ? 'available' : 'reserved'}`}
               onClick={() => handleTimeslotClick(index)}
+              disabled={disableBooking}
             >
-              {slot.time} - {slot.available ? 'Reservar' : 'Reservado'}
+              {slot.time} - {disableBooking ? (slot.available ? 'Disponible' : 'Ocupado') : (slot.available ? 'Reservar' : 'Reservado')}
             </button>
           ))}
         </div>

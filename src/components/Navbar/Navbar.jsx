@@ -37,9 +37,10 @@ function Navbar() {
         setUserData(null);
       }
     });
-
+  
     return () => unsubscribe();
   }, []);
+  
 
   useEffect(() => {
     if (user) {
