@@ -1,0 +1,153 @@
+/* Estilos globales */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f6f9;
+  }
+  
+  /* Contenedor principal de la página del negocio */
+  .business-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-top: 50px;
+  }
+  
+  /* Título principal del negocio */
+  .business-container h1 {
+    font-size: 2.5em;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  /* Descripción del negocio */
+  .business-container p {
+    font-size: 1.2em;
+    color: #666;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  
+  /* Contenedor de los espacios */
+  .spaces-container {
+    margin-top: 20px;
+  }
+  
+  .spaces-container h2 {
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Lista de espacios */
+  .spaces-container ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .spaces-container ul li {
+    background-color: #e8eaf6;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s;
+  }
+  
+  .spaces-container ul li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Botón de ver disponibilidad */
+  .spaces-container ul li button {
+    background-color: #3949ab;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .spaces-container ul li button:hover {
+    background-color: #1c2880;
+  }
+  
+  /* Sección de disponibilidad del espacio seleccionado */
+  .selected-space {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Título de la disponibilidad */
+  .selected-space h2 {
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Diseño del calendario */
+  .calendar-container {
+    margin-top: 20px;
+    background-color: #f9fafc;
+    border: 1px solid #e0e0e0;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Estilos generales de botones */
+  button {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  /* Botón cerrar */
+  button.close-modal {
+    background-color: #e57373;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+  }
+  
+  button.close-modal:hover {
+    background-color: #d32f2f;
+  }
+  
+  /* Estilos responsivos */
+  @media (max-width: 768px) {
+    .business-container {
+      padding: 10px;
+    }
+  
+    .business-container h1 {
+      font-size: 2em;
+    }
+  
+    .spaces-container ul li {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .spaces-container ul li button {
+      margin-top: 10px;
+      width: 100%;
+      text-align: center;
+    }
+  }
+  

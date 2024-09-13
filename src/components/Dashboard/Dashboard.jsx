@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { doc, getDoc, collection, addDoc, getDocs, deleteDoc, query, where, setDoc } from 'firebase/firestore';
 import { db, auth } from '../../firebase';
-import CalendarComponent from './Calendar';
+import CalendarComponent from '../Calendar/Calendar';
 import './Dashboard.css';
 
 function Dashboard() {

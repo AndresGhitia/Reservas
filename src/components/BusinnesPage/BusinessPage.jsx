@@ -1,11 +1,9 @@
-// src/pages/BusinessPage.jsx
-
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebase';
-import CalendarComponent from '../Dashboard/Calendar';
-//import './BusinessPage.css';
+import CalendarComponent from '../Calendar/Calendar';
+import './BusinessPage.css'; // Importa los estilos
 
 function BusinessPage() {
   const { establishmentName } = useParams();
@@ -32,13 +30,11 @@ function BusinessPage() {
         console.log('Checking business:', businessData);
 
         if (businessData && businessData.establishmentName) {
-          // Normalizar el nombre del negocio y el nombre decodificado
           const normalizedDecodedName = decodedName.trim().toLowerCase();
           const normalizedBusinessName = businessData.establishmentName.trim().toLowerCase();
 
           console.log('Comparing:', normalizedBusinessName, normalizedDecodedName);
 
-          // Comparar los nombres normalizados
           if (normalizedBusinessName === normalizedDecodedName) {
             foundBusiness = { id: doc.id, ...businessData };
             console.log('Business found:', foundBusiness);
@@ -54,19 +50,17 @@ function BusinessPage() {
           const spacesList = spacesSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
           console.log('Spaces updated:', spacesList);
           setSpaces(spacesList);
-          setLoading(false); // Asegúrate de establecer loading en false aquí
+          setLoading(false);
         });
 
-        // Limpiar la suscripción de espacios cuando el componente se desmonte
         return () => unsubscribeSpaces();
       } else {
         console.log('No business found with the name:', decodedName);
         setError(`No se encontró ningún negocio con el nombre: ${decodedName}`);
-        setLoading(false); // Asegúrate de establecer loading en false aquí también
+        setLoading(false);
       }
     });
 
-    // Limpiar la suscripción del negocio cuando el componente se desmonte
     return () => unsubscribeBusiness();
   }, [decodedName]);
 
@@ -86,32 +80,30 @@ function BusinessPage() {
       const calendarList = calendarSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       console.log('Calendar updated:', calendarList);
       setCalendarData(calendarList);
-      setLoading(false); // Establecer loading en false después de obtener datos
+      setLoading(false);
     });
 
-    // Limpiar la suscripción del calendario cuando el componente se desmonte
     return () => unsubscribeCalendar();
   };
 
   if (loading) {
-    return <div>Cargando...</div>;
+    return <div className="loading">Cargando...</div>;
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <div className="error">{error}</div>;
   }
 
   if (!ownerData) {
-    return <div>No se encontraron datos del negocio.</div>;
+    return <div className="no-data">No se encontraron datos del negocio.</div>;
   }
 
   return (
     <div className="business-container">
-      <h1>{ownerData.businessName}</h1>
-      <p>Bienvenido a la página pública del negocio.</p>
+      <h1>{decodedName}</h1>
 
       <div className="spaces-container">
-        <h2>Espacios</h2>
+        <h2>Canchas dispnibles</h2>
         <ul>
           {spaces.map(space => (
             <li key={space.id}>
@@ -123,7 +115,7 @@ function BusinessPage() {
       </div>
 
       {selectedSpace && (
-        <div>
+        <div className="selected-space">
           <h2>Disponibilidad de {selectedSpace.name}</h2>
           <CalendarComponent
             selectedSpace={selectedSpace}
