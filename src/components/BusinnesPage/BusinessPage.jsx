@@ -103,7 +103,7 @@ function BusinessPage() {
       <h1>{decodedName}</h1>
 
       <div className="spaces-container">
-        <h2>Canchas dispnibles</h2>
+        <h2>Canchas disponibles</h2>
         <ul>
           {spaces.map(space => (
             <li key={space.id}>
@@ -116,13 +116,13 @@ function BusinessPage() {
 
       {selectedSpace && (
         <div className="selected-space">
-          <h2>Disponibilidad de {selectedSpace.name}</h2>
           <CalendarComponent
             selectedSpace={selectedSpace}
             calendarData={calendarData}
             setCalendarData={setCalendarData}
             onClose={handleCloseModal}
             setSelectedDate={setSelectedDate}
+            disableBooking={true} 
           />
         </div>
       )}

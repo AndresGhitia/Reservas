@@ -79,6 +79,12 @@ function Dashboard() {
     }
   };
 
+  const handleCopy = () => {
+    navigator.clipboard.writeText(`http://localhost:5173/${encodeURIComponent(decodedName.replace(/ /g, '-'))}`)
+      .then(() => alert("Dirección de tu negocio copiada en el portapapeles"))
+      .catch(err => console.error('Error al copiar el enlace: ', err));
+  };
+  
   const handleViewAvailability = async (space) => {
     setSelectedSpace(space);
     setLoading(true);
@@ -187,14 +193,14 @@ function Dashboard() {
       <p>Bienvenido al panel de administración de {decodedName}.</p>
   
       <div className="spaces-container">
-        <h2>Espacios</h2>
+        <h2>Canchas de tu complejo</h2>
         <ul>
           {spaces.map(space => (
             <li key={space.id}>
               {space.name}
               <div>
                 <button onClick={() => handleViewAvailability(space)}>Ver disponibilidad</button>
-                <button onClick={() => handleDeleteSpace(space.id)} style={{ marginLeft: '10px' }}>Eliminar</button>
+                <button onClick={() => handleDeleteSpace(space.id)} style={{ marginLeft: '10px', backgroundColor:'#dc143c' }}>Eliminar</button>
               </div>
             </li>
           ))}
@@ -205,7 +211,7 @@ function Dashboard() {
           onChange={(e) => setNewSpaceName(e.target.value)}
           placeholder="Nombre del nuevo espacio"
         />
-        <button onClick={handleAddSpace}>Agregar Espacio</button>
+        <button onClick={handleAddSpace}>+ Agregar Espacio</button>
         {uniqueError && <p>{uniqueError}</p>}
       </div>
   
@@ -236,11 +242,12 @@ function Dashboard() {
           )}
         </div>
       )}
-      <div className="spaces-container">
-  {/* Lista de espacios */}
-  <button onClick={() => navigator.clipboard.writeText(`http://localhost:5173/${encodeURIComponent(decodedName.replace(/ /g, '-'))}`)}>
+      <div className="spaces-Button-container">
+ 
+  <button onClick={handleCopy}>
     Compartir URL 
   </button>
+ 
   <button
   onClick={() => window.open(`http://localhost:5173/${establishmentName}`, '_blank')}
   style={{ marginTop: '20px' }}

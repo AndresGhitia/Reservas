@@ -1,3 +1,4 @@
+/* Global Styles */
 body {
   font-family: 'Roboto', sans-serif;
   background-color: #f7f9fc; /* Fondo gris suave */
@@ -14,24 +15,51 @@ p {
   color: #7f8c8d;
 }
 
+/* Container for general layout */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
 }
 
+/* Spaces Section Styles */
 .spaces-container {
   background-color: #ffffff;
   border-radius: 8px;
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
   margin-top: 20px;
 }
 
 .spaces-container h2 {
   color: #34495e;
 }
+.spaces-Button-container {
+  display: flex;
+  flex-direction: column; /* Alinea los botones en vertical */
+  align-items: flex-start; /* Centra los botones horizontalmente */
+  margin-top: 20px;
+}
 
+.spaces-Button-container button {
+  width: 30%; /* Ajusta el ancho de los botones */
+  padding: 10px;
+  background-color: #ca7c07; /* Color naranja para el fondo de los botones */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 10px; /* Separación entre los botones */
+  transition: background-color 0.3s ease;
+
+}
+
+.spaces-Button-container button:hover {
+  background-color: #e2ac55; /* Color más oscuro al pasar el ratón */
+}
+
+/* List of spaces */
 ul {
   list-style-type: none;
   padding: 0;
@@ -47,6 +75,7 @@ ul li {
   border-radius: 6px;
 }
 
+/* Buttons inside space items */
 ul li button {
   background-color: #3498db;
   color: white;
@@ -61,6 +90,7 @@ ul li button:hover {
   background-color: #2980b9;
 }
 
+/* Input field for adding a new space */
 input[type="text"] {
   width: 100%;
   padding: 12px;
@@ -70,6 +100,7 @@ input[type="text"] {
   border-radius: 6px;
 }
 
+/* General button styles */
 button {
   background-color: #2ecc71;
   color: white;
@@ -84,8 +115,20 @@ button:hover {
   background-color: #27ae60;
 }
 
+/* Delete button specifically */
+button[style*="background-color: #dc143c"] {
+  background-color: #dc143c;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+}
 
+button[style*="background-color: #dc143c"]:hover {
+  background-color: darkred;
+}
 
+/* Time slots section inside the modal */
 .time-slots div {
   margin-bottom: 10px;
 }
@@ -102,3 +145,30 @@ button:hover {
 .time-slots button:hover {
   background-color: #e67e22;
 }
+
+/* Modal styles */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.modal button {
+  margin-top: 20px;
+  background-color: #3498db;
+}
+
+.modal button:hover {
+  background-color: #2980b9;
+}
+
+/* Custom Share Button Styles */
+.spaces-container button {
+  margin-top: 20px;
+}
+
