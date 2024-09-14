@@ -98,6 +98,28 @@ input[type="text"] {
   margin-bottom: 20px;
   border: 1px solid #bdc3c7;
   border-radius: 6px;
+  transition: border-color 0.3s ease, color 0.3s ease;
+  color: #2c3e50; /* Color normal del texto */
+}
+
+/* Placeholder (Hint) en color gris */
+input[type="text"]::placeholder {
+  color: #bdc3c7; /* Color gris por defecto */
+}
+
+/* Si hay un error, cambia el color del borde y del placeholder */
+input[type="text"].error {
+  border-color: red;
+}
+
+input[type="text"].error::placeholder {
+  color: red; /* Placeholder rojo cuando hay error */
+}
+
+/* Cuando el input esté en foco (seleccionado por el usuario), cambia el placeholder a gris */
+input[type="text"]:focus::placeholder,
+input[type="text"]:hover::placeholder {
+  color: #bdc3c7; /* Placeholder vuelve a gris al hacer hover o focus */
 }
 
 /* General button styles */

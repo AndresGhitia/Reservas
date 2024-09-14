@@ -21,10 +21,8 @@ function Dashboard() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [timeSlots, setTimeSlots] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-  
+  const [inputError, setInputError] = useState(false); 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -56,8 +54,13 @@ function Dashboard() {
   }, []);
 
   const handleAddSpace = async () => {
-    if (newSpaceName.trim() === "") return;
+    if (newSpaceName.trim() === "") {
+      setInputError(true);  // Si está vacío, marca el input como incorrecto
+      return;
+    }
+
     setUniqueError(null);
+    setInputError(false);  // Restablece el error si hay un valor correcto
 
     try {
       const user = auth.currentUser;
@@ -206,11 +209,12 @@ function Dashboard() {
           ))}
         </ul>
         <input
-          type="text"
-          value={newSpaceName}
-          onChange={(e) => setNewSpaceName(e.target.value)}
-          placeholder="Nombre del nuevo espacio"
-        />
+  type="text"
+  value={newSpaceName}
+  onChange={(e) => setNewSpaceName(e.target.value)}
+  placeholder="Nombre del nuevo espacio"
+  className={inputError ? 'error' : ''} // Aplica la clase 'error' si hay un error
+/>
         <button onClick={handleAddSpace}>+ Agregar Espacio</button>
         {uniqueError && <p>{uniqueError}</p>}
       </div>
