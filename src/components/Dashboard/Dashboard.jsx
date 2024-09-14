@@ -220,32 +220,33 @@ function Dashboard() {
       </div>
   
       {showModal && (
-        <div className="modal">
-          <button onClick={handleCloseModal}>Cerrar</button>
-          <h2>Disponibilidad de {selectedSpace?.name}</h2>
-          <CalendarComponent
-            selectedSpace={selectedSpace}
-            calendarData={calendarData}
-            setCalendarData={setCalendarData}
-            setTimeSlots={setTimeSlots}
-            setSelectedDate={setSelectedDate}
-            onClose={handleCloseModal}
-          />
-          {selectedDate && (
-            <div className="time-slots">
-              {timeSlots.map((slot, index) => (
-                <div key={index}>
-                  {slot.time} - {slot.available ? (
-                    <button onClick={() => handleReserveSlot(index)}>Reservar</button>
-                  ) : (
-                    <button onClick={() => handleCancelReservation(index)}>Cancelar Reserva</button>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
+  <div className="modal">
+    <button onClick={handleCloseModal} className="close-button">Cerrar</button>
+    <h2>Disponibilidad de {selectedSpace?.name}</h2>
+    <CalendarComponent
+      selectedSpace={selectedSpace}
+      calendarData={calendarData}
+      setCalendarData={setCalendarData}
+      setTimeSlots={setTimeSlots}
+      setSelectedDate={setSelectedDate}
+      onClose={handleCloseModal}
+    />
+    {selectedDate && (
+      <div className="time-slots">
+        {timeSlots.map((slot, index) => (
+          <div key={index} className="slot-item">
+            {slot.time} - {slot.available ? (
+              <button onClick={() => handleReserveSlot(index)} className="reserve-button">Reservar</button>
+            ) : (
+              <button onClick={() => handleCancelReservation(index)} className="cancel-button">Cancelar Reserva</button>
+            )}
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+)}
+
       <div className="spaces-Button-container">
  
   <button onClick={handleCopy}>

@@ -149,48 +149,74 @@ button[style*="background-color: #dc143c"] {
 button[style*="background-color: #dc143c"]:hover {
   background-color: darkred;
 }
-
-/* Time slots section inside the modal */
-.time-slots div {
-  margin-bottom: 10px;
-}
-
-.time-slots button {
-  padding: 6px 12px;
-  background-color: #f39c12;
-  color: white;
-  border-radius: 4px;
-  border: none;
-  cursor: pointer;
-}
-
-.time-slots button:hover {
-  background-color: #e67e22;
-}
-
-/* Modal styles */
+/* Estilos del modal */
 .modal {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo gris oscuro semitransparente */
   padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+  width: 100%;
+}
+
+/* Botón de cerrar en el modal */
+.close-button {
+  background-color: #3949ab; /* Mismo color que el botón principal en BusinessPage */
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.close-button:hover {
+  background-color: #1c2880; /* Oscurecido para hover */
+}
+
+/* Sección de time slots dentro del modal */
+.time-slots {
+  margin-top: 20px;
+  background-color: #f9fafc;
+  border: 1px solid #e0e0e0;
+  padding: 15px;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.modal button {
-  margin-top: 20px;
-  background-color: #3498db;
+.slot-item {
+  background-color: #e8eaf6;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s;
 }
 
-.modal button:hover {
-  background-color: #2980b9;
+.slot-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Custom Share Button Styles */
-.spaces-container button {
-  margin-top: 20px;
+/* Botones de reserva y cancelación */
+.reserve-button,
+.cancel-button {
+  padding: 10px 15px;
+  background-color: #3949ab; /* Mismo color de botón que en BusinessPage */
+  color: white;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
+.reserve-button:hover,
+.cancel-button:hover {
+  background-color: #1c2880; /* Color más oscuro en hover */
+}
