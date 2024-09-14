@@ -101,17 +101,18 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
         </div>
 
         <div className="timeslot-container">
-          {timeSlots.map((slot, index) => (
-            <button
-              key={index}
-              className={`timeslot-button ${slot.available ? 'available' : 'reserved'}`}
-              onClick={() => handleTimeslotClick(index)}
-              disabled={disableBooking}
-            >
-              {slot.time} - {disableBooking ? (slot.available ? 'Disponible' : 'Ocupado') : (slot.available ? 'Reservar' : 'Reservado')}
-            </button>
-          ))}
-        </div>
+  {timeSlots.map((slot, index) => (
+    <button
+      key={index}
+      className={`timeslot-button ${slot.available ? 'available' : 'reserved'} ${disableBooking ? 'disabled-business' : ''}`}
+      onClick={() => handleTimeslotClick(index)}
+      disabled={disableBooking}
+    >
+      {slot.time} - {disableBooking ? (slot.available ? 'Disponible' : 'Ocupado') : (slot.available ? 'Reservar' : 'Reservado')}
+    </button>
+  ))}
+</div>
+
       </div>
     </div>
   );

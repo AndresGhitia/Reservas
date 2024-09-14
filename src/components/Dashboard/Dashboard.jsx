@@ -160,16 +160,24 @@ function Dashboard() {
   };
 
   const handleDeleteSpace = async (spaceId) => {
+    const confirmDelete = window.confirm(
+      "Estas seguro que deseas eliminar esta cancha? Ten en cuenta que se borrarán todos los datos almacenados!"
+    );
+  
+    if (!confirmDelete) {
+      return; // Si el usuario cancela, no se realiza la eliminación
+    }
+  
     try {
       const user = auth.currentUser;
       if (user) {
         const spaceDocRef = doc(db, 'owners', user.uid, 'spaces', spaceId);
         const calendarCollectionRef = collection(spaceDocRef, 'calendar');
         const calendarSnapshot = await getDocs(calendarCollectionRef);
-
+  
         const deletePromises = calendarSnapshot.docs.map((doc) => deleteDoc(doc.ref));
         await Promise.all(deletePromises);
-
+  
         await deleteDoc(spaceDocRef);
         setSpaces((prevSpaces) => prevSpaces.filter((space) => space.id !== spaceId));
       }
@@ -177,6 +185,7 @@ function Dashboard() {
       console.error("Error al borrar el espacio y su calendario: ", error);
     }
   };
+  
 
   if (loading) {
     return <div>Cargando...</div>;

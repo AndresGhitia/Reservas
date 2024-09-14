@@ -1,123 +1,123 @@
-/* Modal container */
-.Calendar-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1100;
-}
-/* Estilo para las flechas de navegación del calendario */
-.react-calendar__navigation__arrow {
-  font-size: 28px; /* Ajusta el tamaño de las flechas según tus necesidades */
-  color: #ecf0f1; /* Opcional: ajusta el color de las flechas */
-  padding: 0 10px; /* Opcional: añade espacio alrededor de las flechas */
-  transition: color 0.3s ease; /* Opcional: añade una transición suave para el color */
-}
+  /* Modal container */
+  .Calendar-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1100;
+  }
+  /* Estilo para las flechas de navegación del calendario */
+  .react-calendar__navigation__arrow {
+    font-size: 28px; /* Ajusta el tamaño de las flechas según tus necesidades */
+    color: #ecf0f1; /* Opcional: ajusta el color de las flechas */
+    padding: 0 10px; /* Opcional: añade espacio alrededor de las flechas */
+    transition: color 0.3s ease; /* Opcional: añade una transición suave para el color */
+  }
 
-/* Estilo para las flechas de navegación cuando se pasa el ratón sobre ellas */
-.react-calendar__navigation__arrow:hover {
-  color: #3498db; /* Ajusta el color de las flechas cuando el ratón está sobre ellas */
-}
-/* Estilo del contenido del modal */
-.modal-content {
-  background-color: white;
-  padding: 30px;
-  border-radius: 15px;
-  width: 500px; /* Aumentar el tamaño para más espacio */
-  max-width: 100%;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-}
-.react-calendar__navigation__label {
-  font-size: 20px; /* Ajusta el tamaño del texto según tus necesidades */
-  font-weight: bold; /* Opcional: para hacer el texto más destacado */
-  color: #ecf0f1; /* Opcional: para ajustar el color del texto */
-}
+  /* Estilo para las flechas de navegación cuando se pasa el ratón sobre ellas */
+  .react-calendar__navigation__arrow:hover {
+    color: #3498db; /* Ajusta el color de las flechas cuando el ratón está sobre ellas */
+  }
+  /* Estilo del contenido del modal */
+  .modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    width: 500px; /* Aumentar el tamaño para más espacio */
+    max-width: 100%;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  }
+  .react-calendar__navigation__label {
+    font-size: 20px; /* Ajusta el tamaño del texto según tus necesidades */
+    font-weight: bold; /* Opcional: para hacer el texto más destacado */
+    color: #ecf0f1; /* Opcional: para ajustar el color del texto */
+  }
 
-/* Estilo del encabezado del modal */
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  font-size: x-large;
-}
+  /* Estilo del encabezado del modal */
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: x-large;
+  }
 
-.modal-close-button {
-  background-color :#e74c3c;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
+  .modal-close-button {
+    background-color :#e74c3c;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
 
-}
+  }
 
-/* Contenedor del calendario */
-.calendar-container {
-  margin-bottom: 20px;
-  align-self: center;
+  /* Contenedor del calendario */
+  .calendar-container {
+    margin-bottom: 20px;
+    align-self: center;
 
-}
+  }
 
-/* Estilo del calendario con fondo oscuro */
-.react-calendar {
-  border: none;
-  background-color: #2c3e50; /* Fondo oscuro */
-  color: white; /* Texto blanco */
-  font-family: Arial, sans-serif;
-  border-radius: 3%;
-}
+  /* Estilo del calendario con fondo oscuro */
+  .react-calendar {
+    border: none;
+    background-color: #2c3e50; /* Fondo oscuro */
+    color: white; /* Texto blanco */
+    font-family: Arial, sans-serif;
+    border-radius: 3%;
+  }
 
-.react-calendar__tile {
-  padding: 15px;
-  background: #34495e; /* Color de fondo de las fechas */
-  border-radius: 10px;
-  color: #ecf0f1; /* Color del texto de las fechas */
-  transition: background-color 0.2s ease;
-  font-size: large;
-}
-.react-calendar__tile--now {
-  background-color: #e74c3c; /* Color para el día actual */
-}
+  .react-calendar__tile {
+    padding: 15px;
+    background: #34495e; /* Color de fondo de las fechas */
+    border-radius: 10px;
+    color: #ecf0f1; /* Color del texto de las fechas */
+    transition: background-color 0.2s ease;
+    font-size: large;
+  }
+  .react-calendar__tile--now {
+    background-color: #e74c3c; /* Color para el día actual */
+  }
 
 
-.react-calendar__tile--active {
-  background-color: #3498db; /* Color para la fecha seleccionada */
-  color: white;
-}
+  .react-calendar__tile--active {
+    background-color: #3498db; /* Color para la fecha seleccionada */
+    color: white;
+  }
 
-/* Estilo de los botones de horario */
-.timeslot-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin-top: 20px;
-}
+  /* Estilo de los botones de horario */
+  .timeslot-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
 
-.timeslot-button {
-  width: 30%;
-  padding: 12px;
-  margin-bottom: 10px;
-  border: none;
-  border-radius: 5px;
-  font-size: 14px;
-  color: rgb(255, 253, 253);
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
+  .timeslot-button {
+    width: 30%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    color: rgb(255, 253, 253);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
 
-.timeslot-button.available {
-  background-color: #28a745;
-}
+  .timeslot-button.available {
+    background-color: #28a745;
+  }
 
-.timeslot-button.reserved {
-  background-color: #dc3545;
-}
+  .timeslot-button.reserved {
+    background-color: #dc3545;
+  }
 
-.timeslot-button:hover {
-  opacity: 0.85;
-  background-color: rgb(168, 153, 18);
-}
+  .timeslot-button:hover {
+    opacity: 0.85;
+    background-color: rgb(168, 153, 18);
+  }
