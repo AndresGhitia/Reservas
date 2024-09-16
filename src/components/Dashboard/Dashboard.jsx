@@ -5,8 +5,9 @@ import { useParams, Link } from 'react-router-dom';
 import { doc, getDoc, collection, addDoc, getDocs, deleteDoc, query, where, setDoc } from 'firebase/firestore';
 import { db, auth } from '../../firebase';
 import CalendarComponent from '../Calendar/Calendar';
-import { handleReserveSlot, handleCancelReservation } from '../../utils/reservationHandlers'; // Ajusta el path según tu estructura de archivos
-import './Dashboard.css';
+import { handleReserveSlot, handleCancelReservation } from '../../utils/reservationHandlers';
+import { deleteSpace } from '../../utils/spaceHandlers';
+import './Dashboard.css'
 
 function Dashboard() {
   const { establishmentName } = useParams();
@@ -118,29 +119,12 @@ function Dashboard() {
   };
 
   const handleDeleteSpace = async (spaceId) => {
-    const confirmDelete = window.confirm(
-      "Estas seguro que deseas eliminar esta cancha? Ten en cuenta que se borrarán todos los datos almacenados!"
-    );
-  
-    if (!confirmDelete) {
-      return; // Si el usuario cancela, no se realiza la eliminación
-    }
-  
-    try {
-      const user = auth.currentUser;
-      if (user) {
-        const spaceDocRef = doc(db, 'owners', user.uid, 'spaces', spaceId);
-        const calendarCollectionRef = collection(spaceDocRef, 'calendar');
-        const calendarSnapshot = await getDocs(calendarCollectionRef);
-  
-        const deletePromises = calendarSnapshot.docs.map((doc) => deleteDoc(doc.ref));
-        await Promise.all(deletePromises);
-  
-        await deleteDoc(spaceDocRef);
+    const user = auth.currentUser;
+    if (user) {
+      const result = await deleteSpace(user.uid, spaceId);
+      if (result) {
         setSpaces((prevSpaces) => prevSpaces.filter((space) => space.id !== spaceId));
       }
-    } catch (error) {
-      console.error("Error al borrar el espacio y su calendario: ", error);
     }
   };
   
