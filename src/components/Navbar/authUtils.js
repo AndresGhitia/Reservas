@@ -71,7 +71,7 @@ export const resetInactivityTimer = (
     clearInterval(countdownInterval); // Limpiar el intervalo de la cuenta regresiva
     setShowWarningModal(false);
 
-    warningTimeout = setTimeout(showWarning, 10000); // Mostrar advertencia tras 10 segundos
+    warningTimeout = setTimeout(showWarning, 30000); // Mostrar advertencia tras 10 segundos
     inactivityTimeout = setTimeout(handleInactivity, 40000); // Cerrar sesión tras 40 segundos para prevenir auto Login
   };
 

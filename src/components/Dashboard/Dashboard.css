@@ -1,65 +1,75 @@
 /* Global Styles */
 body {
-  font-family: 'Roboto', sans-serif;
-  background-color: #f7f9fc; /* Fondo gris suave */
+  font-family: 'Poppins', sans-serif; /* Tipografía moderna */
+  background-color: #f0f0f5; /* Fondo más claro */
   margin: 0;
   padding: 0;
 }
 
-h1 {
-  color: #2c3e50;
-  font-weight: bold;
+h1, h2 {
+  color: #2c3e50; /* Texto más oscuro */
+  font-weight: 700;
+  margin-bottom: 15px;
+  font-size: 32px; /* Tamaño más grande */
 }
 
 p {
   color: #7f8c8d;
+  font-size: 18px; /* Tamaño de fuente mayor */
 }
 
-/* Container for general layout */
+/* Main container */
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 30px;
 }
 
-/* Spaces Section Styles */
+/* Sección de Espacios */
 .spaces-container {
   background-color: #ffffff;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-  margin-top: 20px;
+  border-radius: 20px; /* Bordes más redondeados */
+  padding: 30px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1); /* Sombra más profunda */
+  margin-top: 40px;
+  transition: transform 0.3s ease;
+}
+
+.spaces-container:hover {
+  transform: scale(1.02); /* Efecto de agrandamiento */
 }
 
 .spaces-container h2 {
-  color: #34495e;
+  color: #2980b9;
+  font-size: 28px;
 }
+
 .spaces-Button-container {
   display: flex;
-  flex-direction: column; /* Alinea los botones en vertical */
-  align-items: flex-start; /* Centra los botones horizontalmente */
-  margin-top: 20px;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 30px;
 }
 
 .spaces-Button-container button {
-  width: 30%; /* Ajusta el ancho de los botones */
-  padding: 10px;
-  background-color: #ca7c07; /* Color naranja para el fondo de los botones */
+  width: 40%;
+  padding: 15px;
+  background-color: #08945e; /* Color rojo vibrante */
   color: white;
   border: none;
-  border-radius: 5px;
-  font-size: 16px;
+  border-radius: 12px; /* Botones más redondeados */
+  font-size: 18px;
   cursor: pointer;
-  margin-bottom: 10px; /* Separación entre los botones */
-  transition: background-color 0.3s ease;
-
+  margin-bottom: 15px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .spaces-Button-container button:hover {
-  background-color: #e2ac55; /* Color más oscuro al pasar el ratón */
+  background-color: #c0392b; /* Hover más oscuro */
+  transform: scale(1.05); /* Efecto de agrandamiento en hover */
 }
 
-/* List of spaces */
+/* Lista de espacios */
 ul {
   list-style-type: none;
   padding: 0;
@@ -69,148 +79,144 @@ ul li {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
-  padding: 10px;
-  background-color: #ecf0f1;
-  border-radius: 6px;
+  margin-bottom: 15px;
+  padding: 20px;
+  background-color: #ecf0f1; /* Fondo gris suave */
+  border-radius: 15px; /* Bordes más redondeados */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Sombra más profunda */
+  transition: all 0.3s ease;
 }
 
-/* Buttons inside space items */
+ul li:hover {
+  transform: translateY(-6px); /* Desplazamiento flotante */
+}
+
 ul li button {
-  background-color: #3498db;
+  background-color: #27ae60; /* Verde fuerte */
   color: white;
   border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
+  padding: 12px 25px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 ul li button:hover {
-  background-color: #2980b9;
+  background-color: #2ecc71;
+  transform: scale(1.05); /* Agrandar al hacer hover */
 }
 
-/* Input field for adding a new space */
+/* Campo de texto para agregar un nuevo espacio */
 input[type="text"] {
   width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  margin-bottom: 20px;
+  padding: 16px;
+  margin-top: 20px;
+  margin-bottom: 30px;
   border: 1px solid #bdc3c7;
-  border-radius: 6px;
-  transition: border-color 0.3s ease, color 0.3s ease;
-  color: #2c3e50; /* Color normal del texto */
+  border-radius: 12px;
+  font-size: 18px; /* Tamaño de texto más grande */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  color: #2c3e50;
 }
 
-/* Placeholder (Hint) en color gris */
-input[type="text"]::placeholder {
-  color: #bdc3c7; /* Color gris por defecto */
+input[type="text"]:focus {
+  border-color: #2980b9; /* Azul más brillante */
+  box-shadow: 0 0 8px rgba(41, 128, 185, 0.5); /* Efecto de sombra al enfocarse */
 }
 
-/* Si hay un error, cambia el color del borde y del placeholder */
-input[type="text"].error {
-  border-color: red;
-}
-
-input[type="text"].error::placeholder {
-  color: red; /* Placeholder rojo cuando hay error */
-}
-
-/* Cuando el input esté en foco (seleccionado por el usuario), cambia el placeholder a gris */
-input[type="text"]:focus::placeholder,
-input[type="text"]:hover::placeholder {
-  color: #bdc3c7; /* Placeholder vuelve a gris al hacer hover o focus */
-}
-
-/* General button styles */
+/* Botones generales */
 button {
-  background-color: #2ecc71;
+  background-color: #2980b9;
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
+  padding: 15px 25px;
+  border-radius: 12px;
+  font-size: 18px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
-  background-color: #27ae60;
+  background-color: #3498db;
+  transform: scale(1.05);
 }
 
-/* Delete button specifically */
+/* Botón específico de eliminar */
+
 button[style*="background-color: #dc143c"] {
-  background-color: #dc143c;
+  background-color: #c9a7a3;
   color: white;
   border: none;
-  padding: 8px 16px;
+  padding: 15px 25px;
   cursor: pointer;
 }
 
 button[style*="background-color: #dc143c"]:hover {
-  background-color: darkred;
+  background-color: #c0392b;
 }
-/* Estilos del modal */
+
+/* Modal */
 .modal {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: rgba(0, 0, 0, 0.5); /* Fondo gris oscuro semitransparente */
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 100%;
+  background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco semi-transparente */
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(231, 229, 229, 0.2);
   width: 100%;
+  backdrop-filter: blur(0.01px); /* Desenfoca el fondo */
 }
 
-/* Botón de cerrar en el modal */
+
+/* Botón de cierre dentro del modal */
 .close-button {
-  background-color: #3949ab; /* Mismo color que el botón principal en BusinessPage */
-  color: #fff;
+  background-color: #e74c3c;
+  color: white;
   border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
+  padding: 15px 20px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
 .close-button:hover {
-  background-color: #1c2880; /* Oscurecido para hover */
+  background-color: #c0392b;
 }
 
-/* Sección de time slots dentro del modal */
+/* Sección de horarios en el modal */
 .time-slots {
-  margin-top: 20px;
+  margin-top: 25px;
   background-color: #f9fafc;
-  border: 1px solid #e0e0e0;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #dfe6e9;
+  padding: 20px;
+  border-radius: 12px;
 }
 
 .slot-item {
-  background-color: #e8eaf6;
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 10px;
+  background-color: #d6eaf8;
+  padding: 18px;
+  border-radius: 12px;
+  margin-bottom: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: transform 0.2s;
+  transition: transform 0.3s ease;
 }
 
 .slot-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-6px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
 }
 
-/* Botones de reserva y cancelación */
+/* Botones dentro de la sección de horarios */
 .reserve-button,
 .cancel-button {
-  padding: 10px 15px;
-  background-color: #3949ab; /* Mismo color de botón que en BusinessPage */
+  padding: 14px 20px;
+  background-color: #27ae60;
   color: white;
-  border-radius: 5px;
+  border-radius: 12px;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -218,5 +224,6 @@ button[style*="background-color: #dc143c"]:hover {
 
 .reserve-button:hover,
 .cancel-button:hover {
-  background-color: #1c2880; /* Color más oscuro en hover */
+  background-color: #2ecc71;
 }
+ 

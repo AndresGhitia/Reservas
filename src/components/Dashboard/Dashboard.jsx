@@ -5,6 +5,7 @@ import { useParams, Link } from 'react-router-dom';
 import { doc, getDoc, collection, addDoc, getDocs, deleteDoc, query, where, setDoc } from 'firebase/firestore';
 import { db, auth } from '../../firebase';
 import CalendarComponent from '../Calendar/Calendar';
+import { handleReserveSlot, handleCancelReservation } from '../../utils/reservationHandlers'; // Ajusta el path según tu estructura de archivos
 import './Dashboard.css';
 
 function Dashboard() {
@@ -116,49 +117,6 @@ function Dashboard() {
     setTimeSlots([]);
   };
 
-  const handleReserveSlot = async (slotIndex) => {
-    try {
-      const user = auth.currentUser;
-      if (user && selectedSpace && selectedDate) {
-        const formattedDate = selectedDate.toISOString().split('T')[0]; // Asegúrate de que la fecha esté en el formato correcto
-        const calendarRef = doc(db, 'owners', user.uid, 'spaces', selectedSpace.id, 'calendar', formattedDate);
-        const updatedSlots = [...timeSlots];
-        updatedSlots[slotIndex].available = false;
-  
-        await setDoc(calendarRef, {
-          date: formattedDate,
-          timeslots: updatedSlots,
-        });
-  
-        setTimeSlots(updatedSlots);
-      }
-    } catch (error) {
-      console.error("Error al reservar el horario: ", error);
-    }
-  };
-  
-
-  const handleCancelReservation = async (slotIndex) => {
-    try {
-      const user = auth.currentUser;
-      if (user && selectedSpace && selectedDate) {
-        const formattedDate = selectedDate.toISOString().split('T')[0];
-        const calendarRef = doc(db, 'owners', user.uid, 'spaces', selectedSpace.id, 'calendar', formattedDate);
-        const updatedSlots = [...timeSlots];
-        updatedSlots[slotIndex].available = true;
-
-        await setDoc(calendarRef, {
-          date: formattedDate,
-          timeslots: updatedSlots,
-        });
-
-        setTimeSlots(updatedSlots);
-      }
-    } catch (error) {
-      console.error("Error al cancelar la reserva: ", error);
-    }
-  };
-
   const handleDeleteSpace = async (spaceId) => {
     const confirmDelete = window.confirm(
       "Estas seguro que deseas eliminar esta cancha? Ten en cuenta que se borrarán todos los datos almacenados!"
@@ -211,7 +169,7 @@ function Dashboard() {
             <li key={space.id}>
               {space.name}
               <div>
-                <button onClick={() => handleViewAvailability(space)}>Ver disponibilidad</button>
+                <button onClick={() => handleViewAvailability(space)}>Horarios</button>
                 <button onClick={() => handleDeleteSpace(space.id)} style={{ marginLeft: '10px', backgroundColor:'#dc143c' }}>Eliminar</button>
               </div>
             </li>
@@ -230,8 +188,6 @@ function Dashboard() {
   
       {showModal && (
   <div className="modal">
-    <button onClick={handleCloseModal} className="close-button">Cerrar</button>
-    <h2>Disponibilidad de {selectedSpace?.name}</h2>
     <CalendarComponent
       selectedSpace={selectedSpace}
       calendarData={calendarData}
@@ -245,9 +201,9 @@ function Dashboard() {
         {timeSlots.map((slot, index) => (
           <div key={index} className="slot-item">
             {slot.time} - {slot.available ? (
-              <button onClick={() => handleReserveSlot(index)} className="reserve-button">Reservar</button>
+              <button onClick={() => handleReserveSlot(index, selectedSpace, selectedDate, timeSlots, setTimeSlots)} className="reserve-button">Reservar</button>
             ) : (
-              <button onClick={() => handleCancelReservation(index)} className="cancel-button">Cancelar Reserva</button>
+<button onClick={() => handleCancelReservation(index, selectedSpace, selectedDate, timeSlots, setTimeSlots)} className="cancel-button">Cancelar Reserva</button>
             )}
           </div>
         ))}

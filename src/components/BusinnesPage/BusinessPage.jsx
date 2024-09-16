@@ -100,7 +100,7 @@ function BusinessPage() {
 
   return (
     <div className="business-container">
-      <h1>{decodedName}</h1>
+      <h1>Complejo {decodedName}</h1>
 
       <div className="spaces-container">
         <h2>Canchas disponibles</h2>
