@@ -7,6 +7,8 @@ import { db, auth } from '../../firebase';
 import CalendarComponent from '../Calendar/Calendar';
 import { handleReserveSlot, handleCancelReservation } from '../../utils/reservationHandlers';
 import { deleteSpace } from '../../utils/spaceHandlers';
+import {fetchOwnerDataAndSpaces} from '../../utils/fetchOwnerData'
+
 import './Dashboard.css'
 
 function Dashboard() {
@@ -26,33 +28,7 @@ function Dashboard() {
   const [inputError, setInputError] = useState(false); 
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const user = auth.currentUser;
-        if (user) {
-          const docRef = doc(db, 'owners', user.uid);
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            setOwnerData(docSnap.data());
-
-            const spacesRef = collection(docRef, 'spaces');
-            const spacesSnap = await getDocs(spacesRef);
-            const spacesList = spacesSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            setSpaces(spacesList);
-          } else {
-            setError("No se encontraron datos del propietario.");
-          }
-        } else {
-          setError("Usuario no autenticado.");
-        }
-      } catch (error) {
-        console.error("Error al obtener los datos del propietario: ", error);
-        setError("Hubo un error al cargar los datos.");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
+    fetchOwnerDataAndSpaces(setOwnerData, setSpaces, setError, setLoading);
   }, []);
 
   const handleAddSpace = async () => {

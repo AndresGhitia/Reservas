@@ -1,7 +1,8 @@
 // src/utils/reservationHandlers.js
 
 import { doc, setDoc } from 'firebase/firestore';
-import { db, auth } from '../firebase'; 
+import { db, auth } from '../firebase';
+ 
 export const handleReserveSlot = async (slotIndex, selectedSpace, selectedDate, timeSlots, setTimeSlots) => {
   try {
     const user = auth.currentUser;
