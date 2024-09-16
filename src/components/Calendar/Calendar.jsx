@@ -1,5 +1,3 @@
-// src/components/CalendarComponent.jsx
-
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -27,22 +25,23 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
             if (calendarSnap.exists()) {
               setLocalTimeSlots(calendarSnap.data().timeslots);
             } else {
+              // Timeslots now include name and whatsapp fields
               const timeslots = [
-                { time: '09:00', available: true },
-                { time: '10:00', available: true },
-                { time: '11:00', available: true },
-                { time: '12:00', available: true },
-                { time: '13:00', available: true },
-                { time: '14:00', available: true },
-                { time: '15:00', available: true },
-                { time: '16:00', available: true },
-                { time: '17:00', available: true },
-                { time: '18:00', available: true },
-                { time: '19:00', available: true },
-                { time: '20:00', available: true },
-                { time: '21:00', available: true },
-                { time: '22:00', available: true },
-                { time: '23:00', available: true },
+                { time: '09:00', available: true, name: null, whatsapp: null },
+                { time: '10:00', available: true, name: null, whatsapp: null },
+                { time: '11:00', available: true, name: null, whatsapp: null },
+                { time: '12:00', available: true, name: null, whatsapp: null },
+                { time: '13:00', available: true, name: null, whatsapp: null },
+                { time: '14:00', available: true, name: null, whatsapp: null },
+                { time: '15:00', available: true, name: null, whatsapp: null },
+                { time: '16:00', available: true, name: null, whatsapp: null },
+                { time: '17:00', available: true, name: null, whatsapp: null },
+                { time: '18:00', available: true, name: null, whatsapp: null },
+                { time: '19:00', available: true, name: null, whatsapp: null },
+                { time: '20:00', available: true, name: null, whatsapp: null },
+                { time: '21:00', available: true, name: null, whatsapp: null },
+                { time: '22:00', available: true, name: null, whatsapp: null },
+                { time: '23:00', available: true, name: null, whatsapp: null },
               ];
               await setDoc(calendarRef, { date: formattedDate, timeslots });
               setLocalTimeSlots(timeslots);
@@ -57,24 +56,62 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
     }
   }, [date, selectedSpace, calendarData]);
 
+  // New function to ask for name and WhatsApp when reserving a slot
+  const askUserDetails = () => {
+    const name = prompt("Ingresa tu nombre:");
+    const whatsapp = prompt("Ingresa tu número de WhatsApp:");
+    return { name, whatsapp };
+  };
+
   const handleTimeslotClick = async (slotIndex) => {
     if (!date || !selectedSpace || disableBooking) return;
 
     const formattedDate = date.toISOString().split('T')[0];
     const calendarRef = doc(db, 'owners', auth.currentUser.uid, 'spaces', selectedSpace.id, 'calendar', formattedDate);
 
-    const updatedTimeSlots = timeSlots.map((slot, index) => {
-      if (index === slotIndex) {
-        return { ...slot, available: !slot.available };
-      }
-      return slot;
-    });
+    const selectedSlot = timeSlots[slotIndex];
 
-    try {
-      await setDoc(calendarRef, { date: formattedDate, timeslots: updatedTimeSlots });
-      setLocalTimeSlots(updatedTimeSlots);
-    } catch (error) {
-      console.error('Error al actualizar los horarios:', error);
+    if (selectedSlot.available) {
+      // If the slot is available, reserve it
+      const { name, whatsapp } = askUserDetails();
+
+      if (!name || !whatsapp) {
+        alert('Se necesitan nombre y número de WhatsApp para realizar una reserva.');
+        return;
+      }
+
+      const updatedTimeSlots = timeSlots.map((slot, index) => {
+        if (index === slotIndex) {
+          return { ...slot, available: false, name, whatsapp }; // Update with name and WhatsApp
+        }
+        return slot;
+      });
+
+      try {
+        await setDoc(calendarRef, { date: formattedDate, timeslots: updatedTimeSlots });
+        setLocalTimeSlots(updatedTimeSlots);
+      } catch (error) {
+        console.error('Error al actualizar los horarios:', error);
+      }
+    } else {
+      // If the slot is reserved, ask to release it
+      const confirmRelease = window.confirm(`Deseas liberar el horario ${selectedSlot.time} reservado para ${selectedSlot.name}?`);
+
+      if (confirmRelease) {
+        const updatedTimeSlots = timeSlots.map((slot, index) => {
+          if (index === slotIndex) {
+            return { ...slot, available: true, name: null, whatsapp: null }; // Release the slot
+          }
+          return slot;
+        });
+
+        try {
+          await setDoc(calendarRef, { date: formattedDate, timeslots: updatedTimeSlots });
+          setLocalTimeSlots(updatedTimeSlots);
+        } catch (error) {
+          console.error('Error al liberar el horario:', error);
+        }
+      }
     }
   };
 
@@ -101,17 +138,17 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
         </div>
 
         <div className="timeslot-container">
-  {timeSlots.map((slot, index) => (
-    <button
-      key={index}
-      className={`timeslot-button ${slot.available ? 'available' : 'reserved'} ${disableBooking ? 'disabled-business' : ''}`}
-      onClick={() => handleTimeslotClick(index)}
-      disabled={disableBooking}
-    >
-      {slot.time} - {disableBooking ? (slot.available ? 'Disponible' : 'Ocupado') : (slot.available ? 'Reservar' : 'Reservado')}
-    </button>
-  ))}
-</div>
+          {timeSlots.map((slot, index) => (
+            <button
+              key={index}
+              className={`timeslot-button ${slot.available ? 'available' : 'reserved'} ${disableBooking ? 'disabled-business' : ''}`}
+              onClick={() => handleTimeslotClick(index)}
+              disabled={disableBooking}
+            >
+              {slot.time} - {disableBooking ? (slot.available ? 'Disponible' : 'Ocupado') : (slot.available ? 'Reservar' : ` ${slot.name}`)}
+            </button>
+          ))}
+        </div>
 
       </div>
     </div>

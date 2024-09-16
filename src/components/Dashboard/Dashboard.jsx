@@ -76,6 +76,16 @@ function Dashboard() {
     }
   };
 
+  const handleAddSpaceClick = async () => {
+    if (newSpaceName.trim() === "") {
+      setUniqueError("Debes ingresar un nombre para el espacio");
+      return;
+    }
+    await handleAddSpace(newSpaceName, setNewSpaceName, setUniqueError);
+    fetchOwnerDataAndSpaces(setOwnerData, setSpaces, setError, setLoading);
+
+  };
+
   if (loading) {
     return <div>Cargando...</div>;
   }
@@ -118,8 +128,8 @@ function Dashboard() {
           placeholder="Nombre del nuevo espacio"
           className={inputError ? 'error' : ''} // Aplica la clase 'error' si hay un error
         />
-        <button onClick={handleAddSpace}>+ Agregar Espacio</button>
-        {uniqueError && <p>{uniqueError}</p>}
+        <button onClick={handleAddSpaceClick}>+ Agregar Espacio</button>
+        {uniqueError && <p className="error-message">{uniqueError}</p>} {/* Mostrar mensaje de error */}
       </div>
 
       {showModal && (
