@@ -2,14 +2,14 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { doc, getDoc, collection, getDocs } from 'firebase/firestore';
+import { doc, getDoc, collection, getDocs, setDoc } from 'firebase/firestore';
 import { db, auth } from '../../firebase';
 import CalendarComponent from '../Calendar/Calendar';
 import { handleReserveSlot, handleCancelReservation } from '../../utils/reservationHandlers';
 import { deleteSpace } from '../../utils/spaceHandlers';
 import { fetchOwnerDataAndSpaces } from '../../utils/fetchOwnerData';
 import { handleAddSpace } from '../../utils/handleAddSpace';
-
+import { uploadImageToCloudinary } from '../../utils/cloudinaryUpload'; // Usamos la función para subir a Cloudinary
 import './Dashboard.css';
 
 function Dashboard() {
@@ -26,7 +26,8 @@ function Dashboard() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [timeSlots, setTimeSlots] = useState([]);
-  const [inputError, setInputError] = useState(false); 
+  const [inputError, setInputError] = useState(false);
+  const [imageUrl, setImageUrl] = useState(""); // Estado para la URL de la imagen subida
 
   useEffect(() => {
     fetchOwnerDataAndSpaces(setOwnerData, setSpaces, setError, setLoading);
@@ -78,12 +79,38 @@ function Dashboard() {
 
   const handleAddSpaceClick = async () => {
     if (newSpaceName.trim() === "") {
-      setUniqueError("Debes ingresar un nombre para el espacio");
+      setUniqueError("Debes ingresar un nombre para el espacio nuevo");
       return;
     }
     await handleAddSpace(newSpaceName, setNewSpaceName, setUniqueError);
     fetchOwnerDataAndSpaces(setOwnerData, setSpaces, setError, setLoading);
+  };
 
+  const handleUploadBackgroundImage = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+  
+    try {
+      const url = await uploadImageToCloudinary(file);
+      setImageUrl(url); // Guardamos la URL de la imagen subida
+      saveBackgroundImageUrl(url); // Guardamos la URL en Firestore
+  
+      console.log("URL de la imagen subida:", url); // Imprimir en la consola
+    } catch (error) {
+      console.error("Error al subir la imagen a Cloudinary: ", error);
+    }
+  };
+  
+
+  // Guardar la URL de la imagen en Firestore
+  const saveBackgroundImageUrl = async (url) => {
+    try {
+      const user = auth.currentUser;
+      const docRef = doc(db, 'owners', user.uid);
+      await setDoc(docRef, { backgroundImageUrl: url }, { merge: true }); // Guardar o actualizar la URL de la imagen
+    } catch (error) {
+      console.error("Error al guardar la URL de la imagen: ", error);
+    }
   };
 
   if (loading) {
@@ -178,6 +205,13 @@ function Dashboard() {
         >
           Ver sitio del negocio
         </button>
+      </div>
+      
+      {/* Input para subir la imagen de fondo */}
+      <div className="upload-background">
+        <h2>Subir imagen de fondo para la página del cliente</h2>
+        <input type="file" accept="image/*" onChange={handleUploadBackgroundImage} />
+        {imageUrl && <img src={imageUrl} alt="Imagen de fondo" style={{ width: '8%', marginTop: '10px' }} />}
       </div>
     </div>
   );

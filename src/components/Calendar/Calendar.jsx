@@ -58,8 +58,8 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
 
   // New function to ask for name and WhatsApp when reserving a slot
   const askUserDetails = () => {
-    const name = prompt("Ingresa tu nombre:");
-    const whatsapp = prompt("Ingresa tu número de WhatsApp:");
+    const name = prompt("Reserva a nombre de:");
+    const whatsapp = prompt("Número de WhatsApp:");
     return { name, whatsapp };
   };
 
@@ -145,7 +145,7 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
               onClick={() => handleTimeslotClick(index)}
               disabled={disableBooking}
             >
-              {slot.time} - {disableBooking ? (slot.available ? 'Disponible' : 'Ocupado') : (slot.available ? 'Reservar' : ` ${slot.name}`)}
+              {slot.time} - {disableBooking ? (slot.available ? 'Disponible' : 'Ocupado') : (slot.available ? 'Reservar' : ` ${slot.name} ${slot.whatsapp}` )}
             </button>
           ))}
         </div>

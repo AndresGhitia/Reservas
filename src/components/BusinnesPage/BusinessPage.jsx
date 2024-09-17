@@ -98,8 +98,21 @@ function BusinessPage() {
     return <div className="no-data">No se encontraron datos del negocio.</div>;
   }
 
+  // Aplicamos la imagen de fondo si está disponible
+  const backgroundImageUrl = ownerData.backgroundImageUrl; // Asegúrate de que este campo esté en Firestore
+
   return (
-    <div className="business-container">
+ 
+    <div
+      className="business-container"
+      style={{
+        height: '100vh',
+        backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : 'none',
+        backgroundSize: '98% 98%', // Esto hace que ocupe el 98% de la pantalla
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
       <h1>Complejo {decodedName}</h1>
 
       <div className="spaces-container">

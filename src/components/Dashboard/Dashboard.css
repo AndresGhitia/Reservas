@@ -68,6 +68,15 @@ p {
   background-color: #c0392b; /* Hover más oscuro */
   transform: scale(1.05); /* Efecto de agrandamiento en hover */
 }
+.error-message {
+  color: red;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.error {
+  border: 1px solid red;
+}
 
 /* Lista de espacios */
 ul {
