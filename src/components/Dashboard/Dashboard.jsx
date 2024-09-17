@@ -126,7 +126,8 @@ function Dashboard() {
   }
 
   return (
-    <div className="container">
+    <div className="container"
+    >
       <h1>Hola, {ownerData.ownerName}</h1>
       <p>Bienvenido al panel de administración de {decodedName}.</p>
 
