@@ -126,11 +126,10 @@ function Dashboard() {
   }
 
   return (
-    <div className="container"
-    >
+    <div className="container">
       <h1>Hola, {ownerData.ownerName}</h1>
       <p>Bienvenido al panel de administración de {decodedName}.</p>
-
+  
       <div className="spaces-container">
         <h2>Canchas de tu complejo</h2>
         <ul>
@@ -159,7 +158,7 @@ function Dashboard() {
         <button onClick={handleAddSpaceClick}>+ Agregar Espacio</button>
         {uniqueError && <p className="error-message">{uniqueError}</p>} {/* Mostrar mensaje de error */}
       </div>
-
+  
       {showModal && (
         <div className="modal">
           <CalendarComponent
@@ -195,27 +194,31 @@ function Dashboard() {
           )}
         </div>
       )}
-
-      <div className="spaces-Button-container">
-        <button onClick={handleCopy}>
-          Compartir URL
-        </button>
-        <button
-          onClick={() => window.open(`http://localhost:5173/${establishmentName}`, '_blank')}
-          style={{ marginTop: '20px' }}
-        >
-          Ver sitio del negocio
-        </button>
-      </div>
-      
-      {/* Input para subir la imagen de fondo */}
-      <div className="upload-background">
-        <h2>Subir imagen de fondo para la página del cliente</h2>
-        <input type="file" accept="image/*" onChange={handleUploadBackgroundImage} />
-        {imageUrl && <img src={imageUrl} alt="Imagen de fondo" style={{ width: '8%', marginTop: '10px' }} />}
+  
+      {/* Sección con botones y subida de imagen, en un contenedor flex */}
+      <div className="action-container">
+        <div className="spaces-Button-container">
+          <button onClick={handleCopy}>
+            Compartir URL
+          </button>
+          <button
+            onClick={() => window.open(`http://localhost:5173/${establishmentName}`, '_blank')}
+            style={{ marginTop: '20px' }}
+          >
+            Ver sitio del negocio
+          </button>
+        </div>
+  
+        {/* Input para subir la imagen de fondo */}
+        <div className="upload-background">
+          <h2>Cambiar imagen de fondo para la página del cliente</h2>
+          <input type="file" accept="image/*" onChange={handleUploadBackgroundImage} />
+          {imageUrl && <img src={imageUrl} alt="Imagen de fondo" style={{ width: '80px', marginTop: '10px' }} />}
+        </div>
       </div>
     </div>
   );
+  
 }
 
 export default Dashboard;

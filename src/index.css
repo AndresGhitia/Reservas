@@ -16,6 +16,7 @@ a{
 }
 
 .app{
-    width: 80%;
+   width: 80%; 
     margin: auto;
+    padding:0.2vh;
 }
