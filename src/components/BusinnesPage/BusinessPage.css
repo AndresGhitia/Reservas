@@ -8,19 +8,28 @@ body {
   
   /* Contenedor principal de la página del negocio */
   .business-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    margin-top: 50px;
+    min-height: 100vh; /* Asegura que ocupe todo el alto de la pantalla */
+    background-image: url('../../assets/dashboard.png');
+    background-size: cover; /* Cubre todo el ancho y alto */
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex; /* Asegura que el contenido se ajuste dentro */
+    flex-direction: column;
+    align-items: center; /* Centra horizontalmente */
+    justify-content: center; /* Centra verticalmente */
+    padding: 20px; /* Margen interno para los elementos */
   }
   
   /* Título principal del negocio */
   .business-container h1 {
-    font-size: 2.5em;
+    font-size: 3em;
     color: #333;
+    padding: 8px;
+    padding-right: 12px;
+    padding-left: 12px;
+    border-radius: 16px;
+    border: 1px solid black; /* Borde negro de 2px */
+    background-color: rgba(245, 245, 245, 0.7); /* 80% opaco */
     margin-bottom: 10px;
     font-weight: bold;
     text-align: center;
