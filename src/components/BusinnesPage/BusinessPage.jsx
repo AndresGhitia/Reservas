@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebase';
 import CalendarComponent from '../Calendar/Calendar';
+import businessPage from '../../assets/businessPage.jpeg'; // Importa la imagen predeterminada
 import './BusinessPage.css'; // Importa los estilos
 
 function BusinessPage() {
@@ -107,7 +108,7 @@ function BusinessPage() {
       className="business-container"
       style={{
         height: '100vh',
-        backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : 'none',
+        backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : `url(${businessPage})`, // Usa la imagen predeterminada si no hay URL
         backgroundSize: '98% 98%', // Esto hace que ocupe el 98% de la pantalla
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
