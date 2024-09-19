@@ -109,9 +109,10 @@ function BusinessPage() {
       style={{
         height: '100vh',
         backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : `url(${businessPage})`, // Usa la imagen predeterminada si no hay URL
-        backgroundSize: '98% 98%', // Esto hace que ocupe el 98% de la pantalla
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
+        borderRadius:8,
+        margin:2,
       }}
     >
       <h1>Complejo {decodedName}</h1>
