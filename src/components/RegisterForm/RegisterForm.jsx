@@ -15,7 +15,7 @@ function RegisterForm({ onClose }) {
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false); 
   const [accountType, setAccountType] = useState('user');
-
+  const [whatsapp, setWhatsapp] = useState('');
   const availableBusinessTypes = ['Football', 'Paddle', 'Tenis', 'Hockey', 'Volley', 'Handball']; // Opciones de rubros
 
   const handleSubmit = async (e) => {
@@ -38,7 +38,8 @@ function RegisterForm({ onClose }) {
           establishmentName,
           ownerName,
           establishmentEmail: email,
-          businessType, // Se guarda el array de rubros
+          whatsapp,  // Guardamos el número de WhatsApp en Firebase
+          businessType, // array de rubros
           createdAt: new Date()
         });
       }
@@ -157,6 +158,18 @@ function RegisterForm({ onClose }) {
                   required
                 />
               </div>
+              
+              <div className="form-group">
+               <label>WhatsApp del Negocio <span className="required">*</span></label>
+                 <input
+                  type="text"
+                  placeholder="Número de WhatsApp"
+                  value={whatsapp}
+                  onChange={(e) => setWhatsapp(e.target.value)}
+                  required
+                  />
+              </div>
+
               <div className="form-group">
                 <label>Rubro <span className="required">*</span></label>
                 <select onChange={handleBusinessTypeChange}>

@@ -69,4 +69,22 @@
   button:hover {
     background-color: #218838;
   }
+  .whatsapp-info {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    align-self: center;
+  }
+  
+  .whatsapp-icon {
+    margin-right: 8px;
+    color: #25D366; /* Color verde de WhatsApp */
+  }
+  
+  .whatsapp-info a {
+    text-decoration: none;
+    color: #030303;
+    font-weight: bold;
+  }
+  
   
