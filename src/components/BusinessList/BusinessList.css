@@ -1,20 +1,24 @@
 .business-list {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap; /* Permite que las tarjetas se envuelvan en filas */
     gap: 20px;
-    justify-content: center;
+    justify-content: center; /* Centra las tarjetas horizontalmente */
     margin: 20px;
   }
   
   .business-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    width: 300px;
+    width: 300px; /* Fija el ancho de las tarjetas */
     text-align: center;
     padding: 20px;
     transition: transform 0.3s;
+    height: 450px;
   }
   
   .business-card:hover {
@@ -34,9 +38,21 @@
     color: #333;
   }
   
-  p {
-    font-size: 1rem;
-    color: #777;
+  .business-types {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .business-type {
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    text-align: center;
+    width: fit-content;
   }
   
   button {
@@ -47,6 +63,7 @@
     padding: 10px 20px;
     cursor: pointer;
     margin-top: 15px;
+    align-self: center;
   }
   
   button:hover {

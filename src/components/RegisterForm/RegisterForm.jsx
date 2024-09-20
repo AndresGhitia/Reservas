@@ -11,20 +11,22 @@ function RegisterForm({ onClose }) {
   const [lastName, setLastName] = useState('');
   const [establishmentName, setEstablishmentName] = useState('');
   const [ownerName, setOwnerName] = useState('');
-  const [businessType, setBusinessType] = useState('');
+  const [businessType, setBusinessType] = useState([]); // Array para almacenar múltiples rubros
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false); 
-  const [accountType, setAccountType] = useState('user'); // Estado para el tipo de cuenta
+  const [accountType, setAccountType] = useState('user');
+
+  const availableBusinessTypes = ['Football', 'Paddle', 'Tennis', 'Hockey', 'Volley', 'Handball']; // Opciones de rubros
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-  
+
       // Enviar correo de verificación
       await sendEmailVerification(user);
-  
+
       if (accountType === 'user') {
         await setDoc(doc(db, 'users', user.uid), {
           firstName,
@@ -36,11 +38,11 @@ function RegisterForm({ onClose }) {
           establishmentName,
           ownerName,
           establishmentEmail: email,
-          businessType,
+          businessType, // Se guarda el array de rubros
           createdAt: new Date()
         });
       }
-  
+
       alert("Usuario registrado con éxito. Por favor, revisa tu correo electrónico para verificar tu cuenta.");
       onClose();
     } catch (error) {
@@ -48,9 +50,20 @@ function RegisterForm({ onClose }) {
       setError("Error al registrar el usuario: " + error.message);
     }
   };
-  
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleBusinessTypeChange = (e) => {
+    const selectedType = e.target.value;
+    if (!businessType.includes(selectedType)) {
+      setBusinessType([...businessType, selectedType]); // Agrega el rubro seleccionado
+    }
+  };
+
+  const removeBusinessType = (type) => {
+    setBusinessType(businessType.filter((item) => item !== type)); // Remover rubro seleccionado
   };
 
   return (
@@ -100,15 +113,15 @@ function RegisterForm({ onClose }) {
                 />
               </div>
               <div className="form-group">
-              <label>Email <span className="required">*</span></label>
-              <input
-  type="email"
-  placeholder="Correo Electrónico"
-  value={email}
-  onChange={(e) => setEmail(e.target.value)}
-  required
-/>
-</div>
+                <label>Email <span className="required">*</span></label>
+                <input
+                  type="email"
+                  placeholder="Correo Electrónico"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
             </>
           )}
 
@@ -146,13 +159,19 @@ function RegisterForm({ onClose }) {
               </div>
               <div className="form-group">
                 <label>Rubro <span className="required">*</span></label>
-                <input
-                  type="text"
-                  placeholder="Rubro"
-                  value={businessType}
-                  onChange={(e) => setBusinessType(e.target.value)}
-                  required
-                />
+                <select onChange={handleBusinessTypeChange}>
+                  <option value="">Selecciona un rubro</option>
+                  {availableBusinessTypes.map((type) => (
+                    <option key={type} value={type}>{type}</option>
+                  ))}
+                </select>
+                <div className="selected-business-types">
+                  {businessType.map((type) => (
+                    <span key={type} className="business-type">
+                      {type} <button type="button" onClick={() => removeBusinessType(type)}>✖</button>
+                    </span>
+                  ))}
+                </div>
               </div>
             </>
           )}

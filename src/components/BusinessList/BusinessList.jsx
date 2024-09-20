@@ -31,16 +31,30 @@ const BusinessList = () => {
   return (
     <div className="business-list">
       {businesses.map((business) => (
-        <div key={business.id} className="business-card">
-<img
-  src={business.backgroundImageUrl || businessPage}
-  alt={`${business.establishmentName} banner`}
-  className="business-image"
-/>
-          <h3>{business.establishmentName}</h3>
-          <p>{business.businessType}</p>
-          <button onClick={() => window.open(`/${business.establishmentName.replace(/\s+/g, '-')}`, '_blank')}>Ingresar</button>
-          </div>
+   <div key={business.id} className="business-card">
+   <img
+     src={business.backgroundImageUrl || businessPage}
+     alt={`${business.establishmentName} banner`}
+     className="business-image"
+   />
+   <h3>{business.establishmentName}</h3>
+ 
+   {/* Verificar si businessType es un array o string */}
+   <div className="business-types">
+     {Array.isArray(business.businessType) ? (
+       business.businessType.map((type, index) => (
+         <span key={index} className="business-type">{type}</span>
+       ))
+     ) : (
+       <span className="business-type">{business.businessType}</span>
+     )}
+   </div>
+ 
+   <button onClick={() => window.open(`/${business.establishmentName.replace(/\s+/g, '-')}`, '_blank')}>
+     Ingresar
+   </button>
+ </div>
+ 
       ))}
     </div>
   );
