@@ -4,7 +4,7 @@ import { db } from '../../firebase';
 import businessPage from '../../assets/businessPage.jpeg'; 
 import './BusinessList.css'; 
 
-const BusinessList = () => {
+const BusinessList = ({ category }) => {
   const [businesses, setBusinesses] = useState([]);
 
   useEffect(() => {
@@ -15,7 +15,6 @@ const BusinessList = () => {
           console.log('No matching documents.');
         } else {
           const businessData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-          console.log("Fetched data: ", businessData); // Verifica los datos obtenidos
           setBusinesses(businessData);
         }
       } catch (error) {
@@ -25,36 +24,32 @@ const BusinessList = () => {
   
     fetchBusinesses();
   }, []);
-  
-  
+
+  // Ordena los negocios por relevancia
+  const sortedBusinesses = [...businesses].sort((a, b) => {
+    const aMatches = a.businessType?.includes(category);
+    const bMatches = b.businessType?.includes(category);
+
+    if (aMatches && !bMatches) return -1;
+    if (!aMatches && bMatches) return 1;
+    return 0;
+  });
 
   return (
     <div className="business-list">
-      {businesses.map((business) => (
-   <div key={business.id} className="business-card">
-   <img
-     src={business.backgroundImageUrl || businessPage}
-     alt={`${business.establishmentName} banner`}
-     className="business-image"
-   />
-   <h3>{business.establishmentName}</h3>
- 
-   {/* Verificar si businessType es un array o string */}
-   <div className="business-types">
-     {Array.isArray(business.businessType) ? (
-       business.businessType.map((type, index) => (
-         <span key={index} className="business-type">{type}</span>
-       ))
-     ) : (
-       <span className="business-type">{business.businessType}</span>
-     )}
-   </div>
- 
-   <button onClick={() => window.open(`/${business.establishmentName.replace(/\s+/g, '-')}`, '_blank')}>
-     Ingresar
-   </button>
- </div>
- 
+      {sortedBusinesses.map((business) => (
+        <div key={business.id} className="business-card">
+          <img
+            src={business.backgroundImageUrl || businessPage}
+            alt={`${business.establishmentName} banner`}
+            className="business-image"
+          />
+          <h3>{business.establishmentName}</h3>
+          <p>{Array.isArray(business.businessType) ? business.businessType.join(', ') : business.businessType || 'Sin rubro'}</p>
+          <button onClick={() => window.open(`/${business.establishmentName.replace(/\s+/g, '-')}`, '_blank')}>
+            Ingresar
+          </button>
+        </div>
       ))}
     </div>
   );

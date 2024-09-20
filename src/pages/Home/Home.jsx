@@ -6,19 +6,16 @@ import BusinessList from '../../components/BusinessList/BusinessList'
 import RubroDisplay from '../../components/RubroDisplay/RubroDisplay'
 
 const Home = () => {
-
-  const [category, setCategory] = useState("All")
+  const [category, setCategory] = useState("All");
 
   return (
     <div>
-        <Header/>
-        <ExploreRubro category={category} setCategory={setCategory}/>
-     {/*  <RubroDisplay category={category} /> */}  
-       <BusinessList /> 
-
-    
+      <Header />
+      <ExploreRubro category={category} setCategory={setCategory} />
+      {/* Filtra la lista de negocios según la categoría seleccionada */}
+      <BusinessList category={category} />
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;

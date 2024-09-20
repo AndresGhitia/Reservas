@@ -16,7 +16,7 @@ function RegisterForm({ onClose }) {
   const [showPassword, setShowPassword] = useState(false); 
   const [accountType, setAccountType] = useState('user');
 
-  const availableBusinessTypes = ['Football', 'Paddle', 'Tennis', 'Hockey', 'Volley', 'Handball']; // Opciones de rubros
+  const availableBusinessTypes = ['Football', 'Paddle', 'Tenis', 'Hockey', 'Volley', 'Handball']; // Opciones de rubros
 
   const handleSubmit = async (e) => {
     e.preventDefault();
