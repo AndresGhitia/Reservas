@@ -59,7 +59,7 @@ export const rubro_list = [
         rubro_image: rubro_5
     },
 
-    {
+   /* {
         rubro_name: "Restaurantes",
         rubro_image: rubro_6
     },
@@ -72,7 +72,7 @@ export const rubro_list = [
     {
         rubro_name: "Medicina",
         rubro_image: rubro_8
-    },
+    },*/
 ]
 
 export const rubro_card = [
