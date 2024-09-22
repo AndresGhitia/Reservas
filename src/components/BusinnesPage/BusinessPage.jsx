@@ -4,7 +4,9 @@ import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebase';
 import CalendarComponent from '../Calendar/Calendar';
 import businessPage from '../../assets/businessPage.jpeg'; // Importa la imagen predeterminada
+import WhatsappButton from '../WhatsappButton/WhatsappButton'; 
 import './BusinessPage.css'; // Importa los estilos
+import '../WhatsappButton/Whatsapp.css'
 
 function BusinessPage() {
   const { establishmentName } = useParams();
@@ -29,18 +31,19 @@ function BusinessPage() {
       querySnapshot.forEach((doc) => {
         const businessData = doc.data();
         console.log('Checking business:', businessData);
-
+        
         if (businessData && businessData.establishmentName) {
           const normalizedDecodedName = decodedName.trim().toLowerCase();
           const normalizedBusinessName = businessData.establishmentName.trim().toLowerCase();
-
+        
           console.log('Comparing:', normalizedBusinessName, normalizedDecodedName);
-
+        
           if (normalizedBusinessName === normalizedDecodedName) {
             foundBusiness = { id: doc.id, ...businessData };
             console.log('Business found:', foundBusiness);
           }
         }
+        
       });
 
       if (foundBusiness) {
@@ -118,16 +121,24 @@ function BusinessPage() {
       <h1>Complejo {decodedName}</h1>
 
       <div className="spaces-container">
-        <h2>Canchas disponibles</h2>
-        <ul>
-          {spaces.map(space => (
-            <li key={space.id}>
-              {space.name}
-              <button onClick={() => handleViewAvailability(space)}>Ver disponibilidad</button>
-            </li>
-          ))}
-        </ul>
-      </div>
+  <h2>Canchas disponibles</h2>
+  <ul>
+    {spaces.map(space => (
+      <li key={space.id}>
+        {space.name}
+        <button onClick={() => handleViewAvailability(space)}>Ver disponibilidad</button>
+      </li>
+    ))}
+  </ul>
+
+  <div
+  className="whatsapp"
+  >
+  {ownerData.whatsapp && (
+    <WhatsappButton phoneNumber={ownerData.whatsapp} />
+  )}
+  </div>
+</div>
 
       {selectedSpace && (
         <div className="selected-space">

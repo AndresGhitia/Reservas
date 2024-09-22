@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { auth, db } from '../../firebase'; 
 import { doc, setDoc } from 'firebase/firestore';
+import PlacesAutocomplete from 'react-places-autocomplete'; // Importar Autocompletado
+import OwnerForm from './OwnerForm'; // Importar el componente OwnerForm
+import UserForm from './UserForm'; // Importar el componente UserForm
 import './RegisterForm.css';
 
 function RegisterForm({ onClose }) {
@@ -11,12 +14,13 @@ function RegisterForm({ onClose }) {
   const [lastName, setLastName] = useState('');
   const [establishmentName, setEstablishmentName] = useState('');
   const [ownerName, setOwnerName] = useState('');
-  const [businessType, setBusinessType] = useState([]); // Array para almacenar múltiples rubros
+  const [businessType, setBusinessType] = useState([]);
+  const [address, setAddress] = useState('');
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false); 
   const [accountType, setAccountType] = useState('user');
   const [whatsapp, setWhatsapp] = useState('');
-  const availableBusinessTypes = ['Football', 'Paddle', 'Tenis', 'Hockey', 'Volley', 'Handball']; // Opciones de rubros
+  const availableBusinessTypes = ['Football', 'Paddle', 'Tenis', 'Hockey', 'Volley', 'Handball'];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,8 +42,9 @@ function RegisterForm({ onClose }) {
           establishmentName,
           ownerName,
           establishmentEmail: email,
-          whatsapp,  // Guardamos el número de WhatsApp en Firebase
-          businessType, // array de rubros
+          whatsapp,
+          businessType,
+          address,
           createdAt: new Date()
         });
       }
@@ -54,17 +59,6 @@ function RegisterForm({ onClose }) {
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
-  };
-
-  const handleBusinessTypeChange = (e) => {
-    const selectedType = e.target.value;
-    if (!businessType.includes(selectedType)) {
-      setBusinessType([...businessType, selectedType]); // Agrega el rubro seleccionado
-    }
-  };
-
-  const removeBusinessType = (type) => {
-    setBusinessType(businessType.filter((item) => item !== type)); // Remover rubro seleccionado
   };
 
   return (
@@ -92,101 +86,32 @@ function RegisterForm({ onClose }) {
 
         <form onSubmit={handleSubmit}>
           {accountType === 'user' && (
-            <>
-              <div className="form-group">
-                <label>Nombre <span className="required">*</span></label>
-                <input
-                  type="text"
-                  placeholder="Nombre"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>Apellido <span className="required">*</span></label>
-                <input
-                  type="text"
-                  placeholder="Apellido"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>Email <span className="required">*</span></label>
-                <input
-                  type="email"
-                  placeholder="Correo Electrónico"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-            </>
+            <UserForm 
+              firstName={firstName}
+              setFirstName={setFirstName}
+              lastName={lastName}
+              setLastName={setLastName}
+              email={email}
+              setEmail={setEmail}
+            />
           )}
 
           {accountType === 'owner' && (
-            <>
-              <div className="form-group">
-                <label>Nombre del Establecimiento <span className="required">*</span></label>
-                <input
-                  type="text"
-                  placeholder="Nombre del Establecimiento"
-                  value={establishmentName}
-                  onChange={(e) => setEstablishmentName(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>Nombre del Propietario <span className="required">*</span></label>
-                <input
-                  type="text"
-                  placeholder="Nombre del Propietario"
-                  value={ownerName}
-                  onChange={(e) => setOwnerName(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>Correo Electrónico del Establecimiento <span className="required">*</span></label>
-                <input
-                  type="email"
-                  placeholder="Correo Electrónico del Establecimiento"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-              
-              <div className="form-group">
-               <label>WhatsApp del Negocio <span className="required">*</span></label>
-                 <input
-                  type="text"
-                  placeholder="Número de WhatsApp"
-                  value={whatsapp}
-                  onChange={(e) => setWhatsapp(e.target.value)}
-                  required
-                  />
-              </div>
-
-              <div className="form-group">
-                <label>Rubro <span className="required">*</span></label>
-                <select onChange={handleBusinessTypeChange}>
-                  <option value="">Selecciona un rubro</option>
-                  {availableBusinessTypes.map((type) => (
-                    <option key={type} value={type}>{type}</option>
-                  ))}
-                </select>
-                <div className="selected-business-types">
-                  {businessType.map((type) => (
-                    <span key={type} className="business-type">
-                      {type} <button type="button" onClick={() => removeBusinessType(type)}>✖</button>
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </>
+            <OwnerForm 
+              establishmentName={establishmentName}
+              setEstablishmentName={setEstablishmentName}
+              ownerName={ownerName}
+              setOwnerName={setOwnerName}
+              email={email}
+              setEmail={setEmail}
+              whatsapp={whatsapp}
+              setWhatsapp={setWhatsapp}
+              address={address}
+              setAddress={setAddress}
+              businessType={businessType}
+              setBusinessType={setBusinessType}
+              availableBusinessTypes={availableBusinessTypes}
+            />
           )}
 
           <div className="form-group password-group">

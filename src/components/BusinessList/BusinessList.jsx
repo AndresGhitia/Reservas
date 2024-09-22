@@ -3,7 +3,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase'; 
 import businessPage from '../../assets/businessPage.jpeg'; 
 import './BusinessList.css'; 
-import { FaWhatsapp } from 'react-icons/fa'; // Importamos el ícono de WhatsApp
+import WhatsappButton from '../WhatsappButton/WhatsappButton'; 
 
 const BusinessList = ({ category }) => {
   const [businesses, setBusinesses] = useState([]);
@@ -48,15 +48,8 @@ const BusinessList = ({ category }) => {
           <h3>{business.establishmentName}</h3>
           <p>{Array.isArray(business.businessType) ? business.businessType.join(', ') : business.businessType || 'Sin rubro'}</p>
           
-          {/* Mostrar el número de WhatsApp con el ícono */}
-          {business.whatsapp && (
-            <div className="whatsapp-info">
-              <FaWhatsapp className="whatsapp-icon" />
-              <a href={`https://wa.me/${business.whatsapp}`} target="_blank" rel="noopener noreferrer">
-                {business.whatsapp}
-              </a>
-            </div>
-          )}
+          {/* Usamos el componente de WhatsApp */}
+          <WhatsappButton phoneNumber={business.whatsapp} />
           
           <button onClick={() => window.open(`/${business.establishmentName.replace(/\s+/g, '-')}`, '_blank')}>
             Ingresar
