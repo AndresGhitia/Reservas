@@ -163,5 +163,99 @@ body {
       width: 100%;
       text-align: center;
     }
+    /* Contenedor principal */
+.business-container {
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Título del negocio */
+.business-container h1 {
+  font-size: 3em;
+  color: #333;
+  padding: 16px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Contenedor de los espacios */
+.spaces-container {
+  margin-top: 20px;
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 800px;
+}
+
+.spaces-container h2 {
+  color: #333;
+  font-size: 1.8em;
+  margin-bottom: 20px;
+}
+
+.spaces-container ul {
+  list-style: none;
+  padding: 0;
+}
+
+.spaces-container ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #e8eaf6;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.spaces-container ul li button {
+  background-color: #3949ab;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.spaces-container ul li button:hover {
+  background-color: #283593;
+}
+
+.map-container {
+  margin-top: 40px;
+  padding: 15px;
+  background-color: rgba(255, 255, 255, 0.7); /* Cambié la opacidad para un efecto más sutil */
+  border-radius: 12px; /* Ajusté el borde redondeado para que se vea más suave */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Aumenté la sombra para dar un efecto más tridimensional */
+  width: 100% ;
+  max-width: 900px; /* Ajusté el ancho máximo */
+  text-align: center;
+  transition: all 0.3s ease; /* Transición suave para futuros cambios en hover o interacciones */
+}
+
+.map-container h3 {
+  font-size: 1.8em;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.map-container:hover {
+  background-color: rgba(255, 255, 255, 0.85); /* Cambia ligeramente el fondo al hacer hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Incremento de la sombra al hacer hover */
+}
+
+
+
   }
   

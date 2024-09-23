@@ -3,14 +3,15 @@ import { useParams } from 'react-router-dom';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebase';
 import CalendarComponent from '../Calendar/Calendar';
-import businessPage from '../../assets/businessPage.jpeg'; // Importa la imagen predeterminada
+import businessPage from '../../assets/businessPage.jpeg';
 import WhatsappButton from '../WhatsappButton/WhatsappButton'; 
-import './BusinessPage.css'; // Importa los estilos
-import '../WhatsappButton/Whatsapp.css'
+import BusinessMap from './BusinessMap';
+import './BusinessPage.css';
+import '../WhatsappButton/Whatsapp.css';
 
 function BusinessPage() {
   const { establishmentName } = useParams();
-  const decodedName = decodeURIComponent(establishmentName).replace(/-/g, ' '); // Convierte Hulk-Padel a Hulk Padel
+  const decodedName = decodeURIComponent(establishmentName).replace(/-/g, ' ');
   const [ownerData, setOwnerData] = useState(null);
   const [spaces, setSpaces] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,24 +27,16 @@ function BusinessPage() {
     const unsubscribeBusiness = onSnapshot(businessRef, (querySnapshot) => {
       let foundBusiness = null;
 
-      console.log('Fetching data for:', decodedName);
-
       querySnapshot.forEach((doc) => {
         const businessData = doc.data();
-        console.log('Checking business:', businessData);
-        
         if (businessData && businessData.establishmentName) {
           const normalizedDecodedName = decodedName.trim().toLowerCase();
           const normalizedBusinessName = businessData.establishmentName.trim().toLowerCase();
-        
-          console.log('Comparing:', normalizedBusinessName, normalizedDecodedName);
-        
+          
           if (normalizedBusinessName === normalizedDecodedName) {
             foundBusiness = { id: doc.id, ...businessData };
-            console.log('Business found:', foundBusiness);
           }
         }
-        
       });
 
       if (foundBusiness) {
@@ -52,14 +45,12 @@ function BusinessPage() {
         const spacesRef = collection(db, 'owners', foundBusiness.id, 'spaces');
         const unsubscribeSpaces = onSnapshot(spacesRef, (spacesSnap) => {
           const spacesList = spacesSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-          console.log('Spaces updated:', spacesList);
           setSpaces(spacesList);
           setLoading(false);
         });
 
         return () => unsubscribeSpaces();
       } else {
-        console.log('No business found with the name:', decodedName);
         setError(`No se encontró ningún negocio con el nombre: ${decodedName}`);
         setLoading(false);
       }
@@ -82,7 +73,6 @@ function BusinessPage() {
     const calendarRef = collection(db, 'owners', ownerData.id, 'spaces', space.id, 'calendar');
     const unsubscribeCalendar = onSnapshot(calendarRef, (calendarSnap) => {
       const calendarList = calendarSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      console.log('Calendar updated:', calendarList);
       setCalendarData(calendarList);
       setLoading(false);
     });
@@ -102,43 +92,46 @@ function BusinessPage() {
     return <div className="no-data">No se encontraron datos del negocio.</div>;
   }
 
-  // Aplicamos la imagen de fondo si está disponible
-  const backgroundImageUrl = ownerData.backgroundImageUrl; // Asegúrate de que este campo esté en Firestore
+  const backgroundImageUrl = ownerData.backgroundImageUrl;
 
   return (
- 
-    <div
-      className="business-container"
-      style={{
-        height: '100vh',
-        backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : `url(${businessPage})`, // Usa la imagen predeterminada si no hay URL
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        borderRadius:8,
-        margin:2,
-      }}
-    >
+    <div className="business-container" style={{ backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : `url(${businessPage})` }}>
       <h1>Complejo {decodedName}</h1>
 
       <div className="spaces-container">
-  <h2>Canchas disponibles</h2>
-  <ul>
-    {spaces.map(space => (
-      <li key={space.id}>
-        {space.name}
-        <button onClick={() => handleViewAvailability(space)}>Ver disponibilidad</button>
-      </li>
-    ))}
-  </ul>
+        <h2>Canchas disponibles</h2>
+        <ul>
+          {spaces.map(space => (
+            <li key={space.id}>
+              {space.name}
+              <button onClick={() => handleViewAvailability(space)}>Ver disponibilidad</button>
+            </li>
+          ))}
+        </ul>
 
-  <div
-  className="whatsapp"
-  >
-  {ownerData.whatsapp && (
-    <WhatsappButton phoneNumber={ownerData.whatsapp} />
-  )}
-  </div>
-</div>
+        {ownerData.whatsapp && (
+          <div className="whatsapp-container">
+            <WhatsappButton phoneNumber={ownerData.whatsapp} />
+          </div>
+        )}
+      </div>
+
+      {ownerData.address && (
+      <div style={{
+        marginTop: '20px', 
+        padding: '15px',
+        backgroundColor: 'rgba(255, 255, 255, 0.7)', 
+        borderRadius: '12px', 
+        boxShadow: '0 6px 12px rgba(0, 0, 0, 0.15)', // Cambié 'box-shadow' a 'boxShadow'
+        width: '60%',
+        maxWidth: '900px', 
+        textAlign: 'center', 
+        transition: 'all 0.3s ease' 
+      }}>
+        <h3>Ubicación</h3>
+        <BusinessMap address={ownerData.address} />
+      </div>
+    )}
 
       {selectedSpace && (
         <div className="selected-space">
@@ -148,10 +141,12 @@ function BusinessPage() {
             setCalendarData={setCalendarData}
             onClose={handleCloseModal}
             setSelectedDate={setSelectedDate}
-            disableBooking={true} 
+            disableBooking={true}
           />
         </div>
+        
       )}
+      
     </div>
   );
 }

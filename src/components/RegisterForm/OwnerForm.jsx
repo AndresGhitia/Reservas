@@ -1,24 +1,76 @@
-// OwnerForm.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Autocomplete, useJsApiLoader } from '@react-google-maps/api';
 
-const OwnerForm = ({ 
-  establishmentName, 
-  setEstablishmentName, 
-  ownerName, 
-  setOwnerName, 
-  email, 
-  setEmail, 
-  whatsapp, 
-  setWhatsapp, 
-  address, 
-  setAddress, 
-  businessType, 
-  setBusinessType, 
-  availableBusinessTypes 
+const OwnerForm = ({
+  establishmentName,
+  setEstablishmentName,
+  ownerName,
+  setOwnerName,
+  email,
+  setEmail,
+  whatsapp,
+  setWhatsapp,
+  address,
+  setAddress,
+  businessType,
+  setBusinessType,
+  availableBusinessTypes,
 }) => {
+  const [predictions, setPredictions] = useState([]);
+  const [inputValue, setInputValue] = useState('');
+  const [highlightedPrediction, setHighlightedPrediction] = useState('');
+  const autocompleteServiceRef = useRef(null);
+
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: 'AIzaSyBWI5EoMzcJk-y6Mtdy0whcUwFQRvqc7po',
+    libraries: ['places'],
+  });
+
+  useEffect(() => {
+    if (isLoaded && !autocompleteServiceRef.current) {
+      autocompleteServiceRef.current = new window.google.maps.places.AutocompleteService();
+    }
+  }, [isLoaded]);
+
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setInputValue(value);
+
+    if (value && autocompleteServiceRef.current) {
+      autocompleteServiceRef.current.getPlacePredictions({ input: value }, (predictions, status) => {
+        if (status === window.google.maps.places.PlacesServiceStatus.OK && predictions) {
+          setPredictions(predictions);
+          if (predictions[0]) {
+            setHighlightedPrediction(predictions[0].description);
+          }
+        }
+      });
+    } else {
+      setPredictions([]);
+      setHighlightedPrediction('');
+    }
+  };
+
+  const handlePredictionClick = (prediction) => {
+    setInputValue(prediction.description);
+    setAddress(prediction.description);
+    setPredictions([]);
+  };
+
+  const renderPrediction = () => {
+    if (highlightedPrediction && inputValue) {
+      return (
+        <span style={{ color: '#ccc' }}>
+          {highlightedPrediction.slice(inputValue.length)}
+        </span>
+      );
+    }
+    return null;
+  };
+
   const handleBusinessTypeChange = (e) => {
     const selectedType = e.target.value;
-    if (!businessType.includes(selectedType)) {
+    if (selectedType && !businessType.includes(selectedType)) {
       setBusinessType([...businessType, selectedType]);
     }
   };
@@ -75,13 +127,28 @@ const OwnerForm = ({
 
       <div className="form-group">
         <label>Dirección del Establecimiento <span className="required">*</span></label>
-        <input
-          type="text"
-          placeholder="Dirección"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          required
-        />
+        <div style={{ position: 'relative' }}>
+          <input
+            type="text"
+            placeholder="Buscar dirección..."
+            value={inputValue}
+            onChange={handleInputChange}
+            required
+            style={{ width: '100%' }}
+          />
+          <div style={{ position: 'absolute', top: '0', left: '0', pointerEvents: 'none' }}>
+            {renderPrediction()}
+          </div>
+        </div>
+        {predictions.length > 0 && (
+          <ul className="autocomplete-suggestions">
+            {predictions.map((prediction) => (
+              <li key={prediction.place_id} onClick={() => handlePredictionClick(prediction)}>
+                {prediction.description}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
       <div className="form-group">
@@ -89,7 +156,9 @@ const OwnerForm = ({
         <select onChange={handleBusinessTypeChange}>
           <option value="">Selecciona un rubro</option>
           {availableBusinessTypes.map((type) => (
-            <option key={type} value={type}>{type}</option>
+            <option key={type} value={type}>
+              {type}
+            </option>
           ))}
         </select>
         <div className="selected-business-types">

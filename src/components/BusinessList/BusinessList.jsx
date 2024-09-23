@@ -39,22 +39,28 @@ const BusinessList = ({ category }) => {
   return (
     <div className="business-list">
       {sortedBusinesses.map((business) => (
-        <div key={business.id} className="business-card">
-          <img
-            src={business.backgroundImageUrl || businessPage}
-            alt={`${business.establishmentName} banner`}
-            className="business-image"
-          />
-          <h3>{business.establishmentName}</h3>
-          <p>{Array.isArray(business.businessType) ? business.businessType.join(', ') : business.businessType || 'Sin rubro'}</p>
-          
-          {/* Usamos el componente de WhatsApp */}
-          <WhatsappButton phoneNumber={business.whatsapp} />
-          
-          <button onClick={() => window.open(`/${business.establishmentName.replace(/\s+/g, '-')}`, '_blank')}>
-            Ingresar
-          </button>
-        </div>
+    <div key={business.id} className="business-card">
+    <img
+      src={business.backgroundImageUrl || businessPage}
+      alt={`${business.establishmentName} banner`}
+      className="business-image"
+    />
+    <h3>{business.establishmentName}</h3>
+    <p>{Array.isArray(business.businessType) ? business.businessType.join(', ') : business.businessType || 'Sin rubro'}</p>
+    
+    {business.address && (
+      <p className="business-address">
+        <i className="fas fa-map-marker-alt"></i> {business.address}
+      </p>
+    )}
+  
+    <WhatsappButton phoneNumber={business.whatsapp} />
+  
+    <button onClick={() => window.open(`/${business.establishmentName.replace(/\s+/g, '-')}`, '_blank')}>
+      Ingresar
+    </button>
+  </div>
+  
       ))}
     </div>
   );
