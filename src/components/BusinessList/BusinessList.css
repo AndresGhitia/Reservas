@@ -6,6 +6,17 @@
     margin: 20px;
   }
   
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px); /* Aparece desplazado hacia abajo */
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0); /* Se desliza a su posición original */
+    }
+  }
+
   .business-card {
     display: flex;
     flex-direction: column;
@@ -19,8 +30,13 @@
     padding: 20px;
     transition: transform 0.3s;
     height: 450px;
-  }
+    opacity: 0; 
+    animation: fadeInUp 1.2s ease-in-out forwards; 
   
+  }
+  .business-card.animate {
+  opacity: 1;
+}
   .business-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
