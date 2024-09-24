@@ -51,7 +51,7 @@ const BusinessMap = ({ address }) => {
       ) : mapLocation ? (
         <GoogleMap
           center={mapLocation}
-          zoom={16 }
+          zoom={15 }
           mapContainerStyle={{ width: '100%', height: '200px' }}
         >
           <Marker position={mapLocation} />

@@ -3,7 +3,8 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase'; 
 import businessPage from '../../assets/businessPage.jpeg'; 
 import './BusinessList.css'; 
-import WhatsappButton from '../WhatsappButton/WhatsappButton'; 
+import WhatsappButton from '../Whatsapp/WhatsappButton'; 
+import '../Whatsapp/Whatsapp.css';
 
 const BusinessList = ({ category }) => {
   const [businesses, setBusinesses] = useState([]);
@@ -53,9 +54,10 @@ const BusinessList = ({ category }) => {
         <i className="fas fa-map-marker-alt"></i> {business.address}
       </p>
     )}
-  
-    <WhatsappButton phoneNumber={business.whatsapp} />
-  
+      <div className="whatsapp-container">
+       <WhatsappButton phoneNumber={business.whatsapp} />
+      </div>
+
     <button onClick={() => window.open(`/${business.establishmentName.replace(/\s+/g, '-')}`, '_blank')}>
       Ingresar
     </button>

@@ -22,22 +22,42 @@
   }
   
   .business-card:hover {
-    transform: scale(1.05);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   }
   
   .business-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-bottom: 2px solid #eee;
+    width: 100%;         /* O el tamaño fijo que desees, por ejemplo, 250px */
+    height: 150px;       /* Fija la altura que desees, ajusta según el diseño */
+    object-fit: cover;   /* Mantiene la proporción de la imagen recortando si es necesario */
+    border-radius: 8px;
+    margin-bottom: 10px;
   }
   
-  h3 {
-    font-size: 1.5rem;
-    margin: 10px 0;
+  
+  .business-card h3 {
+    font-size: 1.8rem;
+    margin: 3px 0;
+  }
+
+ .business-address {
+  font-size: 0.8rem; /* Tamaño más pequeño para la dirección */
+  color: #888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5px;
+}
+
+.business-address i {
+  margin-right: 5px;
+}
+
+  .business-address{
+    font-size: 1.0rem;
     color: #333;
   }
-  
+
   .business-types {
     display: flex;
     flex-wrap: wrap;
@@ -48,7 +68,6 @@
   
   .business-type {
     background-color: #f0f0f0;
-    padding: 5px 10px;
     border-radius: 5px;
     font-size: 0.9rem;
     text-align: center;
@@ -69,22 +88,7 @@
   button:hover {
     background-color: #218838;
   }
-  .whatsapp-info {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-    align-self: center;
+  .business-card p:first-of-type {
+    font-size: 1.2rem; /* Tamaño más pequeño para el rubro */
+    color: #0a0101;
   }
-  
-  .whatsapp-icon {
-    margin-right: 8px;
-    color: #25D366; /* Color verde de WhatsApp */
-  }
-  
-  .whatsapp-info a {
-    text-decoration: none;
-    color: #030303;
-    font-weight: bold;
-  }
-  
-  

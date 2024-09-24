@@ -1,7 +1,6 @@
 // src/components/WhatsappButton/WhatsappButton.jsx
 import React from 'react';
 import { FaWhatsapp } from 'react-icons/fa';
-//import './WhatsappButton.css'; // Puedes crear un archivo CSS para estilos específicos
 
 const WhatsappButton = ({ phoneNumber }) => {
   if (!phoneNumber) return null;

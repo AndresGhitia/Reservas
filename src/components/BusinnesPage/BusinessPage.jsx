@@ -4,10 +4,11 @@ import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebase';
 import CalendarComponent from '../Calendar/Calendar';
 import businessPage from '../../assets/businessPage.jpeg';
-import WhatsappButton from '../WhatsappButton/WhatsappButton'; 
+import WhatsappButton from '../Whatsapp/WhatsappButton'; 
+import '../Whatsapp/Whatsapp.css';
 import BusinessMap from './BusinessMap';
 import './BusinessPage.css';
-import '../WhatsappButton/Whatsapp.css';
+
 
 function BusinessPage() {
   const { establishmentName } = useParams();
@@ -128,7 +129,7 @@ function BusinessPage() {
         textAlign: 'center', 
         transition: 'all 0.3s ease' 
       }}>
-        <h3>Ubicación</h3>
+        <h3>Ubicación: {ownerData.address} </h3>
         <BusinessMap address={ownerData.address} />
       </div>
     )}
