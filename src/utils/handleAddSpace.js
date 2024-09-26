@@ -1,6 +1,6 @@
 // src/utils/handleAddSpace.js
 
-import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
+import { collection, addDoc, query, where, getDocs, setDoc, doc } from 'firebase/firestore';
 import { db, auth } from '../firebase';
 
 export const handleAddSpace = async (newSpaceName, setNewSpaceName, setUniqueError) => {
@@ -26,8 +26,10 @@ export const handleAddSpace = async (newSpaceName, setNewSpaceName, setUniqueErr
   }
 
   try {
-    await addDoc(spacesRef, { name: newSpaceName.trim() });
-    setNewSpaceName(""); // Clear input
+    await setDoc(doc(db, 'owners', user.uid, 'spaces', newSpaceName.trim()), {
+      name: newSpaceName.trim(),
+    });
+        setNewSpaceName(""); // Clear input
     setUniqueError(null); // Clear any previous errors
   } catch (error) {
     console.error("Error al agregar espacio: ", error);

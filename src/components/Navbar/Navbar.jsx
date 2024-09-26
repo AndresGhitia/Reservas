@@ -31,6 +31,7 @@ function Navbar() {
           const ownerDoc = await getDoc(doc(db, 'owners', currentUser.uid));
           if (ownerDoc.exists()) {
             setUserData(ownerDoc.data());
+            console.log('Negocio: ' + userData.establishmentName)
           }
         }
       } else {
