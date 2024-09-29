@@ -17,17 +17,17 @@
     gap: 20px;
   }
   
-  /* .form-group {
+  .form-group {
     display: flex;
     flex-direction: column;
     margin-bottom: 0;
-  } */
+  }
   
   label {
     font-weight: bold;
     margin-bottom: 5px;
     display: block;
-    min-height: 4px; /* Ajustar la altura mínima para que todas las etiquetas ocupen el mismo espacio */
+    min-height: 40px; /* Ajustar la altura mínima para que todas las etiquetas ocupen el mismo espacio */
   }
   
   input[type="text"],
