@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Autocomplete, useJsApiLoader } from '@react-google-maps/api';
+import './OwnerForm.css'
 
 const OwnerForm = ({
   establishmentName,
@@ -81,6 +82,9 @@ const OwnerForm = ({
 
   return (
     <>
+    <div className="owner-form">
+
+     <div className="left-column">
       <div className="form-group">
         <label>Nombre del Establecimiento <span className="required">*</span></label>
         <input
@@ -113,7 +117,10 @@ const OwnerForm = ({
           required
         />
       </div>
+    </div>
 
+
+    <div  className="right-column">
       <div className="form-group">
         <label>WhatsApp del Negocio <span className="required">*</span></label>
         <input
@@ -169,6 +176,9 @@ const OwnerForm = ({
           ))}
         </div>
       </div>
+     </div> 
+
+    </div> 
     </>
   );
 };

@@ -123,7 +123,9 @@ function RegisterForm({ onClose }) {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <span className="toggle-password" onClick={togglePasswordVisibility}>
+            <span 
+                  className="toggle-password"
+                  onClick={togglePasswordVisibility}>
               {showPassword ? '🙈' : '👁️'}
             </span>
           </div>

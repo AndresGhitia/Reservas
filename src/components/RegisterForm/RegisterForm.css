@@ -72,6 +72,12 @@ input[type="password"] {
     box-sizing: border-box;
     font-size: medium;
 }
+.password-group {
+    position: relative; /* Asegura que el ícono se mantenga dentro del input */
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+}
 
 .password-wrapper {
     display: flex;
@@ -79,12 +85,21 @@ input[type="password"] {
     position: relative;
 }
 
+/* Ícono de mostrar/ocultar contraseña */
 .toggle-password {
     position: absolute;
-    right: 22px;
+    right: 10px; /* Fijo en el lado derecho del input */
+    top: 50%;
+    transform: translateY(-50%);
     cursor: pointer;
-    font-size: 1.2rem;
+    font-size: 18px;
+    width: 24px; /* Ancho fijo para evitar que el icono se mueva o cambie el layout */
+    height: 24px; /* Altura fija */
+    line-height: 24px;
+    text-align: center;
+    color: #333;
 }
+
 
 button[type="submit"] {
     width: 100%;
