@@ -18,7 +18,7 @@ const BusinessList = ({ category }) => {
         } else {
           const businessData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
           setBusinesses(businessData);
-          console.log("Datos de negocios:", JSON.stringify(businessData, null, 2));
+     //     console.log("Datos de negocios:", JSON.stringify(businessData, null, 2));
         }
       } catch (error) {
         console.error("Error fetching businesses:", error);

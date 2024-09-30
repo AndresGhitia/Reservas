@@ -1,0 +1,75 @@
+/* Estilos globales para la lista de espacios */
+.spaces-container {
+  margin-top: 20px;
+  background-color: rgba(255, 255, 255, 0.85); /* Fondo semitransparente */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil para darle profundidad */
+  width: 80%; /* Ajusta el ancho si es necesario */
+  max-width: 800px;
+}
+
+.spaces-container h2 {
+  font-size: 1.8em;
+  color: #333;
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Estilo para la lista de canchas */
+.spaces-container ul {
+  list-style: none; /* Elimina los puntos de la lista */
+  padding: 0;
+  margin: 0;
+}
+
+.spaces-container li {
+  background-color: #fff;
+  margin-bottom: 15px; /* Espaciado entre los elementos */
+  padding: 15px;
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efecto de hover en los elementos de la lista */
+.spaces-container li:hover {
+  transform: translateY(-2px); /* Levanta ligeramente el elemento */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Aumenta la sombra al pasar el mouse */
+}
+
+/* Estilo para los detalles de cada cancha */
+.spaces-container li strong {
+  font-size: 1.2em;
+  color: #333;
+}
+
+.spaces-container li div {
+  margin-top: 10px;
+}
+
+/* Botones dentro de la lista */
+.spaces-container button {
+  padding: 10px 15px;
+  font-size: 1em;
+  color: #fff;
+  background-color: #007bff; /* Azul por defecto para el botón de horarios */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.spaces-container button[style*="background-color: #dc143c"] {
+  background-color: #dc143c; /* Rojo para el botón de eliminar */
+}
+
+/* Hover en los botones */
+.spaces-container button:hover {
+  background-color: #0056b3; /* Cambia el color del botón de horarios al pasar el mouse */
+}
+
+.spaces-container button[style*="background-color: #dc143c"]:hover {
+  background-color: #c11236; /* Cambia el color del botón de eliminar al pasar el mouse */
+}

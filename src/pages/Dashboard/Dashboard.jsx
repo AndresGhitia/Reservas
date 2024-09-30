@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { auth } from '../../firebase';
+import { doc, getDoc, collection, getDocs, setDoc } from 'firebase/firestore';
+import { db, auth } from '../../firebase';
 import { handleReserveSlot, handleCancelReservation } from '../../utils/reservationHandlers';
 import { fetchOwnerDataAndSpaces } from '../../utils/fetchOwnerData';
 import { uploadImageToCloudinary } from '../../utils/cloudinaryUpload'; 
@@ -9,6 +10,7 @@ import Add from '../Add/Add';
 import List from '../List/List';
 import CalendarComponent from '../../components/Calendar/Calendar';
 import Sidebar from '../../components/Sidebar/Sidebar';
+
 
 function Dashboard() {
   const { establishmentName } = useParams();
@@ -63,15 +65,27 @@ function Dashboard() {
   const handleUploadBackgroundImage = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
+  
     try {
       const url = await uploadImageToCloudinary(file);
       setImageUrl(url); // Guardamos la URL de la imagen subida
       saveBackgroundImageUrl(url); // Guardamos la URL en Firestore
-
+  
       console.log("URL de la imagen subida:", url); // Imprimir en la consola
     } catch (error) {
       console.error("Error al subir la imagen a Cloudinary: ", error);
+    }
+  };
+  
+
+  // Guardar la URL de la imagen en Firestore
+  const saveBackgroundImageUrl = async (url) => {
+    try {
+      const user = auth.currentUser;
+      const docRef = doc(db, 'owners', user.uid);
+      await setDoc(docRef, { backgroundImageUrl: url }, { merge: true }); // Guardar o actualizar la URL de la imagen
+    } catch (error) {
+      console.error("Error al guardar la URL de la imagen: ", error);
     }
   };
 
@@ -143,7 +157,7 @@ function Dashboard() {
             Compartir URL
           </button>
           <button
-            onClick={() => window.open(`http://localhost:5173/${establishmentName}`, '_blank')}
+            onClick={() => window.open(`http://localhost:5174/${establishmentName}`, '_blank')}
             style={{ marginTop: '20px' }}
           >
             Ver sitio del negocio

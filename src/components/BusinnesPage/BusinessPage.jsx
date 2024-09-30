@@ -5,10 +5,9 @@ import { db } from '../../firebase';
 import CalendarComponent from '../Calendar/Calendar';
 import businessPage from '../../assets/businessPage.jpeg';
 import WhatsappButton from '../Whatsapp/WhatsappButton'; 
-import '../Whatsapp/Whatsapp.css';
 import BusinessMap from './BusinessMap';
+import SpaceLine from './SpaceLine';  
 import './BusinessPage.css';
-
 
 function BusinessPage() {
   const { establishmentName } = useParams();
@@ -101,14 +100,11 @@ function BusinessPage() {
 
       <div className="spaces-container">
         <h2>Canchas disponibles</h2>
-        <ul>
-          {spaces.map(space => (
-            <li key={space.id}>
-              {space.name}
-              <button onClick={() => handleViewAvailability(space)}>Ver disponibilidad</button>
-            </li>
-          ))}
-        </ul>
+          <ul>
+            {spaces.map(space => (
+              <SpaceLine key={space.id} space={space} handleViewAvailability={handleViewAvailability} /> 
+            ))}
+          </ul>
 
         {ownerData.whatsapp && (
           <div className="whatsapp-container">
@@ -118,21 +114,21 @@ function BusinessPage() {
       </div>
 
       {ownerData.address && (
-      <div style={{
-        marginTop: '20px', 
-        padding: '15px',
-        backgroundColor: 'rgba(255, 255, 255, 0.7)', 
-        borderRadius: '12px', 
-        boxShadow: '0 6px 12px rgba(0, 0, 0, 0.15)', // Cambié 'box-shadow' a 'boxShadow'
-        width: '60%',
-        maxWidth: '900px', 
-        textAlign: 'center', 
-        transition: 'all 0.3s ease' 
-      }}>
-        <h3>Ubicación: {ownerData.address} </h3>
-        <BusinessMap address={ownerData.address} />
-      </div>
-    )}
+        <div style={{
+          marginTop: '20px',
+          padding: '15px',
+          backgroundColor: 'rgba(255, 255, 255, 0.7)',
+          borderRadius: '12px',
+          boxShadow: '0 6px 12px rgba(0, 0, 0, 0.15)',
+          width: '60%',
+          maxWidth: '900px',
+          textAlign: 'center',
+          transition: 'all 0.3s ease'
+        }}>
+          <h3>Ubicación: {ownerData.address} </h3>
+          <BusinessMap address={ownerData.address} />
+        </div>
+      )}
 
       {selectedSpace && (
         <div className="selected-space">
@@ -145,9 +141,7 @@ function BusinessPage() {
             disableBooking={true}
           />
         </div>
-        
       )}
-      
     </div>
   );
 }

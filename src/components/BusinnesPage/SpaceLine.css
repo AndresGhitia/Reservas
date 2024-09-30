@@ -1,0 +1,77 @@
+/* SpaceLine.css */
+
+/* Asegurando que SpaceLine ocupe todo el ancho del contenedor */
+.space-line {
+    width: 100%; /* Ocupa todo el ancho del contenedor */
+    display: flex; /* Usamos flexbox para alinear elementos */
+    align-self: center;
+    justify-content: space-between; /* Espacio entre elementos */
+    align-items: center; /* Centra verticalmente */
+    padding: 15px; /* Espaciado interno */
+    margin: 10px 0; /* Margen entre cada línea */
+    max-height: 100px;
+    background-color: #f1ecec; /* Color de fondo blanco */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Efectos de transición */
+  }
+  .space-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+    background-color: #9b92eb; /* Color de fondo lila */
+    border-radius: 18px; /* Bordes redondeados */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    padding: 10px; /* Añadir algo de padding dentro del contenedor */
+    margin: 0; /* Elimina márgenes */
+}
+
+.space-info p {
+    background-color: #f56980; /* Color de fondo rosado */
+    border-radius: 18px; /* Bordes redondeados */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    margin: 0; /* Eliminar márgenes predeterminados */
+    padding: 10px; /* Añadir algo de padding para mejorar legibilidad */
+    width: 100%; /* Asegurar que ocupen todo el ancho del contenedor */
+    text-align: center; /* Centrar el texto */
+}
+
+.space-info p + p {
+    margin-top: 5px; /* Añadir margen solo entre los elementos consecutivos si deseas */
+}
+
+  
+  /* Efecto de hover */
+  .space-line:hover {
+    transform: translateY(-2px); /* Levanta ligeramente al pasar el mouse */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Aumenta la sombra al pasar el mouse */
+  }
+  
+  /* Nombre del espacio */
+  .space-name {
+    font-size: 1.8rem; /* Tamaño de texto grande y destacado */
+    font-weight: 600; /* Negrita */
+    color: #333; /* Texto oscuro */
+    margin-right: 20px; /* Separación del resto del contenido */
+  }
+  
+  .space-button:hover {
+    background-color: #0056b3; /* Azul más oscuro en hover */
+    transform: scale(1.05); /* Ligero efecto de zoom */
+  }
+  
+  .space-button:active {
+    background-color: #003f7f; /* Azul aún más oscuro cuando se hace clic */
+  }
+  
+  /* Responsividad para pantallas más pequeñas */
+  @media (max-width: 768px) {
+    .space-line {
+      flex-direction: column;
+      padding: 0px;
+    }
+  
+ 
+  }
+  

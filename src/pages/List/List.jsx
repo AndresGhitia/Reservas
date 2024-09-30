@@ -5,6 +5,7 @@ import CalendarComponent from '../../components/Calendar/Calendar';
 import { handleReserveSlot, handleCancelReservation } from '../../utils/reservationHandlers';
 import { deleteSpace } from '../../utils/spaceHandlers';
 import { fetchOwnerDataAndSpaces } from '../../utils/fetchOwnerData'; // Asegúrate de importar esta función
+import './List.css';
 
 function List() {
   const [ownerData, setOwnerData] = useState(null);
