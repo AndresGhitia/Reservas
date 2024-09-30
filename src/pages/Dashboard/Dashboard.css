@@ -1,0 +1,316 @@
+/* Global Styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f0f0f5;
+  margin: 0;
+  padding: 0;
+  height: 100vh; /* Asegura que el cuerpo ocupe toda la altura de la ventana */
+}
+
+h1 {
+  font-size: 3em;
+  color: #333;
+  padding: 8px;
+  padding-right: 12px;
+  padding-left: 12px;
+  border-radius: 16px;
+  border: 1px solid black; /* Borde negro de 1x */
+  background-color: rgba(245, 245, 245, 0.7); /* 70% opaco */
+  margin-bottom: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+h2{
+  font-size: 3em;
+  color: #333;
+  padding: 8px;
+  padding-right: 12px;
+  padding-left: 12px;
+  border-radius: 16px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+
+p {
+  color: #070707;
+  font-size: 20px;
+  font-style: italic;
+  background-color: rgba(245, 245, 245, 0.7); /* 70% opaco */
+  border-radius: 16px;
+  padding:2px;
+  padding-right: 12px;
+  padding-left: 12px;
+}
+
+/* Main container */
+.container {
+  min-height: 100vh; /* Asegura que ocupe todo el alto de la pantalla */
+  background-image: url('../../assets/dashboard-II.jpg');
+  background-size: cover; /* Cubre todo el ancho y alto */
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex; /* Asegura que el contenido se ajuste dentro */
+  flex-direction: column;
+  align-items: center; /* Centra horizontalmente */
+  justify-content: center; /* Centra verticalmente */
+  padding: 20px; /* Margen interno para los elementos */
+
+}
+
+.spaces-container {
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  margin-top: 40px;
+  transition: transform 0.3s ease;
+  width: 80%; /* Ancho fijo del 80% */
+  max-width: 1200px; /* También puedes establecer un ancho máximo */
+  margin-left: auto;
+  margin-right: auto; /* Centra el contenedor */
+}
+
+
+.spaces-container:hover {
+  transform: scale(1.02);
+}
+
+.spaces-container h2 {
+  color: #2980b9;
+  font-size: 28px;
+}
+
+.spaces-Button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 30px;
+}
+
+.spaces-Button-container button {
+  width: 100%; /* Ancho aumentado */
+  padding: 15px 20px; /* Aumenta el relleno vertical y horizontal */
+  background-color: #08945e; /* Color verde del botón */
+  color: white;
+  border: none;
+  border-radius: 12px; /* Botones redondeados */
+  font-size: 18px;
+  cursor: pointer;
+  margin-bottom: 15px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  text-align: center; /* Asegura que el texto esté centrado */
+}
+
+
+
+
+.spaces-Button-container button:hover {
+  background-color: #c0392b; /* Hover más oscuro */
+  transform: scale(1.05); /* Efecto de agrandamiento en hover */
+}
+.error-message {
+  color: red;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.error {
+  border: 1px solid red;
+}
+
+/* Lista de espacios */
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 20px;
+  background-color: #ecf0f1;
+  border-radius: 15px; 
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+} */
+
+/* ul li:hover {
+  transform: translateY(-6px);
+} */
+
+ul li button {
+  background-color: #27ae60; /* Verde fuerte */
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+ul li button:hover {
+  background-color: #2ecc71;
+  transform: scale(1.05); /* Agrandar al hacer hover */
+}
+
+/* Campo de texto para agregar un nuevo espacio */
+input[type="text"] {
+  width: 100%;
+  padding: 16px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  border: 1px solid #bdc3c7;
+  border-radius: 12px;
+  font-size: 18px; /* Tamaño de texto más grande */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  color: #2c3e50;
+}
+
+input[type="text"]:focus {
+  border-color: #2980b9; /* Azul más brillante */
+  box-shadow: 0 0 8px rgba(41, 128, 185, 0.5); /* Efecto de sombra al enfocarse */
+}
+
+/* Botones generales */
+button {
+  background-color: #2980b9;
+  color: white;
+  border: none;
+  padding: 15px 25px;
+  border-radius: 12px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #3498db;
+  transform: scale(1.05);
+}
+
+/* Botón específico de eliminar */
+
+button[style*="background-color: #dc143c"] {
+  background-color: #c9a7a3;
+  color: white;
+  border: none;
+  padding: 15px 25px;
+  cursor: pointer;
+}
+
+button[style*="background-color: #dc143c"]:hover {
+  background-color: #c0392b;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco semi-transparente */
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(231, 229, 229, 0.2);
+  width: 100%;
+  backdrop-filter: blur(0.01px); /* Desenfoca el fondo */
+}
+
+
+/* Botón de cierre dentro del modal */
+.close-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 15px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  background-color: #c0392b;
+}
+
+/* Sección de horarios en el modal */
+.time-slots {
+  margin-top: 25px;
+  background-color: #f9fafc;
+  border: 1px solid #dfe6e9;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.slot-item {
+  background-color: #d6eaf8;
+  padding: 18px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.slot-item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Botones dentro de la sección de horarios */
+.reserve-button,
+.cancel-button {
+  padding: 14px 20px;
+  background-color: #27ae60;
+  color: white;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.reserve-button:hover,
+.cancel-button:hover {
+  background-color: #2ecc71;
+}
+.upload-background {
+  margin-top: 40px;
+  text-align: center;
+  background-color: #f9f9f9; /* Fondo claro y neutral */
+  padding: 20px;
+  border-radius: 8px; /* Bordes ligeramente redondeados */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave para destacar el contenedor */
+  max-width: 600px; /* Limitar el ancho para un diseño más compacto */
+  margin: 0 auto; /* Centramos el div */
+}
+
+.upload-background h2 {
+  font-size: 1.5em;
+  color: #333; /* Texto oscuro para un buen contraste */
+  margin-bottom: 20px; /* Espacio adecuado entre el título y el input */
+  font-weight: 600;
+}
+
+.upload-background input[type="file"] {
+  padding: 10px;
+  border: 1px solid #ccc; /* Borde claro */
+  border-radius: 5px;
+  background-color: #fff;
+  font-size: 1em;
+  cursor: pointer; /* Indica que se puede interactuar con el input */
+}
+
+.upload-background img {
+  width: 80px; /* Imágenes pequeñas pero visibles */
+  margin-top: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd; /* Un borde ligero para separarlo visualmente del fondo */
+}
+
+.upload-background img:hover {
+  transform: scale(1.05); /* Un pequeño zoom al pasar el mouse para darle dinamismo */
+  transition: transform 0.2s ease-in-out;
+}

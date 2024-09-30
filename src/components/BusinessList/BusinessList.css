@@ -1,0 +1,110 @@
+.business-list {
+    display: flex;
+    flex-wrap: wrap; /* Permite que las tarjetas se envuelvan en filas */
+    gap: 20px;
+    justify-content: center; /* Centra las tarjetas horizontalmente */
+    margin: 20px;
+  }
+  
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px); /* Aparece desplazado hacia abajo */
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0); /* Se desliza a su posición original */
+    }
+  }
+
+  .business-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 300px; /* Fija el ancho de las tarjetas */
+    text-align: center;
+    padding: 20px;
+    transition: transform 0.3s;
+    height: 450px;
+    opacity: 0; 
+    animation: fadeInUp 1.2s ease-in-out forwards; 
+  
+  }
+  .business-card.animate {
+  opacity: 1;
+}
+  .business-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .business-image {
+    width: 100%;         /* O el tamaño fijo que desees, por ejemplo, 250px */
+    height: 150px;       /* Fija la altura que desees, ajusta según el diseño */
+    object-fit: cover;   /* Mantiene la proporción de la imagen recortando si es necesario */
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  
+  
+  .business-card h3 {
+    font-size: 1.8rem;
+    margin: 3px 0;
+  }
+
+ .business-address {
+  font-size: 0.8rem; /* Tamaño más pequeño para la dirección */
+  color: #888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5px;
+}
+
+.business-address i {
+  margin-right: 5px;
+}
+
+  .business-address{
+    font-size: 1.0rem;
+    color: #333;
+  }
+
+  .business-types {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .business-type {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    text-align: center;
+    width: fit-content;
+  }
+  
+  button {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 15px;
+    align-self: center;
+  }
+  
+  button:hover {
+    background-color: #218838;
+  }
+  .business-card p:first-of-type {
+    font-size: 1.2rem; /* Tamaño más pequeño para el rubro */
+    color: #0a0101;
+  }

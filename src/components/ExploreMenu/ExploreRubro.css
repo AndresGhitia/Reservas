@@ -1,0 +1,47 @@
+.explore-rubro{
+    display: flex;
+    flex-direction: column;
+}
+
+.explore-rubro h2{
+    text-align: center;
+    color: #262626;
+    font-weight: 500;
+
+}
+
+.explore-rubro-list{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    text-align: center;
+    margin: 20px 0px;
+    padding: 0px 20px;
+}
+
+.explore-rubro-list-item img{
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.explore-rubro-list-item p{
+    margin-top: 10px;
+    color: black;
+    font-size: max(1.4vw,16px);
+    cursor: pointer;
+
+}
+
+.explore-rubro hr{
+    margin: 10px 0px;
+    height: 2px;
+    background-color: #e2e2e2;
+    border: none;
+}
+
+.explore-rubro-list-item .active{
+    border-radius: 50%;
+    background-color: goldenrod;
+    transition: 0.3s;
+}

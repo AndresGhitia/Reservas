@@ -1,0 +1,67 @@
+.header {
+    height: 33vw;
+    margin: none;
+    background: url('./headerv_img.png') no-repeat;
+    background-size: contain;
+    position: relative;
+}
+
+.header-contents {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    width: 100%;
+    max-width: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.header-contents h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+label {
+    display: block;
+    margin-bottom: 12px; /* Aumentado el espacio vertical */
+    font-size: 16px;
+    color: #555;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px; /* Aumentado el espacio vertical */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 15px;
+    color: #555;
+}
+
+select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.button_ver {
+    background-color: #4CAF50; /* Color verde */
+    width: 100%;
+    color: white;             /* Texto en color blanco */
+    padding: 12px 20px;       /* Espaciado interno */
+    border: none;             /* Sin borde */
+    border-radius: 4px;       /* Bordes redondeados */
+    cursor: pointer;          /* Cursor al pasar */
+    font-size: 12px;          /* Tamaño de la fuente */
+    transition: 0.3s; /* Transición suave del color de fondo */
+  }
+  
+  .button_ver:hover {
+    background-color: #45a049; /* Color verde más oscuro al pasar el cursor */
+  }
+  
