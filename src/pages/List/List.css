@@ -11,19 +11,30 @@
   align-items: center; /* Alineación vertical centrada */
   align-content: center;
 }
-
-.space-info {
-  flex-grow: 2; /* Esto permite que la información ocupe más espacio */
-  padding: 0 15px;
-}
 .space-row {
-  display: flex; /* Alinea los elementos en fila */
+  display: flex;
   flex-direction: row;
+  justify-content: space-between; /* Distribuye los elementos en la fila */
+  align-items: center;
+  width: 100%;
+}
+
+.space-name, .space-info, .space-buttons {
+  flex-grow: 1; /* Los elementos flexibles pueden crecer si es necesario */
+  margin: 0 10px; /* Añade algo de espacio entre los elementos */
 }
 
 .space-buttons {
   display: flex;
-  flex-direction: column;
+  flex-direction: row; /* Los botones estarán en una fila */
+  gap: 10px; /* Espacio entre los botones */
+}
+button {
+  padding: 8px 16px; /* Ajusta el tamaño de los botones si es necesario */
+}
+
+.space-info {
+  padding: 0 15px;
 }
 
 .space-name {

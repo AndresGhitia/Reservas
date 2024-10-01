@@ -105,24 +105,25 @@ function List() {
         />
       ) : (
         <div className="space-row">
-          <span className="space-name">{space.name}</span>
-          <div className="space-info">
-            Deporte: {space.sport} <br />
-            Superficie: {space.surface} <br />
-            Jugadores: {space.players} <br />
-            Tarifa: ${space.rate}
-          </div>
-          <div className="space-buttons">
-            <button onClick={() => handleViewAvailability(space)}>Horarios</button>
-            <button onClick={() => handleEditSpace(space)}>Editar</button>
-            <button
-              onClick={() => handleDeleteSpace(space.id)}
-              style={{ backgroundColor: '#dc143c' }}
-            >
-              Eliminar
-            </button>
-          </div>
+        <span className="space-name">{space.name}</span>
+        <div className="space-info">
+          Deporte: {space.sport} <br />
+          Superficie: {space.surface} <br />
+          Jugadores: {space.players} <br />
+          Tarifa: ${space.rate}
         </div>
+        <div className="space-buttons">
+          <button onClick={() => handleViewAvailability(space)}>Horarios</button>
+          <button onClick={() => handleEditSpace(space)}>Editar</button>
+          <button
+            onClick={() => handleDeleteSpace(space.id)}
+            style={{ backgroundColor: '#dc143c' }}
+          >
+            Eliminar
+          </button>
+        </div>
+      </div>
+      
       )}
     </li>
   ))}
