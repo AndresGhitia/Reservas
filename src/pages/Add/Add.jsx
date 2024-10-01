@@ -5,6 +5,7 @@ import { fetchOwnerDataAndSpaces } from '../../utils/fetchOwnerData';
 function Add({ setSpaces, setError, setLoading }) {
   const [newSpace, setNewSpace] = useState({
     name: '',
+    sport:'',
     surface: '',
     players: '',
     rate: '',
@@ -30,7 +31,19 @@ function Add({ setSpaces, setError, setLoading }) {
         placeholder="Nombre del nuevo espacio"
         className={inputError ? 'error' : ''}
       />
-
+      
+      <select
+        value={newSpace.sport}
+        onChange={(e) => setNewSpace({ ...newSpace, sport: e.target.value })}
+      >
+        <option value="">Seleccionar deporte</option>
+        <option value="Football">Football</option>
+        <option value="Paddle">Paddle</option>
+        <option value="Tenis">Tenis</option>
+        <option value="Volley">Volley</option>
+        <option value="Hockey">Hockey</option>
+      </select>
+      
       <select
         value={newSpace.surface}
         onChange={(e) => setNewSpace({ ...newSpace, surface: e.target.value })}

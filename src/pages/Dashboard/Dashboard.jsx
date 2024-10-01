@@ -77,8 +77,6 @@ function Dashboard() {
     }
   };
   
-
-  // Guardar la URL de la imagen en Firestore
   const saveBackgroundImageUrl = async (url) => {
     try {
       const user = auth.currentUser;

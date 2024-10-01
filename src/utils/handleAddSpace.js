@@ -12,7 +12,12 @@ export const handleAddSpace = async (newSpace, setNewSpace, setUniqueError) => {
     return;
   }
 
-  const { name, surface, players, rate } = newSpace;
+  const { name, sport, surface, players, rate } = newSpace;
+
+  if (!sport.trim()) {
+    setUniqueError("Debes ingresar un deporte para el espacio");
+    return;
+  }
 
   if (!name.trim()) {
     setUniqueError("Debes ingresar un nombre para el espacio");
@@ -48,6 +53,7 @@ export const handleAddSpace = async (newSpace, setNewSpace, setUniqueError) => {
     // Agregar el espacio con todos los campos en Firestore
     await setDoc(doc(db, 'owners', user.uid, 'spaces', name.trim()), {
       name: name.trim(),
+      sport: sport,
       surface: surface,
       players: parseInt(players), // Guardar como número
       rate: parseFloat(rate), // Guardar como número con decimales
@@ -56,6 +62,7 @@ export const handleAddSpace = async (newSpace, setNewSpace, setUniqueError) => {
     // Limpiar los campos del formulario
     setNewSpace({
       name: '',
+      sport:'',
       surface: '',
       players: '',
       rate: '',

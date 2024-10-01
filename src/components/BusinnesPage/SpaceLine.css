@@ -20,7 +20,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center; 
-    background-color: #9b92eb; /* Color de fondo lila */
+    font-size: large;
     border-radius: 18px; /* Bordes redondeados */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
     padding: 10px; /* Añadir algo de padding dentro del contenedor */
@@ -28,44 +28,51 @@
 }
 
 .space-info p {
-    background-color: #f56980; /* Color de fondo rosado */
-    border-radius: 18px; /* Bordes redondeados */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-    margin: 0; /* Eliminar márgenes predeterminados */
-    padding: 10px; /* Añadir algo de padding para mejorar legibilidad */
-    width: 100%; /* Asegurar que ocupen todo el ancho del contenedor */
-    text-align: center; /* Centrar el texto */
+    background-color: #f56980; 
+    border-radius: 18px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+    margin: 0;
+    padding: 10px; 
+    width: 100%;
+    text-align: center; 
 }
 
 .space-info p + p {
-    margin-top: 5px; /* Añadir margen solo entre los elementos consecutivos si deseas */
+    margin-top: 5px; 
 }
 
-  
-  /* Efecto de hover */
-  .space-line:hover {
-    transform: translateY(-2px); /* Levanta ligeramente al pasar el mouse */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Aumenta la sombra al pasar el mouse */
+.space-line:hover {
+    transform: translateY(-2px); 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+    background-color: #e9f1fa;
   }
   
-  /* Nombre del espacio */
+  .sport {
+    display: flex;
+    align-items: center; 
+  }
+  .space-icon img {
+    width: 32px; 
+    height: 32px;
+    margin-right: 10px;
+  }
   .space-name {
-    font-size: 1.8rem; /* Tamaño de texto grande y destacado */
-    font-weight: 600; /* Negrita */
-    color: #333; /* Texto oscuro */
-    margin-right: 20px; /* Separación del resto del contenido */
+    font-size: 1.8rem; 
+    font-weight: 600; 
+    color: #333; 
+    margin-right: 20px; 
   }
+
   
   .space-button:hover {
-    background-color: #0056b3; /* Azul más oscuro en hover */
-    transform: scale(1.05); /* Ligero efecto de zoom */
+    background-color: #0056b3;
+    transform: scale(1.05); 
   }
   
   .space-button:active {
-    background-color: #003f7f; /* Azul aún más oscuro cuando se hace clic */
+    background-color: #003f7f; 
   }
   
-  /* Responsividad para pantallas más pequeñas */
   @media (max-width: 768px) {
     .space-line {
       flex-direction: column;
