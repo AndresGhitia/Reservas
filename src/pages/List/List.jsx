@@ -47,6 +47,9 @@ function List() {
       console.error("Error al guardar los cambios: ", error);
     }
   };
+  const cancelEdit = () => {
+    setEditingSpaceId(null);
+  };
 
   const handleViewAvailability = async (space) => {
     setSelectedSpace(space);
@@ -90,37 +93,41 @@ function List() {
     <div className="spaces-container">
       <h2>Canchas de tu complejo</h2>
       <ul>
-        {spaces.map(space => (
-          <li key={space.id}>
-            {editingSpaceId === space.id ? (
-              <EditSpace
-                editedSpace={editedSpace}
-                setEditedSpace={setEditedSpace}
-                handleSaveSpace={handleSaveSpace}
-                setEditingSpaceId={setEditingSpaceId}
-              />
-            ) : (
-              <div>
-                <strong>{space.name}</strong> <br />
-                Deporte: {space.sport} <br />
-                Superficie: {space.surface} <br />
-                Jugadores: {space.players} <br />
-                Tarifa: ${space.rate} <br />
-                <div>
-                  <button onClick={() => handleViewAvailability(space)}>Horarios</button>
-                  <button onClick={() => handleEditSpace(space)}>Editar</button>
-                  <button
-                    onClick={() => handleDeleteSpace(space.id)}
-                    style={{ marginLeft: '10px', backgroundColor: '#dc143c' }}
-                  >
-                    Eliminar
-                  </button>
-                </div>
-              </div>
-            )}
-          </li>
-        ))}
-      </ul>
+  {spaces.map(space => (
+    <li key={space.id}>
+      {editingSpaceId === space.id ? (
+        <EditSpace
+          editedSpace={editedSpace}
+          setEditedSpace={setEditedSpace}
+          handleSaveSpace={handleSaveSpace}
+          setEditingSpaceId={setEditingSpaceId}
+          cancelEdit={cancelEdit}
+        />
+      ) : (
+        <div className="space-row">
+          <span className="space-name">{space.name}</span>
+          <div className="space-info">
+            Deporte: {space.sport} <br />
+            Superficie: {space.surface} <br />
+            Jugadores: {space.players} <br />
+            Tarifa: ${space.rate}
+          </div>
+          <div className="space-buttons">
+            <button onClick={() => handleViewAvailability(space)}>Horarios</button>
+            <button onClick={() => handleEditSpace(space)}>Editar</button>
+            <button
+              onClick={() => handleDeleteSpace(space.id)}
+              style={{ backgroundColor: '#dc143c' }}
+            >
+              Eliminar
+            </button>
+          </div>
+        </div>
+      )}
+    </li>
+  ))}
+</ul>
+
 
       {showModal && (
         <div className="modal">

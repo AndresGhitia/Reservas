@@ -1,55 +1,44 @@
-.spaces-container {
-  margin-top: 20px;
-  background-color: rgba(255, 255, 255, 0.85); 
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-  width: 80%;
-  max-width: 800px;
-}
-
-.spaces-container h2 {
-  font-size: 1.8em;
-  color: #333;
-  margin-bottom: 15px;
-  text-align: center;
-  font-weight: bold;
-}
-
-.spaces-container ul {
-  padding: 0;
-  margin: 0;
-}
-
 .spaces-container li {
   background-color: #fff;
   margin-bottom: 15px;
   padding: 15px;
-  text-align: center;
-  border-radius: 8px; 
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex; /* Alinea los elementos en fila */
+  flex-direction: column;
+  justify-content: space-between; /* Espacio entre los elementos */
+  align-items: center; /* Alineación vertical centrada */
+  align-content: center;
 }
 
-.spaces-container li:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+.space-info {
+  flex-grow: 2; /* Esto permite que la información ocupe más espacio */
+  padding: 0 15px;
+}
+.space-row {
+  display: flex; /* Alinea los elementos en fila */
+  flex-direction: row;
 }
 
-.spaces-container li strong {
+.space-buttons {
+  display: flex;
+  flex-direction: column;
+}
+
+.space-name {
   font-size: 1.2em;
+  font-weight: bold;
   color: #333;
-}
-
-.spaces-container li div {
-  margin-top: 10px;
+  flex-shrink: 0; /* Evita que el nombre se comprima */
+  align-self: center;
 }
 
 .spaces-container button {
   padding: 10px 15px;
   font-size: 1em;
   color: #fff;
-  background-color: #007bff; 
+  background-color: #007bff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -57,13 +46,13 @@
 }
 
 .spaces-container button[style*="background-color: #dc143c"] {
-  background-color: #dc143c; 
+  background-color: #dc143c;
 }
 
 .spaces-container button:hover {
-  background-color: #0056b3; 
+  background-color: #0056b3;
 }
 
 .spaces-container button[style*="background-color: #dc143c"]:hover {
-  background-color: #c11236; 
+  background-color: #c11236;
 }
