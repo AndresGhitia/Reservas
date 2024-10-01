@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
 import { db, auth } from '../../firebase';
 import CalendarComponent from '../../components/Calendar/Calendar';
 import { handleReserveSlot, handleCancelReservation } from '../../utils/reservationHandlers';
 import { deleteSpace } from '../../utils/spaceHandlers';
-import { fetchOwnerDataAndSpaces } from '../../utils/fetchOwnerData'; // Asegúrate de importar esta función
+import { fetchOwnerDataAndSpaces } from '../../utils/fetchOwnerData';
+import EditSpace from './EditSpace'; // Importar el nuevo componente
 import './List.css';
 
 function List() {
@@ -17,6 +18,8 @@ function List() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [timeSlots, setTimeSlots] = useState([]);
+  const [editingSpaceId, setEditingSpaceId] = useState(null); // Para saber qué espacio se está editando
+  const [editedSpace, setEditedSpace] = useState(null); // Para guardar los cambios en el espacio
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,6 +28,25 @@ function List() {
 
     fetchData();
   }, []);
+
+  const handleEditSpace = (space) => {
+    setEditingSpaceId(space.id);
+    setEditedSpace({ ...space }); // Inicializa el estado con los datos del espacio actual
+  };
+
+  const handleSaveSpace = async () => {
+    try {
+      const user = auth.currentUser;
+      if (user && editedSpace) {
+        const spaceDocRef = doc(db, 'owners', user.uid, 'spaces', editedSpace.id);
+        await updateDoc(spaceDocRef, editedSpace); // Actualiza el espacio en Firebase
+        setSpaces(spaces.map(space => (space.id === editedSpace.id ? editedSpace : space))); // Actualiza el estado
+        setEditingSpaceId(null); // Sale del modo de edición
+      }
+    } catch (error) {
+      console.error("Error al guardar los cambios: ", error);
+    }
+  };
 
   const handleViewAvailability = async (space) => {
     setSelectedSpace(space);
@@ -44,14 +66,6 @@ function List() {
       setLoading(false);
       setShowModal(true);
     }
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setSelectedSpace(null);
-    setCalendarData([]);
-    setSelectedDate(null);
-    setTimeSlots([]);
   };
 
   const handleDeleteSpace = async (spaceId) => {
@@ -78,19 +92,32 @@ function List() {
       <ul>
         {spaces.map(space => (
           <li key={space.id}>
-            <strong>{space.name}</strong> <br />
-            Superficie: {space.surface} <br />
-            Jugadores: {space.players} <br />
-            Tarifa: ${space.rate} <br />
-            <div>
-              <button onClick={() => handleViewAvailability(space)}>Horarios</button>
-              <button
-                onClick={() => handleDeleteSpace(space.id)}
-                style={{ marginLeft: '10px', backgroundColor: '#dc143c' }}
-              >
-                Eliminar
-              </button>
-            </div>
+            {editingSpaceId === space.id ? (
+              <EditSpace
+                editedSpace={editedSpace}
+                setEditedSpace={setEditedSpace}
+                handleSaveSpace={handleSaveSpace}
+                setEditingSpaceId={setEditingSpaceId}
+              />
+            ) : (
+              <div>
+                <strong>{space.name}</strong> <br />
+                Deporte: {space.sport} <br />
+                Superficie: {space.surface} <br />
+                Jugadores: {space.players} <br />
+                Tarifa: ${space.rate} <br />
+                <div>
+                  <button onClick={() => handleViewAvailability(space)}>Horarios</button>
+                  <button onClick={() => handleEditSpace(space)}>Editar</button>
+                  <button
+                    onClick={() => handleDeleteSpace(space.id)}
+                    style={{ marginLeft: '10px', backgroundColor: '#dc143c' }}
+                  >
+                    Eliminar
+                  </button>
+                </div>
+              </div>
+            )}
           </li>
         ))}
       </ul>
@@ -103,7 +130,7 @@ function List() {
             setCalendarData={setCalendarData}
             setTimeSlots={setTimeSlots}
             setSelectedDate={setSelectedDate}
-            onClose={handleCloseModal}
+            onClose={() => setShowModal(false)}
           />
           {selectedDate && (
             <div className="time-slots">

@@ -62,7 +62,7 @@ function Add({ setSpaces, setError, setLoading }) {
       />
       <input
         type="number"
-        step="0.01"
+        step="100"
         value={newSpace.rate}
         onChange={(e) => setNewSpace({ ...newSpace, rate: e.target.value })}
         placeholder="Tarifa"
