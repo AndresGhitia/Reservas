@@ -1,0 +1,69 @@
+.spaces-container li {
+  background-color: #fff;
+  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex; /* Alinea los elementos en fila */
+  flex-direction: column;
+  justify-content: space-between; /* Espacio entre los elementos */
+  align-items: center; /* Alineación vertical centrada */
+  align-content: center;
+}
+.space-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between; /* Distribuye los elementos en la fila */
+  align-items: center;
+  width: 100%;
+}
+
+.space-name, .space-info, .space-buttons {
+  flex-grow: 1; /* Los elementos flexibles pueden crecer si es necesario */
+  margin: 0 10px; /* Añade algo de espacio entre los elementos */
+}
+
+.space-buttons {
+  display: flex;
+  flex-direction: row; /* Los botones estarán en una fila */
+  gap: 10px; /* Espacio entre los botones */
+}
+button {
+  padding: 8px 16px; /* Ajusta el tamaño de los botones si es necesario */
+}
+
+.space-info {
+  padding: 0 15px;
+}
+
+.space-name {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #333;
+  flex-shrink: 0; /* Evita que el nombre se comprima */
+  align-self: center;
+}
+
+.spaces-container button {
+  padding: 10px 15px;
+  font-size: 1em;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.spaces-container button[style*="background-color: #dc143c"] {
+  background-color: #dc143c;
+}
+
+.spaces-container button:hover {
+  background-color: #0056b3;
+}
+
+.spaces-container button[style*="background-color: #dc143c"]:hover {
+  background-color: #c11236;
+}

@@ -1,0 +1,101 @@
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    width: 350px;
+    text-align: left; /* Alineación a la izquierda para el contenido */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 25px;
+    cursor: pointer;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+label {
+    display: block; 
+    margin-bottom: 5px;
+}
+
+input[type="email"],
+input[type="password"] {
+    width: calc(100% - 20px); /* Ajustar el ancho para dar espacio al icono */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.password-group {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 22px;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #5a67d8;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+button[type="submit"]:hover {
+    background-color: #4c51bf;
+}
+
+.required {
+    color: red;
+}
+
+.error {
+    color: red;
+    margin-bottom: 10px;
+}
+
+.centered {
+    text-align: center;
+    margin-bottom: 3%;
+}
+
+.create-account-btn {
+    display: block; /* Asegúrate de que el botón ocupe toda la línea */
+    margin: 15px auto; /* Centra el botón horizontalmente y agrega margen arriba y abajo */
+    background: none;
+    border: none;
+    color: #5a67d8;
+    cursor: pointer;
+    font-size: 1rem;
+}
