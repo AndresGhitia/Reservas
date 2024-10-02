@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { handleAddSpace } from '../../utils/handleAddSpace';
 import { fetchOwnerDataAndSpaces } from '../../utils/fetchOwnerData';
+import './Add.css';
 
 function Add({ setSpaces, setError, setLoading }) {
   const [newSpace, setNewSpace] = useState({
@@ -23,7 +24,7 @@ function Add({ setSpaces, setError, setLoading }) {
   };
 
   return (
-    <div>
+    <div className='add-container'>
       <input
         type="text"
         value={newSpace.name}
@@ -68,8 +69,12 @@ function Add({ setSpaces, setError, setLoading }) {
         placeholder="Tarifa"
       />
 
+      <div className='add-button'>
       <button onClick={handleAddSpaceClick}>+ Agregar Espacio</button>
+      </div>
+
       {uniqueError && <p className="error-message">{uniqueError}</p>}
+    
     </div>
   );
 }

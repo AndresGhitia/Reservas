@@ -5,21 +5,22 @@
     width: 100%; /* Ocupa todo el ancho del contenedor */
     display: flex; /* Usamos flexbox para alinear elementos */
     align-self: center;
-    justify-content: space-between; /* Espacio entre elementos */
+    justify-content: space-around; /* Espacio entre elementos */
     align-items: center; /* Centra verticalmente */
     padding: 15px; /* Espaciado interno */
     margin: 10px 0; /* Margen entre cada línea */
     max-height: 100px;
-    background-color: #f1ecec; /* Color de fondo blanco */
-    border-radius: 8px; /* Bordes redondeados */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Efectos de transición */
+    background-color: #f1ecec; 
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
   }
   .space-info {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center; 
+    width: auto;
     font-size: large;
     border-radius: 18px; /* Bordes redondeados */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */

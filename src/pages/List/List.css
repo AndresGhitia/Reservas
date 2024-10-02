@@ -29,9 +29,6 @@
   flex-direction: row; /* Los botones estarán en una fila */
   gap: 10px; /* Espacio entre los botones */
 }
-button {
-  padding: 8px 16px; /* Ajusta el tamaño de los botones si es necesario */
-}
 
 .space-info {
   padding: 0 15px;

@@ -1,0 +1,79 @@
+/* Estilos generales del contenedor */
+.add-container {
+    max-width: 400px;
+    margin-top: 20px ;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+  .add-button{
+    display: flex;
+    justify-content: center;
+  }
+  
+  /* Estilos de los inputs de texto */
+  input[type="text"],
+  input[type="number"],
+  select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+  
+  /* Cambia el color del borde en el foco de los inputs */
+  input[type="text"]:focus,
+  input[type="number"]:focus,
+  select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+  
+  /* Estilo especial para mostrar errores */
+  input.error,
+  select.error {
+    border-color: #dc3545;
+  }
+  
+  .error-message {
+    color: #dc3545;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+  
+  button:hover {
+    background-color: #218838;
+  }
+  select,
+  input {
+    margin-bottom: 10px;
+  }
+  
+  p.error-message {
+    color: #dc3545;
+    margin: 10px 0;
+    font-size: 14px;
+    text-align: center;
+  }
+  
+  /* Agregar sombra y efecto hover al botón */
+  button:active {
+    transform: scale(0.98);
+    background-color: #1e7e34;
+  }
+  
+  /* Añadir media queries para dispositivos móviles */
+  @media (max-width: 768px) {
+    div {
+      max-width: 100%;
+      padding: 15px;
+    }
+
+  }
+  

@@ -80,33 +80,22 @@ p {
   color: #2980b9;
   font-size: 28px;
 }
-
-.spaces-Button-container {
+.action-container{
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  margin-top: 30px;
+  align-self: center;
+  align-items: center;
 }
-
-.spaces-Button-container button {
-  width: 100%; /* Ancho aumentado */
-  padding: 15px 20px; /* Aumenta el relleno vertical y horizontal */
-  background-color: #08945e; /* Color verde del botón */
-  color: white;
-  border: none;
-  border-radius: 12px; /* Botones redondeados */
-  font-size: 18px;
-  cursor: pointer;
-  margin-bottom: 15px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  text-align: center; /* Asegura que el texto esté centrado */
+.spaces-Button-container {
+  display: flex;
+  align-self: center;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 20px;
 }
-
-
-
 
 .spaces-Button-container button:hover {
-  background-color: #c0392b; /* Hover más oscuro */
+  background-color: #08945e; /* Color verde del botón */
   transform: scale(1.05); /* Efecto de agrandamiento en hover */
 }
 .error-message {
@@ -206,6 +195,7 @@ button[style*="background-color: #dc143c"]:hover {
   background-color: #c0392b;
 }
 
+
 /* Modal */
 .modal {
   position: fixed;
@@ -219,7 +209,6 @@ button[style*="background-color: #dc143c"]:hover {
   width: 100%;
   backdrop-filter: blur(0.01px); /* Desenfoca el fondo */
 }
-
 
 /* Botón de cierre dentro del modal */
 .close-button {
@@ -275,6 +264,10 @@ button[style*="background-color: #dc143c"]:hover {
 .reserve-button:hover,
 .cancel-button:hover {
   background-color: #2ecc71;
+}
+.control-panel{
+ display: flex;
+ justify-content: center;
 }
 .upload-background {
   margin-top: 40px;

@@ -104,12 +104,12 @@ function Dashboard() {
       <h1>Hola, {ownerData.ownerName}</h1>
       <p>Bienvenido al panel de administración de {decodedName}</p>
 
-      <Sidebar />
+      {/* <Sidebar /> */}
 
       {/* Mostrar espacios del usuario */}
       <List spaces={spaces} handleViewAvailability={handleViewAvailability} />
-
-      {/* Agregar nuevo espacio */}
+    
+     <div className='control-panel'>
       <Add setSpaces={setSpaces} setError={setError} setLoading={setLoading} />
 
       {showModal && (
@@ -148,8 +148,14 @@ function Dashboard() {
         </div>
       )}
 
-      {/* Sección con botones y subida de imagen, en un contenedor flex */}
       <div className="action-container">
+       
+        {/* Input para subir la imagen de fondo */}
+        <div className="upload-background">
+          <h2>Cambiar imagen de fondo para la página del cliente</h2>
+          <input type="file" accept="image/*" onChange={handleUploadBackgroundImage} />
+          {imageUrl && <img src={imageUrl} alt="Imagen de fondo" style={{ width: '80px', marginTop: '10px' }} />}
+        </div>
         <div className="spaces-Button-container">
           <button onClick={handleCopy}>
             Compartir URL
@@ -161,14 +167,9 @@ function Dashboard() {
             Ver sitio del negocio
           </button>
         </div>
-
-        {/* Input para subir la imagen de fondo */}
-        <div className="upload-background">
-          <h2>Cambiar imagen de fondo para la página del cliente</h2>
-          <input type="file" accept="image/*" onChange={handleUploadBackgroundImage} />
-          {imageUrl && <img src={imageUrl} alt="Imagen de fondo" style={{ width: '80px', marginTop: '10px' }} />}
-        </div>
       </div>
+     </div> 
+
     </div>
   );
 }

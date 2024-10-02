@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom'; // Importar useNavigate para navegar a Home
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebase';
 import CalendarComponent from '../Calendar/Calendar';
@@ -11,6 +11,7 @@ import './BusinessPage.css';
 
 function BusinessPage() {
   const { establishmentName } = useParams();
+  const navigate = useNavigate(); // Hook para navegación
   const decodedName = decodeURIComponent(establishmentName).replace(/-/g, ' ');
   const [ownerData, setOwnerData] = useState(null);
   const [spaces, setSpaces] = useState([]);
@@ -96,8 +97,13 @@ function BusinessPage() {
 
   return (
     <div className="business-container" style={{ backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : `url(${businessPage})` }}>
-      <h1>Complejo {decodedName}</h1>
+      {/* Barra de navegación */}
+      <nav className="navbar-business">
+        <button onClick={() => navigate('/')} className="home-button">Volver a Home</button>
+        <h2>{decodedName}</h2>
+      </nav>
 
+      {/* Contenido principal */}
       <div className="spaces-container">
         <h2>Canchas disponibles</h2>
           <ul>

@@ -24,8 +24,8 @@ const App = () => {
         <Route path='/cart' element={<Cart />} />
         <Route path='/order' element={<PlaceOrder />} />
         <Route path="/dashboard/:establishmentName" element={<Dashboard />} />
-        <Route path="/dashboard/:establishmentName/add" element={<Add />} /> {/* Ruta para añadir cancha */}
-        <Route path="/dashboard/:establishmentName/list" element={<List />} /> {/* Ruta para listar canchas */}
+        <Route path="/dashboard/:establishmentName/add" element={<Add />} />
+        <Route path="/dashboard/:establishmentName/list" element={<List />} /> 
         <Route path="/:establishmentName" element={<BusinessPage />} />
       </Routes>
     </div>

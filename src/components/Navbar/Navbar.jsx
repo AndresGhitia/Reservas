@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import './Navbar.css';
 import { assets } from '../../assets/assets';
@@ -7,8 +6,9 @@ import LoginForm from '../LoginForm/LoginForm.jsx';
 import { auth, db } from '../../firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import { WarningModal, SessionClosedModal } from './CloseSessionModals.jsx'; // Importa los modales
+import { WarningModal, SessionClosedModal } from './CloseSessionModals.jsx';
 import { resetInactivityTimer } from './authUtils.js';
+import UserProfileDropdown from '../../utils/UserProfileDropdown'; 
 
 function Navbar() {
   const [showLogin, setShowLogin] = useState(false);
@@ -30,7 +30,6 @@ function Navbar() {
           const ownerDoc = await getDoc(doc(db, 'owners', currentUser.uid));
           if (ownerDoc.exists()) {
             setUserData(ownerDoc.data());
-            console.log('Negocio: ' + userData.establishmentName)
           }
         }
       } else {
@@ -55,14 +54,6 @@ function Navbar() {
     }
   }, [user]);
 
-  const handleSignInClick = () => {
-    setShowLogin(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowLogin(false);
-  };
-
   const handleSignOut = (isAutomatic = false) => {
     if (!isAutomatic && !window.confirm("¿Estás seguro que quieres cerrar sesión?")) {
       return;
@@ -79,15 +70,6 @@ function Navbar() {
       .catch((error) => {
         console.error("Error al cerrar sesión: ", error);
       });
-  };
-
-  const handleOwnerDashboardClick = () => {
-    if (userData?.establishmentName) {
-      const establishmentName = userData.establishmentName.replace(/\s+/g, '-');
-      navigate(`/dashboard/${establishmentName}`);
-    } else {
-      navigate('/owner-dashboard');
-    }
   };
 
   return (
@@ -111,24 +93,10 @@ function Navbar() {
         {!user ? (
           <button onClick={() => setShowLogin(true)}>Sign In</button>
         ) : (
-          <div className='navbar-profile'>
-            <div className='navbar-profile-user'>
-              <span>{`Hola, ${userData?.firstName || userData?.ownerName || user.email}`}</span>
-              <img src={assets.profile_icon} alt="" />
-            </div>
-            <ul className="nav-profile-dropdown">
-              <li><img src={assets.booking_icon} alt="" />Reservas</li>
-              <hr />
-              <li onClick={() => handleSignOut(false)}><img src={assets.logout_icon} alt="" />Logout</li>
-              <hr />
-              {userData?.establishmentName && (
-                <li onClick={handleOwnerDashboardClick}><img src={assets.profile_icon} alt="" />Dashboard</li>
-              )}
-            </ul>
-          </div>
+          <UserProfileDropdown userData={userData} user={user} handleSignOut={handleSignOut} />
         )}
       </div>
-      {showLogin && <LoginForm onClose={handleCloseModal} />}
+      {showLogin && <LoginForm onClose={() => setShowLogin(false)} />}
       {showWarningModal && (
         <WarningModal
           countdown={countdown}
