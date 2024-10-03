@@ -1,0 +1,4 @@
+Commits Detail!
+
+#57 Se crea componente /Utils/UserProfileDropdownsx con el fin de organizar y reutilizar
+la sesion del usuario.
