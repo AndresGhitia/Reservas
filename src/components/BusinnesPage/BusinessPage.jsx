@@ -96,8 +96,10 @@ function BusinessPage() {
   const backgroundImageUrl = ownerData.backgroundImageUrl;
 
   return (
+   <div> 
+         <Navbar></Navbar> 
+
     <div className="business-container" style={{ backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : `url(${businessPage})` }}>
-     <Navbar></Navbar> 
       <h1>Complejo {decodedName}</h1>
 
       <div className="spaces-container">
@@ -145,6 +147,7 @@ function BusinessPage() {
         </div>
       )}
     </div>
+   </div>
   );
 }
 

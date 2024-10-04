@@ -9,6 +9,7 @@ import './Dashboard.css';
 import Add from '../Add/Add';
 import List from '../List/List';
 import CalendarComponent from '../../components/Calendar/Calendar';
+import Navbar from '../../components/Navbar/Navbar';
 import Sidebar from '../../components/Sidebar/Sidebar';
 
 
@@ -100,6 +101,9 @@ function Dashboard() {
   }
 
   return (
+   <div> 
+         <Navbar></Navbar>
+
     <div className="container">
       <h1>Hola, {ownerData.ownerName}</h1>
       <p>Bienvenido al panel de administración de {decodedName}</p>
@@ -171,6 +175,7 @@ function Dashboard() {
      </div> 
 
     </div>
+   </div> 
   );
 }
 

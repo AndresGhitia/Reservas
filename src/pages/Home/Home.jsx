@@ -12,7 +12,6 @@ const Home = () => {
     <div>
       <Header />
       <ExploreRubro category={category} setCategory={setCategory} />
-      {/* Filtra la lista de negocios según la categoría seleccionada */}
         <BusinessList category={category} />
     </div>
   );
