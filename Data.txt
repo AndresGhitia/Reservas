@@ -11,3 +11,6 @@ el sistema de LogIn/Out.
 
 #60 Se agrega NavBar a Dashboard y se ajustan los estilos para encajar en las tres paginas
 (Home - Dashboard - BusinessPage) con el mismo tamaño.
+
+#60 Se arregla la navegacion del LogOut en Dashboard, para que cuando el usuario cierre sesion
+pierda acceso al Dashboard y navegue automaticamente a Home.
