@@ -8,3 +8,6 @@ el fin de que el componente maneje lo relativo a inicio de sesion de usuario.
 
 #59 Se agrega NavBar a BusinessPage, de este modo queda integrando en la pagina del negocio
 el sistema de LogIn/Out. 
+
+#60 Se agrega NavBar a Dashboard y se ajustan los estilos para encajar en las tres paginas
+(Home - Dashboard - BusinessPage) con el mismo tamaño.
