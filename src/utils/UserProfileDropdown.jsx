@@ -59,8 +59,8 @@ function UserProfileDropdown() {
       .then(() => {
         setUser(null);
         setUserData(null);
-        console.log('URL: '+locationUrl.pathname)
-        if (locationUrl.pathname == '/Dashboard') {
+        console.log('URL: '+ locationUrl.pathname)
+        if (locationUrl.pathname.includes('/dashboard')) {
           navigate('/');
         }
         if (isAutomatic) {
