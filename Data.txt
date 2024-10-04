@@ -5,3 +5,6 @@ la sesion del usuario.
 
 #58 Se pasan las funcione y parametros de usuario al componente UserProfileDropdownsx con 
 el fin de que el componente maneje lo relativo a inicio de sesion de usuario.
+
+#59 Se agrega NavBar a BusinessPage, de este modo queda integrando en la pagina del negocio
+el sistema de LogIn/Out. 
