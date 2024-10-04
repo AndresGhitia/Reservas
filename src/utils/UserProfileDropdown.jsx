@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { assets } from '../../src/assets/assets'; // Importa el objeto assets que contiene las imágenes
+import { useNavigate, useLocation } from 'react-router-dom'; // Importar useLocation para obtener la ruta actual
+import { assets } from '../../src/assets/assets'; 
 import { auth, db } from '../firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import { resetInactivityTimer } from '../components/Navbar/authUtils'; // Tu lógica de inactividad
+import { resetInactivityTimer } from '../components/Navbar/authUtils'; 
 
 function UserProfileDropdown() {
   const [user, setUser] = useState(null);
@@ -13,6 +13,7 @@ function UserProfileDropdown() {
   const [showSessionClosedModal, setShowSessionClosedModal] = useState(false);
   const [countdown, setCountdown] = useState(30);
   const navigate = useNavigate();
+  const locationUrl = useLocation(); // Obtener la ruta actual
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -58,7 +59,10 @@ function UserProfileDropdown() {
       .then(() => {
         setUser(null);
         setUserData(null);
-        navigate('/');
+        console.log('URL: '+locationUrl.pathname)
+        if (locationUrl.pathname == '/Dashboard') {
+          navigate('/');
+        }
         if (isAutomatic) {
           setShowSessionClosedModal(true);
         }

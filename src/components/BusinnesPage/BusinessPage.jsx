@@ -6,7 +6,8 @@ import CalendarComponent from '../Calendar/Calendar';
 import businessPage from '../../assets/businessPage.jpeg';
 import WhatsappButton from '../Whatsapp/WhatsappButton'; 
 import BusinessMap from './BusinessMap';
-  import SpaceLine from './SpaceLine';  
+import SpaceLine from './SpaceLine'; 
+import Navbar from '../Navbar/Navbar'; 
 import './BusinessPage.css';
 
 function BusinessPage() {
@@ -96,17 +97,16 @@ function BusinessPage() {
 
   return (
     <div className="business-container" style={{ backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : `url(${businessPage})` }}>
+     <Navbar></Navbar> 
       <h1>Complejo {decodedName}</h1>
 
       <div className="spaces-container">
         <h2>Canchas disponibles</h2>
-        <div className='space-line'>
           <ul>
             {spaces.map(space => (
               <SpaceLine key={space.id} space={space} handleViewAvailability={handleViewAvailability} /> 
             ))}
           </ul>
-        </div>
 
         {ownerData.whatsapp && (
           <div className="whatsapp-container">

@@ -82,8 +82,10 @@ function Navbar() {
         <li className='appmobile'>APP MOBILE</li>
         <li className='contacto'>CONTACTO</li>
       </ul>
+
       <div className='navbar-right'>
         <img src={assets.search_icon} alt="" />
+     
         <div className='navbar-search-icon'>
           <Link to='/cart'>
             <img src={assets.cart_icon} alt="" />

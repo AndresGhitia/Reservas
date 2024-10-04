@@ -2,3 +2,6 @@ Commits Detail!
 
 #57 Se crea componente /Utils/UserProfileDropdownsx con el fin de organizar y reutilizar
 la sesion del usuario.
+
+#58 Se pasan las funcione y parametros de usuario al componente UserProfileDropdownsx con 
+el fin de que el componente maneje lo relativo a inicio de sesion de usuario.
