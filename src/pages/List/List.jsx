@@ -51,25 +51,28 @@ function List() {
     setEditingSpaceId(null);
   };
 
-  const handleViewAvailability = async (space) => {
-    setSelectedSpace(space);
-    setLoading(true);
+const handleViewAvailability = async (space) => {
+  setSelectedSpace(space);
+  setLoading(true);
 
-    try {
-      const user = auth.currentUser;
-      if (user) {
-        const calendarRef = collection(db, 'owners', user.uid, 'spaces', space.id, 'calendar');
-        const calendarSnap = await getDocs(calendarRef);
-        const calendarList = calendarSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        setCalendarData(calendarList);
+  try {
+    const user = auth.currentUser;
+    if (user) {
+      const calendarList = await fetchCalendarData(user.uid, space.id);
+      setCalendarData(calendarList); 
+      if (selectedDate) {
+        const availableSlots = calendarList[selectedDate]; 
+        setTimeSlots(availableSlots || []);
       }
-    } catch (error) {
-      console.error("Error al obtener el calendario: ", error);
-    } finally {
-      setLoading(false);
-      setShowModal(true);
     }
-  };
+  } catch (error) {
+    console.error("Error al obtener el calendario: ", error);
+  } finally {
+    setLoading(false);
+    setShowModal(true);
+  }
+};
+
 
   const handleDeleteSpace = async (spaceId) => {
     const user = auth.currentUser;

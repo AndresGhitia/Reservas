@@ -40,12 +40,16 @@ function Dashboard() {
   const handleViewAvailability = async (space) => {
     setSelectedSpace(space);
     setLoading(true);
-
+  
     try {
       const user = auth.currentUser;
       if (user) {
         const calendarList = await fetchCalendarData(user.uid, space.id);
-        setCalendarData(calendarList);
+        setCalendarData(calendarList);  // Asegurarse de que se está cargando la data correcta aquí
+        if (selectedDate) {
+          const availableSlots = calendarList[selectedDate]; // Filtro por la fecha seleccionada
+          setTimeSlots(availableSlots || []);
+        }
       }
     } catch (error) {
       console.error("Error al obtener el calendario: ", error);
@@ -54,6 +58,7 @@ function Dashboard() {
       setShowModal(true);
     }
   };
+  
 
   const handleCloseModal = () => {
     setShowModal(false);

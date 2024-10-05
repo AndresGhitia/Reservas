@@ -25,7 +25,6 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
             if (calendarSnap.exists()) {
               setLocalTimeSlots(calendarSnap.data().timeslots);
             } else {
-              // Timeslots now include name and whatsapp fields
               const timeslots = [
                 { time: '09:00', available: true, name: null, whatsapp: null },
                 { time: '10:00', available: true, name: null, whatsapp: null },
@@ -56,7 +55,6 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
     }
   }, [date, selectedSpace, calendarData]);
 
-  // New function to ask for name and WhatsApp when reserving a slot
   const askUserDetails = () => {
     const name = prompt("Reserva a nombre de:");
     const whatsapp = prompt("Número de WhatsApp:");
@@ -72,7 +70,6 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
     const selectedSlot = timeSlots[slotIndex];
 
     if (selectedSlot.available) {
-      // If the slot is available, reserve it
       const { name, whatsapp } = askUserDetails();
 
       if (!name || !whatsapp) {
@@ -82,7 +79,7 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
 
       const updatedTimeSlots = timeSlots.map((slot, index) => {
         if (index === slotIndex) {
-          return { ...slot, available: false, name, whatsapp }; // Update with name and WhatsApp
+          return { ...slot, available: false, name, whatsapp };
         }
         return slot;
       });
@@ -94,13 +91,12 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
         console.error('Error al actualizar los horarios:', error);
       }
     } else {
-      // If the slot is reserved, ask to release it
       const confirmRelease = window.confirm(`Deseas liberar el horario ${selectedSlot.time} reservado para ${selectedSlot.name}?`);
 
       if (confirmRelease) {
         const updatedTimeSlots = timeSlots.map((slot, index) => {
           if (index === slotIndex) {
-            return { ...slot, available: true, name: null, whatsapp: null }; // Release the slot
+            return { ...slot, available: true, name: null, whatsapp: null };
           }
           return slot;
         });
@@ -121,12 +117,24 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
     }
   }, [date, setSelectedDate]);
 
+  // Function to format the selected date
+  const formatDate = (date) => {
+    if (!date) return '';
+    return date.toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'numeric' });
+  };
+
   return (
     <div className="Calendar-modal">
       <div className="modal-content">
+     
         <div className="modal-header">
+         
+         <div ClassNme= "calendar-header">
           <h3>Disponibilidad de {selectedSpace?.name || "Espacio"}</h3>
+          <p>Horarios del día {date ? formatDate(date) : ""}</p> {/* Display formatted date */}
+         </div>
           <button className="modal-close-button" onClick={onClose}>✖</button>
+       
         </div>
         
         <div className="calendar-container">
@@ -145,11 +153,10 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
               onClick={() => handleTimeslotClick(index)}
               disabled={disableBooking}
             >
-              {slot.time} - {disableBooking ? (slot.available ? 'Disponible' : 'Ocupado') : (slot.available ? 'Reservar' : ` ${slot.name} ${slot.whatsapp}` )}
+              {slot.time} - {disableBooking ? (slot.available ? 'Disponible' : 'Ocupado') : (slot.available ? 'Reservar' : `${slot.name} ${slot.whatsapp}`)}
             </button>
           ))}
         </div>
-
       </div>
     </div>
   );
