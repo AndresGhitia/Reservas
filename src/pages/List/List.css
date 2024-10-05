@@ -14,14 +14,14 @@
 .space-row {
   display: flex;
   flex-direction: row;
-  justify-content: space-between; /* Distribuye los elementos en la fila */
+  justify-content: space-between;
   align-items: center;
   width: 100%;
 }
 
 .space-name, .space-info, .space-buttons {
-  flex-grow: 1; /* Los elementos flexibles pueden crecer si es necesario */
-  margin: 0 10px; /* Añade algo de espacio entre los elementos */
+  flex-grow: 1;
+  margin: 0 10px;
 }
 
 .space-buttons {

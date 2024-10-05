@@ -11,16 +11,16 @@ function Sidebar() {
       <div className="sidebar-options">
         <NavLink to={`/dashboard/${establishmentName}/add`} className="sidebar-option"> {/* Incluye el nombre del establecimiento */}
           <img src={assets.add_icon} alt="" />
-          <p>Añadir Cancha</p>
+          <p>Agregar Espacio</p>
         </NavLink>
         <NavLink to={`/dashboard/${establishmentName}/list`} className="sidebar-option"> {/* Incluye el nombre del establecimiento */}
           <img src={assets.order_icon} alt="" />
-          <p>Mis Canchas</p>
+          <p>Mis Espacios</p>
         </NavLink>
-        {/* <NavLink to={`/dashboard/${establishmentName}/orders`} className="sidebar-option"> 
+        <NavLink to={`/dashboard/${establishmentName}/booking`} className="sidebar-option"> 
           <img src={assets.booking_icon} alt="" />
           <p>Reservas</p>
-        </NavLink> */}
+        </NavLink>
       </div>
     </div>
   );

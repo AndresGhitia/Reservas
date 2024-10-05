@@ -8,6 +8,7 @@ import BusinessPage from "./components/BusinnesPage/BusinessPage";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Add from "./pages/Add/Add";
 import List from "./pages/List/List";
+import Booking from "./pages/Booking/Booking";
 
 const App = () => {
   const location = useLocation();
@@ -23,13 +24,17 @@ const App = () => {
         <Route path='/item/:itemId' element={<RubroDetailContainer />} />
         <Route path='/cart' element={<Cart />} />
         <Route path='/order' element={<PlaceOrder />} />
-        <Route path="/dashboard/:establishmentName" element={<Dashboard />} />
-        <Route path="/dashboard/:establishmentName/add" element={<Add />} />
-        <Route path="/dashboard/:establishmentName/list" element={<List />} /> 
+  
+        <Route path="/dashboard/:establishmentName" element={<Dashboard />}>
+          <Route path="add" element={<Add />} />  
+          <Route path="list" element={<List />} /> 
+          <Route path="booking" element={<Booking />} />
+        </Route>
+  
         <Route path="/:establishmentName" element={<BusinessPage />} />
       </Routes>
     </div>
   );
-}
+};
 
 export default App;

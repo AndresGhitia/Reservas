@@ -70,7 +70,7 @@ function Add({ setSpaces, setError, setLoading }) {
       />
 
       <div className='add-button'>
-      <button onClick={handleAddSpaceClick}>+ Agregar Espacio</button>
+      <button onClick={handleAddSpaceClick}>Agregar</button>
       </div>
 
       {uniqueError && <p className="error-message">{uniqueError}</p>}

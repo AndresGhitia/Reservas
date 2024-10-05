@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 import { doc, getDoc, collection, getDocs, setDoc } from 'firebase/firestore';
 import { db, auth } from '../../firebase';
 import { handleReserveSlot, handleCancelReservation } from '../../utils/reservationHandlers';
 import { fetchOwnerDataAndSpaces } from '../../utils/fetchOwnerData';
-import { uploadImageToCloudinary } from '../../utils/cloudinaryUpload'; 
+import { uploadImageToCloudinary } from '../../utils/cloudinaryUpload';
 import './Dashboard.css';
 import Add from '../Add/Add';
 import List from '../List/List';
@@ -66,18 +66,18 @@ function Dashboard() {
   const handleUploadBackgroundImage = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-  
+
     try {
       const url = await uploadImageToCloudinary(file);
       setImageUrl(url); // Guardamos la URL de la imagen subida
       saveBackgroundImageUrl(url); // Guardamos la URL en Firestore
-  
+
       console.log("URL de la imagen subida:", url); // Imprimir en la consola
     } catch (error) {
       console.error("Error al subir la imagen a Cloudinary: ", error);
     }
   };
-  
+
   const saveBackgroundImageUrl = async (url) => {
     try {
       const user = auth.currentUser;
@@ -101,81 +101,84 @@ function Dashboard() {
   }
 
   return (
-   <div> 
-         <Navbar></Navbar>
-
-    <div className="container">
-      <h1>Hola, {ownerData.ownerName}</h1>
-      <p>Bienvenido al panel de administración de {decodedName}</p>
-
-      {/* <Sidebar /> */}
+    <div>
+      <Navbar></Navbar>
+      <div className="owner-container">
+        <h1>Hola, {ownerData.ownerName}</h1>
+        <p>Bienvenido al panel de administración de {decodedName}</p>
+      </div>
+      <hr />
+      <Sidebar />
+      <div className='outlet-container'>
+        <Outlet />
+      </div>
 
       {/* Mostrar espacios del usuario */}
-      <List spaces={spaces} handleViewAvailability={handleViewAvailability} />
-    
-     <div className='control-panel'>
-      <Add setSpaces={setSpaces} setError={setError} setLoading={setLoading} />
+      {/* <List spaces={spaces} handleViewAvailability={handleViewAvailability} /> */}
 
-      {showModal && (
-        <div className="modal">
-          <CalendarComponent
-            selectedSpace={selectedSpace}
-            calendarData={calendarData}
-            setCalendarData={setCalendarData}
-            setTimeSlots={setTimeSlots}
-            setSelectedDate={setSelectedDate}
-            onClose={handleCloseModal}
-          />
-          {selectedDate && (
-            <div className="time-slots">
-              {timeSlots.map((slot, index) => (
-                <div key={index} className="slot-item">
-                  {slot.time} - {slot.available ? (
-                    <button
-                      onClick={() => handleReserveSlot(index, selectedSpace, selectedDate, timeSlots, setTimeSlots)}
-                      className="reserve-button"
-                    >
-                      Reservar
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => handleCancelReservation(index, selectedSpace, selectedDate, timeSlots, setTimeSlots)}
-                      className="cancel-button"
-                    >
-                      Cancelar Reserva
-                    </button>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
+      <div className='control-panel'>
+        {/* <Add setSpaces={setSpaces} setError={setError} setLoading={setLoading} /> */}
 
-      <div className="action-container">
-       
-        {/* Input para subir la imagen de fondo */}
-        <div className="upload-background">
-          <h2>Cambiar imagen de fondo para la página del cliente</h2>
-          <input type="file" accept="image/*" onChange={handleUploadBackgroundImage} />
-          {imageUrl && <img src={imageUrl} alt="Imagen de fondo" style={{ width: '80px', marginTop: '10px' }} />}
-        </div>
-        <div className="spaces-Button-container">
-          <button onClick={handleCopy}>
-            Compartir URL
-          </button>
-          <button
-            onClick={() => window.open(`http://localhost:5174/${establishmentName}`, '_blank')}
-            style={{ marginTop: '20px' }}
-          >
-            Ver sitio del negocio
-          </button>
+        {showModal && (
+          <div className="modal">
+            <CalendarComponent
+              selectedSpace={selectedSpace}
+              calendarData={calendarData}
+              setCalendarData={setCalendarData}
+              setTimeSlots={setTimeSlots}
+              setSelectedDate={setSelectedDate}
+              onClose={handleCloseModal}
+            />
+            {selectedDate && (
+              <div className="time-slots">
+                {timeSlots.map((slot, index) => (
+                  <div key={index} className="slot-item">
+                    {slot.time} - {slot.available ? (
+                      <button
+                        onClick={() => handleReserveSlot(index, selectedSpace, selectedDate, timeSlots, setTimeSlots)}
+                        className="reserve-button"
+                      >
+                        Reservar
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleCancelReservation(index, selectedSpace, selectedDate, timeSlots, setTimeSlots)}
+                        className="cancel-button"
+                      >
+                        Cancelar Reserva
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        <div className="action-container">
+
+          {/* Input para subir la imagen de fondo */}
+          <div className="upload-background">
+            <h2>Cambiar imagen de fondo para la página del cliente</h2>
+            <input type="file" accept="image/*" onChange={handleUploadBackgroundImage} />
+            {imageUrl && <img src={imageUrl} alt="Imagen de fondo" style={{ width: '80px', marginTop: '10px' }} />}
+          </div>
+          <div className="spaces-Button-container">
+            <button onClick={handleCopy}>
+              Compartir URL
+            </button>
+            <button
+              onClick={() => window.open(`http://localhost:5174/${establishmentName}`, '_blank')}
+              style={{ marginTop: '20px' }}
+            >
+              Ver sitio del negocio
+            </button>
+          </div>
         </div>
       </div>
-     </div> 
+
 
     </div>
-   </div> 
   );
 }
 
