@@ -14,3 +14,6 @@ el sistema de LogIn/Out.
 
 #60 Se arregla la navegacion del LogOut en Dashboard, para que cuando el usuario cierre sesion
 pierda acceso al Dashboard y navegue automaticamente a Home.
+
+G#62 Se agrega la fecha al encabezado del calendario y se anula la funcion de cirre de sesion
+por inactividad.
