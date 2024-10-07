@@ -6,6 +6,9 @@ import admin_icon from './admin_icon.png'
 import booking_icon from './booking_icon.png'
 import profile_icon from './profile_icon.png'
 import logout_icon from './logout_icon.png'
+import delete_icon from './delete_icon.png'
+import edit_icon from './edit_icon.png'
+import clock_icon from './clock_icon.png'
 import rubro_1 from './football_icon.png'
 import rubro_2 from './volley_icon.png'
 import rubro_3 from './tennis_icon.png'
@@ -39,7 +42,10 @@ export const assets = {
     admin_icon,
     booking_icon,
     logout_icon,
-    profile_icon
+    profile_icon,
+    delete_icon,
+    clock_icon,
+    edit_icon
 
 }
 

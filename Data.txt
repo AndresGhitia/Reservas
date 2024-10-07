@@ -23,3 +23,5 @@ persona del espacio a alquilar.
 
 G#64 Modificacion en el array de horarios. Ahora la franja horaria la determina el owner cada 
 vez que crea un espacio.
+
+A#65 Se modifican los estilos del Dashboard. Ahora tiene un estilo mas visual y se remplazan los botones por iconos

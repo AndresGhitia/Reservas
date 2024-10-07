@@ -7,6 +7,7 @@ import { deleteSpace } from '../../utils/spaceHandlers';
 import { fetchOwnerDataAndSpaces } from '../../utils/fetchOwnerData';
 import EditSpace from './EditSpace'; // Importar el nuevo componente
 import './List.css';
+import { assets } from '../../assets/assets';
 
 function List() {
   const [ownerData, setOwnerData] = useState(null);
@@ -51,27 +52,27 @@ function List() {
     setEditingSpaceId(null);
   };
 
-const handleViewAvailability = async (space) => {
-  setSelectedSpace(space);
-  setLoading(true);
+  const handleViewAvailability = async (space) => {
+    setSelectedSpace(space);
+    setLoading(true);
 
-  try {
-    const user = auth.currentUser;
-    if (user) {
-      const calendarList = await fetchCalendarData(user.uid, space.id);
-      setCalendarData(calendarList); 
-      if (selectedDate) {
-        const availableSlots = calendarList[selectedDate]; 
-        setTimeSlots(availableSlots || []);
+    try {
+      const user = auth.currentUser;
+      if (user) {
+        const calendarList = await fetchCalendarData(user.uid, space.id);
+        setCalendarData(calendarList);
+        if (selectedDate) {
+          const availableSlots = calendarList[selectedDate];
+          setTimeSlots(availableSlots || []);
+        }
       }
+    } catch (error) {
+      console.error("Error al obtener el calendario: ", error);
+    } finally {
+      setLoading(false);
+      setShowModal(true);
     }
-  } catch (error) {
-    console.error("Error al obtener el calendario: ", error);
-  } finally {
-    setLoading(false);
-    setShowModal(true);
-  }
-};
+  };
 
 
   const handleDeleteSpace = async (spaceId) => {
@@ -93,45 +94,44 @@ const handleViewAvailability = async (space) => {
   }
 
   return (
-    <div className="spaces-container">
-      <h2>Canchas de tu complejo</h2>
-      <ul>
-  {spaces.map(space => (
-    <li key={space.id}>
-      {editingSpaceId === space.id ? (
-        <EditSpace
-          editedSpace={editedSpace}
-          setEditedSpace={setEditedSpace}
-          handleSaveSpace={handleSaveSpace}
-          setEditingSpaceId={setEditingSpaceId}
-          cancelEdit={cancelEdit}
-        />
-      ) : (
-        <div className="space-row">
-        <span className="space-name">{space.name}</span>
-        <div className="space-info">
-          Deporte: {space.sport} <br />
-          Superficie: {space.surface} <br />
-          Jugadores: {space.players} <br />
-          Tarifa: ${space.rate}
+    <div className="list add flex-col">
+      <p>Canchas de tu complejo</p>
+      <div className='list-table'>
+        <div className='list-table-format title'>
+          <b>Nombre</b>
+          <b>Deporte</b>
+          <b>Superficie</b>
+          <b>Jugadores</b>
+          <b>Tarifa</b>
+          <b>Editar</b>
+          <b>Borrar</b>
+          <b>Horarios</b>
         </div>
-        <div className="space-buttons">
-          <button onClick={() => handleViewAvailability(space)}>Horarios</button>
-          <button onClick={() => handleEditSpace(space)}>Editar</button>
-          <button
-            onClick={() => handleDeleteSpace(space.id)}
-            style={{ backgroundColor: '#dc143c' }}
-          >
-            Eliminar
-          </button>
-        </div>
+        {spaces.map(space => (
+          <div key={space.id} className='list-table-format'>
+            {editingSpaceId === space.id && editedSpace ? (
+              <EditSpace
+                editedSpace={editedSpace}
+                setEditedSpace={setEditedSpace}
+                handleSaveSpace={handleSaveSpace}
+                setEditingSpaceId={setEditingSpaceId}
+                cancelEdit={cancelEdit}
+              />
+            ) : (
+              <>
+                <p>{space.name}</p>
+                <p>{space.sport}</p>
+                <p>{space.surface}</p>
+                <p>{space.players}</p>
+                <p>${space.rate}</p>
+                <p onClick={() => handleEditSpace(space)} style={{ cursor: 'pointer' }}><img src={assets.edit_icon}/></p>                
+                <p onClick={() => handleDeleteSpace(space.id)} style={{ cursor: 'pointer' }}><img src={assets.delete_icon}/></p>                
+                <p onClick={() =>handleViewAvailability(space)} style={{ cursor: 'pointer' }}><img src={assets.clock_icon}/></p> 
+              </>
+            )}
+          </div>
+        ))}
       </div>
-      
-      )}
-    </li>
-  ))}
-</ul>
-
 
       {showModal && (
         <div className="modal">
