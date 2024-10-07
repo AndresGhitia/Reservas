@@ -46,10 +46,20 @@ const SpaceLine = ({ space, handleViewAvailability }) => {
           <span className="label">Jugadores:</span>
           <span className="value">{space.players}</span>
         </div>
+     
         <div className="space-detail">
           <span className="label">Tarifa/hora:</span>
           <span className="value">${space.rate}</span>
         </div>
+
+        <div className="space-detail">
+          <span className="label">Tarifa/judador:</span>
+          <span className="value">${space.rate/space.players}</span>
+
+        </div>
+
+
+
         <div className="space-detail">
           <span className="label">Superficie:</span>
           <span className="value">{space.surface}</span>

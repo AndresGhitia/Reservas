@@ -5,7 +5,7 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db, auth } from '../../firebase';
 import './Calendar.css';
 
-function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSelectedDate, onClose, disableBooking }) {
+function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSelectedDate, onClose, disableBooking , addTimeSlots,}) {
   const [date, setDate] = useState(null);
   const [timeSlots, setLocalTimeSlots] = useState([]);
 
@@ -26,6 +26,7 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
               setLocalTimeSlots(calendarSnap.data().timeslots);
             } else {
               const timeslots = [
+                { time: '08:00', available: true, name: null, whatsapp: null },
                 { time: '09:00', available: true, name: null, whatsapp: null },
                 { time: '10:00', available: true, name: null, whatsapp: null },
                 { time: '11:00', available: true, name: null, whatsapp: null },
@@ -117,7 +118,6 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
     }
   }, [date, setSelectedDate]);
 
-  // Function to format the selected date
   const formatDate = (date) => {
     if (!date) return '';
     return date.toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'numeric' });
@@ -131,13 +131,14 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
          
          <div ClassNme= "calendar-header">
           <h3>Disponibilidad de {selectedSpace?.name || "Espacio"}</h3>
-          <p>Horarios del día {date ? formatDate(date) : ""}</p> {/* Display formatted date */}
+          <p>Horarios del día {date ? formatDate(date) : ""}</p>
          </div>
           <button className="modal-close-button" onClick={onClose}>✖</button>
        
         </div>
         
-        <div className="calendar-container">
+       <div className='calendar-container'> 
+        <div className="date-container">
           <Calendar
             onChange={setDate}
             value={date}
@@ -157,6 +158,8 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
             </button>
           ))}
         </div>
+       </div>
+
       </div>
     </div>
   );

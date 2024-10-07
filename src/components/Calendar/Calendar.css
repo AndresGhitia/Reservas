@@ -28,7 +28,7 @@
     background-color: white;
     padding: 30px;
     border-radius: 15px;
-    width: 500px; /* Aumentar el tamaño para más espacio */
+    width: 800px; /* Aumentar el tamaño para más espacio */
     max-width: 100%;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   }
@@ -54,9 +54,13 @@
     cursor: pointer;
 
   }
+  .calendar-container{
+    display: flex;
+    flex-direction: column;
+  }
 
   /* Contenedor del calendario */
-  .calendar-container {
+  .date-container {
     margin-bottom: 20px;
     align-self: center;
 
@@ -89,7 +93,6 @@
     color: white;
   }
 
-  /* Estilo de los botones de horario */
   .timeslot-container {
     display: flex;
     flex-wrap: wrap;
@@ -98,9 +101,10 @@
   }
 
   .timeslot-button {
-    width: 30%;
+    width: 20%;
     padding: 12px;
     margin-bottom: 10px;
+    margin-right: 10px;
     border: none;
     border-radius: 5px;
     font-size: 14px;

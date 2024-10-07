@@ -98,22 +98,6 @@ ul {
   padding: 0;
 }
 
-/* ul li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-  padding: 20px;
-  background-color: #ecf0f1;
-  border-radius: 15px; 
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-} */
-
-/* ul li:hover {
-  transform: translateY(-6px);
-} */
-
 ul li button {
   background-color: #27ae60; /* Verde fuerte */
   color: white;
@@ -240,6 +224,7 @@ button[style*="background-color: #dc143c"]:hover {
   background-color: #27ae60;
   color: white;
   border-radius: 12px;
+  font-size: 12px;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;

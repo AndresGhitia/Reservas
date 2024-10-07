@@ -173,7 +173,7 @@ function Dashboard() {
               Compartir URL
             </button>
             <button
-              onClick={() => window.open(`http://localhost:5174/${establishmentName}`, '_blank')}
+              onClick={() => window.open(`http://localhost:5173/${establishmentName}`, '_blank')}
               style={{ marginTop: '20px' }}
             >
               Ver sitio del negocio
