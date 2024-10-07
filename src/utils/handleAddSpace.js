@@ -12,7 +12,7 @@ export const handleAddSpace = async (newSpace, setNewSpace, setUniqueError) => {
     return;
   }
 
-  const { name, sport, surface, players, rate } = newSpace;
+  const { name, sport, surface, players, rate, openTime, closeTime } = newSpace; // Asegúrate de extraer openTime y closeTime
 
   if (!sport.trim()) {
     setUniqueError("Debes ingresar un deporte para el espacio");
@@ -39,6 +39,11 @@ export const handleAddSpace = async (newSpace, setNewSpace, setUniqueError) => {
     return;
   }
 
+  if (!openTime || !closeTime) {
+    setUniqueError("Debes ingresar las horas de apertura y cierre");
+    return;
+  }
+
   // Check if space with the same name already exists
   const spacesRef = collection(db, 'owners', user.uid, 'spaces');
   const q = query(spacesRef, where("name", "==", name.trim()));
@@ -50,22 +55,26 @@ export const handleAddSpace = async (newSpace, setNewSpace, setUniqueError) => {
   }
 
   try {
-    // Agregar el espacio con todos los campos en Firestore
+    // Agregar el espacio con todos los campos en Firestore, incluyendo openTime y closeTime
     await setDoc(doc(db, 'owners', user.uid, 'spaces', name.trim()), {
       name: name.trim(),
       sport: sport,
       surface: surface,
       players: parseInt(players), // Guardar como número
       rate: parseFloat(rate), // Guardar como número con decimales
+      openTime: openTime,  // Guardar la hora de apertura
+      closeTime: closeTime // Guardar la hora de cierre
     });
 
     // Limpiar los campos del formulario
     setNewSpace({
       name: '',
-      sport:'',
+      sport: '',
       surface: '',
       players: '',
       rate: '',
+      openTime: '', // Limpiar hora de apertura
+      closeTime: '', // Limpiar hora de cierre
     });
 
     setUniqueError(null); // Limpiar cualquier error previo

@@ -17,3 +17,9 @@ pierda acceso al Dashboard y navegue automaticamente a Home.
 
 G#62 Se agrega la fecha al encabezado del calendario y se anula la funcion de cirre de sesion
 por inactividad.
+
+G#63 Se agrega valor x/jugador en BusinessList, de este modo el cliente sabra el valor por 
+persona del espacio a alquilar.
+
+G#64 Modificacion en el array de horarios. Ahora la franja horaria la determina el owner cada 
+vez que crea un espacio.

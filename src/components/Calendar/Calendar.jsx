@@ -15,46 +15,56 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
         try {
           const formattedDate = date.toISOString().split('T')[0];
           const selectedDayData = calendarData.find(day => day.date === formattedDate);
-
+  
           if (selectedDayData) {
             setLocalTimeSlots(selectedDayData.timeslots);
           } else {
-            const calendarRef = doc(db, 'owners', auth.currentUser.uid, 'spaces', selectedSpace.id, 'calendar', formattedDate);
-            const calendarSnap = await getDoc(calendarRef);
-
-            if (calendarSnap.exists()) {
-              setLocalTimeSlots(calendarSnap.data().timeslots);
-            } else {
-              const timeslots = [
-                { time: '08:00', available: true, name: null, whatsapp: null },
-                { time: '09:00', available: true, name: null, whatsapp: null },
-                { time: '10:00', available: true, name: null, whatsapp: null },
-                { time: '11:00', available: true, name: null, whatsapp: null },
-                { time: '12:00', available: true, name: null, whatsapp: null },
-                { time: '13:00', available: true, name: null, whatsapp: null },
-                { time: '14:00', available: true, name: null, whatsapp: null },
-                { time: '15:00', available: true, name: null, whatsapp: null },
-                { time: '16:00', available: true, name: null, whatsapp: null },
-                { time: '17:00', available: true, name: null, whatsapp: null },
-                { time: '18:00', available: true, name: null, whatsapp: null },
-                { time: '19:00', available: true, name: null, whatsapp: null },
-                { time: '20:00', available: true, name: null, whatsapp: null },
-                { time: '21:00', available: true, name: null, whatsapp: null },
-                { time: '22:00', available: true, name: null, whatsapp: null },
-                { time: '23:00', available: true, name: null, whatsapp: null },
-              ];
+            const spaceRef = doc(db, 'owners', auth.currentUser.uid, 'spaces', selectedSpace.id);
+            const spaceSnap = await getDoc(spaceRef);
+  
+            if (spaceSnap.exists()) {
+              const { openTime, closeTime } = spaceSnap.data();  // Recuperar los tiempos de apertura y cierre
+  
+              // Crear los "timeslots" a partir del rango de horarios
+              const timeslots = generateTimeSlots(openTime, closeTime);
+  
+              // Guardar los horarios en Firestore para esa fecha específica
+              const calendarRef = doc(db, 'owners', auth.currentUser.uid, 'spaces', selectedSpace.id, 'calendar', formattedDate);
               await setDoc(calendarRef, { date: formattedDate, timeslots });
+  
+              // Actualizar el estado local con los horarios recién creados
               setLocalTimeSlots(timeslots);
+            } else {
+              console.error('No se encontró el espacio seleccionado.');
             }
           }
         } catch (error) {
           console.error("Error al obtener los horarios: ", error);
         }
       };
-
+  
       fetchCalendarData();
     }
   }, [date, selectedSpace, calendarData]);
+  
+  
+  const generateTimeSlots = (openTime, closeTime) => {
+    const timeSlots = [];
+    let [openHour, openMinute] = openTime.split(':').map(Number);
+    const [closeHour, closeMinute] = closeTime.split(':').map(Number);
+  
+    while (openHour < closeHour || (openHour === closeHour && openMinute < closeMinute)) {
+      const time = `${String(openHour).padStart(2, '0')}:${String(openMinute).padStart(2, '0')}`;
+      timeSlots.push({ time, available: true, name: null, whatsapp: null });
+  
+      // Increment by 1 hour (or you can adjust for 30-minute intervals if needed)
+      openHour += 1;
+      if (openHour === 24) openHour = 0; // Reiniciar si se llega a la medianoche
+    }
+  
+    return timeSlots;
+  };
+  
 
   const askUserDetails = () => {
     const name = prompt("Reserva a nombre de:");

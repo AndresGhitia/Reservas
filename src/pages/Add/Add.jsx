@@ -6,10 +6,12 @@ import './Add.css';
 function Add({ setSpaces, setError, setLoading }) {
   const [newSpace, setNewSpace] = useState({
     name: '',
-    sport:'',
+    sport: '',
     surface: '',
     players: '',
     rate: '',
+    openTime: '',  // Hora de apertura
+    closeTime: '', // Hora de cierre
   });
   const [uniqueError, setUniqueError] = useState(null);
   const [inputError, setInputError] = useState(false);
@@ -69,12 +71,26 @@ function Add({ setSpaces, setError, setLoading }) {
         placeholder="Tarifa"
       />
 
+      {/* Selectores de hora de apertura y cierre */}
+      <label>Hora de Apertura</label>
+      <input
+        type="time"
+        value={newSpace.openTime}
+        onChange={(e) => setNewSpace({ ...newSpace, openTime: e.target.value })}
+      />
+
+      <label>Hora de Cierre</label>
+      <input
+        type="time"
+        value={newSpace.closeTime}
+        onChange={(e) => setNewSpace({ ...newSpace, closeTime: e.target.value })}
+      />
+
       <div className='add-button'>
-      <button onClick={handleAddSpaceClick}>Agregar</button>
+        <button onClick={handleAddSpaceClick}>Agregar</button>
       </div>
 
       {uniqueError && <p className="error-message">{uniqueError}</p>}
-    
     </div>
   );
 }
