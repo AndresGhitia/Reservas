@@ -25,3 +25,5 @@ G#64 Modificacion en el array de horarios. Ahora la franja horaria la determina 
 vez que crea un espacio.
 
 A#65 Se modifican los estilos del Dashboard. Ahora tiene un estilo mas visual y se remplazan los botones por iconos
+
+G#66 Se ajusta formato de selector horario de apertura y cierre.

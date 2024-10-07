@@ -71,21 +71,36 @@ function Add({ setSpaces, setError, setLoading }) {
         placeholder="Tarifa"
       />
 
-      {/* Selectores de hora de apertura y cierre */}
-      <label>Hora de Apertura</label>
-      <input
-        type="time"
-        value={newSpace.openTime}
-        onChange={(e) => setNewSpace({ ...newSpace, openTime: e.target.value })}
-      />
+    {/* Selectores de hora de apertura y cierre */}
+<div className='time-selection'>    
+<label>Selecciona el horario en el que estara disponible tu espacio</label>
 
-      <label>Hora de Cierre</label>
-      <input
-        type="time"
-        value={newSpace.closeTime}
-        onChange={(e) => setNewSpace({ ...newSpace, closeTime: e.target.value })}
-      />
+ <div className='opening-time'>
+<label>Hora de Apertura</label>
+<select
+  value={newSpace.openTime}
+  onChange={(e) => setNewSpace({ ...newSpace, openTime: e.target.value })}
+>
+  {Array.from({ length: 22 }, (_, i) => {
+    const hour = (i + 1).toString().padStart(2, '0') + ":00";
+    return <option key={hour} value={hour}>{hour}</option>;
+  })}
+</select>
+</div>
 
+<div className='close-time'>
+<label>Hora de Cierre</label>
+<select
+  value={newSpace.closeTime}
+  onChange={(e) => setNewSpace({ ...newSpace, closeTime: e.target.value })}
+>
+  {Array.from({ length: 23 }, (_, i) => {
+    const hour = (i + 1).toString().padStart(2, '0') + ":00";
+    return <option key={hour} value={hour}>{hour}</option>;
+  })}
+</select>
+</div>
+</div>
       <div className='add-button'>
         <button onClick={handleAddSpaceClick}>Agregar</button>
       </div>
