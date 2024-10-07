@@ -27,3 +27,5 @@ vez que crea un espacio.
 A#65 Se modifican los estilos del Dashboard. Ahora tiene un estilo mas visual y se remplazan los botones por iconos
 
 G#66 Se ajusta formato de selector horario de apertura y cierre.
+
+A#67 Se instala Toastify para el manejo de las notificaciones del Dashboard. Se añade la funcion showToast en handleAddSpace para el manejo de las notificaciones del Dashboard.

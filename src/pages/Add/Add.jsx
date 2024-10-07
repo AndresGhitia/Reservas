@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { handleAddSpace } from '../../utils/handleAddSpace';
 import { fetchOwnerDataAndSpaces } from '../../utils/fetchOwnerData';
 import './Add.css';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Add({ setSpaces, setError, setLoading }) {
   const [newSpace, setNewSpace] = useState({
@@ -13,16 +15,17 @@ function Add({ setSpaces, setError, setLoading }) {
     openTime: '',  // Hora de apertura
     closeTime: '', // Hora de cierre
   });
+  
   const [uniqueError, setUniqueError] = useState(null);
-  const [inputError, setInputError] = useState(false);
 
   const handleAddSpaceClick = async () => {
-    if (newSpace.name.trim() === "") {
-      setUniqueError("Debes ingresar un nombre para el espacio nuevo");
-      return;
+    try {
+      await handleAddSpace(newSpace, setNewSpace, setUniqueError);
+      // Recargar los espacios después de agregar uno nuevo
+      fetchOwnerDataAndSpaces(null, setSpaces, setError, setLoading); 
+    } catch (error) {
+      console.error("Error al agregar espacio: ", error);
     }
-    await handleAddSpace(newSpace, setNewSpace, setUniqueError);
-    fetchOwnerDataAndSpaces(null, setSpaces, setError, setLoading); // Recargar los espacios
   };
 
   return (
@@ -32,7 +35,6 @@ function Add({ setSpaces, setError, setLoading }) {
         value={newSpace.name}
         onChange={(e) => setNewSpace({ ...newSpace, name: e.target.value })}
         placeholder="Nombre del nuevo espacio"
-        className={inputError ? 'error' : ''}
       />
       
       <select
@@ -63,6 +65,7 @@ function Add({ setSpaces, setError, setLoading }) {
         onChange={(e) => setNewSpace({ ...newSpace, players: e.target.value })}
         placeholder="Cantidad de jugadores"
       />
+      
       <input
         type="number"
         step="100"
@@ -71,41 +74,46 @@ function Add({ setSpaces, setError, setLoading }) {
         placeholder="Tarifa"
       />
 
-    {/* Selectores de hora de apertura y cierre */}
-<div className='time-selection'>    
-<label>Selecciona el horario en el que estara disponible tu espacio</label>
+      {/* Selectores de hora de apertura y cierre */}
+      <div className='time-selection'>
+        <label>Selecciona el horario en el que estará disponible tu espacio</label>
 
- <div className='opening-time'>
-<label>Hora de Apertura</label>
-<select
-  value={newSpace.openTime}
-  onChange={(e) => setNewSpace({ ...newSpace, openTime: e.target.value })}
->
-  {Array.from({ length: 22 }, (_, i) => {
-    const hour = (i + 1).toString().padStart(2, '0') + ":00";
-    return <option key={hour} value={hour}>{hour}</option>;
-  })}
-</select>
-</div>
+        <div className='opening-time'>
+          <label>Hora de Apertura</label>
+          <select
+            value={newSpace.openTime}
+            onChange={(e) => setNewSpace({ ...newSpace, openTime: e.target.value })}
+          >
+            {Array.from({ length: 22 }, (_, i) => {
+              const hour = (i + 1).toString().padStart(2, '0') + ":00";
+              return <option key={hour} value={hour}>{hour}</option>;
+            })}
+          </select>
+        </div>
 
-<div className='close-time'>
-<label>Hora de Cierre</label>
-<select
-  value={newSpace.closeTime}
-  onChange={(e) => setNewSpace({ ...newSpace, closeTime: e.target.value })}
->
-  {Array.from({ length: 23 }, (_, i) => {
-    const hour = (i + 1).toString().padStart(2, '0') + ":00";
-    return <option key={hour} value={hour}>{hour}</option>;
-  })}
-</select>
-</div>
-</div>
+        <div className='close-time'>
+          <label>Hora de Cierre</label>
+          <select
+            value={newSpace.closeTime}
+            onChange={(e) => setNewSpace({ ...newSpace, closeTime: e.target.value })}
+          >
+            {Array.from({ length: 23 }, (_, i) => {
+              const hour = (i + 1).toString().padStart(2, '0') + ":00";
+              return <option key={hour} value={hour}>{hour}</option>;
+            })}
+          </select>
+        </div>
+      </div>
+
       <div className='add-button'>
         <button onClick={handleAddSpaceClick}>Agregar</button>
       </div>
 
+      {/* Mostrar mensaje de error si lo hay */}
       {uniqueError && <p className="error-message">{uniqueError}</p>}
+
+      {/* Contenedor de notificaciones */}
+      <ToastContainer />
     </div>
   );
 }

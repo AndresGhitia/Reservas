@@ -8,6 +8,8 @@ import { fetchOwnerDataAndSpaces } from '../../utils/fetchOwnerData';
 import EditSpace from './EditSpace'; // Importar el nuevo componente
 import './List.css';
 import { assets } from '../../assets/assets';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function List() {
   const [ownerData, setOwnerData] = useState(null);
@@ -19,14 +21,13 @@ function List() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [timeSlots, setTimeSlots] = useState([]);
-  const [editingSpaceId, setEditingSpaceId] = useState(null); // Para saber qué espacio se está editando
-  const [editedSpace, setEditedSpace] = useState(null); // Para guardar los cambios en el espacio
+  const [editingSpaceId, setEditingSpaceId] = useState(null);
+  const [editedSpace, setEditedSpace] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       await fetchOwnerDataAndSpaces(setOwnerData, setSpaces, setError, setLoading);
     };
-
     fetchData();
   }, []);
 
@@ -40,14 +41,30 @@ function List() {
       const user = auth.currentUser;
       if (user && editedSpace) {
         const spaceDocRef = doc(db, 'owners', user.uid, 'spaces', editedSpace.id);
-        await updateDoc(spaceDocRef, editedSpace); // Actualiza el espacio en Firebase
-        setSpaces(spaces.map(space => (space.id === editedSpace.id ? editedSpace : space))); // Actualiza el estado
-        setEditingSpaceId(null); // Sale del modo de edición
+        await updateDoc(spaceDocRef, editedSpace);
+        setSpaces(spaces.map(space => (space.id === editedSpace.id ? editedSpace : space)));
+        setEditingSpaceId(null);
+        toast.success("Espacio guardado exitosamente");
       }
     } catch (error) {
       console.error("Error al guardar los cambios: ", error);
+      toast.error("Error al guardar los cambios"); 
     }
   };
+
+  const handleDeleteSpace = async (spaceId) => {
+    const user = auth.currentUser;
+    if (user) {
+      const result = await deleteSpace(user.uid, spaceId);
+      if (result) {
+        setSpaces((prevSpaces) => prevSpaces.filter((space) => space.id !== spaceId));
+        toast.success("Espacio eliminado exitosamente"); 
+      } else {
+        toast.error("Error al eliminar el espacio"); 
+      }
+    }
+  };
+
   const cancelEdit = () => {
     setEditingSpaceId(null);
   };
@@ -71,17 +88,6 @@ function List() {
     } finally {
       setLoading(false);
       setShowModal(true);
-    }
-  };
-
-
-  const handleDeleteSpace = async (spaceId) => {
-    const user = auth.currentUser;
-    if (user) {
-      const result = await deleteSpace(user.uid, spaceId);
-      if (result) {
-        setSpaces((prevSpaces) => prevSpaces.filter((space) => space.id !== spaceId));
-      }
     }
   };
 
@@ -168,6 +174,8 @@ function List() {
           )}
         </div>
       )}
+
+      <ToastContainer />
     </div>
   );
 }
