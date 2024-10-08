@@ -12,18 +12,18 @@ function Add({ setSpaces, setError, setLoading }) {
     surface: '',
     players: '',
     rate: '',
-    techo:'',
+    techo: '',
     openTime: '',  // Hora de apertura
     closeTime: '', // Hora de cierre
   });
-  
+
   const [uniqueError, setUniqueError] = useState(null);
 
   const handleAddSpaceClick = async () => {
     try {
       await handleAddSpace(newSpace, setNewSpace, setUniqueError);
       // Recargar los espacios después de agregar uno nuevo
-      fetchOwnerDataAndSpaces(null, setSpaces, setError, setLoading); 
+      fetchOwnerDataAndSpaces(null, setSpaces, setError, setLoading);
     } catch (error) {
       console.error("Error al agregar espacio: ", error);
     }
@@ -37,10 +37,12 @@ function Add({ setSpaces, setError, setLoading }) {
         onChange={(e) => setNewSpace({ ...newSpace, name: e.target.value })}
         placeholder="Nombre del nuevo espacio"
       />
-      
+
+      {/* Selección de deporte (se habilita si el nombre está completo) */}
       <select
         value={newSpace.sport}
         onChange={(e) => setNewSpace({ ...newSpace, sport: e.target.value })}
+        disabled={!newSpace.name}
       >
         <option value="">Seleccionar deporte</option>
         <option value="Football">Football</option>
@@ -49,10 +51,12 @@ function Add({ setSpaces, setError, setLoading }) {
         <option value="Volley">Volley</option>
         <option value="Hockey">Hockey</option>
       </select>
-      
+
+      {/* Selección de superficie (se habilita si el deporte está seleccionado) */}
       <select
         value={newSpace.surface}
         onChange={(e) => setNewSpace({ ...newSpace, surface: e.target.value })}
+        disabled={!newSpace.sport} 
       >
         <option value="">Seleccionar superficie</option>
         <option value="Piso">Piso</option>
@@ -60,30 +64,34 @@ function Add({ setSpaces, setError, setLoading }) {
         <option value="Césped Sintético">Césped Sintético</option>
       </select>
 
+      {/* Selección de tipo de espacio (se habilita si la superficie está seleccionada) */}
       <select
-  value={newSpace.techo} 
-  onChange={(e) => setNewSpace({ ...newSpace, techo: e.target.value })} 
->
-  <option value="">Tipo de espacio</option>
-  <option value="techada">Techada</option>
-  <option value="no">Aire libre</option>
-</select>
+        value={newSpace.techo}
+        onChange={(e) => setNewSpace({ ...newSpace, techo: e.target.value })}
+        disabled={!newSpace.surface}
+      >
+        <option value="">Tipo de espacio</option>
+        <option value="techada">Techada</option>
+        <option value="no">Aire libre</option>
+      </select>
 
-
-
+      {/* Cantidad de jugadores (se habilita si el tipo de espacio está seleccionado) */}
       <input
         type="number"
         value={newSpace.players}
         onChange={(e) => setNewSpace({ ...newSpace, players: e.target.value })}
         placeholder="Cantidad de jugadores"
+        disabled={!newSpace.techo}
       />
-      
+
+      {/* Tarifa (se habilita si la cantidad de jugadores está especificada) */}
       <input
         type="number"
         step="100"
         value={newSpace.rate}
         onChange={(e) => setNewSpace({ ...newSpace, rate: e.target.value })}
         placeholder="Tarifa"
+        disabled={!newSpace.players} 
       />
 
       {/* Selectores de hora de apertura y cierre */}
@@ -95,6 +103,7 @@ function Add({ setSpaces, setError, setLoading }) {
           <select
             value={newSpace.openTime}
             onChange={(e) => setNewSpace({ ...newSpace, openTime: e.target.value })}
+            disabled={!newSpace.rate}  
           >
             {Array.from({ length: 22 }, (_, i) => {
               const hour = (i + 1).toString().padStart(2, '0') + ":00";
@@ -108,6 +117,7 @@ function Add({ setSpaces, setError, setLoading }) {
           <select
             value={newSpace.closeTime}
             onChange={(e) => setNewSpace({ ...newSpace, closeTime: e.target.value })}
+            disabled={!newSpace.openTime} 
           >
             {Array.from({ length: 23 }, (_, i) => {
               const hour = (i + 1).toString().padStart(2, '0') + ":00";
