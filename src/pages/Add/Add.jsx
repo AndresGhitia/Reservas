@@ -12,6 +12,7 @@ function Add({ setSpaces, setError, setLoading }) {
     surface: '',
     players: '',
     rate: '',
+    techo:'',
     openTime: '',  // Hora de apertura
     closeTime: '', // Hora de cierre
   });
@@ -58,6 +59,17 @@ function Add({ setSpaces, setError, setLoading }) {
         <option value="Césped Natural">Césped Natural</option>
         <option value="Césped Sintético">Césped Sintético</option>
       </select>
+
+      <select
+  value={newSpace.techo} 
+  onChange={(e) => setNewSpace({ ...newSpace, techo: e.target.value })} 
+>
+  <option value="">Tipo de espacio</option>
+  <option value="techada">Techada</option>
+  <option value="no">Aire libre</option>
+</select>
+
+
 
       <input
         type="number"

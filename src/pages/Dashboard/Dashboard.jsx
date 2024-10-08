@@ -37,29 +37,6 @@ function Dashboard() {
       .catch(err => console.error('Error al copiar el enlace: ', err));
   };
 
-  const handleViewAvailability = async (space) => {
-    setSelectedSpace(space);
-    setLoading(true);
-  
-    try {
-      const user = auth.currentUser;
-      if (user) {
-        const calendarList = await fetchCalendarData(user.uid, space.id);
-        setCalendarData(calendarList);  // Asegurarse de que se está cargando la data correcta aquí
-        if (selectedDate) {
-          const availableSlots = calendarList[selectedDate]; // Filtro por la fecha seleccionada
-          setTimeSlots(availableSlots || []);
-        }
-      }
-    } catch (error) {
-      console.error("Error al obtener el calendario: ", error);
-    } finally {
-      setLoading(false);
-      setShowModal(true);
-    }
-  };
-  
-
   const handleCloseModal = () => {
     setShowModal(false);
     setSelectedSpace(null);
@@ -118,11 +95,7 @@ function Dashboard() {
         <Outlet />
       </div>
 
-      {/* Mostrar espacios del usuario */}
-      {/* <List spaces={spaces} handleViewAvailability={handleViewAvailability} /> */}
-
       <div className='control-panel'>
-        {/* <Add setSpaces={setSpaces} setError={setError} setLoading={setLoading} /> */}
 
         {showModal && (
           <div className="modal">

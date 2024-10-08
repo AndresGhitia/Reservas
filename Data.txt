@@ -29,3 +29,6 @@ A#65 Se modifican los estilos del Dashboard. Ahora tiene un estilo mas visual y 
 G#66 Se ajusta formato de selector horario de apertura y cierre.
 
 A#67 Se instala Toastify para el manejo de las notificaciones del Dashboard. Se añade la funcion showToast en handleAddSpace para el manejo de las notificaciones del Dashboard.
+
+G#68 Se agrega el dato "roof", mediante el cual se maneja el tipo de espacio "techada / aire libre"
+en BusinessList esta agregado el dato pero comentado porque primero hay que ajustar los estilos

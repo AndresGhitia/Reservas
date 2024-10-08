@@ -11,7 +11,7 @@ const showToast = (type, message) => {
 };
 
 // Función de validación de los campos
-const validateFields = ({ name, sport, surface, players, rate, openTime, closeTime }) => {
+const validateFields = ({ name, sport, surface, players, rate, openTime, closeTime, techo }) => { // Añadir techo a la validación
   if (!name.trim()) {
     return "Debes ingresar un nombre para el espacio";
   }
@@ -36,6 +36,10 @@ const validateFields = ({ name, sport, surface, players, rate, openTime, closeTi
     return "Debes ingresar las horas de apertura y cierre";
   }
 
+  if (!techo || !['techada', 'no'].includes(techo)) { // Validar si techo es techada o no
+    return "Debes seleccionar si el espacio es techado o al aire libre";
+  }
+
   return null; // Si no hay errores, devuelve null
 };
 
@@ -57,7 +61,7 @@ export const handleAddSpace = async (newSpace, setNewSpace, setUniqueError) => {
     return;
   }
 
-  const { name, sport, surface, players, rate, openTime, closeTime } = newSpace;
+  const { name, sport, surface, players, rate, openTime, closeTime, techo } = newSpace;
 
   try {
     // Check if space with the same name already exists
@@ -72,7 +76,7 @@ export const handleAddSpace = async (newSpace, setNewSpace, setUniqueError) => {
       return;
     }
 
-    // Agregar el espacio con todos los campos en Firestore, incluyendo openTime y closeTime
+    // Agregar el espacio con todos los campos en Firestore, incluyendo openTime, closeTime y techo
     await setDoc(doc(db, 'owners', user.uid, 'spaces', name.trim()), {
       name: name.trim(),
       sport: sport,
@@ -80,7 +84,8 @@ export const handleAddSpace = async (newSpace, setNewSpace, setUniqueError) => {
       players: parseInt(players), // Guardar como número
       rate: parseFloat(rate), // Guardar como número con decimales
       openTime: openTime,  // Guardar la hora de apertura
-      closeTime: closeTime // Guardar la hora de cierre
+      closeTime: closeTime, // Guardar la hora de cierre
+      roof: techo // Guardar el valor de techo (si es techado o no)
     });
 
     // Limpiar los campos del formulario
@@ -92,6 +97,7 @@ export const handleAddSpace = async (newSpace, setNewSpace, setUniqueError) => {
       rate: '',
       openTime: '', // Limpiar hora de apertura
       closeTime: '', // Limpiar hora de cierre
+      techo: '', // Limpiar el campo techo
     });
 
     setUniqueError(null); // Limpiar cualquier error previo

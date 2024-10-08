@@ -58,12 +58,21 @@ const SpaceLine = ({ space, handleViewAvailability }) => {
 
         </div>
 
-
-
         <div className="space-detail">
           <span className="label">Superficie:</span>
           <span className="value">{space.surface}</span>
         </div>
+
+    
+        {/* 
+      
+      //Comente esta Linea porque hasta que no ajuste los estilos de ve desagradable en terminos de diseño
+
+        <div className="space-detail">
+          <span className="label">Tipo de espacio:</span>
+          <span className="value">{space.roof}</span>
+        </div> */}
+
       </div>
       <button className="space-button" onClick={() => handleViewAvailability(space)}>
         Ver disponibilidad
