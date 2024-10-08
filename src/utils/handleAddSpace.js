@@ -11,7 +11,7 @@ const showToast = (type, message) => {
 };
 
 // Función de validación de los campos
-const validateFields = ({ name, sport, surface, players, rate, openTime, closeTime, techo }) => { // Añadir techo a la validación
+const validateFields = ({ name, sport, surface, players, rate, openTime, closeTime, techo }) => { 
   if (!name.trim()) {
     return "Debes ingresar un nombre para el espacio";
   }
@@ -20,7 +20,7 @@ const validateFields = ({ name, sport, surface, players, rate, openTime, closeTi
     return "Debes seleccionar un deporte para el espacio";
   }
 
-  if (!surface || !['Piso', 'Césped Natural', 'Césped Sintético'].includes(surface)) {
+  if (!surface || !['Piso', 'Césped Natural', 'Césped Sintético', 'Polvo de ladrillo', 'Arena'].includes(surface)) {
     return "Debes seleccionar una superficie válida";
   }
 

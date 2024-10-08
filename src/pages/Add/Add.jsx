@@ -62,6 +62,9 @@ function Add({ setSpaces, setError, setLoading }) {
         <option value="Piso">Piso</option>
         <option value="Césped Natural">Césped Natural</option>
         <option value="Césped Sintético">Césped Sintético</option>
+        <option value="Polvo de ladrillo">Polvo de Ladrillo</option>
+        <option value="Arena">Arena</option>
+
       </select>
 
       {/* Selección de tipo de espacio (se habilita si la superficie está seleccionada) */}

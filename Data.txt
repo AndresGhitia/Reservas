@@ -37,3 +37,6 @@ en BusinessList esta agregado el dato pero comentado porque primero hay que ajus
 G#69 Se agrega la funcionalidad de gerarquias en los campos del componente Add. de esta manera los campos se 
 completan en orden, lo cual es necesario para discriminar campos nuevos segun el deporte, por ejemplo en Padel 
 se debe agregar "tipo de cerramiento: pared / blindex".
+
+G#70 Se agrega a la lista de superficies que ofrece Add y List/EditSpace para seleccionar "Polvo de Ladrillo" y "Arena" 
+y se guarda en la base de datos.
