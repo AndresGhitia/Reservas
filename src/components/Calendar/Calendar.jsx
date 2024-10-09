@@ -19,23 +19,31 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
           if (selectedDayData) {
             setLocalTimeSlots(selectedDayData.timeslots);
           } else {
-            const spaceRef = doc(db, 'owners', auth.currentUser.uid, 'spaces', selectedSpace.id);
-            const spaceSnap = await getDoc(spaceRef);
+            const calendarRef = doc(db, 'owners', auth.currentUser.uid, 'spaces', selectedSpace.id, 'calendar', formattedDate);
+            const calendarSnap = await getDoc(calendarRef);
   
-            if (spaceSnap.exists()) {
-              const { openTime, closeTime } = spaceSnap.data();  // Recuperar los tiempos de apertura y cierre
-  
-              // Crear los "timeslots" a partir del rango de horarios
-              const timeslots = generateTimeSlots(openTime, closeTime);
-  
-              // Guardar los horarios en Firestore para esa fecha específica
-              const calendarRef = doc(db, 'owners', auth.currentUser.uid, 'spaces', selectedSpace.id, 'calendar', formattedDate);
-              await setDoc(calendarRef, { date: formattedDate, timeslots });
-  
-              // Actualizar el estado local con los horarios recién creados
-              setLocalTimeSlots(timeslots);
+            if (calendarSnap.exists()) {
+              // Si ya existen horarios guardados para la fecha, úsalos
+              setLocalTimeSlots(calendarSnap.data().timeslots);
             } else {
-              console.error('No se encontró el espacio seleccionado.');
+              // Si no existen horarios para esa fecha, crea y guarda nuevos
+              const spaceRef = doc(db, 'owners', auth.currentUser.uid, 'spaces', selectedSpace.id);
+              const spaceSnap = await getDoc(spaceRef);
+  
+              if (spaceSnap.exists()) {
+                const { openTime, closeTime } = spaceSnap.data();  // Recuperar los tiempos de apertura y cierre
+  
+                // Crear los "timeslots" a partir del rango de horarios
+                const timeslots = generateTimeSlots(openTime, closeTime);
+  
+                // Guardar los horarios en Firestore para esa fecha específica
+                await setDoc(calendarRef, { date: formattedDate, timeslots });
+  
+                // Actualizar el estado local con los horarios recién creados
+                setLocalTimeSlots(timeslots);
+              } else {
+                console.error('No se encontró el espacio seleccionado.');
+              }
             }
           }
         } catch (error) {
@@ -46,6 +54,7 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
       fetchCalendarData();
     }
   }, [date, selectedSpace, calendarData]);
+  
   
   
   const generateTimeSlots = (openTime, closeTime) => {

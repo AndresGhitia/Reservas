@@ -40,3 +40,14 @@ se debe agregar "tipo de cerramiento: pared / blindex".
 
 G#70 Se agrega a la lista de superficies que ofrece Add y List/EditSpace para seleccionar "Polvo de Ladrillo" y "Arena" 
 y se guarda en la base de datos.
+
+G#71 Modifique el UseEffect de Calendar.jsx:
+ useEffect(() => {
+    if (selectedSpace && date) {
+      const fetchCalendarData = async () => {
+        try {
+          const formattedDate = date.toISOString().split('T')[0];..........
+
+porque note que las fechas se sobreescribian cuando se consultaban desde Dashboard, lo que hacia que se 
+pierdan todos los datos de los horarios. Aparentemente se Soluciono porque el error estaba en la implementacion
+de setDoc.
