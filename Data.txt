@@ -54,3 +54,6 @@ de setDoc.
 
 G#72 Se agrega al componente Add seleccion "walls" en el caso de "sport = Paddle". Se guarda en la base de datos
 como el resto de los atributos del espacio.
+
+G#73 Se agrega a Dashboard, en la seccion "share-buttons", generados de QR para compartir la pagina del negocio (BusinessPage)
+resta ajustar los estilos.

@@ -70,12 +70,9 @@
   align-self: center;
   align-items: center;
 }
-.spaces-Button-container {
-  display: flex;
+.share-Button-container {
   align-self: center;
-  flex-direction: row;
-  align-items: center;
-  margin-top: 20px;
+  margin-top: 5px;
 }
 
 .spaces-Button-container button:hover {

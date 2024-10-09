@@ -1,0 +1,65 @@
+.qr-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Más oscuro para un mejor contraste */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Asegurar que esté por encima de otros elementos */
+    animation: fadeIn 0.3s ease-in-out; /* Animación de entrada suave */
+  }
+  
+  .qr-content {
+    background-color: white;
+    padding: 30px; /* Aumentar padding para más espacio */
+    border-radius: 12px; /* Bordes más redondeados para un look más moderno */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Sombra para dar más profundidad */
+    text-align: center;
+    max-width: 300px;
+    width: 100%;
+    animation: slideUp 0.3s ease-in-out; /* Animación de deslizamiento hacia arriba */
+  }
+  
+  h2 {
+    margin-bottom: 20px; /* Espacio entre el título y el QR */
+    font-size: 1.2rem;
+    color: #333;
+  }
+  
+  .close-btn {
+    margin-top: 20px;
+    padding: 10px 25px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Transición para el hover */
+  }
+  
+  .close-btn:hover {
+    background-color: #0056b3; /* Color más oscuro al hacer hover */
+  }
+  
+  /* Animaciones para una transición más suave */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      transform: translateY(50px);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  
