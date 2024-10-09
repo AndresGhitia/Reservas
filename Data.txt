@@ -63,3 +63,6 @@ de BusinessPage. En este commit se incluyen ambas funciones generate QR y Imagec
 
 G#75 Se agrega consulta por locasion cuando se inicia Home. este dato se guarda en la variable "userLocation" para utilizarla
 luego, por ejemplo en el filtrado de espacios por ubicacion.
+
+G#76 Se agrega navegacion a Home desde Dashboard, para esto fue necesario modificar los componentes NavBar y UserProfileDropdown.
+en el desplegable icono Home provisorio.

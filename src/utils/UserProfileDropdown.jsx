@@ -59,7 +59,7 @@ function UserProfileDropdown() {
       .then(() => {
         setUser(null);
         setUserData(null);
-        console.log('URL: '+ locationUrl.pathname)
+        console.log('URL: ' + locationUrl.pathname)
         if (locationUrl.pathname.includes('/dashboard')) {
           navigate('/');
         }
@@ -79,6 +79,15 @@ function UserProfileDropdown() {
       navigate(`/dashboard/${establishmentName}`);
     } else {
       navigate('/owner-dashboard');
+    }
+  };
+
+  // Si estás en el dashboard, cambiar la opción a "Home"
+  const handleNavigate = () => {
+    if (locationUrl.pathname.includes('/dashboard')) {
+      navigate('/');
+    } else {
+      handleOwnerDashboardClick();
     }
   };
 
@@ -102,9 +111,10 @@ function UserProfileDropdown() {
         <hr />
         <li onClick={() => handleSignOut(false)}><img src={assets.logout_icon} alt="Logout icon" />Logout</li>
         <hr />
-        {userData?.establishmentName && (
-          <li onClick={handleOwnerDashboardClick}><img src={assets.profile_icon} alt="Dashboard icon" />Dashboard</li>
-        )}
+        <li onClick={handleNavigate}>
+          <img src={assets.profile_icon} alt="Navigation icon" />
+          {locationUrl.pathname.includes('/dashboard') ? 'Home' : 'Dashboard'}
+        </li>
       </ul>
 
       {showWarningModal && (

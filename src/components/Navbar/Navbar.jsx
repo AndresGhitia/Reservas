@@ -9,6 +9,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { WarningModal, SessionClosedModal } from './CloseSessionModals.jsx';
 import { resetInactivityTimer } from './authUtils.js';
 import UserProfileDropdown from '../../utils/UserProfileDropdown'; 
+import { useLocation } from 'react-router-dom'; // Importar useLocation
 
 function Navbar() {
   const [showLogin, setShowLogin] = useState(false);
@@ -18,6 +19,10 @@ function Navbar() {
   const [showSessionClosedModal, setShowSessionClosedModal] = useState(false);
   const [countdown, setCountdown] = useState(30);
   const navigate = useNavigate();
+  const location = useLocation();  // Obtener la ubicación actual
+
+  // Obtener la ruta actual, verificar si es el dashboard
+  const isDashboard = location.pathname === '/dashboard';
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -95,7 +100,12 @@ function Navbar() {
         {!user ? (
           <button onClick={() => setShowLogin(true)}>Sign In</button>
         ) : (
-          <UserProfileDropdown userData={userData} user={user} handleSignOut={handleSignOut} />
+          <UserProfileDropdown
+            userData={userData}
+            user={user}
+            handleSignOut={handleSignOut}
+            isDashboard={isDashboard}  
+          />
         )}
       </div>
       {showLogin && <LoginForm onClose={() => setShowLogin(false)} />}
