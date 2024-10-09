@@ -10,14 +10,17 @@ const showToast = (type, message) => {
   }
 };
 
-// Función de validación de los campos
-const validateFields = ({ name, sport, surface, players, rate, openTime, closeTime, techo }) => { 
+const validateFields = ({ name, sport, surface, players, rate, openTime, closeTime, techo, walls }) => { 
   if (!name.trim()) {
     return "Debes ingresar un nombre para el espacio";
   }
 
   if (!sport.trim()) {
     return "Debes seleccionar un deporte para el espacio";
+  }
+
+  if (sport === 'Paddle' && (!walls || !['Pared', 'Blindex'].includes(walls))) {
+    return "Debes seleccionar si las paredes son 'Pared' o 'Blindex' para Paddle";
   }
 
   if (!surface || !['Piso', 'Césped Natural', 'Césped Sintético', 'Polvo de ladrillo', 'Arena'].includes(surface)) {
@@ -43,7 +46,7 @@ const validateFields = ({ name, sport, surface, players, rate, openTime, closeTi
   return null; // Si no hay errores, devuelve null
 };
 
-// Función para agregar un nuevo espacio
+
 export const handleAddSpace = async (newSpace, setNewSpace, setUniqueError) => {
   const user = auth.currentUser;
 
@@ -61,31 +64,32 @@ export const handleAddSpace = async (newSpace, setNewSpace, setUniqueError) => {
     return;
   }
 
-  const { name, sport, surface, players, rate, openTime, closeTime, techo } = newSpace;
+  const { name, sport, surface, players, rate, openTime, closeTime, techo, walls } = newSpace;
 
   try {
-    // Check if space with the same name already exists
+    // Verificar si ya existe un espacio con el mismo nombre
     const spacesRef = collection(db, 'owners', user.uid, 'spaces');
     const q = query(spacesRef, where("name", "==", name.trim()));
     const querySnapshot = await getDocs(q);
 
     if (!querySnapshot.empty) {
       const errorMessage = "Ya existe un espacio con ese nombre";
-      setUniqueError(errorMessage); // Mostrar error en el componente
-      showToast('error', errorMessage); // Notificación de error
+      setUniqueError(errorMessage); 
+      showToast('error', errorMessage); 
       return;
     }
 
-    // Agregar el espacio con todos los campos en Firestore, incluyendo openTime, closeTime y techo
+    // Agregar el espacio con todos los campos en Firestore, incluyendo walls si es Paddle
     await setDoc(doc(db, 'owners', user.uid, 'spaces', name.trim()), {
       name: name.trim(),
       sport: sport,
       surface: surface,
-      players: parseInt(players), // Guardar como número
-      rate: parseFloat(rate), // Guardar como número con decimales
-      openTime: openTime,  // Guardar la hora de apertura
-      closeTime: closeTime, // Guardar la hora de cierre
-      roof: techo // Guardar el valor de techo (si es techado o no)
+      players: parseInt(players),
+      rate: parseFloat(rate),
+      openTime: openTime,  
+      closeTime: closeTime, 
+      roof: techo, 
+      walls: sport === 'Paddle' ? walls : null // Solo agregar walls si es Paddle
     });
 
     // Limpiar los campos del formulario
@@ -95,12 +99,13 @@ export const handleAddSpace = async (newSpace, setNewSpace, setUniqueError) => {
       surface: '',
       players: '',
       rate: '',
-      openTime: '', // Limpiar hora de apertura
-      closeTime: '', // Limpiar hora de cierre
-      techo: '', // Limpiar el campo techo
+      openTime: '', 
+      closeTime: '', 
+      techo: '',
+      walls: '', // Limpiar walls
     });
 
-    setUniqueError(null); // Limpiar cualquier error previo
+    setUniqueError(null); 
     showToast('success', 'Espacio agregado exitosamente'); 
 
   } catch (error) {
@@ -110,3 +115,4 @@ export const handleAddSpace = async (newSpace, setNewSpace, setUniqueError) => {
     showToast('error', errorMessage);
   }
 };
+

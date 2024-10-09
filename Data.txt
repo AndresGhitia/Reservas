@@ -51,3 +51,6 @@ G#71 Modifique el UseEffect de Calendar.jsx:
 porque note que las fechas se sobreescribian cuando se consultaban desde Dashboard, lo que hacia que se 
 pierdan todos los datos de los horarios. Aparentemente se Soluciono porque el error estaba en la implementacion
 de setDoc.
+
+G#72 Se agrega al componente Add seleccion "walls" en el caso de "sport = Paddle". Se guarda en la base de datos
+como el resto de los atributos del espacio.

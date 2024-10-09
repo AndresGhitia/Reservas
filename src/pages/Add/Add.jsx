@@ -15,6 +15,7 @@ function Add({ setSpaces, setError, setLoading }) {
     techo: '',
     openTime: '',  // Hora de apertura
     closeTime: '', // Hora de cierre
+    walls: '',     // Nuevo atributo para Paddle
   });
 
   const [uniqueError, setUniqueError] = useState(null);
@@ -51,6 +52,19 @@ function Add({ setSpaces, setError, setLoading }) {
         <option value="Volley">Volley</option>
         <option value="Hockey">Hockey</option>
       </select>
+
+       {/* Mostrar selector de "walls" solo si el deporte es Paddle */}
+       {newSpace.sport === 'Paddle' && (
+        <select
+          value={newSpace.walls}
+          onChange={(e) => setNewSpace({ ...newSpace, walls: e.target.value })}
+        >
+          <option value="">Seleccionar tipo de paredes</option>
+          <option value="Pared">Pared</option>
+          <option value="Blindex">Blindex</option>
+        </select>
+      )}
+      
 
       {/* Selección de superficie (se habilita si el deporte está seleccionado) */}
       <select
@@ -96,6 +110,7 @@ function Add({ setSpaces, setError, setLoading }) {
         placeholder="Tarifa"
         disabled={!newSpace.players} 
       />
+
 
       {/* Selectores de hora de apertura y cierre */}
       <div className='time-selection'>
