@@ -57,3 +57,6 @@ como el resto de los atributos del espacio.
 
 G#73 Se agrega a Dashboard, en la seccion "share-buttons", generados de QR para compartir la pagina del negocio (BusinessPage)
 resta ajustar los estilos.
+
+G$74 Se resuelve error del commit G#73, ya que en el proceso de agregar el QR me olvide de incluir la funcion de cambiar fondo
+de BusinessPage. En este commit se incluyen ambas funciones generate QR y Imagechange.
