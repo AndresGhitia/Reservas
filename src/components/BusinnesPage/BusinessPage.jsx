@@ -4,10 +4,10 @@ import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebase';
 import CalendarComponent from '../Calendar/Calendar';
 import businessPage from '../../assets/businessPage.jpeg';
-import WhatsappButton from '../Whatsapp/WhatsappButton'; 
+import WhatsappButton from '../Whatsapp/WhatsappButton';
 import BusinessMap from './BusinessMap';
-import SpaceLine from './SpaceLine'; 
-import Navbar from '../Navbar/Navbar'; 
+import SpaceLine from './SpaceLine';
+import Navbar from '../Navbar/Navbar';
 import './BusinessPage.css';
 
 function BusinessPage() {
@@ -33,7 +33,7 @@ function BusinessPage() {
         if (businessData && businessData.establishmentName) {
           const normalizedDecodedName = decodedName.trim().toLowerCase();
           const normalizedBusinessName = businessData.establishmentName.trim().toLowerCase();
-          
+
           if (normalizedBusinessName === normalizedDecodedName) {
             foundBusiness = { id: doc.id, ...businessData };
           }
@@ -96,26 +96,20 @@ function BusinessPage() {
   const backgroundImageUrl = ownerData.backgroundImageUrl;
 
   return (
-   <div> 
-         <Navbar></Navbar> 
-
-    <div className="business-container" style={{ backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : `url(${businessPage})` }}>
+    <div>
+      <Navbar></Navbar>
       <h1>Complejo {decodedName}</h1>
-
-      <div className="spaces-container">
-        <h2>Canchas disponibles</h2>
-          <ul>
-            {spaces.map(space => (
-              <SpaceLine key={space.id} space={space} handleViewAvailability={handleViewAvailability} /> 
-            ))}
-          </ul>
-
-        {ownerData.whatsapp && (
-          <div className="whatsapp-container">
-            <WhatsappButton phoneNumber={ownerData.whatsapp} />
-          </div>
-        )}
+      <h2>Canchas disponibles</h2>
+      <div className="businesspage-container">
+          {spaces.map(space => (
+            <SpaceLine key={space.id} space={space} handleViewAvailability={handleViewAvailability} />
+          ))}
       </div>
+      {ownerData.whatsapp && (
+        <div className="whatsapp-container">
+          <WhatsappButton phoneNumber={ownerData.whatsapp} />
+        </div>
+      )}
 
       {ownerData.address && (
         <div style={{
@@ -147,7 +141,6 @@ function BusinessPage() {
         </div>
       )}
     </div>
-   </div>
   );
 }
 

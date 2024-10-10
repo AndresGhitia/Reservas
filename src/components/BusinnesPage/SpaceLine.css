@@ -1,85 +1,60 @@
-/* SpaceLine.css */
-
-/* Asegurando que SpaceLine ocupe todo el ancho del contenedor */
-.space-line {
-    width: 100%; /* Ocupa todo el ancho del contenedor */
-    display: flex; /* Usamos flexbox para alinear elementos */
-    align-self: center;
-    justify-content: space-around; /* Espacio entre elementos */
-    align-items: center; /* Centra verticalmente */
-    padding: 15px; /* Espaciado interno */
-    margin: 10px 0; /* Margen entre cada línea */
-    max-height: 100px;
-    background-color: #f1ecec; 
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4); 
-    transition: transform 0.3s ease, box-shadow 0.3s ease; 
-  }
-  .space-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center; 
-    width: auto;
-    font-size: large;
-    border-radius: 18px; /* Bordes redondeados */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-    padding: 10px; /* Añadir algo de padding dentro del contenedor */
-    margin: 0; /* Elimina márgenes */
+.spaceline-card{
+  background-color:whitesmoke;
+  margin: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-style: italic;
 }
 
-.space-info p {
-    background-color: #f56980; 
-    border-radius: 18px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
-    margin: 0;
-    padding: 10px; 
-    width: 100%;
-    text-align: center; 
+.sport-icon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.space-info p + p {
-    margin-top: 5px; 
+.sport-icon img{
+  padding-right: 20px;
+  width: 60px;
 }
 
-.space-line:hover {
-    transform: translateY(-2px); 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
-    background-color: #e9f1fa;
-  }
-  
-  .sport {
-    display: flex;
-    align-items: center; 
-  }
-  .space-icon img {
-    width: 32px; 
-    height: 32px;
-    margin-right: 10px;
-  }
-  .space-name {
-    font-size: 1.8rem; 
-    font-weight: 600; 
-    color: #333; 
-    margin-right: 20px; 
-  }
+.sport-icon p{
+  font-size:25px;
+  font-weight: bold;
+}
 
-  
-  .space-button:hover {
-    background-color: #0056b3;
-    transform: scale(1.05); 
-  }
-  
-  .space-button:active {
-    background-color: #003f7f; 
-  }
-  
-  @media (max-width: 768px) {
-    .space-line {
-      flex-direction: column;
-      padding: 0px;
-    }
-  
- 
-  }
-  
+.spaceinfo-top {
+  margin-top: 15px;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.spaceinfo-bottom{
+  margin-top: 15px;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+}
+
+.spaceline-button{
+    background-color: #28a745;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 15px;
+    font-weight: 500;
+}
+
+.spaceline-button:hover{
+  background-color: #5cdf7a;
+}

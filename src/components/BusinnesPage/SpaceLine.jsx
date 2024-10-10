@@ -24,47 +24,33 @@ const SpaceLine = ({ space, handleViewAvailability }) => {
         return hockeyIcon;
       default:
         console.log('Sport result: Null')
-        console.log('Sport:'+ space.sport)
-        return null; 
+        console.log('Sport:' + space.sport)
+        return null;
     }
   };
 
   return (
-    <div className="space-line">
-      {/* Icono del deporte */}
-     <div className="sport"> 
-      <div className="space-icon">
+    <div className="spaceline-card">
+      <div className="sport-icon">
         {getSportIcon(space.sport) && (
           <img src={getSportIcon(space.sport)} alt={`${space.sport} icon`} />
         )}
+        <p>{space.name}</p>
       </div>
-      <div className="space-name">{space.name}</div>
+      <div className="spaceinfo-top">
+        <p>{space.surface}</p>
+        <p>Jugadores: {space.players}</p>
+      </div>
+      <hr />
+      <div className="spaceinfo-bottom">
+        <div className='space-detail'>
+        <p>~${space.rate / space.players}</p>
+        <p style={{ fontSize: 'smaller' }}>POR PERSONA</p>
+        </div>
+        <p>${space.rate}</p>
       </div>
 
-      <div className="space-info">
-        <div className="space-detail">
-          <span className="label">Jugadores:</span>
-          <span className="value">{space.players}</span>
-        </div>
-     
-        <div className="space-detail">
-          <span className="label">Tarifa/hora:</span>
-          <span className="value">${space.rate}</span>
-        </div>
-
-        <div className="space-detail">
-          <span className="label">Tarifa/judador:</span>
-          <span className="value">${space.rate/space.players}</span>
-
-        </div>
-
-        <div className="space-detail">
-          <span className="label">Superficie:</span>
-          <span className="value">{space.surface}</span>
-        </div>
-
-    
-        {/* 
+      {/* 
       
       //Comente esta Linea porque hasta que no ajuste los estilos de ve desagradable en terminos de diseño
 
@@ -73,8 +59,7 @@ const SpaceLine = ({ space, handleViewAvailability }) => {
           <span className="value">{space.roof}</span>
         </div> */}
 
-      </div>
-      <button className="space-button" onClick={() => handleViewAvailability(space)}>
+      <button className="spaceline-button" onClick={() => handleViewAvailability(space)}>
         Ver disponibilidad
       </button>
     </div>

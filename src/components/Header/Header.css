@@ -62,6 +62,6 @@ select:focus {
   }
   
   .button_ver:hover {
-    background-color: #45a049; /* Color verde más oscuro al pasar el cursor */
+    /* background-color: #45a049;  */
   }
   

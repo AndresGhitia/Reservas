@@ -91,18 +91,18 @@
   }
   
   button {
-    background-color: #28a745;
+    /* background-color: #28a745;
     color: #fff;
     border: none;
     border-radius: 5px;
     padding: 10px 20px;
     cursor: pointer;
     margin-top: 15px;
-    align-self: center;
+    align-self: center; */
   }
   
   button:hover {
-    background-color: #218838;
+    /* background-color: #218838; */
   }
   .business-card p:first-of-type {
     font-size: 1.2rem; /* Tamaño más pequeño para el rubro */
