@@ -68,3 +68,5 @@ G#76 Se agrega navegacion a Home desde Dashboard, para esto fue necesario modifi
 en el desplegable icono Home provisorio.
 
 A#77 Se añade estilos a la visualizacion de los espacios (SIN FINALIZAR). Se elimina algunos estilos repetidos.
+
+A#78 Se añade estilos a la visualizacion del mapa,whatsapp y ubicacion.

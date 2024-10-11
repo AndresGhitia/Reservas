@@ -5,6 +5,7 @@ const BusinessMap = ({ address }) => {
   const [mapLocation, setMapLocation] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true); 
+  
   useEffect(() => {
     const geocodeAddress = async (address) => {
       try {
@@ -51,8 +52,14 @@ const BusinessMap = ({ address }) => {
       ) : mapLocation ? (
         <GoogleMap
           center={mapLocation}
-          zoom={15 }
-          mapContainerStyle={{ width: '100%', height: '200px' }}
+          zoom={15}
+          mapContainerStyle={{ width: '400px', height: '300px' }}
+          options={{
+            mapTypeControl: false, // Deshabilita el control de tipo de mapa
+            streetViewControl: false, // Deshabilita Street View
+            fullscreenControl: false, // Deshabilita el botón de pantalla completa
+            zoomControl: false, // Deshabilita los controles de zoom
+          }}
         >
           <Marker position={mapLocation} />
         </GoogleMap>

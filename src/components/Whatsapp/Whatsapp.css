@@ -12,19 +12,19 @@
     transition: background-color 0.2s ease;
     cursor: pointer;
   }
-  .whatsapp-container {
+  /* .whatsapp-container {
     display: flex;
     justify-content: center;
     align-items: center;
     transition: background-color 0.5s ease;
     
-  }
+  } */
   
-  .whatsapp-container:hover {
+  /* .whatsapp-container:hover {
     background-color: #99e4b4; 
     border-radius: 8px; 
     padding: 1px; 
-  }
+  } */
   
   .whatsapp:hover {
     background-color: #abffca; /* Color más oscuro en hover */

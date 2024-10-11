@@ -9,6 +9,7 @@ import BusinessMap from './BusinessMap';
 import SpaceLine from './SpaceLine';
 import Navbar from '../Navbar/Navbar';
 import './BusinessPage.css';
+import { assets } from '../../assets/assets';
 
 function BusinessPage() {
   const { establishmentName } = useParams();
@@ -98,50 +99,54 @@ function BusinessPage() {
   return (
     <div>
       <Navbar></Navbar>
-      <h1>Complejo {decodedName}</h1>
-      <h2>Canchas disponibles</h2>
-      <div className="businesspage-container">
+      <div className='business-header'>
+        <h1>{decodedName}</h1>
+        <hr />
+      </div>
+      <div className='business-container'>
+        <div className="businesspage-container">
           {spaces.map(space => (
             <SpaceLine key={space.id} space={space} handleViewAvailability={handleViewAvailability} />
           ))}
+        </div>
+
+        {ownerData.whatsapp && (
+          <div className="businessmap-container">
+            {ownerData.address && (
+              <div className='address-container'>
+                <img src={assets.address_icon} />
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ownerData.address)}`}
+                  target='_blank'
+                  rel='noopener noreferrer'>
+                  UBICACION
+                </a>
+              </div>
+            )}
+            <BusinessMap address={ownerData.address} />
+            <div className='whatsapp-container'>
+              <h1>CONTACTANOS</h1>
+              <p><WhatsappButton phoneNumber={ownerData.whatsapp} /></p>
+            </div>
+          </div>
+        )}
+
+        {selectedSpace && (
+          <div className="selected-space">
+            <CalendarComponent
+              selectedSpace={selectedSpace}
+              calendarData={calendarData}
+              setCalendarData={setCalendarData}
+              onClose={handleCloseModal}
+              setSelectedDate={setSelectedDate}
+              disableBooking={true}
+            />
+          </div>
+        )}
       </div>
-      {ownerData.whatsapp && (
-        <div className="whatsapp-container">
-          <WhatsappButton phoneNumber={ownerData.whatsapp} />
-        </div>
-      )}
-
-      {ownerData.address && (
-        <div style={{
-          marginTop: '20px',
-          padding: '15px',
-          backgroundColor: 'rgba(255, 255, 255, 0.7)',
-          borderRadius: '12px',
-          boxShadow: '0 6px 12px rgba(0, 0, 0, 0.15)',
-          width: '60%',
-          maxWidth: '900px',
-          textAlign: 'center',
-          transition: 'all 0.3s ease'
-        }}>
-          <h3>Ubicación: {ownerData.address} </h3>
-          <BusinessMap address={ownerData.address} />
-        </div>
-      )}
-
-      {selectedSpace && (
-        <div className="selected-space">
-          <CalendarComponent
-            selectedSpace={selectedSpace}
-            calendarData={calendarData}
-            setCalendarData={setCalendarData}
-            onClose={handleCloseModal}
-            setSelectedDate={setSelectedDate}
-            disableBooking={true}
-          />
-        </div>
-      )}
     </div>
   );
+
 }
 
 export default BusinessPage;
