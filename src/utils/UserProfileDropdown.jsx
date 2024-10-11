@@ -76,6 +76,17 @@ function UserProfileDropdown() {
       });
   };
 
+  // Navegación al dashboard del dueño o Home
+  const handleNavigate = () => {
+    if (locationUrl.pathname === '/') {
+      // Si ya está en Home, ir al Dashboard del dueño
+      handleOwnerDashboardClick();
+    } else {
+      // Si no está en Home, navegar a Home
+      navigate('/');
+    }
+  };
+
   // Navegación al dashboard del dueño
   const handleOwnerDashboardClick = () => {
     if (userData?.establishmentName) {
@@ -83,15 +94,6 @@ function UserProfileDropdown() {
       navigate(`/dashboard/${establishmentName}`);
     } else {
       navigate('/owner-dashboard');
-    }
-  };
-
-  // Si estás en el dashboard, cambiar la opción a "Home"
-  const handleNavigate = () => {
-    if (locationUrl.pathname.includes('/dashboard')) {
-      navigate('/');
-    } else {
-      handleOwnerDashboardClick();
     }
   };
 
@@ -115,11 +117,11 @@ function UserProfileDropdown() {
         <hr />
         <li onClick={() => handleSignOut(false)}><img src={assets.logout_icon} alt="Logout icon" />Logout</li>
         <hr />
-        {/* Mostrar la opción de Dashboard solo si pertenece a la colección 'owners' */}
+        {/* Mostrar la opción de Dashboard o Home solo si pertenece a la colección 'owners' */}
         {userCollection === 'owners' && (
           <li onClick={handleNavigate}>
             <img src={assets.profile_icon} alt="Navigation icon" />
-            {locationUrl.pathname.includes('/dashboard') ? 'Home' : 'Dashboard'}
+            {locationUrl.pathname === '/' ? 'Dashboard' : 'Home'}
           </li>
         )}
       </ul>

@@ -73,3 +73,7 @@ A#78 Se añade estilos a la visualizacion del mapa,whatsapp y ubicacion.
 
 G#79 Se agrega al componente NavBar la discriminacion cuando accede un user o un onwer, debido a que el user no tiene Dashboard.
 por lo tanto se quita esta opcion de navegacion para los users.
+
+G#80 se crea un .env para alojas URL, ApiKeys y resto de datos sensibles. En este commit ya se implementa en el env la URL del Home.
+De esta manera el dia que reemplacemos el localHost por la definitiva solo cambiamos el valor de la variable en el env.
+hay que tener en cuenta que es un .Env de desarrollo, para produccion hay que reemplazarlo por otro .env

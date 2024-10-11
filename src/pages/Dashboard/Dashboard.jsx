@@ -28,13 +28,14 @@ function Dashboard() {
   const [timeSlots, setTimeSlots] = useState([]);
   const [imageUrl, setImageUrl] = useState(""); // Estado para la URL de la imagen subida
   const [showQRModal, setShowQRModal] = useState(false); // Estado para controlar el modal QR
+  const bookItUrl = import.meta.env.VITE_BOOKIT_URL;
 
   useEffect(() => {
     fetchOwnerDataAndSpaces(setOwnerData, setSpaces, setError, setLoading);
   }, []);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(`http://localhost:5173/${encodeURIComponent(decodedName.replace(/ /g, '-'))}`)
+    navigator.clipboard.writeText(`${bookItUrl}/${encodeURIComponent(decodedName.replace(/ /g, '-'))}`)
       .then(() => alert("Dirección de tu negocio copiada en el portapapeles"))
       .catch(err => console.error('Error al copiar el enlace: ', err));
   };
@@ -165,8 +166,8 @@ function Dashboard() {
  </div>
 
  <button
-   onClick={() => window.open(`http://localhost:5173/${establishmentName}`, '_blank')}
-   style={{ marginTop: '20px' }}
+    onClick={() => window.open(`${bookItUrl}/${establishmentName}`, '_blank')}
+    style={{ marginTop: '20px' }}
  >
    Ir al sitio del negocio
  </button>
@@ -180,7 +181,7 @@ function Dashboard() {
   {/* Modal QR */}
   {showQRModal && (
           <ShareQR
-            url={`http://localhost:5173/${encodeURIComponent(decodedName.replace(/ /g, '-'))}`}
+            url={`${bookItUrl}/${encodeURIComponent(decodedName.replace(/ /g, '-'))}`}
             businessName={decodedName}  // Pasa el nombre del negocio aquí
             onClose={handleCloseQRModal}
           />
