@@ -77,3 +77,6 @@ por lo tanto se quita esta opcion de navegacion para los users.
 G#80 se crea un .env para alojas URL, ApiKeys y resto de datos sensibles. En este commit ya se implementa en el env la URL del Home.
 De esta manera el dia que reemplacemos el localHost por la definitiva solo cambiamos el valor de la variable en el env.
 hay que tener en cuenta que es un .Env de desarrollo, para produccion hay que reemplazarlo por otro .env
+
+G#81 Se agrega el dato expdate a firestore (creation date + 3 meses) con el fin de que cuando el owner inicia sesion, el sistema
+interprete si esta vigente o vencido, para ser redigido o no a renovar su suscripcion a Book-It!

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { auth, db } from '../../firebase'; 
-import { doc, setDoc } from 'firebase/firestore';
-import OwnerForm from './OwnerForm'; // Importar el componente OwnerForm
-import UserForm from './UserForm'; // Importar el componente UserForm
+import { doc, setDoc, Timestamp } from 'firebase/firestore';
+import OwnerForm from './OwnerForm'; 
+import UserForm from './UserForm'; 
 import './RegisterForm.css';
 
 function RegisterForm({ onClose }) {
@@ -26,15 +26,26 @@ function RegisterForm({ onClose }) {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-
+  
       // Enviar correo de verificación
       await sendEmailVerification(user);
-
+  
+      // Calculate expiration date (3 months from now)
+      const createdAt = new Date();
+      const expirationDate = new Date();
+      expirationDate.setMonth(expirationDate.getMonth() + 3); // Add 3 months to the current date
+  
+      // Convert dates to Firebase Timestamp
+      const createdAtTimestamp = Timestamp.fromDate(createdAt);
+      const expdateTimestamp = Timestamp.fromDate(expirationDate);
+  
       if (accountType === 'user') {
         await setDoc(doc(db, 'users', user.uid), {
           firstName,
           lastName,
-          email
+          email,
+      //    createdAt: createdAtTimestamp,  // Store created date as Timestamp
+      //    expdate: expdateTimestamp        // Store expiration date as Timestamp
         });
       } else if (accountType === 'owner') {
         await setDoc(doc(db, 'owners', user.uid), {
@@ -44,10 +55,11 @@ function RegisterForm({ onClose }) {
           whatsapp,
           businessType,
           address,
-          createdAt: new Date()
+          createdAt: createdAtTimestamp,   // Store created date as Timestamp
+          expdate: expdateTimestamp        // Store expiration date as Timestamp
         });
       }
-
+  
       alert("Usuario registrado con éxito. Por favor, revisa tu correo electrónico para verificar tu cuenta.");
       onClose();
     } catch (error) {
@@ -55,6 +67,7 @@ function RegisterForm({ onClose }) {
       setError("Error al registrar el usuario: " + error.message);
     }
   };
+  
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
