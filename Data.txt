@@ -70,3 +70,6 @@ en el desplegable icono Home provisorio.
 A#77 Se añade estilos a la visualizacion de los espacios (SIN FINALIZAR). Se elimina algunos estilos repetidos.
 
 A#78 Se añade estilos a la visualizacion del mapa,whatsapp y ubicacion.
+
+G#79 Se agrega al componente NavBar la discriminacion cuando accede un user o un onwer, debido a que el user no tiene Dashboard.
+por lo tanto se quita esta opcion de navegacion para los users.

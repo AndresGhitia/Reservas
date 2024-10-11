@@ -9,6 +9,7 @@ import { resetInactivityTimer } from '../components/Navbar/authUtils';
 function UserProfileDropdown() {
   const [user, setUser] = useState(null);
   const [userData, setUserData] = useState(null);
+  const [userCollection, setUserCollection] = useState(null); // Estado para identificar si es 'owners' o 'users'
   const [showWarningModal, setShowWarningModal] = useState(false);
   const [showSessionClosedModal, setShowSessionClosedModal] = useState(false);
   const [countdown, setCountdown] = useState(30);
@@ -22,14 +23,17 @@ function UserProfileDropdown() {
         const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
         if (userDoc.exists()) {
           setUserData(userDoc.data());
+          setUserCollection('users'); // Identificar que es de la colección 'users'
         } else {
           const ownerDoc = await getDoc(doc(db, 'owners', currentUser.uid));
           if (ownerDoc.exists()) {
             setUserData(ownerDoc.data());
+            setUserCollection('owners'); // Identificar que es de la colección 'owners'
           }
         }
       } else {
         setUserData(null);
+        setUserCollection(null); // Resetear el estado de la colección si no hay usuario
       }
     });
 
@@ -111,10 +115,13 @@ function UserProfileDropdown() {
         <hr />
         <li onClick={() => handleSignOut(false)}><img src={assets.logout_icon} alt="Logout icon" />Logout</li>
         <hr />
-        <li onClick={handleNavigate}>
-          <img src={assets.profile_icon} alt="Navigation icon" />
-          {locationUrl.pathname.includes('/dashboard') ? 'Home' : 'Dashboard'}
-        </li>
+        {/* Mostrar la opción de Dashboard solo si pertenece a la colección 'owners' */}
+        {userCollection === 'owners' && (
+          <li onClick={handleNavigate}>
+            <img src={assets.profile_icon} alt="Navigation icon" />
+            {locationUrl.pathname.includes('/dashboard') ? 'Home' : 'Dashboard'}
+          </li>
+        )}
       </ul>
 
       {showWarningModal && (
