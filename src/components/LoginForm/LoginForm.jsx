@@ -5,6 +5,8 @@ import './LoginForm.css';
 import RegisterForm from '../RegisterForm/RegisterForm';
 import { useNavigate } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
+import { parse } from 'date-fns';
+import { es } from 'date-fns/locale';
 
 function LoginForm({ onClose }) {
   const [email, setEmail] = useState('');
@@ -19,29 +21,51 @@ function LoginForm({ onClose }) {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-
+  
       if (!user.emailVerified) {
         setError("Tu correo electrónico no ha sido verificado. Por favor, revisa tu correo y sigue las instrucciones para verificarlo.");
-        await signOut(auth); // Asegúrate de que signOut esté correctamente importado
+        await signOut(auth);
         return;
       }
-
+  
       const ownerDoc = await getDoc(doc(db, 'owners', user.uid));
       if (ownerDoc.exists()) {
         const ownerData = ownerDoc.data();
+  
+        // Verificar si expdate es un Timestamp y convertirlo a Date
+        const expdate = ownerData.expdate && ownerData.expdate.toDate ? ownerData.expdate.toDate() : new Date(ownerData.expdate);
+        const today = new Date();
+  
+        console.log('Fecha de expiración:', expdate); // Para verificar si la fecha es correcta
+        console.log('Fecha actual:', today);
+  
+        // Verificar si la fecha actual es mayor que la fecha de expiración
+        if (today > expdate) {
+          setError("Tu cuenta ha vencido. Por favor, contacta a soporte para renovarla.");
+          console.log('Usuario Vencido')
+          await signOut(auth);  // Cerrar la sesión si el usuario está vencido
+          return;
+        }else {
+          console.log('Usuario vigente')
+        }
+  
+        // Si el usuario está vigente, proceder con la navegación
         onClose();
         setTimeout(() => {
           const dashboardUrl = `/dashboard/${encodeURIComponent(ownerData.establishmentName.replace(/\s+/g, '-'))}`;
-    //      navigate(dashboardUrl); // Descomenta esta línea si usas `react-router-dom`
+          // navigate(dashboardUrl);  // Descomentar esta línea si estás usando react-router-dom
         }, 100);
       } else {
         onClose();
       }
-
+  
     } catch (error) {
-      setError("Usuario o contraseña incorrectos, revisalos y vuelve a ingresarlos por favor");
+      setError("Usuario o contraseña incorrectos, revísalos y vuelve a ingresarlos por favor");
     }
   };
+  
+  
+  
 
   const openRegisterModal = () => {
     setShowRegister(true);

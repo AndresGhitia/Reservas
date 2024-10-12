@@ -79,4 +79,9 @@ De esta manera el dia que reemplacemos el localHost por la definitiva solo cambi
 hay que tener en cuenta que es un .Env de desarrollo, para produccion hay que reemplazarlo por otro .env
 
 G#81 Se agrega el dato expdate a firestore (creation date + 3 meses) con el fin de que cuando el owner inicia sesion, el sistema
-interprete si esta vigente o vencido, para ser redigido o no a renovar su suscripcion a Book-It!
+interprete si esta vigente o vencido, para ser redigido o no a renovar su suscripcion a Book-It!  
+*para esto se modifico la funcion "handleSubmit" del componente RegisterForm.jsx*
+
+G#82 Se agrega la siguiente funcionalidad: cuando el owner inicia sesion, el sistema
+interprete si esta vigente o vencido, para ser redigido o no a renovar su suscripcion a Book-It!  
+*para esto se modifico la funcion "handleLogin" del componente LoginForm.jsx*
