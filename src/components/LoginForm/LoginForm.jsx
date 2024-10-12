@@ -5,8 +5,7 @@ import './LoginForm.css';
 import RegisterForm from '../RegisterForm/RegisterForm';
 import { useNavigate } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
-import { parse } from 'date-fns';
-import { es } from 'date-fns/locale';
+import BuySubscription from '../BuySuscription/BuySuscription'; 
 
 function LoginForm({ onClose }) {
   const [email, setEmail] = useState('');
@@ -14,6 +13,7 @@ function LoginForm({ onClose }) {
   const [error, setError] = useState('');
   const [showRegister, setShowRegister] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false); 
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -21,51 +21,39 @@ function LoginForm({ onClose }) {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-  
+
       if (!user.emailVerified) {
         setError("Tu correo electrónico no ha sido verificado. Por favor, revisa tu correo y sigue las instrucciones para verificarlo.");
-        await signOut(auth);
         return;
       }
-  
+
       const ownerDoc = await getDoc(doc(db, 'owners', user.uid));
       if (ownerDoc.exists()) {
         const ownerData = ownerDoc.data();
-  
-        // Verificar si expdate es un Timestamp y convertirlo a Date
         const expdate = ownerData.expdate && ownerData.expdate.toDate ? ownerData.expdate.toDate() : new Date(ownerData.expdate);
         const today = new Date();
-  
-        console.log('Fecha de expiración:', expdate); // Para verificar si la fecha es correcta
-        console.log('Fecha actual:', today);
-  
-        // Verificar si la fecha actual es mayor que la fecha de expiración
+
         if (today > expdate) {
           setError("Tu cuenta ha vencido. Por favor, contacta a soporte para renovarla.");
-          console.log('Usuario Vencido')
-          await signOut(auth);  // Cerrar la sesión si el usuario está vencido
+          console.log('Usuario Vencido');
+          setIsSubscriptionModalOpen(true); // Abrir el modal de suscripción
+          await signOut(auth); // Cerrar la sesión si el usuario está vencido
           return;
-        }else {
-          console.log('Usuario vigente')
         }
-  
-        // Si el usuario está vigente, proceder con la navegación
+
         onClose();
         setTimeout(() => {
           const dashboardUrl = `/dashboard/${encodeURIComponent(ownerData.establishmentName.replace(/\s+/g, '-'))}`;
-          // navigate(dashboardUrl);  // Descomentar esta línea si estás usando react-router-dom
+       //   navigate(dashboardUrl);  // Navegar al dashboard
         }, 100);
       } else {
-        onClose();
+        setError("Usuario no encontrado, por favor verifica tus credenciales.");
       }
-  
+
     } catch (error) {
       setError("Usuario o contraseña incorrectos, revísalos y vuelve a ingresarlos por favor");
     }
   };
-  
-  
-  
 
   const openRegisterModal = () => {
     setShowRegister(true);
@@ -77,6 +65,15 @@ function LoginForm({ onClose }) {
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleModalClose = () => {
+    setIsSubscriptionModalOpen(false);
+  };
+
+  const handleRenewSubscription = () => {
+    console.log('Renovando suscripción...');
+    setIsSubscriptionModalOpen(false);
   };
 
   return (
@@ -119,6 +116,13 @@ function LoginForm({ onClose }) {
       </div>
 
       {showRegister && <RegisterForm onClose={closeRegisterModal} />}
+
+      {/* Modal de suscripción vencida */}
+      <BuySubscription 
+        isOpen={isSubscriptionModalOpen} 
+        onClose={handleModalClose} 
+        onRenew={handleRenewSubscription} 
+      />
     </>
   );
 }

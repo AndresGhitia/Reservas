@@ -85,3 +85,7 @@ interprete si esta vigente o vencido, para ser redigido o no a renovar su suscri
 G#82 Se agrega la siguiente funcionalidad: cuando el owner inicia sesion, el sistema
 interprete si esta vigente o vencido, para ser redigido o no a renovar su suscripcion a Book-It!  
 *para esto se modifico la funcion "handleLogin" del componente LoginForm.jsx*
+
+G#83 Se agrega el modal de comprar suscripcion (BuySuscription.jsx) el mismo se muestra cuando el owner quiere iniciar sesion
+con una cuenta vencida. 
+*para esto se crea el componente BuySuscription.jsx* y se modifica handleLogin para mostrarlo. 
