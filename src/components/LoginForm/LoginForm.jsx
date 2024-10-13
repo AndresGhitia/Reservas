@@ -5,7 +5,8 @@ import './LoginForm.css';
 import RegisterForm from '../RegisterForm/RegisterForm';
 import { useNavigate } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
-import BuySubscription from '../BuySuscription/BuySuscription'; 
+import BuySubscription from '../BuySuscription/BuySuscription';
+import { handleIntegrationMP } from '../../../MP/preference'; 
 
 function LoginForm({ onClose }) {
   const [email, setEmail] = useState('');
@@ -44,7 +45,7 @@ function LoginForm({ onClose }) {
         onClose();
         setTimeout(() => {
           const dashboardUrl = `/dashboard/${encodeURIComponent(ownerData.establishmentName.replace(/\s+/g, '-'))}`;
-       //   navigate(dashboardUrl);  // Navegar al dashboard
+          navigate(dashboardUrl);  // Navegar al dashboard
         }, 100);
       } else {
         setError("Usuario no encontrado, por favor verifica tus credenciales.");
@@ -71,8 +72,20 @@ function LoginForm({ onClose }) {
     setIsSubscriptionModalOpen(false);
   };
 
-  const handleRenewSubscription = () => {
+  const handleRenewSubscription = async () => {
     console.log('Renovando suscripción...');
+
+    // Llamar a la función para crear la preferencia de pago
+    const preference = await handleIntegrationMP();
+
+    if (preference) {
+      // Redirigir al usuario a la URL de inicio de pago
+      window.location.href = preference.init_point;
+    } else {
+      alert("Error al crear la preferencia de pago.");
+    }
+
+    // Cerrar el modal de suscripción
     setIsSubscriptionModalOpen(false);
   };
 

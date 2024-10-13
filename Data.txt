@@ -89,3 +89,8 @@ interprete si esta vigente o vencido, para ser redigido o no a renovar su suscri
 G#83 Se agrega el modal de comprar suscripcion (BuySuscription.jsx) el mismo se muestra cuando el owner quiere iniciar sesion
 con una cuenta vencida. 
 *para esto se crea el componente BuySuscription.jsx* y se modifica handleLogin para mostrarlo. 
+
+G#84 Comienzo de integracion de MP como paserela de pago de Book It para manejar suscripcion de Owners.
+Se crea la preferencia de pago y el componente BuySuscription.jsx y se integran a LoginForm.jsx.
+credenciales en .env. 
+se pasa a realizar test de pago, en caso de funcionar se sigue a la etapa de obtencion de datos de pagos.
