@@ -94,3 +94,6 @@ G#84 Comienzo de integracion de MP como paserela de pago de Book It para manejar
 Se crea la preferencia de pago y el componente BuySuscription.jsx y se integran a LoginForm.jsx.
 credenciales en .env. 
 se pasa a realizar test de pago, en caso de funcionar se sigue a la etapa de obtencion de datos de pagos.
+
+G#85 Quitamos el archivo MP credencials.txt de github, lo includimos al ignore y eliminamos el commit para 
+no hacer publica informacion sensible.
