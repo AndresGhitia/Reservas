@@ -1,22 +1,26 @@
-// handleIntegrationMP.js
-
 export const handleIntegrationMP = async () => {
     const ACCESS_TOKEN = import.meta.env.VITE_MERCADO_PAGO_ACCESS_TOKEN;
   
     const preferencia = {
-      binary_mode: true, // Corregido desde "binart_mode"
+      binary_mode: true, 
       items: [
         {
           title: "Book It",
           description: "Acceso mensual",
-          picture_url: "https://example.com/image.jpg", // Usa una URL válida
+          picture_url: "https://example.com/image.jpg", 
           category_id: "Suscripcion",
           quantity: 1,
-          currency_id: "ARS", // Ejemplo con pesos argentinos
+          currency_id: "ARS", // pesos argentinos
           unit_price: 0.10,
+          sandbox: true
         },
       ],
-    //  notification_url: "https://stormy-taiga-82317-47575a2d66a9.herokuapp.com/webhook-mercadopago", // Fuera de los items
+
+      back_urls: {
+        success: `${import.meta.env.VITE_BOOKIT_URL}/success`,
+        failure: `${import.meta.env.VITE_BOOKIT_URL}/failure`,
+        pending: `${import.meta.env.VITE_BOOKIT_URL}/pending`
+      },
     };
   
     try {
@@ -42,4 +46,3 @@ export const handleIntegrationMP = async () => {
       return null;
     }
   };
-  

@@ -97,3 +97,8 @@ se pasa a realizar test de pago, en caso de funcionar se sigue a la etapa de obt
 
 G#85 Quitamos el archivo MP credencials.txt de github, lo includimos al ignore y eliminamos el commit para 
 no hacer publica informacion sensible.
+
+G#86 Tratando de commitear quitando en .env, el cual por algun motivo se sube a github.
+
+G#87 Se agregan las credenciales de MP de 2do developer para poder realizar pagos de prueba. Para cambiar entre 
+credenciales de los dos developer solo hay q comentar y descomentarlas desde el .env
