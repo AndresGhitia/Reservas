@@ -1,8 +1,9 @@
-// src/pages/PaymentStates/Success.jsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { db } from '../../firebase'; // Asegúrate de tener configurado Firebase
+import { collection, query, where, getDocs, updateDoc, Timestamp } from 'firebase/firestore';
 
-const Success = (email) => {
+const Success = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -12,11 +13,41 @@ const Success = (email) => {
   const paymentStatus = queryParams.get('status');
   const customerEmail = queryParams.get('external_reference'); // Suponiendo que se usa para el email del cliente
 
-  // Log de los datos del pago
-  console.log('ID del pago:', paymentId);
-  console.log('Correo del cliente:', JSON.stringify(email));
-  console.log('Estado del pago:', paymentStatus);
+  // Función para buscar el usuario y actualizar la expdate
+  const updateExpDate = async () => {
+    try {
+      const ownersRef = collection(db, 'owners');
+      const q = query(ownersRef, where('establishmentEmail', '==', customerEmail)); // Buscar por email
 
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        const userDoc = querySnapshot.docs[0];
+        const userDocRef = userDoc.ref;
+
+        // Sumar un mes a la fecha actual
+        const currentDate = new Date();
+        const newExpDate = new Date(currentDate.setMonth(currentDate.getMonth() + 1));
+
+        // Actualizar el campo expdate
+        await updateDoc(userDocRef, {
+          expdate: Timestamp.fromDate(newExpDate),
+        });
+
+        console.log('Fecha de expiración actualizada correctamente.');
+      } else {
+        console.error('No se encontró el usuario con ese email.');
+      }
+    } catch (error) {
+      console.error('Error al actualizar la fecha de expiración:', error);
+    }
+  };
+
+  // Llamar a la función cuando el pago sea aprobado
+  useEffect(() => {
+    if (paymentStatus === 'approved') {
+      updateExpDate();
+    }
+  }, [paymentStatus]);
 
   return (
     <div>
@@ -27,9 +58,7 @@ const Success = (email) => {
         <li>Correo del cliente: {customerEmail}</li>
         <li>Estado del pago: {paymentStatus}</li>
       </ul>
-      <button onClick={() => navigate('/')}>
-        Ahora puede iniciar sesión
-      </button>
+      <button onClick={() => navigate('/')}>Ahora puede iniciar sesión</button>
     </div>
   );
 };
