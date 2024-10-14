@@ -1,3 +1,5 @@
+// src/App.js
+
 import { Route, Routes, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home/Home";
@@ -9,12 +11,19 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Add from "./pages/Add/Add";
 import List from "./pages/List/List";
 import Booking from "./pages/Booking/Booking";
+import Success from "./pages/PaymentStates/Succes"; 
 
 const App = () => {
   const location = useLocation();
   
   const showNavbarRoutes = ['/', '/cart', '/order'];
   const showNavbar = showNavbarRoutes.includes(location.pathname) || location.pathname.startsWith('/item');
+
+  // Función para abrir el modal de inicio de sesión
+  const openLoginModal = () => {
+    // Aquí deberías implementar la lógica para mostrar el modal de inicio de sesión en el Home
+    console.log("Abrir modal de inicio de sesión");
+  };
 
   return (
     <div className="app">
@@ -32,7 +41,10 @@ const App = () => {
         </Route>
   
         <Route path="/:establishmentName" element={<BusinessPage />} />
-      </Routes>
+
+        {/* Ruta para la pantalla de éxito de pago */}
+        <Route path="/success" element={<Success />} /> 
+        </Routes>
     </div>
   );
 };

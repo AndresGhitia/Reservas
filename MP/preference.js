@@ -15,6 +15,7 @@ export const handleIntegrationMP = async () => {
           sandbox: true
         },
       ],
+      
 
       back_urls: {
         success: `${import.meta.env.VITE_BOOKIT_URL}/success`,

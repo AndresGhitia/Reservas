@@ -102,3 +102,7 @@ G#86 Tratando de commitear quitando en .env, el cual por algun motivo se sube a 
 
 G#87 Se agregan las credenciales de MP de 2do developer para poder realizar pagos de prueba. Para cambiar entre 
 credenciales de los dos developer solo hay q comentar y descomentarlas desde el .env
+
+G#88 Se agrega Back-url Succes, para pago exitoso. Cuenta con boton para volver a Home e iniciar sesion. 
+se obtiene estado del pago y ID. Restaria obtener usuario con el fin de manejar los datos de firestore y 
+completar el proceso de pago.
