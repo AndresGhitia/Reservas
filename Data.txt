@@ -106,3 +106,6 @@ credenciales de los dos developer solo hay q comentar y descomentarlas desde el 
 G#88 Se agrega Back-url Succes, para pago exitoso. Cuenta con boton para volver a Home e iniciar sesion. 
 se obtiene estado del pago y ID. Restaria obtener usuario con el fin de manejar los datos de firestore y 
 completar el proceso de pago.
+
+G#89 Logramos obtener toda la info necesaria para el manejo de pago aprobado, para luego utilizar en base
+de datos (Payment-Id | Email | status)

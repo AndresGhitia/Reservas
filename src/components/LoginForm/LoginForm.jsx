@@ -22,26 +22,34 @@ function LoginForm({ onClose }) {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-
+  
       if (!user.emailVerified) {
         setError("Tu correo electrónico no ha sido verificado. Por favor, revisa tu correo y sigue las instrucciones para verificarlo.");
         return;
       }
-
+  
       const ownerDoc = await getDoc(doc(db, 'owners', user.uid));
       if (ownerDoc.exists()) {
         const ownerData = ownerDoc.data();
         const expdate = ownerData.expdate && ownerData.expdate.toDate ? ownerData.expdate.toDate() : new Date(ownerData.expdate);
         const today = new Date();
-
+  
         if (today > expdate) {
           setError("Tu cuenta ha vencido. Por favor, contacta a soporte para renovarla.");
           console.log('Usuario Vencido');
           setIsSubscriptionModalOpen(true); // Abrir el modal de suscripción
           await signOut(auth); // Cerrar la sesión si el usuario está vencido
+  
+          // Llamada para iniciar el proceso de pago, pasando el email del usuario
+          const paymentData = await handleIntegrationMP(user.email); 
+          if (paymentData) {
+            // Redireccionar al link de pago de Mercado Pago
+            console.log('LOG: '+paymentData)
+            window.location.href = paymentData.init_point;
+          }
           return;
         }
-
+  
         onClose();
         setTimeout(() => {
           const dashboardUrl = `/dashboard/${encodeURIComponent(ownerData.establishmentName.replace(/\s+/g, '-'))}`;
@@ -50,11 +58,12 @@ function LoginForm({ onClose }) {
       } else {
         setError("Usuario no encontrado, por favor verifica tus credenciales.");
       }
-
+  
     } catch (error) {
       setError("Usuario o contraseña incorrectos, revísalos y vuelve a ingresarlos por favor");
     }
   };
+  
 
   const openRegisterModal = () => {
     setShowRegister(true);

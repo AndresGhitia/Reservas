@@ -2,7 +2,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const Success = () => {
+const Success = (email) => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -14,8 +14,9 @@ const Success = () => {
 
   // Log de los datos del pago
   console.log('ID del pago:', paymentId);
-  console.log('Correo del cliente:', customerEmail);
+  console.log('Correo del cliente:', JSON.stringify(email));
   console.log('Estado del pago:', paymentStatus);
+
 
   return (
     <div>
