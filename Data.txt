@@ -112,3 +112,4 @@ de datos (Payment-Id | Email | status)
 
 G#90 Se añade la funcion de actualizacion de fecha de expiracion del Owner cuando realiza el pago con exito
 desde MP (dato expdate de firestore).
+Se descartan los cambios del commit G#91 por errores.
