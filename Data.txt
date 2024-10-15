@@ -113,3 +113,6 @@ de datos (Payment-Id | Email | status)
 G#90 Se añade la funcion de actualizacion de fecha de expiracion del Owner cuando realiza el pago con exito
 desde MP (dato expdate de firestore).
 Se descartan los cambios del commit G#91 por errores.
+
+G#92 Se añade back-url para pagos "failure", cuando el pago no se realiza o no se lleva a cabo por algun error
+se navega a la pantalla de Pago rechazado

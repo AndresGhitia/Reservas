@@ -12,18 +12,13 @@ import Add from "./pages/Add/Add";
 import List from "./pages/List/List";
 import Booking from "./pages/Booking/Booking";
 import Success from "./pages/PaymentStates/Succes"; 
+import Failure from "./pages/PaymentStates/Failure";
 
 const App = () => {
   const location = useLocation();
   
   const showNavbarRoutes = ['/', '/cart', '/order'];
   const showNavbar = showNavbarRoutes.includes(location.pathname) || location.pathname.startsWith('/item');
-
-  // Función para abrir el modal de inicio de sesión
-  const openLoginModal = () => {
-    // Aquí deberías implementar la lógica para mostrar el modal de inicio de sesión en el Home
-    console.log("Abrir modal de inicio de sesión");
-  };
 
   return (
     <div className="app">
@@ -44,6 +39,8 @@ const App = () => {
 
         {/* Ruta para la pantalla de éxito de pago */}
         <Route path="/success" element={<Success />} /> 
+        <Route path="/failure" element={<Failure />} />  {/* Ruta para "failure" */}
+    
         </Routes>
     </div>
   );

@@ -16,7 +16,7 @@ const Home = () => {
         (position) => {
           const { latitude, longitude } = position.coords;
           setUserLocation({ latitude, longitude }); // Guardar la latitud y longitud en el estado
-          console.log('Location: '+ userLocation)
+    //      console.log('Location: '+ userLocation)
         },
         (err) => {
           setError(err.message); // Manejar errores si el usuario deniega el acceso o algo sale mal
@@ -30,11 +30,11 @@ const Home = () => {
   useEffect(() => {
     if (userLocation) {
       // Ver la ubicación en la consola de forma legible
-      console.log('Ubicación del usuario:', userLocation);
-      console.log('Latitud:', userLocation.latitude);
-      console.log('Longitud:', userLocation.longitude);
+//      console.log('Ubicación del usuario:', userLocation);
+  //    console.log('Latitud:', userLocation.latitude);
+    //  console.log('Longitud:', userLocation.longitude);
     } else {
-      console.log('Ubicación: null');
+  //    console.log('Ubicación: null');
     }
   }, [userLocation]);
   
