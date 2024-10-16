@@ -116,3 +116,6 @@ Se descartan los cambios del commit G#91 por errores.
 
 G#92 Se añade back-url para pagos "failure", cuando el pago no se realiza o no se lleva a cabo por algun error
 se navega a la pantalla de Pago rechazado
+
+G#93 Se lleva al BusinessPage el id de la base de datos del dueño del negocio, para luego hacer la consulta
+de horarios en base a ese id. 

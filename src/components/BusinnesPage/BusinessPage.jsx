@@ -11,6 +11,7 @@ import Navbar from '../Navbar/Navbar';
 import './BusinessPage.css';
 import { assets } from '../../assets/assets';
 
+
 function BusinessPage() {
   const { establishmentName } = useParams();
   const decodedName = decodeURIComponent(establishmentName).replace(/-/g, ' ');
@@ -22,6 +23,7 @@ function BusinessPage() {
   const [calendarData, setCalendarData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
+  const [ownerId, setOwnerId] = useState(null);
 
   useEffect(() => {
     const businessRef = collection(db, 'owners');
@@ -44,6 +46,9 @@ function BusinessPage() {
       if (foundBusiness) {
         setOwnerData(foundBusiness);
 
+          setOwnerId(foundBusiness.id); 
+          console.log("OwnerID: " + ownerId)
+          
         const spacesRef = collection(db, 'owners', foundBusiness.id, 'spaces');
         const unsubscribeSpaces = onSnapshot(spacesRef, (spacesSnap) => {
           const spacesList = spacesSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -71,6 +76,7 @@ function BusinessPage() {
   const handleViewAvailability = (space) => {
     setSelectedSpace(space);
     setLoading(true);
+    console.log("Calendar OwnerID: " + ownerId)
 
     const calendarRef = collection(db, 'owners', ownerData.id, 'spaces', space.id, 'calendar');
     const unsubscribeCalendar = onSnapshot(calendarRef, (calendarSnap) => {
