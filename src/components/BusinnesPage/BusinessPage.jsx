@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebase';
-import CalendarComponent from '../Calendar/Calendar';
-import businessPage from '../../assets/businessPage.jpeg';
+import CalendarUser from '../Calendar/CalendarUser';
 import WhatsappButton from '../Whatsapp/WhatsappButton';
 import BusinessMap from './BusinessMap';
 import SpaceLine from './SpaceLine';
@@ -48,7 +47,7 @@ function BusinessPage() {
 
           setOwnerId(foundBusiness.id); 
           console.log("OwnerID: " + ownerId)
-          
+
         const spacesRef = collection(db, 'owners', foundBusiness.id, 'spaces');
         const unsubscribeSpaces = onSnapshot(spacesRef, (spacesSnap) => {
           const spacesList = spacesSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -139,13 +138,14 @@ function BusinessPage() {
 
         {selectedSpace && (
           <div className="selected-space">
-            <CalendarComponent
+            <CalendarUser
               selectedSpace={selectedSpace}
               calendarData={calendarData}
               setCalendarData={setCalendarData}
               onClose={handleCloseModal}
               setSelectedDate={setSelectedDate}
               disableBooking={true}
+              ownerId={ownerId}
             />
           </div>
         )}
