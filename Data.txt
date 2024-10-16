@@ -123,3 +123,5 @@ de horarios en base a ese id.
 G#94 Se crea el componente Calendar/CalendarUser, calendario que utilizaremos en BusinessPage con el fin de utilizar
 el user.id del dueño del necogio para las consultas y creacion de horarios en el calendario.
 Dashboard sigue trabajando con el componente Calendar de siempre.
+
+G#95 Se agrega la funcion consulta horario via whatsapp por parte del cliente desde el calendario de BusinessPage.

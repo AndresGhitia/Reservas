@@ -23,12 +23,13 @@ function BusinessPage() {
   const [showModal, setShowModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [ownerId, setOwnerId] = useState(null);
+  const [cel, setCel] = useState(null);
 
   useEffect(() => {
     const businessRef = collection(db, 'owners');
 
     const unsubscribeBusiness = onSnapshot(businessRef, (querySnapshot) => {
-      let foundBusiness = null;
+      var foundBusiness = null;
 
       querySnapshot.forEach((doc) => {
         const businessData = doc.data();
@@ -46,7 +47,10 @@ function BusinessPage() {
         setOwnerData(foundBusiness);
 
           setOwnerId(foundBusiness.id); 
-          console.log("OwnerID: " + ownerId)
+      //   console.log("OwnerID: " + ownerId)
+
+          setCel(foundBusiness.whatsapp); // Asignar el WhatsApp a cel
+      //    console.log("Cel: " +  cel)
 
         const spacesRef = collection(db, 'owners', foundBusiness.id, 'spaces');
         const unsubscribeSpaces = onSnapshot(spacesRef, (spacesSnap) => {
@@ -75,7 +79,7 @@ function BusinessPage() {
   const handleViewAvailability = (space) => {
     setSelectedSpace(space);
     setLoading(true);
-    console.log("Calendar OwnerID: " + ownerId)
+   // console.log("Calendar OwnerID: " + ownerId)
 
     const calendarRef = collection(db, 'owners', ownerData.id, 'spaces', space.id, 'calendar');
     const unsubscribeCalendar = onSnapshot(calendarRef, (calendarSnap) => {
@@ -146,6 +150,7 @@ function BusinessPage() {
               setSelectedDate={setSelectedDate}
               disableBooking={true}
               ownerId={ownerId}
+              cel={cel}
             />
           </div>
         )}
