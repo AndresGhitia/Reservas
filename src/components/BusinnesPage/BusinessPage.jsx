@@ -10,7 +10,6 @@ import Navbar from '../Navbar/Navbar';
 import './BusinessPage.css';
 import { assets } from '../../assets/assets';
 
-
 function BusinessPage() {
   const { establishmentName } = useParams();
   const decodedName = decodeURIComponent(establishmentName).replace(/-/g, ' ');
@@ -24,6 +23,7 @@ function BusinessPage() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [ownerId, setOwnerId] = useState(null);
   const [cel, setCel] = useState(null);
+  const [formattedAddress, setFormattedAddress] = useState(''); 
 
   useEffect(() => {
     const businessRef = collection(db, 'owners');
@@ -45,12 +45,8 @@ function BusinessPage() {
 
       if (foundBusiness) {
         setOwnerData(foundBusiness);
-
-          setOwnerId(foundBusiness.id); 
-      //   console.log("OwnerID: " + ownerId)
-
-          setCel(foundBusiness.whatsapp); // Asignar el WhatsApp a cel
-      //    console.log("Cel: " +  cel)
+        setOwnerId(foundBusiness.id); 
+        setCel(foundBusiness.whatsapp); // Asignar el WhatsApp a cel
 
         const spacesRef = collection(db, 'owners', foundBusiness.id, 'spaces');
         const unsubscribeSpaces = onSnapshot(spacesRef, (spacesSnap) => {
@@ -79,7 +75,6 @@ function BusinessPage() {
   const handleViewAvailability = (space) => {
     setSelectedSpace(space);
     setLoading(true);
-   // console.log("Calendar OwnerID: " + ownerId)
 
     const calendarRef = collection(db, 'owners', ownerData.id, 'spaces', space.id, 'calendar');
     const unsubscribeCalendar = onSnapshot(calendarRef, (calendarSnap) => {
@@ -107,10 +102,13 @@ function BusinessPage() {
 
   return (
     <div>
-      <Navbar></Navbar>
+      <Navbar />
       <div className='business-header'>
-        <h1>{decodedName}</h1>
-        <hr />
+        <div className='business-header-info'>
+          <h1>{decodedName}</h1>
+          <p>{formattedAddress || ownerData.address}</p>      
+          <p>{ownerData.whatsapp}</p>
+        </div>
       </div>
       <div className='business-container'>
         <div className="businesspage-container">
@@ -123,7 +121,7 @@ function BusinessPage() {
           <div className="businessmap-container">
             {ownerData.address && (
               <div className='address-container'>
-                <img src={assets.address_icon} />
+                <img src={assets.address_icon} alt="Address Icon" />
                 <a
                   href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ownerData.address)}`}
                   target='_blank'
@@ -132,7 +130,7 @@ function BusinessPage() {
                 </a>
               </div>
             )}
-            <BusinessMap address={ownerData.address} />
+            <BusinessMap address={ownerData.address} onAddressFormatted={setFormattedAddress} /> {/* Pasar la función de devolución de llamada */}
             <div className='whatsapp-container'>
               <h1>CONTACTANOS</h1>
               <p><WhatsappButton phoneNumber={ownerData.whatsapp} /></p>
@@ -157,7 +155,6 @@ function BusinessPage() {
       </div>
     </div>
   );
-
 }
 
 export default BusinessPage;

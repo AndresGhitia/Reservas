@@ -10,6 +10,7 @@ import delete_icon from './delete_icon.png'
 import edit_icon from './edit_icon.png'
 import clock_icon from './clock_icon.png'
 import address_icon from './address_icon.png'
+import call_icon from './call_icon.png'
 import rubro_1 from './football_icon.png'
 import rubro_2 from './volley_icon.png'
 import rubro_3 from './tennis_icon.png'
@@ -47,7 +48,8 @@ export const assets = {
     delete_icon,
     clock_icon,
     edit_icon,
-    address_icon
+    address_icon,
+    call_icon
 
 }
 

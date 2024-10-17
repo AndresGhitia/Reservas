@@ -125,3 +125,5 @@ el user.id del dueño del necogio para las consultas y creacion de horarios en e
 Dashboard sigue trabajando con el componente Calendar de siempre.
 
 G#95 Se agrega la funcion consulta horario via whatsapp por parte del cliente desde el calendario de BusinessPage.
+
+G#96 Se agrega estilos al BusinessPage Hero con una fondo sencillo y la informacion del complejo. Queda ajustar la cantidad de informacion que brinda la geolocalizacion para que sea mas corto. Se modifico una parte del BusinessMap

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { GoogleMap, Marker } from '@react-google-maps/api';
 
-const BusinessMap = ({ address }) => {
+const BusinessMap = ({ address, onAddressFormatted }) => {
   const [mapLocation, setMapLocation] = useState(null);
+  const [formattedAddress, setFormattedAddress] = useState('');
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true); 
-  
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const geocodeAddress = async (address) => {
       try {
@@ -21,7 +22,22 @@ const BusinessMap = ({ address }) => {
         console.log('Respuesta de la API:', data); 
         
         if (data.results.length > 0) {
-          return { lat: data.results[0].geometry.location.lat, lng: data.results[0].geometry.location.lng };
+          const location = {
+            lat: data.results[0].geometry.location.lat,
+            lng: data.results[0].geometry.location.lng
+          };
+
+          const fullAddress = data.results[0].formatted_address;
+          const addressParts = fullAddress.split(', ');
+          const street = addressParts[0];
+          const streetNumber = addressParts[1] ? addressParts[1].match(/\d+/)[0] : '';
+          const locality = addressParts[1] || '';
+          
+          const formattedAddress = `${street} ${streetNumber}, ${locality}`;
+
+          setMapLocation(location);
+          setFormattedAddress(formattedAddress);
+          onAddressFormatted(formattedAddress); 
         } else {
           throw new Error('Dirección no encontrada');
         }
@@ -33,16 +49,11 @@ const BusinessMap = ({ address }) => {
     };
 
     if (address) {
-      geocodeAddress(address).then(location => {
-        if (location) {
-          setMapLocation(location);
-        } else {
-          console.error('No se pudo obtener la ubicación.');
-        }
+      geocodeAddress(address).then(() => {
         setLoading(false); // Cambiar el estado de carga
       });
     }
-  }, [address]);
+  }, [address, onAddressFormatted]);
 
   return (
     <div>
@@ -55,10 +66,10 @@ const BusinessMap = ({ address }) => {
           zoom={15}
           mapContainerStyle={{ width: '400px', height: '300px' }}
           options={{
-            mapTypeControl: false, // Deshabilita el control de tipo de mapa
-            streetViewControl: false, // Deshabilita Street View
-            fullscreenControl: false, // Deshabilita el botón de pantalla completa
-            zoomControl: false, // Deshabilita los controles de zoom
+            mapTypeControl: false, 
+            streetViewControl: false,
+            fullscreenControl: false, 
+            zoomControl: false, 
           }}
         >
           <Marker position={mapLocation} />
