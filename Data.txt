@@ -130,5 +130,8 @@ A#96 Se agrega estilos al BusinessPage Hero con una fondo sencillo y la informac
 Queda ajustar la cantidad de informacion que brinda la geolocalizacion para que sea mas corto.
 Se modifico una parte del BusinessMap.
 
-A#97 Se crea en base de datos "notificacions" y funcion en los botones de horario ocupado para avisar a los 
+G#97 Se crea en base de datos "notificacions" y funcion en los botones de horario ocupado para avisar a los 
 clientes cuando un espacio se libera.
+
+G#98 Se reemplaza lo relativo a notifiaciones por Alert de horario reservado. El aviso es mucho mas complejo 
+desde el punto de vista base de datos, por lo que lo abordaremos en el futuro,

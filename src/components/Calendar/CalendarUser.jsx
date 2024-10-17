@@ -72,18 +72,24 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
       const whatsappLink = `https://wa.me/${cel}?text=${message}`;
       window.open(whatsappLink, '_blank');
     } else {
+
+      alert("Este horario está reservado.");
+
+      {/*
       // El horario está reservado, ofrece la opción de recibir una notificación.
       const notifyUser = window.confirm("Este horario está reservado. ¿Deseas recibir una notificación si se libera?");
       if (notifyUser) {
         const userWhatsapp = prompt("Por favor, ingresa tu número de WhatsApp para ser notificado:");
         if (userWhatsapp) {
           // Guardar la solicitud en Firestore.
-          await saveNotificationRequest(selectedSlot.time, userWhatsapp, selectedSpace.id, ownerId, selectedSpace.name);
+          await saveNotificationRequest(selectedSlot.time, userWhatsapp, selectedSpace.id, ownerId, selectedSpace.name, date);
           alert("Te notificaremos si el horario se libera.");
         } else {
           alert("No se proporcionó un número de WhatsApp.");
         }
       }
+     */}
+
     }
   };
   
