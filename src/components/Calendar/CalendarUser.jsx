@@ -65,21 +65,45 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
   };
 
   const handleTimeslotClick = async (slotIndex) => {
-    if (cel) {
-      const selectedSlot = timeSlots[slotIndex];
-      const formattedDate = formatDate(date); 
-      const message = encodeURIComponent(`Hola, estoy interesado en reservar el espacio ${selectedSpace.name} para el horario ${selectedSlot.time} el día ${formattedDate}.`);
+    const selectedSlot = timeSlots[slotIndex];
+    if (selectedSlot.available) {
+      // El horario está disponible, procede con la lógica de reserva.
+      const message = encodeURIComponent(`Hola, estoy interesado en reservar el espacio ${selectedSpace.name} para el horario ${selectedSlot.time}.`);
       const whatsappLink = `https://wa.me/${cel}?text=${message}`;
-  
-      // Abrir el enlace en una nueva ventana
       window.open(whatsappLink, '_blank');
     } else {
-      console.error('No hay un número de WhatsApp disponible para enviar el mensaje.');
+      // El horario está reservado, ofrece la opción de recibir una notificación.
+      const notifyUser = window.confirm("Este horario está reservado. ¿Deseas recibir una notificación si se libera?");
+      if (notifyUser) {
+        const userWhatsapp = prompt("Por favor, ingresa tu número de WhatsApp para ser notificado:");
+        if (userWhatsapp) {
+          // Guardar la solicitud en Firestore.
+          await saveNotificationRequest(selectedSlot.time, userWhatsapp, selectedSpace.id, ownerId, selectedSpace.name);
+          alert("Te notificaremos si el horario se libera.");
+        } else {
+          alert("No se proporcionó un número de WhatsApp.");
+        }
+      }
     }
   };
   
+  const saveNotificationRequest = async (time, whatsappNumber, spaceId, ownerId, spaceName) => {
+    try {
+      // Usar el número de teléfono combinado con la hora como identificador del documento
+      const notificationId = `${whatsappNumber}_${time}`;
+      const notificationRef = doc(db, 'owners', ownerId, 'spaces', spaceId, 'notifications', notificationId);
   
-  
+      await setDoc(notificationRef, {
+        time,
+        whatsapp: whatsappNumber,
+        spaceName,
+        notified: false // Campo para indicar si ya se notificó
+      });
+    } catch (error) {
+      console.error("Error al guardar la solicitud de notificación: ", error);
+    }
+  };
+   
 
   useEffect(() => {
     if (date) {
