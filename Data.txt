@@ -135,3 +135,6 @@ clientes cuando un espacio se libera.
 
 G#98 Se reemplaza lo relativo a notifiaciones por Alert de horario reservado. El aviso es mucho mas complejo 
 desde el punto de vista base de datos, por lo que lo abordaremos en el futuro,
+
+G#101 Se crea la rama A porque hubo un problema con los componentes Calendar y no puedo resolverlos, asi que
+opte por volver al commit G#98 donde todo funciona
