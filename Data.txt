@@ -134,4 +134,9 @@ G#97 Se crea en base de datos "notificacions" y funcion en los botones de horari
 clientes cuando un espacio se libera.
 
 G#98 Se reemplaza lo relativo a notifiaciones por Alert de horario reservado. El aviso es mucho mas complejo 
-desde el punto de vista base de datos, por lo que lo abordaremos en el futuro,
+desde el punto de vista base de datos, por lo que lo abordaremos en el futuro.
+
+G#99 Se hace el commit para tratar de subir CalendarOwner, que por alguno motivo no se subio en el commit anterior.
+
+G#100 Se remueve el componente Calendar, dejando solo para trabajar los componetes CalendarOwner (para trabajar con Dashboard)
+y CalendarUser para trabajar con (BusinessPage)

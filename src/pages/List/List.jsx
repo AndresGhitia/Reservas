@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
 import { db, auth } from '../../firebase';
-import CalendarComponent from '../../components/Calendar/Calendar';
+import CalendarOwner from '../../components/Calendar/CalendarOwner';
 import { handleReserveSlot, handleCancelReservation } from '../../utils/reservationHandlers';
 import { deleteSpace } from '../../utils/spaceHandlers';
 import { fetchOwnerDataAndSpaces } from '../../utils/fetchOwnerData';
-import EditSpace from './EditSpace'; // Importar el nuevo componente
+import EditSpace from './EditSpace'; 
 import './List.css';
 import { assets } from '../../assets/assets';
+import {fetchCalendarData} from '../../utils/fetchCalendarData'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -141,7 +142,7 @@ function List() {
 
       {showModal && (
         <div className="modal">
-          <CalendarComponent
+          <CalendarOwner
             selectedSpace={selectedSpace}
             calendarData={calendarData}
             setCalendarData={setCalendarData}
