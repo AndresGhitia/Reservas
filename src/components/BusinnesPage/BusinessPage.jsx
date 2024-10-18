@@ -39,6 +39,7 @@ function BusinessPage() {
 
           if (normalizedBusinessName === normalizedDecodedName) {
             foundBusiness = { id: doc.id, ...businessData };
+
           }
         }
       });
@@ -149,6 +150,8 @@ function BusinessPage() {
               disableBooking={true}
               ownerId={ownerId}
               cel={cel}
+              sport={selectedSpace.sport} // Aquí pasamos el sport
+
             />
           </div>
         )}

@@ -5,7 +5,7 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import './Calendar.css';
 
-function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelectedDate, onClose, disableBooking, ownerId, cel }) {
+function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelectedDate, onClose, disableBooking, ownerId, cel,sport  }) {
   const [date, setDate] = useState(null);
   const [timeSlots, setLocalTimeSlots] = useState([]);
 
@@ -52,18 +52,42 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
     const timeSlots = [];
     let [openHour, openMinute] = openTime.split(':').map(Number);
     const [closeHour, closeMinute] = closeTime.split(':').map(Number);
+  
 
-    while (openHour < closeHour || (openHour === closeHour && openMinute < closeMinute)) {
+
+  //  console.log('Sport:', sport); // Log para verificar que sport tiene el valor correcto
+    const incrementMinute = sport === "Paddle" ? 30 : 60; // Cambia aquí la lógica
+  //  console.log(`Sport: ${sport}, Incremento en minutos: ${incrementMinute}`); // Log del tipo de deporte y su incremento
+  
+    while (
+      openHour < closeHour || 
+      (openHour === closeHour && openMinute < closeMinute)
+    ) {
       const time = `${String(openHour).padStart(2, '0')}:${String(openMinute).padStart(2, '0')}`;
       timeSlots.push({ time, available: true, name: null, whatsapp: null });
-
-      openHour += 1; // Incrementar por una hora
-      if (openHour === 24) openHour = 0; // Reiniciar si se llega a la medianoche
+ //     console.log(`Agregando horario: ${time}`); // Log del horario agregado
+  
+      // Incrementar según el tipo de deporte
+      openMinute += incrementMinute;
+  
+      // Ajustar horas y minutos
+      if (openMinute >= 60) {
+        openMinute -= 60;
+        openHour += 1;
+   //     console.log(`Ajustando a la siguiente hora: ${openHour}:${String(openMinute).padStart(2, '0')}`); // Log del ajuste de hora
+      }
+  
+      if (openHour === 24) {
+        openHour = 0; // Reiniciar si se llega a la medianoche
+     //   console.log(`Reiniciando a medianoche: ${openHour}:${String(openMinute).padStart(2, '0')}`); // Log de reinicio
+      }
     }
-
+  
+//    console.log(`Horarios generados: ${JSON.stringify(timeSlots)}`); // Log final con todos los horarios generados
     return timeSlots;
   };
-
+  
+  
   const handleTimeslotClick = async (slotIndex) => {
     const selectedSlot = timeSlots[slotIndex];
     if (selectedSlot.available) {

@@ -138,3 +138,5 @@ desde el punto de vista base de datos, por lo que lo abordaremos en el futuro,
 
 G#101 Se crea la rama A porque hubo un problema con los componentes Calendar y no puedo resolverlos, asi que
 opte por volver al commit G#98 donde todo funciona
+
+G#102 desde BusinessPage, si el deporte consultado es Paddle, se crean los intervalos horarios de 30min.
