@@ -70,26 +70,43 @@ function List() {
   };
 
   const handleViewAvailability = async (space) => {
+    console.log("handleViewAvailability called with space:", space);
     setSelectedSpace(space);
     setLoading(true);
-
+  
     try {
       const user = auth.currentUser;
       if (user) {
-        const calendarList = await fetchCalendarData(user.uid, space.id);
+        console.log("User is authenticated:", user.uid);
+  
+        // Intentando obtener los datos del calendario
+     //   const calendarList = await fetchCalendarData(user.uid, space.id);
+        console.log("Calendar data fetched:", calendarList);
+  
         setCalendarData(calendarList);
+  
         if (selectedDate) {
+          console.log("Selected date is:", selectedDate);
+  
           const availableSlots = calendarList[selectedDate];
+          console.log("Available slots for selected date:", availableSlots);
+  
           setTimeSlots(availableSlots || []);
+        } else {
+          console.log("No selected date");
         }
+      } else {
+        console.log("User is not authenticated");
       }
     } catch (error) {
-      console.error("Error al obtener el calendario: ", error);
+      console.error("Error al obtener el calendario:", error);
     } finally {
       setLoading(false);
       setShowModal(true);
+      console.log("Loading finished, modal shown");
     }
   };
+  
 
   if (loading) {
     return <div>Cargando espacios...</div>;

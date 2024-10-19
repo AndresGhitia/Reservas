@@ -6,13 +6,10 @@ import { handleReserveSlot, handleCancelReservation } from '../../utils/reservat
 import { fetchOwnerDataAndSpaces } from '../../utils/fetchOwnerData';
 import { uploadImageToCloudinary } from '../../utils/cloudinaryUpload';
 import './Dashboard.css';
-import Add from '../Add/Add';
-import List from '../List/List';
 import CalendarComponent from '../../components/Calendar/Calendar';
 import Navbar from '../../components/Navbar/Navbar';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import ShareQR from '../../components/ShareQR/ShareQR'; 
-import { QRCodeCanvas } from 'qrcode.react';
 
 function Dashboard() {
   const { establishmentName } = useParams();

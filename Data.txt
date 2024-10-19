@@ -140,3 +140,6 @@ G#101 Se crea la rama A porque hubo un problema con los componentes Calendar y n
 opte por volver al commit G#98 donde todo funciona
 
 G#102 desde BusinessPage, si el deporte consultado es Paddle, se crean los intervalos horarios de 30min.
+
+G#104 Borramos el import fetchCalendarData de List.jsx porque trae problemas al consultar una fecha desde
+dashboard (no se el motivo)
