@@ -134,9 +134,12 @@ G#97 Se crea en base de datos "notificacions" y funcion en los botones de horari
 clientes cuando un espacio se libera.
 
 G#98 Se reemplaza lo relativo a notifiaciones por Alert de horario reservado. El aviso es mucho mas complejo 
-desde el punto de vista base de datos, por lo que lo abordaremos en el futuro.
+desde el punto de vista base de datos, por lo que lo abordaremos en el futuro,
 
-G#99 Se hace el commit para tratar de subir CalendarOwner, que por alguno motivo no se subio en el commit anterior.
+G#101 Se crea la rama A porque hubo un problema con los componentes Calendar y no puedo resolverlos, asi que
+opte por volver al commit G#98 donde todo funciona
 
-G#100 Se remueve el componente Calendar, dejando solo para trabajar los componetes CalendarOwner (para trabajar con Dashboard)
-y CalendarUser para trabajar con (BusinessPage)
+G#102 desde BusinessPage, si el deporte consultado es Paddle, se crean los intervalos horarios de 30min.
+
+A#103 Se cambia el react-calendar por react-datepicker. En BusinessPage se le dio estilos al calendario y ya no se maneja como un modal.
+Posee un estilo monotono para asegurar la funcionalidad, no es definitivo.

@@ -39,6 +39,7 @@ function BusinessPage() {
 
           if (normalizedBusinessName === normalizedDecodedName) {
             foundBusiness = { id: doc.id, ...businessData };
+
           }
         }
       });
@@ -117,6 +118,23 @@ function BusinessPage() {
           ))}
         </div>
 
+        {selectedSpace && (
+          <div className="selected-space">
+            <CalendarUser
+              selectedSpace={selectedSpace}
+              calendarData={calendarData}
+              setCalendarData={setCalendarData}
+              onClose={handleCloseModal}
+              setSelectedDate={setSelectedDate}
+              disableBooking={true}
+              ownerId={ownerId}
+              cel={cel}
+              sport={selectedSpace.sport} // Aquí pasamos el sport
+
+            />
+          </div>
+        )}
+
         {ownerData.whatsapp && (
           <div className="businessmap-container">
             {ownerData.address && (
@@ -135,21 +153,6 @@ function BusinessPage() {
               <h1>CONTACTANOS</h1>
               <p><WhatsappButton phoneNumber={ownerData.whatsapp} /></p>
             </div>
-          </div>
-        )}
-
-        {selectedSpace && (
-          <div className="selected-space">
-            <CalendarUser
-              selectedSpace={selectedSpace}
-              calendarData={calendarData}
-              setCalendarData={setCalendarData}
-              onClose={handleCloseModal}
-              setSelectedDate={setSelectedDate}
-              disableBooking={true}
-              ownerId={ownerId}
-              cel={cel}
-            />
           </div>
         )}
       </div>
