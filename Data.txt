@@ -148,3 +148,5 @@ G#105  Borramos el import fetchCalendarData de List.jsx porque trae problemas al
 dashboard (no se el motivo aun)
 
 G#106 Se logra setear creacion de horarios cada 30' en caso de "selectedSpace.sport == Paddle" en calendarOwner.
+
+A#107 Se añade al codigo de BusinessList la funcion para calcular la distancia entre la ubicacion y los complejos listados.
