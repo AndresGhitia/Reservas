@@ -114,6 +114,8 @@ function Dashboard() {
               setTimeSlots={setTimeSlots}
               setSelectedDate={setSelectedDate}
               onClose={handleCloseModal}
+              sport={selectedSpace?.sport} // Necesario para llevar el deporte a CalendarOwner y usarlo en la funcion generateTimeSlots()
+
             />
             {selectedDate && (
               <div className="time-slots">

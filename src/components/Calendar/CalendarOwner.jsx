@@ -6,12 +6,15 @@ import { db, auth } from '../../firebase';
 import './Calendar.css';
 
 
-function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSelectedDate, onClose, disableBooking , addTimeSlots,}) {
+function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSelectedDate, onClose, disableBooking , addTimeSlots, sport}) {
   const [date, setDate] = useState(null);
   const [timeSlots, setLocalTimeSlots] = useState([]);
 
   useEffect(() => {
     if (selectedSpace && date) {
+      console.log('*****'+ selectedSpace.sport)
+      console.log('°°' + JSON.stringify(selectedSpace));
+
       const fetchCalendarData = async () => {
         try {
           const formattedDate = date.toISOString().split('T')[0];
@@ -60,18 +63,30 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
   
   const generateTimeSlots = (openTime, closeTime) => {
     const timeSlots = [];
-    let [openHour, openMinute] = openTime.split(':').map(Number);
+    var [openHour, openMinute] = openTime.split(':').map(Number);
     const [closeHour, closeMinute] = closeTime.split(':').map(Number);
-  
-    while (openHour < closeHour || (openHour === closeHour && openMinute < closeMinute)) {
+
+    const incrementMinute = selectedSpace.sport === "Paddle" ? 30 : 60;
+
+    while (
+      openHour < closeHour ||
+      (openHour === closeHour && openMinute < closeMinute)
+    ) {
       const time = `${String(openHour).padStart(2, '0')}:${String(openMinute).padStart(2, '0')}`;
       timeSlots.push({ time, available: true, name: null, whatsapp: null });
-  
-      // Increment by 1 hour (or you can adjust for 30-minute intervals if needed)
-      openHour += 1;
-      if (openHour === 24) openHour = 0; // Reiniciar si se llega a la medianoche
+
+      openMinute += incrementMinute;
+
+      if (openMinute >= 60) {
+        openMinute -= 60;
+        openHour += 1;
+      }
+
+      if (openHour === 24) {
+        openHour = 0;
+      }
     }
-  
+
     return timeSlots;
   };
   
