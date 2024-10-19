@@ -8,7 +8,6 @@ import { fetchOwnerDataAndSpaces } from '../../utils/fetchOwnerData';
 import EditSpace from './EditSpace'; 
 import './List.css';
 import { assets } from '../../assets/assets';
-import {fetchCalendarData} from '../../utils/fetchCalendarData'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

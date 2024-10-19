@@ -143,3 +143,6 @@ G#102 desde BusinessPage, si el deporte consultado es Paddle, se crean los inter
 
 A#103 Se cambia el react-calendar por react-datepicker. En BusinessPage se le dio estilos al calendario y ya no se maneja como un modal.
 Posee un estilo monotono para asegurar la funcionalidad, no es definitivo.
+
+G#105  Borramos el import fetchCalendarData de List.jsx porque trae problemas al consultar una fecha desde
+dashboard (no se el motivo aun)
