@@ -153,3 +153,5 @@ A#107 Se añade al codigo de BusinessList la funcion para calcular la distancia 
 
 G#108 Correxion de problemas al actualizar Dashboard.jsx. Al refrescar la pagina, esta quedaba en blanco con el mesaje 
 "Usuario no autenticado."
+
+G#109 Se corrije advertencia y comportamiento del modal inicio sesion en caso de usuario de coleccion "user".

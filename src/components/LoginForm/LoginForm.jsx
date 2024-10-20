@@ -1,3 +1,4 @@
+////LoginForm.jsx
 import React, { useState } from 'react';
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth, db } from '../../firebase';
@@ -23,12 +24,24 @@ function LoginForm({ onClose }) {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
   
+     // console.log("Usuario autenticado:", user.uid); // Log del uid del usuario
+  
       if (!user.emailVerified) {
         setError("Tu correo electrónico no ha sido verificado. Por favor, revisa tu correo y sigue las instrucciones para verificarlo.");
         return;
       }
   
-      const ownerDoc = await getDoc(doc(db, 'owners', user.uid));
+      // Intentar obtener el documento del usuario desde la colección 'owners'
+      var ownerDoc = await getDoc(doc(db, 'owners', user.uid));
+    //  console.log("Documento en 'owners':", ownerDoc.exists()); // Log de existencia
+  
+      if (!ownerDoc.exists()) {
+        // Si no existe en 'owners', buscar en la colección 'User'
+      //  console.log('No pertenece a Owners, buscando en User...');
+        ownerDoc = await getDoc(doc(db, 'users', user.uid));
+       // console.log("Documento en 'User':", ownerDoc.exists()); // Log de existencia
+      }
+  
       if (ownerDoc.exists()) {
         const ownerData = ownerDoc.data();
         const expdate = ownerData.expdate && ownerData.expdate.toDate ? ownerData.expdate.toDate() : new Date(ownerData.expdate);
@@ -36,15 +49,14 @@ function LoginForm({ onClose }) {
   
         if (today > expdate) {
           setError("Tu cuenta ha vencido. Por favor, contacta a soporte para renovarla.");
-          console.log('Usuario Vencido');
+        //  console.log('Usuario Vencido');
           setIsSubscriptionModalOpen(true); // Abrir el modal de suscripción
           await signOut(auth); // Cerrar la sesión si el usuario está vencido
   
           // Llamada para iniciar el proceso de pago, pasando el email del usuario
-          const paymentData = await handleIntegrationMP(user.email); 
+          const paymentData = await handleIntegrationMP(user.email);
           if (paymentData) {
             // Redireccionar al link de pago de Mercado Pago
-            console.log('LOG: '+paymentData)
             window.location.href = paymentData.init_point;
           }
           return;
@@ -53,14 +65,16 @@ function LoginForm({ onClose }) {
         onClose();
         setTimeout(() => {
           const dashboardUrl = `/dashboard/${encodeURIComponent(ownerData.establishmentName.replace(/\s+/g, '-'))}`;
-          navigate(dashboardUrl);  // Navegar al dashboard
+          navigate(dashboardUrl); // Navegar al dashboard
         }, 100);
       } else {
         setError("Usuario no encontrado, por favor verifica tus credenciales.");
+      //  console.log('Error: Usuario no encontrado en ambas colecciones.'); // Log de error
       }
   
     } catch (error) {
       setError("Usuario o contraseña incorrectos, revísalos y vuelve a ingresarlos por favor");
+    //  console.error("Error de autenticación:", error); // Log de error
     }
   };
   
@@ -82,7 +96,7 @@ function LoginForm({ onClose }) {
   };
 
   const handleRenewSubscription = async () => {
-    console.log('Renovando suscripción...');
+  //  console.log('Renovando suscripción...');
 
     // Llamar a la función para crear la preferencia de pago
     const preference = await handleIntegrationMP();
