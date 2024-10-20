@@ -50,14 +50,16 @@
 .timeslot-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 10px;
+  justify-content: center; /* Centra los botones */
+  gap: 1px; /* Ajusta el espacio entre los botones */
 }
 
 .timeslot-button {
   padding: 12px;
+  width: calc(50% - 5px); /* Cada botón ocupa el 50% del contenedor */
   border: none;
   border-radius: 5px;
+  margin-top: 8px;
   font-size: 14px;
   color: rgb(255, 253, 253);
   cursor: pointer;
@@ -74,5 +76,5 @@
 
 .timeslot-button:hover {
   opacity: 0.85;
-  background-color: goldenrod
+  background-color: goldenrod;
 }

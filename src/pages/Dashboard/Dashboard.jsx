@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
-import { doc, getDoc, collection, getDocs, setDoc } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 import { db, auth } from '../../firebase';
-import { handleReserveSlot, handleCancelReservation } from '../../utils/reservationHandlers';
+import { onAuthStateChanged } from 'firebase/auth';
 import { fetchOwnerDataAndSpaces } from '../../utils/fetchOwnerData';
 import { uploadImageToCloudinary } from '../../utils/cloudinaryUpload';
 import './Dashboard.css';
@@ -23,12 +23,31 @@ function Dashboard() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [timeSlots, setTimeSlots] = useState([]);
-  const [imageUrl, setImageUrl] = useState(""); // Estado para la URL de la imagen subida
-  const [showQRModal, setShowQRModal] = useState(false); // Estado para controlar el modal QR
+  const [imageUrl, setImageUrl] = useState("");
+  const [showQRModal, setShowQRModal] = useState(false);
   const bookItUrl = import.meta.env.VITE_BOOKIT_URL;
 
   useEffect(() => {
-    fetchOwnerDataAndSpaces(setOwnerData, setSpaces, setError, setLoading);
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      console.log("Verificando autenticación...");
+      if (user) {
+        console.log("Usuario autenticado:", user);
+        try {
+          // Cargar datos del propietario y los espacios
+          await fetchOwnerDataAndSpaces(setOwnerData, setSpaces, setError, setLoading);
+        } catch (fetchError) {
+          console.error("Error al cargar los datos:", fetchError);
+          setError("Error al cargar los datos del propietario.");
+        }
+      } else {
+        console.log("Usuario no autenticado.");
+        setError("Usuario no autenticado.");
+        setLoading(false);
+      }
+    });
+
+    // Limpieza del observador al desmontar el componente
+    return () => unsubscribe();
   }, []);
 
   const handleCopy = () => {
@@ -51,10 +70,9 @@ function Dashboard() {
 
     try {
       const url = await uploadImageToCloudinary(file);
-      setImageUrl(url); // Guardamos la URL de la imagen subida
-      saveBackgroundImageUrl(url); // Guardamos la URL en Firestore
-
-      console.log("URL de la imagen subida:", url); // Imprimir en la consola
+      setImageUrl(url);
+      saveBackgroundImageUrl(url);
+      console.log("URL de la imagen subida:", url);
     } catch (error) {
       console.error("Error al subir la imagen a Cloudinary: ", error);
     }
@@ -64,7 +82,7 @@ function Dashboard() {
     try {
       const user = auth.currentUser;
       const docRef = doc(db, 'owners', user.uid);
-      await setDoc(docRef, { backgroundImageUrl: url }, { merge: true }); // Guardar o actualizar la URL de la imagen
+      await setDoc(docRef, { backgroundImageUrl: url }, { merge: true });
     } catch (error) {
       console.error("Error al guardar la URL de la imagen: ", error);
     }
@@ -92,7 +110,7 @@ function Dashboard() {
 
   return (
     <div>
-      <Navbar></Navbar>
+      <Navbar />
       <div className="owner-container">
         <h1>Hola, {ownerData.ownerName}</h1>
         <p>Bienvenido al panel de administración de {decodedName}</p>
