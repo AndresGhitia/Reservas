@@ -155,3 +155,6 @@ G#108 Correxion de problemas al actualizar Dashboard.jsx. Al refrescar la pagina
 "Usuario no autenticado."
 
 G#109 Se corrije advertencia y comportamiento del modal inicio sesion en caso de usuario de coleccion "user".
+
+G#110 Se agregan estilos condicionales en caso de grilla horaria de 30min o 1H en calendarOwner.
+horarios de 30min agrupados por hora. 

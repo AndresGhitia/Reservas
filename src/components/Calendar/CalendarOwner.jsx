@@ -3,7 +3,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db, auth } from '../../firebase';
-import './Calendar.css';
+import './CalendarOwner.css';
 
 
 function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSelectedDate, onClose, disableBooking , addTimeSlots, sport}) {
@@ -161,43 +161,74 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
   return (
     <div className="Calendar-modal">
       <div className="modal-content">
-     
         <div className="modal-header">
-         
-         <div ClassNme= "calendar-header">
-          <h3>Disponibilidad de {selectedSpace?.name || "Espacio"}</h3>
-          <p>Horarios del día {date ? formatDate(date) : ""}</p>
-         </div>
+          <div className="calendar-header">
+            <h3>Disponibilidad de {selectedSpace?.name || "Espacio"}</h3>
+            <p>Horarios del día {date ? formatDate(date) : ""}</p>
+          </div>
           <button className="modal-close-button" onClick={onClose}>✖</button>
-       
         </div>
         
-       <div className='calendar-container'> 
-        <div className="date-container">
-          <Calendar
-            onChange={setDate}
-            value={date}
-            showNeighboringMonth={false}
-          />
+        <div className="calendar-container"> 
+          <div className="date-container">
+            <Calendar
+              onChange={setDate}
+              value={date}
+              showNeighboringMonth={false}
+            />
+          </div>
+  
+          <div className="timeslot-container">
+            {timeSlots.map((slot, index) => {
+              // Verificar si el incremento de tiempo es de 30 minutos
+              const isHalfHourInterval = selectedSpace.sport === "Paddle" ? true : false;
+  
+              if (isHalfHourInterval) {
+                if (index % 2 !== 0) return null; // Saltar índices impares para agrupar en pares
+  
+                const nextSlot = timeSlots[index + 1];
+  
+                return (
+                  <div key={index} className="timeslot-pair timeslot-half-hour">
+                    <button
+                      className={`timeslot-button half-hour ${slot.available ? "available" : "reserved"} ${disableBooking ? "disabled-business" : ""}`}
+                      onClick={() => handleTimeslotClick(index)}
+                      disabled={disableBooking}
+                    >
+                      {slot.time} - {disableBooking ? (slot.available ? 'Disponible' : 'Ocupado') : (slot.available ? 'Reservar' : `${slot.name} ${slot.whatsapp}`)}
+                    </button>
+                    
+                    {nextSlot && (
+                      <button
+                        className={`timeslot-button half-hour ${nextSlot.available ? "available" : "reserved"} ${disableBooking ? "disabled-business" : ""}`}
+                        onClick={() => handleTimeslotClick(index + 1)}
+                        disabled={disableBooking}
+                      >
+                        {nextSlot.time} - {disableBooking ? (nextSlot.available ? 'Disponible' : 'Ocupado') : (nextSlot.available ? 'Reservar' : `${nextSlot.name} ${nextSlot.whatsapp}`)}
+                      </button>
+                    )}
+                  </div>
+                );
+              } else {
+                // Mostrar individualmente para intervalos de 1 hora
+                return (
+                  <button
+                    key={index}
+                    className={`timeslot-button one-hour ${slot.available ? "available" : "reserved"} ${disableBooking ? "disabled-business" : ""}`}
+                    onClick={() => handleTimeslotClick(index)}
+                    disabled={disableBooking}
+                  >
+                    {slot.time} - {disableBooking ? (slot.available ? 'Disponible' : 'Ocupado') : (slot.available ? 'Reservar' : `${slot.name} ${slot.whatsapp}`)}
+                  </button>
+                );
+              }
+            })}
+          </div>
         </div>
-
-        <div className="timeslot-container">
-          {timeSlots.map((slot, index) => (
-            <button
-              key={index}
-              className={`timeslot-button ${slot.available ? 'available' : 'reserved'} ${disableBooking ? 'disabled-business' : ''}`}
-              onClick={() => handleTimeslotClick(index)}
-              disabled={disableBooking}
-            >
-              {slot.time} - {disableBooking ? (slot.available ? 'Disponible' : 'Ocupado') : (slot.available ? 'Reservar' : `${slot.name} ${slot.whatsapp}`)}
-            </button>
-          ))}
-        </div>
-       </div>
-
       </div>
     </div>
   );
+  
 }
 
 export default CalendarComponent;
