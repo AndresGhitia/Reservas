@@ -27,8 +27,8 @@ cursor{
 /* Ajustes para dispositivos móviles */
 @media (max-width: 768px) {
     .app{
-        width: 100%; 
+        width: 110%; 
          margin: auto;
-         padding:0.2vh;
+         padding:0.0vh;
      }
 }

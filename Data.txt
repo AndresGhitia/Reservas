@@ -164,3 +164,6 @@ horarios de 30min agrupados por hora.
 
 G#112 Comienzo a adaptar estilos para mobile. Se modifican Index, BusinessPage, NavBar.
 *a NavBar, le coomente el componete Cart y Dot.
+
+G#113 implementacion de tarjetas contraibles en BusinessPage, para esto se modifico el codigo del componente SpaceLine.
+Ademas se modifica dimenciones y distribucion de cardviews en caso de mobile.

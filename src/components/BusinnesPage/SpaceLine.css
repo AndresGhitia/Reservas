@@ -1,30 +1,37 @@
-.spaceline-card{
-  background-color:whitesmoke;
+.spaceline-card {
+  background-color: whitesmoke;
   margin: 15px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   border-radius: 10px;
-  width: 300px;
+  width: 300px; /* Para pantallas grandes */
   text-align: center;
   padding: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   font-style: italic;
+  transition: max-height 0.3s ease-in-out; /* Animación para expansión/contracción */
+  max-height: 400px; /* Altura máxima predeterminada */
+  overflow: hidden; /* Ocultar contenido cuando esté contraído */
 }
 
-.sport-icon{
+.spaceline-card.expanded {
+  max-height: 1000px; /* Altura máxima expandida para mostrar todos los detalles */
+}
+
+.sport-icon {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.sport-icon img{
+.sport-icon img {
   padding-right: 20px;
   width: 60px;
 }
 
-.sport-icon p{
-  font-size:25px;
+.sport-icon p {
+  font-size: 25px;
   font-weight: bold;
 }
 
@@ -35,26 +42,93 @@
   justify-content: space-evenly;
 }
 
-.spaceinfo-bottom{
+.spaceinfo-bottom {
   margin-top: 15px;
   margin-bottom: 5px;
   display: flex;
   justify-content: space-around;
   align-items: center;
-
 }
 
-.spaceline-button{
-    background-color: #28a745;
-    color: black;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-    margin-top: 15px;
-    font-weight: 500;
+.spaceline-button {
+  background-color: #28a745;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 15px;
+  font-weight: 500;
 }
 
-.spaceline-button:hover{
+.spaceline-button:hover {
   background-color: #5cdf7a;
+}
+
+/* Botón Mostrar/Ocultar detalles */
+.details-toggle-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-top: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.details-toggle-button:hover {
+  background-color: #0056b3;
+}
+
+/* Media query para pantallas pequeñas */
+@media (max-width: 768px) {
+  .spaceline-card {
+    flex: 1 1 calc(40% - 0px); /* Ajusta el ancho de las tarjetas a un 40% del contenedor */
+    width: 100%;
+    margin-bottom: 2px;
+    padding: 0px;
+    max-height: 150px; /* Altura contraída por defecto en pantallas pequeñas */
+    transition: max-height 0.3s ease-in-out;
+  }
+
+  .spaceline-card.expanded {
+    max-height: 1000px; /* Expansión completa en pantallas móviles */
+  }
+
+  .spaceline-card > * {
+    margin: 0px 0;
+  }
+
+  .sport-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0px;
+  }
+
+  .sport-icon img {
+    width: 50px; /* Reducimos aún más el tamaño de la imagen */
+    margin-bottom: 0px;
+  }
+
+  .sport-icon p {
+    font-size: 26px; 
+  }
+
+  .spaceinfo-top, .spaceinfo-bottom {
+    font-size: 20px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .spaceline-button {
+    padding: 10px 2px;
+    font-size: 16px;
+  }
+
+  .details-toggle-button {
+    font-size: 12px;
+    padding: 5px;
+  }
 }

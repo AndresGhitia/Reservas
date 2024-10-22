@@ -148,4 +148,13 @@
     font-size: 1rem;
     margin: 10px 0;
   }
+  .businesspage-container {
+    gap: 10px; /* Reduce el gap entre tarjetas en mobile */
+  }
+
+  .businesspage-container .space-line {
+    flex: 1 1 calc(50% - 20px); /* Cada tarjeta ocupará el 50% del contenedor, menos un pequeño margen */
+    margin-bottom: 20px; /* Añadir margen entre filas */
+  }
+ 
 }

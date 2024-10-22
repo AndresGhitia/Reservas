@@ -102,7 +102,7 @@ function BusinessPage() {
   const backgroundImageUrl = ownerData.backgroundImageUrl;
 
   return (
-    <div>
+    <div >
       <Navbar />
       <div className='business-header'>
         <div className='business-header-info'>
@@ -156,6 +156,7 @@ function BusinessPage() {
           </div>
         )}
       </div>
+      
     </div>
   );
 }
