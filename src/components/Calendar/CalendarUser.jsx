@@ -140,19 +140,55 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
         </div>
   
         <div className="timeslot-container">
-          {timeSlots.map((slot, index) => (
-            <button
-              key={index}
-              className={`timeslot-button ${slot.available ? 'available' : 'reserved'} ${disableBooking ? 'disabled-business' : ''}`}
-              onClick={() => handleTimeslotClick(index)}
-            >
-              {slot.time} - {disableBooking ? (slot.available ? 'Disponible' : 'Ocupado') : (slot.available ? 'Reservar' : `${slot.name} ${slot.whatsapp}`)}
-            </button>
-          ))}
+          {timeSlots.map((slot, index) => {
+            // Verificar si el incremento de tiempo es de 30 minutos
+            const isHalfHourInterval = selectedSpace?.sport === "Paddle" ? true : false;
+  
+            if (isHalfHourInterval) {
+              if (index % 2 !== 0) return null; // Saltar índices impares para agrupar en pares
+  
+              const nextSlot = timeSlots[index + 1];
+  
+              return (
+                <div key={index} className="timeslot-pair timeslot-half-hour">
+                  <button
+                    className={`timeslot-button half-hour ${slot.available ? 'available' : 'reserved'} ${disableBooking ? 'disabled-business' : ''}`}
+                    onClick={() => handleTimeslotClick(index)}
+                    disabled={disableBooking}
+                  >
+                    {slot.time} - {disableBooking ? (slot.available ? 'Disponible' : 'Ocupado') : (slot.available ? 'Reservar' : `${slot.name} ${slot.whatsapp}`)}
+                  </button>
+  
+                  {nextSlot && (
+                    <button
+                      className={`timeslot-button half-hour ${nextSlot.available ? 'available' : 'reserved'} ${disableBooking ? 'disabled-business' : ''}`}
+                      onClick={() => handleTimeslotClick(index + 1)}
+                      disabled={disableBooking}
+                    >
+                      {nextSlot.time} - {disableBooking ? (nextSlot.available ? 'Disponible' : 'Ocupado') : (nextSlot.available ? 'Reservar' : `${nextSlot.name} ${nextSlot.whatsapp}`)}
+                    </button>
+                  )}
+                </div>
+              );
+            } else {
+              // Mostrar individualmente para intervalos de 1 hora
+              return (
+                <button
+                  key={index}
+                  className={`timeslot-button one-hour ${slot.available ? 'available' : 'reserved'} ${disableBooking ? 'disabled-business' : ''}`}
+                  onClick={() => handleTimeslotClick(index)}
+                  disabled={disableBooking}
+                >
+                  {slot.time} - {disableBooking ? (slot.available ? 'Disponible' : 'Ocupado') : (slot.available ? 'Reservar' : `${slot.name} ${slot.whatsapp}`)}
+                </button>
+              );
+            }
+          })}
         </div>
       </div>
     </div>
   );
+  
 }
 
 export default CalendarUser;

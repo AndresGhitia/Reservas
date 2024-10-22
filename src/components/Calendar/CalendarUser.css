@@ -4,13 +4,13 @@
   text-align: center;
   padding: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 70%; 
-  margin: 0 auto; 
+  width: 70%;
+  margin: 0 auto;
 }
 
 .modal-header {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
   padding: 10px;
 }
@@ -44,26 +44,27 @@
 }
 
 .datepicker-input {
-  cursor: pointer; /* Estilo del cursor para todo el input */
+  cursor: pointer;
 }
 
 .timeslot-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center; /* Centra los botones */
-  gap: 1px; /* Ajusta el espacio entre los botones */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Ajuste automático de columnas */
+  gap: 10px; /* Espacio entre botones */
+  width: 100%;
+  padding: 20px; /* Espaciado alrededor del contenedor */
+  box-sizing: border-box;
 }
 
 .timeslot-button {
   padding: 12px;
-  width: calc(16.66% - 5px); /* Cada botón ocupa aproximadamente 1/6 del contenedor */
   border: none;
   border-radius: 5px;
-  margin-top: 8px;
   font-size: 14px;
-  color: rgb(255, 253, 253);
+  color: white;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  width: 100%; /* Asegura que el botón ocupe el ancho completo de su contenedor */
 }
 
 .timeslot-button.available {
@@ -76,5 +77,9 @@
 
 .timeslot-button:hover {
   opacity: 0.85;
-  background-color: goldenrod;
+}
+
+.timeslot-button.disabled-business {
+  background-color: grey;
+  cursor: not-allowed;
 }

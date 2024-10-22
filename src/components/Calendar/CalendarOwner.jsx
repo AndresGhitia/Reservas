@@ -169,8 +169,8 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
           <button className="modal-close-button" onClick={onClose}>✖</button>
         </div>
         
-        <div className="calendar-container"> 
-          <div className="date-container">
+        <div className="calendar-container-Owner"> 
+          <div className="date-container-Owner">
             <Calendar
               onChange={setDate}
               value={date}
@@ -178,7 +178,7 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
             />
           </div>
   
-          <div className="timeslot-container">
+          <div className="timeslot-container-Owner">
             {timeSlots.map((slot, index) => {
               // Verificar si el incremento de tiempo es de 30 minutos
               const isHalfHourInterval = selectedSpace.sport === "Paddle" ? true : false;

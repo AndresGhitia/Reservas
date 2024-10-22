@@ -55,14 +55,14 @@
 }
 
 /* Contenedor principal del calendario */
-.calendar-container {
+.calendar-container-Owner {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 /* Contenedor de la fecha */
-.date-container {
+.date-container-Owner {
   margin-bottom: 25px;
 }
 
@@ -77,7 +77,7 @@
 }
 
 /* Contenedor de los botones de horarios */
-.timeslot-container {
+.timeslot-container-Owner {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Ajuste automático de columnas */
   gap: 10px; /* Espacio entre botones */
@@ -94,7 +94,7 @@
 
 .timeslot-button {
   flex: 1;
-  margin: 0; /* Eliminar cualquier margen para que no haya separación */
+  margin: 0 px; /* Eliminar cualquier margen para que no haya separación */
   padding: 15px;
   border-radius: 5px;
   color: white;
@@ -138,7 +138,7 @@
 
 /* Estilo para botones deshabilitados en modo negocio */
 .timeslot-button.disabled-business {
-  background-color: #6c757d; /* Gris para deshabilitados */
+  background-color: #10a818; /* Gris para deshabilitados */
   cursor: not-allowed;
 }
 
