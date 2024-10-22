@@ -24,3 +24,11 @@ a{
 cursor{
     cursor: pointer;
 }
+/* Ajustes para dispositivos móviles */
+@media (max-width: 768px) {
+    .app{
+        width: 100%; 
+         margin: auto;
+         padding:0.2vh;
+     }
+}

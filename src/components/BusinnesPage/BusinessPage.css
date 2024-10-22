@@ -1,21 +1,20 @@
+/* Estilos generales para pantallas grandes */
 .business-header {
-  background-image: 
-  linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)), 
-  url('https://t4.ftcdn.net/jpg/03/18/48/95/360_F_318489561_qpVjxV7GEF4btKaiD4OWe78vX737Jnzz.jpg');
-  height: 45vh; 
+  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)),
+    url('https://t4.ftcdn.net/jpg/03/18/48/95/360_F_318489561_qpVjxV7GEF4btKaiD4OWe78vX737Jnzz.jpg');
+  height: 45vh;
   display: flex;
   align-items: center;
-  justify-content: flex-start; 
-  padding-left: 20px; 
-  background-size: cover; 
+  justify-content: flex-start;
+  padding-left: 20px;
+  background-size: cover;
   background-position: center;
-  background-color: #00000080;}
-
+  background-color: #00000080;
+}
 
 .business-header-info {
   color: white;
 }
-
 
 .business-header-info h1 {
   font-size: 4.5rem;
@@ -54,7 +53,6 @@
   background-color: white;
 }
 
-
 .address-container {
   width: 400px;
   display: flex;
@@ -63,7 +61,6 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-
 }
 
 .address-container img {
@@ -74,14 +71,11 @@
   font-size: 1.5rem;
   font-weight: 500;
   letter-spacing: 2px;
-
-
 }
 
 .location-container {
   width: 400px;
 }
-
 
 .whatsapp-container {
   background-color: #25D366;
@@ -105,5 +99,53 @@
   font-size: 25px;
   padding: 5px;
   letter-spacing: 2px;
+}
 
+/* Estilos generales para dispositivos móviles */
+@media (max-width: 768px) {
+  /* El encabezado ocupa toda la pantalla con altura ajustada */
+  .business-header {
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Los componentes principales se apilan verticalmente */
+  .businesspage-container {
+    display: flex;
+    flex-direction: column; /* Coloca los elementos en columna */
+    gap: 15px; /* Añade espacio entre los elementos */
+    padding: 10px; /* Espacio alrededor de los elementos */
+  }
+
+  /* Ajuste de la distribución de los contenedores */
+  .businessmap-container, .address-container, .whatsapp-container {
+    width: 100%; /* Ocupa todo el ancho */
+    margin: 0 auto;
+  }
+
+  /* Mapa a pantalla completa o casi completa */
+  .businessmap-container iframe {
+    width: 100%;
+    height: 250px; /* Ajusta la altura del mapa */
+  }
+
+  /* Aumenta el tamaño de los botones para mejor accesibilidad */
+  .whatsapp-container a {
+    display: block;
+    text-align: center;
+    background-color: #25D366;
+    color: white;
+    padding: 15px;
+    font-size: 1.2rem;
+    border-radius: 8px;
+  }
+
+  /* Espacio reducido entre el texto de la dirección */
+  .address-container p {
+    font-size: 1rem;
+    margin: 10px 0;
+  }
 }

@@ -161,3 +161,6 @@ horarios de 30min agrupados por hora.
 
 G#111 Se agregan estilos condicionales en caso de grilla horaria de 30min o 1H en calendarUser.
 horarios de 30min agrupados por hora. 
+
+G#112 Comienzo a adaptar estilos para mobile. Se modifican Index, BusinessPage, NavBar.
+*a NavBar, le coomente el componete Cart y Dot.

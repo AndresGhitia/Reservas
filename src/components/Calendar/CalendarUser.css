@@ -83,3 +83,30 @@
   background-color: grey;
   cursor: not-allowed;
 }
+@media (max-width: 768px) {
+  .calendar-content {
+    background-color: whitesmoke;
+    border-radius: 10px;
+    text-align: center;
+    padding: 0px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .calendar-content {
+    width: 100%; /* Ancho completo en pantallas pequeñas */
+    padding: 10px;
+  }
+
+  .timeslot-button {
+    font-size: 12px; /* Tamaño de texto ajustado para dispositivos móviles */
+    padding: 8px; /* Botones más compactos */
+  }
+
+  /* Flexibilidad para que los pares de botones en intervalos de media hora también se ajusten */
+  .timeslot-pair {
+    flex-direction: column;
+    gap: 5px; /* Espaciado más pequeño en pantallas pequeñas */
+  }
+}

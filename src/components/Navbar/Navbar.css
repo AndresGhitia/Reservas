@@ -115,3 +115,94 @@
 .nav-profile-dropdown li:hover{
     color: goldenrod;
 }
+
+/* Ajustes para dispositivos móviles */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0px;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* Logotipo más pequeño */
+    .navbar .logo {
+        width: 120px;
+    }
+
+    /* Ocultar el menú principal y mostrar un ícono de hamburguesa */
+    .navbar-menu {
+        display: none;
+    }
+
+    /* Mostrar el ícono de menú (hamburguesa) */
+    .navbar-hamburger {
+        display: block;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    /* Ajustes para el perfil del usuario */
+    .navbar-right {
+        gap: 00px;
+    }
+
+    .navbar-profile-user img {
+        width: 30px;
+    }
+
+    /* Menú desplegable del perfil */
+    .nav-profile-dropdown {
+        position: absolute;
+        right: 0;
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        background-color: white;
+        padding: 12px 25px;
+        border-radius: 4px;
+        border: 1px solid goldenrod;
+        list-style: none;
+        z-index: 999;
+    }
+
+    .navbar-profile:hover .nav-profile-dropdown {
+        display: flex;
+    }
+}
+
+/* Mostrar menú completo al hacer clic en el ícono de hamburguesa */
+.navbar-hambur  ger.active + .navbar-menu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    padding: 10px 0;
+    z-index: 999;
+}
+
+.navbar-menu li {
+    padding: 10px 20px;
+    text-align: center;
+    width: 100%;
+}
+
+.navbar-menu li:hover {
+    background-color: #f0f0f0;
+    color: #119f0c;
+    transition: 0.3s;
+}
+
+/* Ícono de menú hamburguesa (oculto por defecto en pantallas grandes) */
+.navbar-hamburger {
+    display: none;
+}
+
+/* Ajustes para pantallas más grandes */
+@media (min-width: 769px) {
+    .navbar-hamburger {
+        display: none;
+    }
+}
