@@ -11,24 +11,24 @@
   z-index: 1000; /* Asegura que esté al frente */
 }
 
-.modal-content {
+/* .modal-content {
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
   width: 50%;
-  max-width: 90vw; /* Ajuste para pantallas pequeñas */
+  max-width: 90vw; 
   max-height: 90vh;
-  overflow-y: auto; /* Para desplazarse si el contenido es largo */
-}
+  overflow-y: auto; 
+} */
 
 /* Encabezado del modal 2*/
-.modal-header {
+/* .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 15px;
   border-bottom: 1px solid #ddd;
-}
+} */
 
 .calendar-header h3 {
   font-size: 1.8rem;

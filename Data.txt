@@ -168,5 +168,12 @@ G#112 Comienzo a adaptar estilos para mobile. Se modifican Index, BusinessPage, 
 G#113 implementacion de tarjetas contraibles en BusinessPage, para esto se modifico el codigo del componente SpaceLine.
 Ademas se modifica dimenciones y distribucion de cardviews en caso de mobile.
 
-G#114 Modificando estilo y como se muestra el contenido de las cardviews en BusinessPage. Para esto se moficido codigo de BusinessList 
+<<<<<<< HEAD
+=======
+A#114 Se eliminan carpetas y enlaces que no cumplian funcion. Se comienza a dar estilo definitvo al modal del LOG IN.
+Resta hacer lo mismo con CREAR CUENTA. Se eliminan/comentan varios CSS ya que estan repetidos y dificulta la visualizacion, 
+por lo tanto varias visualizaciones se van a ver mal por el momento.
+>>>>>>> 9338b9be5d9af4e2b7d51bec3b61fb9fcef4c787
+
+G#115 Modificando estilo y como se muestra el contenido de las cardviews en BusinessPage. Para esto se moficido codigo de BusinessList 
 y BusinessPage tanto en jsx como en css. Se establece grilla para mostrar cards en web.

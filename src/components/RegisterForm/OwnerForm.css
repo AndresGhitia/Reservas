@@ -17,11 +17,11 @@
     gap: 20px;
   }
   
-  .form-group {
+  /* .form-group {
     display: flex;
     flex-direction: column;
     margin-bottom: 0;
-  }
+  } */
   
   label {
     font-weight: bold;
@@ -30,7 +30,7 @@
     min-height: 40px; /* Ajustar la altura mínima para que todas las etiquetas ocupen el mismo espacio */
   }
   
-  input[type="text"],
+  /* input[type="text"],
   input[type="email"],
   input[type="password"],
   select {
@@ -39,7 +39,7 @@
     border-radius: 4px;
     border: 1px solid #ccc;
     font-size: 16px;
-  }
+  } */
   
   button {
     /* background-color: #f44336;

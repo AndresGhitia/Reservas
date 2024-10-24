@@ -24,9 +24,9 @@
   }
   
   h2 {
-    margin-bottom: 20px; /* Espacio entre el título y el QR */
+    /* margin-bottom: 20px;
     font-size: 1.2rem;
-    color: #333;
+    color: #333; */
   }
   
   .close-btn {

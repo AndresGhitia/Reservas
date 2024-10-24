@@ -1,4 +1,4 @@
-.modal {
+/* .modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -10,9 +10,9 @@
     justify-content: center;
     align-items: center;
     z-index: 9999;
-}
+} */
 
-.modal-content {
+/* .modal-content {
     background-color: #fff;
     padding: 30px;
     border-radius: 10px;
@@ -20,16 +20,16 @@
     text-align: left;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     position: relative;
-}
+} */
 
-.close {
+/* .close {
     position: absolute;
     top: 15px;
     right: 20px;
     font-size: 25px;
     cursor: pointer;
     color: #333;
-}
+} */
 
 .tabs {
     display: flex;
@@ -51,17 +51,17 @@
     color: white;
 }
 
-.form-group {
+/* .form-group {
     margin-bottom: 12px;
     position: relative;
-}
+} */
 
 label {
     display: block;
     margin-bottom: 2px;
 }
 
-input[type="email"],
+/* input[type="email"],
 input[type="text"],
 input[type="numeric"],
 input[type="password"] {
@@ -72,16 +72,16 @@ input[type="password"] {
     box-sizing: border-box;
     font-size: medium;
     
-}
-.password-group {
-    position: relative; /* Asegura que el ícono se mantenga dentro del input */
+} */
+/* .password-group {
+    position: relative; 
     display: flex;
     flex-direction: column;
     margin-top: 50px;
-}
-.password-group input {
-    margin-top: -25px; /* Ajusta este valor para acercar el input a la etiqueta */
-}
+} */
+/* .password-group input {
+    margin-top: -25px; 
+} */
 
 .password-wrapper {
     display: flex;
@@ -91,34 +91,19 @@ input[type="password"] {
 
 /* Ícono de mostrar/ocultar contraseña */
 .toggle-password {
-    position: absolute;
+    /* position: absolute;
     top: 75%;
     transform: translateY(-50%);
     cursor: pointer;
     font-size: 18px;
-    width: 24px; /* Ancho fijo para evitar que el icono se mueva o cambie el layout */
-    height: 24px; /* Altura fija */
+    width: 24px; 
+    height: 24px; 
     line-height: 24px;
     text-align: center;
-    color: #333;
+    color: #333; */
 }
 
 
-button[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    background-color: #5a67d8;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 15px;
-    transition: background-color 0.3s;
-}
-
-button[type="submit"]:hover {
-    background-color: #4c51bf;
-}
 
 .required {
     color: red;

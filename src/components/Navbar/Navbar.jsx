@@ -78,40 +78,28 @@ function Navbar() {
   };
 
   return (
-    <div className='navbar'>
-      <img src={assets.logo_header} alt="logo de la marca" className='logo' />
-      <ul className='navbar-menu'>
-        <Link to="/"></Link>
-        <li className='ubicacion'>UBICACION</li>
-        <li className='canchas'>CANCHAS</li>
-        <li className='appmobile'>APP MOBILE</li>
-        <li className='contacto'>CONTACTO</li>
-      </ul>
-
-      <div className='navbar-right'>
-        <img src={assets.search_icon} alt="" />
-     
-        <div className='navbar-search-icon'>
-      {/*
-        <Link to='/cart'>
-            <img src={assets.cart_icon} alt="" />
-          </Link>
-          <div className='dot'>
+    <>
+      <div className='navbar'>
+        <img src={assets.logo_header} alt="logo de la marca" className='logo' />
+  
+        <div className='navbar-right'>
+          <div className='navbar-search-icon'>
           </div>
-      */}
+  
+          {!user ? (
+            <button onClick={() => setShowLogin(true)}>Sign In</button>
+          ) : (
+            <UserProfileDropdown
+              userData={userData}
+              user={user}
+              handleSignOut={handleSignOut}
+              isDashboard={isDashboard}
+            />
+          )}
         </div>
-        
-        {!user ? (
-          <button onClick={() => setShowLogin(true)}>Sign In</button>
-        ) : (
-          <UserProfileDropdown
-            userData={userData}
-            user={user}
-            handleSignOut={handleSignOut}
-            isDashboard={isDashboard}  
-          />
-        )}
       </div>
+  
+      {/* Modales fuera del contenedor navbar */}
       {showLogin && <LoginForm onClose={() => setShowLogin(false)} />}
       {showWarningModal && (
         <WarningModal
@@ -122,8 +110,9 @@ function Navbar() {
       {showSessionClosedModal && (
         <SessionClosedModal onClose={() => setShowSessionClosedModal(false)} />
       )}
-    </div>
+    </>
   );
+  
 }
 
 export default Navbar;
