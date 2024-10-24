@@ -36,11 +36,12 @@
 
 .businesspage-container {
   display: flex;
-  flex-wrap: nowrap;
-  gap: 20px;
-  justify-content: center;
+  flex-wrap: wrap; /* Las tarjetas pasarán a una nueva fila cuando sea necesario */
+  gap: 20px; /* Espacio entre las tarjetas */
+  justify-content: center; /* Centra las tarjetas en el contenedor */
   margin: 20px;
 }
+
 
 .businessmap-container {
   display: flex;
@@ -119,6 +120,10 @@
     gap: 15px; /* Añade espacio entre los elementos */
     padding: 10px; /* Espacio alrededor de los elementos */
   }
+  .business-header-info h1 {
+    font-size: 3rem;
+    padding: 10px 0px;
+  }
 
   /* Ajuste de la distribución de los contenedores */
   .businessmap-container, .address-container, .whatsapp-container {
@@ -149,12 +154,16 @@
     margin: 10px 0;
   }
   .businesspage-container {
-    gap: 10px; /* Reduce el gap entre tarjetas en mobile */
-  }
+    display: flex; /* O usa grid si estás trabajando con un grid layout */
+    flex-direction: column; /* Si quieres que los elementos se apilen verticalmente */
+    gap: 0px; /* Corregido a "0px" en lugar de "00px" */
+    height: auto; /* Asegura que el contenedor crezca según el contenido */
+}
+
 
   .businesspage-container .space-line {
     flex: 1 1 calc(50% - 20px); /* Cada tarjeta ocupará el 50% del contenedor, menos un pequeño margen */
-    margin-bottom: 20px; /* Añadir margen entre filas */
+    margin-bottom: 20px; 
   }
- 
+
 }

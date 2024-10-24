@@ -23,7 +23,10 @@ function BusinessPage() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [ownerId, setOwnerId] = useState(null);
   const [cel, setCel] = useState(null);
-  const [formattedAddress, setFormattedAddress] = useState(''); 
+  const [formattedAddress, setFormattedAddress] = useState('');
+  
+  // Estado de expansión para cada tarjeta
+  const [expandedCards, setExpandedCards] = useState({}); 
 
   useEffect(() => {
     const businessRef = collection(db, 'owners');
@@ -87,6 +90,14 @@ function BusinessPage() {
     return () => unsubscribeCalendar();
   };
 
+  // Función para manejar la expansión de cada tarjeta
+  const toggleCardExpansion = (spaceId) => {
+    setExpandedCards((prevExpandedCards) => ({
+      ...prevExpandedCards,
+      [spaceId]: !prevExpandedCards[spaceId], // Alterna el estado de expansión solo para la tarjeta correspondiente
+    }));
+  };
+
   if (loading) {
     return <div className="loading">Cargando...</div>;
   }
@@ -99,10 +110,8 @@ function BusinessPage() {
     return <div className="no-data">No se encontraron datos del negocio.</div>;
   }
 
-  const backgroundImageUrl = ownerData.backgroundImageUrl;
-
   return (
-    <div >
+    <div>
       <Navbar />
       <div className='business-header'>
         <div className='business-header-info'>
@@ -113,9 +122,16 @@ function BusinessPage() {
       </div>
       <div className='business-container'>
         <div className="businesspage-container">
-          {spaces.map(space => (
-            <SpaceLine key={space.id} space={space} handleViewAvailability={handleViewAvailability} />
-          ))}
+        {spaces.map((space) => (
+  <SpaceLine 
+    key={space.id} 
+    space={space} 
+    handleViewAvailability={handleViewAvailability} 
+    isExpanded={expandedCards[space.id]} // Controla la expansión basado en el ID único de la tarjeta
+    onToggleExpand={() => toggleCardExpansion(space.id)} // Alterna expansión usando el ID del espacio
+  />
+))}
+
         </div>
 
         {selectedSpace && (
@@ -129,8 +145,7 @@ function BusinessPage() {
               disableBooking={true}
               ownerId={ownerId}
               cel={cel}
-              sport={selectedSpace.sport} // Aquí pasamos el sport
-
+              sport={selectedSpace.sport} 
             />
           </div>
         )}

@@ -167,3 +167,6 @@ G#112 Comienzo a adaptar estilos para mobile. Se modifican Index, BusinessPage, 
 
 G#113 implementacion de tarjetas contraibles en BusinessPage, para esto se modifico el codigo del componente SpaceLine.
 Ademas se modifica dimenciones y distribucion de cardviews en caso de mobile.
+
+G#114 Modificando estilo y como se muestra el contenido de las cardviews en BusinessPage. Para esto se moficido codigo de BusinessList 
+y BusinessPage tanto en jsx como en css. Se establece grilla para mostrar cards en web.

@@ -3,16 +3,95 @@
   margin: 15px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   border-radius: 10px;
-  width: 300px; /* Para pantallas grandes */
+  width: 300px;
   text-align: center;
-  padding: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Sombra más profunda */
   font-style: italic;
-  transition: max-height 0.3s ease-in-out; /* Animación para expansión/contracción */
-  max-height: 400px; /* Altura máxima predeterminada */
-  overflow: hidden; /* Ocultar contenido cuando esté contraído */
+  transition: all 0.3s ease-in-out; /* Suavizar todas las transiciones */
+  max-height: 400px;
+  overflow: hidden;
+  border: 0.4px solid black; /* Borde negro */
+}
+
+.spaceline-card:hover {
+  transform: scale(1.05); /* Efecto de zoom al pasar el mouse */
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3); /* Sombra más marcada en hover */
+}
+
+.sport-icon p {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.spaceinfo-top, .spaceinfo-bottom {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 10px 0;
+  font-size: 1rem;
+}
+
+.spaceinfo-bottom .space-detail p {
+  margin: 0;
+  text-align: center;
+  color: #666;
+}
+
+.space-detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.space-detail p:first-child {
+  font-weight: bold;
+  color: #000;
+}
+
+hr {
+  width: 100%;
+  border: 0;
+  height: 1px;
+  background-color: #eee;
+  margin: 15px 0;
+}
+
+
+.spaceline-card .spaceline-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  margin-top: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.spaceline-card .spaceline-button:hover {
+  background-color: #218838;
+}
+
+.spaceline-card .details-toggle-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  margin-top: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.spaceline-card .details-toggle-button:hover {
+  background-color: #0056b3;
 }
 
 .spaceline-card.expanded {
@@ -36,15 +115,15 @@
 }
 
 .spaceinfo-top {
-  margin-top: 15px;
-  margin-bottom: 5px;
+  margin-top: 2px;
+  margin-bottom: 2px;
   display: flex;
   justify-content: space-evenly;
 }
 
 .spaceinfo-bottom {
-  margin-top: 15px;
-  margin-bottom: 5px;
+  margin-top: 2px;
+  margin-bottom: 2px;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -52,20 +131,21 @@
 
 .spaceline-button {
   background-color: #28a745;
-  color: black;
+  color: white;
   border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
+  padding: 5px 10px;
   cursor: pointer;
-  margin-top: 15px;
-  font-weight: 500;
+  margin-top: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-right: 2px;
+  height: 32px;
 }
 
 .spaceline-button:hover {
   background-color: #5cdf7a;
 }
 
-/* Botón Mostrar/Ocultar detalles */
 .details-toggle-button {
   background-color: #007bff;
   color: white;
@@ -75,6 +155,8 @@
   margin-top: 10px;
   border-radius: 5px;
   font-size: 14px;
+  margin-left: 2px;
+  height: 32px;
 }
 
 .details-toggle-button:hover {
@@ -84,12 +166,12 @@
 /* Media query para pantallas pequeñas */
 @media (max-width: 768px) {
   .spaceline-card {
-    flex: 1 1 calc(40% - 0px); /* Ajusta el ancho de las tarjetas a un 40% del contenedor */
-    width: 100%;
-    margin-bottom: 2px;
+    flex: 1 1 calc(80% - 0px); /* Ajusta el ancho de las tarjetas a un 40% del contenedor */
+    width: 120%;
+    margin-bottom: 20px;
     padding: 0px;
-    max-height: 150px; /* Altura contraída por defecto en pantallas pequeñas */
-    transition: max-height 0.3s ease-in-out;
+    max-height: 120px; /* Altura contraída por defecto en pantallas pequeñas */
+    transition: max-height 0.8s ease-in-out;
   }
 
   .spaceline-card.expanded {
@@ -113,7 +195,7 @@
   }
 
   .sport-icon p {
-    font-size: 26px; 
+    font-size: 20px; 
   }
 
   .spaceinfo-top, .spaceinfo-bottom {
@@ -121,14 +203,22 @@
     flex-direction: column;
     align-items: center;
   }
-
-  .spaceline-button {
-    padding: 10px 2px;
-    font-size: 16px;
-  }
-
+.card-buttons{
+  display: flex;
+}
+.spaceline-button{
+  font-size: 16px;
+  padding: 2px;
+  height: 40px;
+  margin-bottom: 0px;
+  min-width: 50%;
+}
   .details-toggle-button {
-    font-size: 12px;
-    padding: 5px;
+    font-size: 16px;
+    padding: 2px;
+    height: 40px;
+    margin-bottom: 0px;
+    min-width: 50%;
+
   }
 }
