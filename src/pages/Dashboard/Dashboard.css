@@ -112,22 +112,22 @@ ul li button:hover {
 }
 
 /* Campo de texto para agregar un nuevo espacio */
-input[type="text"] {
+/* input[type="text"] {
   width: 100%;
   padding: 16px;
   margin-top: 20px;
   margin-bottom: 30px;
   border: 1px solid #bdc3c7;
   border-radius: 12px;
-  font-size: 18px; /* Tamaño de texto más grande */
+  font-size: 18px; 
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
   color: #2c3e50;
-}
+} */
 
-input[type="text"]:focus {
-  border-color: #2980b9; /* Azul más brillante */
-  box-shadow: 0 0 8px rgba(41, 128, 185, 0.5); /* Efecto de sombra al enfocarse */
-}
+/* input[type="text"]:focus {
+  border-color: #2980b9; 
+  box-shadow: 0 0 8px rgba(41, 128, 185, 0.5); 
+} */
 
 /* Botones generales */
 button {
@@ -162,18 +162,18 @@ button[style*="background-color: #dc143c"]:hover {
 
 
 /* Modal */
-.modal {
+/* .modal {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco semi-transparente */
+  background-color: rgba(255, 255, 255, 0.8);
   padding: 40px;
   border-radius: 20px;
   box-shadow: 0 15px 40px rgba(231, 229, 229, 0.2);
   width: 100%;
-  backdrop-filter: blur(0.01px); /* Desenfoca el fondo */
-}
+  backdrop-filter: blur(0.01px); 
+} */
 
 /* Botón de cierre dentro del modal */
 .close-button {

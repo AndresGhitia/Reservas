@@ -57,7 +57,7 @@
 
 
 /* Estilos de los inputs de texto */
-input[type="text"],
+/* input[type="text"],
 input[type="number"],
 select {
   width: 100%;
@@ -67,22 +67,22 @@ select {
   border-radius: 4px;
   box-sizing: border-box;
   font-size: 16px;
-}
+} */
 
 /* Cambia el color del borde en el foco de los inputs */
-input[type="text"]:focus,
+/* input[type="text"]:focus,
 input[type="number"]:focus,
 select:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
+} */
 
 /* Estilo especial para mostrar errores */
-input.error,
+/* input.error,
 select.error {
   border-color: #dc3545;
-}
+} */
 
 .error-message {
   color: #dc3545;
@@ -94,10 +94,10 @@ button:hover {
   /* background-color: #218838; */
 }
 
-select,
+/* select,
 input {
   margin-bottom: 10px;
-}
+} */
 
 p.error-message {
   color: #dc3545;

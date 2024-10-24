@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { rubro_card } from "../../assets/assets";
-import RubroDetail from "../RubroDetail/RubroDetail";
 
 const RubroDetailContainer = () => {
     const [product, setProduct] = useState(null);

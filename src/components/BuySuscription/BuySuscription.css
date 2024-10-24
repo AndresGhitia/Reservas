@@ -1,5 +1,5 @@
 /* /components/BuySubscription/BuySubscription.css */
-.modal-overlay {
+/* .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -9,15 +9,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-  }
+  } */
   
-  .modal-content {
+  /* .modal-content {
     background: #fff;
     padding: 20px;
     border-radius: 5px;
     text-align: center;
   }
-  
+   */
   .renew-button {
     margin-top: 10px;
     background-color: #4CAF50;
