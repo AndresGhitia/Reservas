@@ -1,0 +1,84 @@
+/* Estilos generales para pantallas grandes */
+.business-header {
+    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)),
+      url('https://t4.ftcdn.net/jpg/03/18/48/95/360_F_318489561_qpVjxV7GEF4btKaiD4OWe78vX737Jnzz.jpg');
+    height: 45vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 20px;
+    background-size: cover;
+    background-position: center;
+    background-color: #00000080;
+  }
+  
+  .business-header-info {
+    color: white;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+  }
+  
+  .business-header-info h1 {
+    font-size: 5.5rem;
+    padding: 10px 0px;
+  }
+  
+  .business-header-info p {
+    font-size: 1.4rem;
+    padding: 10px 0px;
+  }
+  
+  .business-header hr {
+    border: solid 1px black;
+  }
+  .whatsapp-container {
+    color: white;
+    padding: 0px;
+    margin-top: 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .whatsapp-container h1 {
+    font-size: 25px;
+    margin-bottom: 4px; /* Reducir el margen inferior */
+    letter-spacing: 0px;
+  }
+  
+  .whatsapp-container p {
+    font-size: 25px;
+  }
+  
+  /* Estilos para dispositivos móviles */
+  @media (max-width: 768px) {
+    .business-header {
+      height: 30vh;
+      display: flex;
+      padding-bottom: 30px;
+      padding-top: 10px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+    }
+  
+    .business-header-info h1 {
+      font-size: 1%;
+      padding: 0px 0px;
+    }
+  
+    .business-header-info p {
+      font-size: 1.2rem;
+      padding: 0px 0px;
+    }
+  
+    .business-header-info h1 {
+      font-size: 3rem;
+      padding: 00px 0px;
+    }
+  }
+  

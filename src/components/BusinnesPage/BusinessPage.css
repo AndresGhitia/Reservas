@@ -1,37 +1,10 @@
 /* Estilos generales para pantallas grandes */
-.business-header {
-  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)),
-    url('https://t4.ftcdn.net/jpg/03/18/48/95/360_F_318489561_qpVjxV7GEF4btKaiD4OWe78vX737Jnzz.jpg');
-  height: 45vh;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding-left: 20px;
+.business-container {
   background-size: cover;
-  background-position: center;
-  background-color: #00000080;
-}
-
-.business-header-info {
-  color: white;
-}
-
-.business-header-info h1 {
-  font-size: 4.5rem;
-  padding: 10px 0px;
-}
-
-.business-header-info p {
-  font-size: 1rem;
-  padding: 10px 0px;
-}
-
-.business-header hr {
-  border: solid 1px black;
-}
-
-.business-contaner {
-  display: flex;
+  background-repeat: no-repeat;
+  position: relative;
+  min-height: 1000px;
+  padding-bottom: 10px;
 }
 
 .businesspage-container {
@@ -40,8 +13,10 @@
   gap: 20px; /* Espacio entre las tarjetas */
   justify-content: center; /* Centra las tarjetas en el contenedor */
   margin: 20px;
+  background-size: cover; /* Ajusta la imagen para cubrir todo el contenedor */
+  background-position: center;
+  background-repeat: no-repeat;
 }
-
 
 .businessmap-container {
   display: flex;
@@ -50,6 +25,7 @@
   align-items: center;
   margin: 20px auto;
   width: 400px;
+  height: 300px;
   padding: 20px;
   background-color: white;
 }
@@ -58,14 +34,10 @@
   width: 400px;
   display: flex;
   background-color: whitesmoke;
-  padding: 30px;
+  padding: 4px;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-}
-
-.address-container img {
-  padding-right: 5px;
 }
 
 .address-container a {
@@ -79,38 +51,36 @@
 }
 
 .whatsapp-container {
-  background-color: #25D366;
   color: white;
-  padding: 20px;
+  padding: 0px;
+  margin-top: 10px;
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 400px;
 }
 
 .whatsapp-container h1 {
   font-size: 25px;
   padding: 5px;
-  letter-spacing: 2px;
+  letter-spacing: 0px;
 }
 
 .whatsapp-container p {
   font-size: 25px;
-  padding: 5px;
-  letter-spacing: 2px;
+  padding: 0px;
+  letter-spacing: 0px;
 }
 
-/* Estilos generales para dispositivos móviles */
+/* Estilos para dispositivos móviles */
 @media (max-width: 768px) {
-  /* El encabezado ocupa toda la pantalla con altura ajustada */
-  .business-header {
-    height: 30vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  .business-container {
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+    min-height: 1000px;
+    padding-bottom: 10px;
   }
 
   /* Los componentes principales se apilan verticalmente */
@@ -118,15 +88,15 @@
     display: flex;
     flex-direction: column; /* Coloca los elementos en columna */
     gap: 15px; /* Añade espacio entre los elementos */
-    padding: 10px; /* Espacio alrededor de los elementos */
-  }
-  .business-header-info h1 {
-    font-size: 3rem;
-    padding: 10px 0px;
+    margin-top: 20px;
+    padding: 10px;
+    flex: 1 1 calc(50% - 20px);
+    margin-bottom: 20px;
   }
 
-  /* Ajuste de la distribución de los contenedores */
-  .businessmap-container, .address-container, .whatsapp-container {
+  .businessmap-container,
+  .address-container,
+  .whatsapp-container {
     width: 100%; /* Ocupa todo el ancho */
     margin: 0 auto;
   }
@@ -134,18 +104,16 @@
   /* Mapa a pantalla completa o casi completa */
   .businessmap-container iframe {
     width: 100%;
-    height: 250px; /* Ajusta la altura del mapa */
+    height: 250px;
   }
 
   /* Aumenta el tamaño de los botones para mejor accesibilidad */
   .whatsapp-container a {
     display: block;
     text-align: center;
-    background-color: #25D366;
     color: white;
-    padding: 15px;
+    padding: 3px;
     font-size: 1.2rem;
-    border-radius: 8px;
   }
 
   /* Espacio reducido entre el texto de la dirección */
@@ -153,17 +121,11 @@
     font-size: 1rem;
     margin: 10px 0;
   }
+
   .businesspage-container {
-    display: flex; /* O usa grid si estás trabajando con un grid layout */
-    flex-direction: column; /* Si quieres que los elementos se apilen verticalmente */
-    gap: 0px; /* Corregido a "0px" en lugar de "00px" */
+    display: flex;
+    flex-direction: column;
+    gap: 0px; /* Corregido a "0px" */
     height: auto; /* Asegura que el contenedor crezca según el contenido */
-}
-
-
-  .businesspage-container .space-line {
-    flex: 1 1 calc(50% - 20px); /* Cada tarjeta ocupará el 50% del contenedor, menos un pequeño margen */
-    margin-bottom: 20px; 
   }
-
 }

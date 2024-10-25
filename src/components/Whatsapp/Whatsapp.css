@@ -12,20 +12,11 @@
     transition: background-color 0.2s ease;
     cursor: pointer;
   }
-  /* .whatsapp-container {
+  .whatsapp-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: background-color 0.5s ease;
-    
-  } */
-  
-  /* .whatsapp-container:hover {
-    background-color: #99e4b4; 
-    border-radius: 8px; 
-    padding: 1px; 
-  } */
-  
+    flex-direction: column;
+    align-items: center; /* Centra todo horizontalmente */
+  }
   .whatsapp:hover {
     background-color: #abffca; /* Color más oscuro en hover */
   }
@@ -41,14 +32,19 @@
   
   .whatsapp-icon {
     margin-right: 2px;
-    width: 18px; /* Icono más pequeño */
-    height: 18px;
-    color: #000502; /* Color verde de WhatsApp */
+    width: 28px; 
+    height: 28px;
+    color: #ffffff; 
   }
 
-  .whatsapp-info a {
-    text-decoration: none;
-    color: #030303;
-    font-weight: bold;
+  /* Estilos para dispositivos móviles */
+@media (max-width: 768px) {
+  .whatsapp-icon {
+    width: 20px; /* Icono más pequeño */
+    height: 20px;
+    margin-right: 2px;
   }
+}
+
+
   

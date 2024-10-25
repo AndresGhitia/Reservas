@@ -177,3 +177,6 @@ por lo tanto varias visualizaciones se van a ver mal por el momento.
 
 G#115 Modificando estilo y como se muestra el contenido de las cardviews en BusinessPage. Para esto se moficido codigo de BusinessList 
 y BusinessPage tanto en jsx como en css. Se establece grilla para mostrar cards en web.
+
+G#116 Separe en BusinessPage todo lo realtivo al Header en un nuevo componente llamado BpHeader.jsx para organizar un poco el codigo y
+poder trabajar mejor los estilos.

@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebase';
+import businessPage from '../../assets/businessPage.jpeg';
 import CalendarUser from '../Calendar/CalendarUser';
-import WhatsappButton from '../Whatsapp/WhatsappButton';
 import BusinessMap from './BusinessMap';
 import SpaceLine from './SpaceLine';
 import Navbar from '../Navbar/Navbar';
 import './BusinessPage.css';
 import { assets } from '../../assets/assets';
+import BpHeader from './BpHeader'; // Importa el componente Header
 
 function BusinessPage() {
   const { establishmentName } = useParams();
@@ -24,9 +25,7 @@ function BusinessPage() {
   const [ownerId, setOwnerId] = useState(null);
   const [cel, setCel] = useState(null);
   const [formattedAddress, setFormattedAddress] = useState('');
-  
-  // Estado de expansión para cada tarjeta
-  const [expandedCards, setExpandedCards] = useState({}); 
+  const [expandedCards, setExpandedCards] = useState({});
 
   useEffect(() => {
     const businessRef = collection(db, 'owners');
@@ -42,7 +41,6 @@ function BusinessPage() {
 
           if (normalizedBusinessName === normalizedDecodedName) {
             foundBusiness = { id: doc.id, ...businessData };
-
           }
         }
       });
@@ -50,7 +48,7 @@ function BusinessPage() {
       if (foundBusiness) {
         setOwnerData(foundBusiness);
         setOwnerId(foundBusiness.id); 
-        setCel(foundBusiness.whatsapp); // Asignar el WhatsApp a cel
+        setCel(foundBusiness.whatsapp);
 
         const spacesRef = collection(db, 'owners', foundBusiness.id, 'spaces');
         const unsubscribeSpaces = onSnapshot(spacesRef, (spacesSnap) => {
@@ -90,11 +88,10 @@ function BusinessPage() {
     return () => unsubscribeCalendar();
   };
 
-  // Función para manejar la expansión de cada tarjeta
   const toggleCardExpansion = (spaceId) => {
     setExpandedCards((prevExpandedCards) => ({
       ...prevExpandedCards,
-      [spaceId]: !prevExpandedCards[spaceId], // Alterna el estado de expansión solo para la tarjeta correspondiente
+      [spaceId]: !prevExpandedCards[spaceId],
     }));
   };
 
@@ -110,28 +107,29 @@ function BusinessPage() {
     return <div className="no-data">No se encontraron datos del negocio.</div>;
   }
 
+  const backgroundImageUrl = ownerData.backgroundImageUrl;
+
   return (
     <div>
       <Navbar />
-      <div className='business-header'>
-        <div className='business-header-info'>
-          <h1>{decodedName}</h1>
-          <p>{formattedAddress || ownerData.address}</p>      
-          <p>{ownerData.whatsapp}</p>
-        </div>
-      </div>
-      <div className='business-container'>
-        <div className="businesspage-container">
-        {spaces.map((space) => (
-  <SpaceLine 
-    key={space.id} 
-    space={space} 
-    handleViewAvailability={handleViewAvailability} 
-    isExpanded={expandedCards[space.id]} // Controla la expansión basado en el ID único de la tarjeta
-    onToggleExpand={() => toggleCardExpansion(space.id)} // Alterna expansión usando el ID del espacio
-  />
-))}
+      
+        <BpHeader 
+        decodedName={decodedName}
+        formattedAddress={formattedAddress}
+        ownerData={ownerData}
+      />
 
+      <div className="business-container" style={{ backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : `url(${businessPage})` }}>
+        <div className="businesspage-container">
+          {spaces.map((space) => (
+            <SpaceLine 
+              key={space.id} 
+              space={space} 
+              handleViewAvailability={handleViewAvailability} 
+              isExpanded={expandedCards[space.id]} 
+              onToggleExpand={() => toggleCardExpansion(space.id)} 
+            />
+          ))}
         </div>
 
         {selectedSpace && (
@@ -142,7 +140,7 @@ function BusinessPage() {
               setCalendarData={setCalendarData}
               onClose={handleCloseModal}
               setSelectedDate={setSelectedDate}
-              disableBooking={true}
+              disableBooking={false}
               ownerId={ownerId}
               cel={cel}
               sport={selectedSpace.sport} 
@@ -163,15 +161,10 @@ function BusinessPage() {
                 </a>
               </div>
             )}
-            <BusinessMap address={ownerData.address} onAddressFormatted={setFormattedAddress} /> {/* Pasar la función de devolución de llamada */}
-            <div className='whatsapp-container'>
-              <h1>CONTACTANOS</h1>
-              <p><WhatsappButton phoneNumber={ownerData.whatsapp} /></p>
-            </div>
+            <BusinessMap address={ownerData.address} onAddressFormatted={setFormattedAddress} />
           </div>
         )}
       </div>
-      
     </div>
   );
 }
