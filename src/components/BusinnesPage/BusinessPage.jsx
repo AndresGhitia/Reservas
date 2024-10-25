@@ -119,52 +119,53 @@ function BusinessPage() {
         ownerData={ownerData}
       />
 
-      <div className="business-container" style={{ backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : `url(${businessPage})` }}>
-        <div className="businesspage-container">
-          {spaces.map((space) => (
-            <SpaceLine 
-              key={space.id} 
-              space={space} 
-              handleViewAvailability={handleViewAvailability} 
-              isExpanded={expandedCards[space.id]} 
-              onToggleExpand={() => toggleCardExpansion(space.id)} 
-            />
-          ))}
+<div className="business-container" style={{ backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : `url(${businessPage})` }}>
+  <div className="businesspage-container">
+    {spaces.map((space) => (
+      <SpaceLine 
+        key={space.id} 
+        space={space} 
+        handleViewAvailability={handleViewAvailability} 
+        isExpanded={expandedCards[space.id]} 
+        onToggleExpand={() => toggleCardExpansion(space.id)} 
+      />
+    ))}
+  </div>
+
+  {selectedSpace && (
+    <div className="selected-space">
+      <CalendarUser
+        selectedSpace={selectedSpace}
+        calendarData={calendarData}
+        setCalendarData={setCalendarData}
+        onClose={handleCloseModal}
+        setSelectedDate={setSelectedDate}
+        disableBooking={false}
+        ownerId={ownerId}
+        cel={cel}
+        sport={selectedSpace.sport} 
+      />
+    </div>
+  )}
+
+  {ownerData.whatsapp && (
+    <div className="businessmap-container">
+      {ownerData.address && (
+        <div className='address-container'>
+          <img src={assets.address_icon} alt="Address Icon" />
+          <a
+            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ownerData.address)}`}
+            target='_blank'
+            rel='noopener noreferrer'>
+            UBICACION
+          </a>
         </div>
+      )}
+      <BusinessMap address={ownerData.address} onAddressFormatted={setFormattedAddress} />
+    </div>
+  )}
+</div>
 
-        {selectedSpace && (
-          <div className="selected-space">
-            <CalendarUser
-              selectedSpace={selectedSpace}
-              calendarData={calendarData}
-              setCalendarData={setCalendarData}
-              onClose={handleCloseModal}
-              setSelectedDate={setSelectedDate}
-              disableBooking={false}
-              ownerId={ownerId}
-              cel={cel}
-              sport={selectedSpace.sport} 
-            />
-          </div>
-        )}
-
-        {ownerData.whatsapp && (
-          <div className="businessmap-container">
-            {ownerData.address && (
-              <div className='address-container'>
-                <img src={assets.address_icon} alt="Address Icon" />
-                <a
-                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ownerData.address)}`}
-                  target='_blank'
-                  rel='noopener noreferrer'>
-                  UBICACION
-                </a>
-              </div>
-            )}
-            <BusinessMap address={ownerData.address} onAddressFormatted={setFormattedAddress} />
-          </div>
-        )}
-      </div>
     </div>
   );
 }

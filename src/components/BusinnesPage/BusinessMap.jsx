@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { GoogleMap, Marker } from '@react-google-maps/api';
+import './BusinessMap.css'
 
 const BusinessMap = ({ address, onAddressFormatted }) => {
   const [mapLocation, setMapLocation] = useState(null);
@@ -56,7 +57,7 @@ const BusinessMap = ({ address, onAddressFormatted }) => {
   }, [address, onAddressFormatted]);
 
   return (
-    <div>
+    <div className='map-container'>
       {error && <div className="error">Error al cargar el mapa: {error.message}</div>}
       {loading ? (
         <div>Cargando mapa...</div>
@@ -64,12 +65,12 @@ const BusinessMap = ({ address, onAddressFormatted }) => {
         <GoogleMap
           center={mapLocation}
           zoom={15}
-          mapContainerStyle={{ width: '400px', height: '300px' }}
+          mapContainerStyle={{ width: '800px', height: '250px' }}
           options={{
             mapTypeControl: false, 
-            streetViewControl: false,
+            streetViewControl: true,
             fullscreenControl: false, 
-            zoomControl: false, 
+            zoomControl: true, 
           }}
         >
           <Marker position={mapLocation} />

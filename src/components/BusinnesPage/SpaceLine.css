@@ -11,7 +11,7 @@
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Sombra más profunda */
   font-style: italic;
   transition: all 0.3s ease-in-out; /* Suavizar todas las transiciones */
-  max-height: 400px;
+  max-height: 160px;
   overflow: hidden;
   border: 0.4px solid black; /* Borde negro */
 }
@@ -68,9 +68,10 @@ hr {
   border: none;
   padding: 10px 15px;
   cursor: pointer;
+  height: 40px;
   margin-top: 10px;
   border-radius: 5px;
-  font-size: 14px;
+  font-size: 18px;
   transition: background-color 0.3s;
 }
 
@@ -82,11 +83,12 @@ hr {
   background-color: #007bff;
   color: white;
   border: none;
+  height: 40px;
   padding: 10px 15px;
   cursor: pointer;
   margin-top: 10px;
   border-radius: 5px;
-  font-size: 14px;
+  font-size: 18px;
   transition: background-color 0.3s;
 }
 

@@ -36,12 +36,12 @@ const SpaceLine = ({ space, handleViewAvailability, isExpanded, onToggleExpand }
           </div>
 
           <div className="spaceinfo-top">
-            {space.roof && <p>Cerramiento: <strong>{space.roof}</strong></p>}
-            {space.walls && <p>Perimetro: <strong>{space.walls}</strong></p>}
+             <p>Cerramiento: <strong>{space.roof === "no" ? "Aire libre" : space.roof}</strong></p>
+               {space.walls && (<p>Perímetro: <strong>{space.walls}</strong></p>)}
           </div>
-
+         
           <hr />
-
+         
           <div className="spaceinfo-bottom">
             <div className="space-detail">
               <p style={{ fontSize: 'smaller' }}>VALOR TOTAL</p>

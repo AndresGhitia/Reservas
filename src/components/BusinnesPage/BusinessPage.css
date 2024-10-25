@@ -1,14 +1,18 @@
 /* Estilos generales para pantallas grandes */
 .business-container {
+  display: flex;
   background-size: cover;
   background-repeat: no-repeat;
   position: relative;
+  flex-direction: column;
   min-height: 1000px;
-  padding-bottom: 10px;
+  padding-bottom: 10px; 
 }
 
 .businesspage-container {
   display: flex;
+  flex: 1; /* Permite que este contenedor tome el espacio restante */
+
   flex-wrap: wrap; /* Las tarjetas pasarán a una nueva fila cuando sea necesario */
   gap: 20px; /* Espacio entre las tarjetas */
   justify-content: center; /* Centra las tarjetas en el contenedor */
@@ -21,20 +25,23 @@
 .businessmap-container {
   display: flex;
   flex-direction: column;
+  width: 100%; /* Ocupa todo el ancho */
+  max-width: 400px; /* Ajustable */
+  height: 300px;
+  margin-top: auto; /* Coloca el mapa al final del contenedor */
+  margin: 20px auto 0 auto; /* Centra horizontalmente */
+  margin-bottom:20px;
+  background-color: white;
+  display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px auto;
-  width: 400px;
-  height: 300px;
-  padding: 20px;
-  background-color: white;
 }
 
 .address-container {
   width: 400px;
   display: flex;
   background-color: whitesmoke;
-  padding: 4px;
+  padding: 8px;
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -50,28 +57,6 @@
   width: 400px;
 }
 
-.whatsapp-container {
-  color: white;
-  padding: 0px;
-  margin-top: 10px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.whatsapp-container h1 {
-  font-size: 25px;
-  padding: 5px;
-  letter-spacing: 0px;
-}
-
-.whatsapp-container p {
-  font-size: 25px;
-  padding: 0px;
-  letter-spacing: 0px;
-}
 
 /* Estilos para dispositivos móviles */
 @media (max-width: 768px) {
@@ -87,45 +72,16 @@
   .businesspage-container {
     display: flex;
     flex-direction: column; /* Coloca los elementos en columna */
-    gap: 15px; /* Añade espacio entre los elementos */
+    gap: 0px; /* Añade espacio entre los elementos */
     margin-top: 20px;
     padding: 10px;
     flex: 1 1 calc(50% - 20px);
     margin-bottom: 20px;
   }
 
-  .businessmap-container,
-  .address-container,
-  .whatsapp-container {
-    width: 100%; /* Ocupa todo el ancho */
-    margin: 0 auto;
-  }
-
-  /* Mapa a pantalla completa o casi completa */
-  .businessmap-container iframe {
-    width: 100%;
-    height: 250px;
-  }
-
-  /* Aumenta el tamaño de los botones para mejor accesibilidad */
-  .whatsapp-container a {
-    display: block;
-    text-align: center;
-    color: white;
-    padding: 3px;
-    font-size: 1.2rem;
-  }
-
-  /* Espacio reducido entre el texto de la dirección */
-  .address-container p {
-    font-size: 1rem;
-    margin: 10px 0;
-  }
-
   .businesspage-container {
     display: flex;
     flex-direction: column;
-    gap: 0px; /* Corregido a "0px" */
     height: auto; /* Asegura que el contenedor crezca según el contenido */
   }
 }

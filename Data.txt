@@ -180,3 +180,5 @@ y BusinessPage tanto en jsx como en css. Se establece grilla para mostrar cards 
 
 G#116 Separe en BusinessPage todo lo realtivo al Header en un nuevo componente llamado BpHeader.jsx para organizar un poco el codigo y
 poder trabajar mejor los estilos.
+
+G#117 Mejorando estilos generales (header mobile, Mapa de bsnPage, cards)
