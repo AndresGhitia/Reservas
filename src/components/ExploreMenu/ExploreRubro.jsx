@@ -1,3 +1,4 @@
+///ExploreRubro.jsx
 import React from 'react'
 import { rubro_list } from '../../assets/assets'
 import './ExploreRubro.css'

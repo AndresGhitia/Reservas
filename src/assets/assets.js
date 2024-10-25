@@ -11,6 +11,7 @@ import edit_icon from './edit_icon.png'
 import clock_icon from './clock_icon.png'
 import address_icon from './address_icon.png'
 import call_icon from './call_icon.png'
+import All from './search_icon.png'
 import rubro_1 from './football_icon.png'
 import rubro_2 from './volley_icon.png'
 import rubro_3 from './tennis_icon.png'
@@ -55,6 +56,12 @@ export const assets = {
 
 export const rubro_list = [
     {
+        rubro_name: 'Todos los deportes', 
+        rubro_image: All, 
+        },
+    
+
+    {
         rubro_name: "Football",
         rubro_image: rubro_1
     },
@@ -79,12 +86,8 @@ export const rubro_list = [
         rubro_image: rubro_5
     },
 
-   /* {
-        rubro_name: "Restaurantes",
-        rubro_image: rubro_6
-    },
 
-    {
+  /*    {
         rubro_name: "Bares",
         rubro_image: rubro_7
     },

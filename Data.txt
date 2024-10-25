@@ -182,3 +182,8 @@ G#116 Separe en BusinessPage todo lo realtivo al Header en un nuevo componente l
 poder trabajar mejor los estilos.
 
 G#117 Mejorando estilos generales (header mobile, Mapa de bsnPage, cards)
+
+G#118 Se agregan varias funciones:
+a) Se agrega seleccion de ubicacion (por default la almacenada en el navegador) esto permite filtrar vistas del home de las cards por proximidad.
+b) Se agrega seleccion de cardview excluyente por deporte seleccionado, Manteniendo el orden por proximnidad.
+c) Se agrega en selecton de desporter la opcion "All" para ver todas las cards. 

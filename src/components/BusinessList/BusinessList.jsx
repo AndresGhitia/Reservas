@@ -3,13 +3,12 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase'; 
 import businessPage from '../../assets/businessPage.jpeg'; 
 import './BusinessList.css'; 
-import WhatsappButton from '../Whatsapp/WhatsappButton'; 
 import '../Whatsapp/Whatsapp.css';
 
-const BusinessList = ({ category }) => {
+const BusinessList = ({ category, userLocation }) => {
   const [businesses, setBusinesses] = useState([]);
-  const [userLocation, setUserLocation] = useState(null); // Estado para la ubicación del usuario
   const [distances, setDistances] = useState({}); // Estado para almacenar distancias calculadas
+  const Maps_ApiKey = import.meta.env.VITE_MAPS_APIKEY;
 
   // Función para calcular la distancia usando la fórmula de Haversine
   const calculateDistance = (lat1, lng1, lat2, lng2) => {
@@ -25,19 +24,8 @@ const BusinessList = ({ category }) => {
     return R * c; // Retorna la distancia en kilómetros
   };
 
+  // Obtener los negocios desde Firebase
   useEffect(() => {
-    // Obtener la ubicación actual del usuario
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const userLat = position.coords.latitude;
-        const userLng = position.coords.longitude;
-        setUserLocation({ lat: userLat, lng: userLng });
-      },
-      (error) => {
-        console.error('Error al obtener la ubicación del usuario:', error);
-      }
-    );
-
     const fetchBusinesses = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, 'owners'));
@@ -51,18 +39,15 @@ const BusinessList = ({ category }) => {
         console.error("Error fetching businesses:", error);
       }
     };
-  
     fetchBusinesses();
   }, []);
 
+  // Función para geocodificar una dirección
   const geocodeAddress = async (address) => {
-    const apiKey = 'AIzaSyBWI5EoMzcJk-y6Mtdy0whcUwFQRvqc7po'; 
-    const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`);
-    
+    const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${Maps_ApiKey}`);
     if (!response.ok) {
       throw new Error('Error en la geocodificación');
     }
-
     const data = await response.json();
     if (data.results.length > 0) {
       return {
@@ -74,42 +59,53 @@ const BusinessList = ({ category }) => {
     }
   };
 
+  // Recalcular las distancias cuando la ubicación del usuario o los negocios cambian
   useEffect(() => {
     if (userLocation && businesses.length > 0) {
-      businesses.forEach(async (business) => {
+      const newDistances = {};
+      const promises = businesses.map(async (business) => {
         if (business.address) {
           try {
             const businessLocation = await geocodeAddress(business.address);
             const distance = calculateDistance(
-              userLocation.lat, 
-              userLocation.lng, 
+              userLocation.latitude, 
+              userLocation.longitude, 
               businessLocation.lat, 
               businessLocation.lng
             );
-            setDistances((prevDistances) => ({
-              ...prevDistances,
-              [business.id]: distance.toFixed(2), // Guardar la distancia en el estado
-            }));
+            newDistances[business.id] = distance.toFixed(2);
           } catch (error) {
             console.error(`Error al calcular la distancia para ${business.establishmentName}:`, error);
           }
         }
       });
+      
+      Promise.all(promises).then(() => {
+        setDistances(newDistances); // Actualizar distancias cuando todas hayan sido calculadas
+      });
     }
   }, [userLocation, businesses]);
 
-  const sortedBusinesses = [...businesses].sort((a, b) => {
-    const aMatches = a.businessType?.includes(category);
-    const bMatches = b.businessType?.includes(category);
-
-    if (aMatches && !bMatches) return -1;
-    if (!aMatches && bMatches) return 1;
-    return 0;
-  });
+  // Filtrar por rubro seleccionado o mostrar todos los negocios si se elige "Todos los deportes"
+  const filteredAndSortedBusinesses = [...businesses]
+    .filter(business => category === 'All' || category === 'Todos los deportes' || (business.businessType && business.businessType.includes(category))) // Filtrar por categoría o mostrar todos
+    .sort((a, b) => {
+      const aDistance = distances[a.id];
+      const bDistance = distances[b.id];
+      
+      if (aDistance && bDistance) {
+        return aDistance - bDistance; // Ordenar de menor a mayor distancia
+      } else if (aDistance) {
+        return -1; // Si solo a tiene distancia
+      } else if (bDistance) {
+        return 1; // Si solo b tiene distancia
+      }
+      return 0; // Mantener el orden original si no hay distancias
+    });
 
   return (
     <div className="business-list">
-      {sortedBusinesses.map((business) => (
+      {filteredAndSortedBusinesses.map((business) => (
         <div key={business.id} className="business-card">
           <img
             src={business.backgroundImageUrl || businessPage}
@@ -130,10 +126,6 @@ const BusinessList = ({ category }) => {
               Distancia: {distances[business.id]} km
             </p>
           )}
-          
-          {/* <div className="whatsapp-container">
-            <WhatsappButton phoneNumber={business.whatsapp} />
-          </div> */}
 
           <button onClick={() => window.open(`/${business.establishmentName.replace(/\s+/g, '-')}`, '_blank')}>
             Ingresar
@@ -145,3 +137,4 @@ const BusinessList = ({ category }) => {
 };
 
 export default BusinessList;
+

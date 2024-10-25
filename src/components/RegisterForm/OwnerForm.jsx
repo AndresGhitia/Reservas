@@ -21,9 +21,10 @@ const OwnerForm = ({
   const [inputValue, setInputValue] = useState('');
   const [highlightedPrediction, setHighlightedPrediction] = useState('');
   const autocompleteServiceRef = useRef(null);
+  const Maps_ApiKey = import.meta.env.VITE_MAPS_APIKEY;
 
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: 'AIzaSyBWI5EoMzcJk-y6Mtdy0whcUwFQRvqc7po',
+    googleMapsApiKey: Maps_ApiKey,
     libraries: ['places'],
   });
 

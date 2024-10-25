@@ -173,7 +173,7 @@ hr {
     margin-bottom: 20px;
     padding: 0px;
     max-height: 120px; /* Altura contraída por defecto en pantallas pequeñas */
-    transition: max-height 0.8s ease-in-out;
+    transition: all 0.8s ease-in-out; /* Suavizar todas las transiciones */
   }
 
   .spaceline-card.expanded {

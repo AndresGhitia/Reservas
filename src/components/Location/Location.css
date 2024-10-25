@@ -1,0 +1,27 @@
+/* src/components/Location/Location.css */
+.location-container {
+    margin: 20px;
+  }
+  
+  .location-container h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .location-container p {
+    margin: 5px 0;
+  }
+  
+  .location-container input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 10px;
+  }
+  
+  .error-message {
+    color: red;
+    margin-top: 10px;
+  }
+  
