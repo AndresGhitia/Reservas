@@ -1,16 +1,15 @@
-.explore-rubro{
+.explore-rubro {
     display: flex;
     flex-direction: column;
 }
 
-.explore-rubro h2{
+.explore-rubro h2 {
     text-align: center;
     color: #262626;
     font-weight: 500;
-
 }
 
-.explore-rubro-list{
+.explore-rubro-list {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -20,27 +19,41 @@
     padding: 0px 20px;
 }
 
-.explore-rubro-list-item img{
+/* Carrusel en pantallas pequeñas */
+@media (max-width: 768px) {
+    .explore-rubro-list {
+        overflow-x: auto; /* Scroll horizontal */
+        white-space: nowrap; /* Evitar que los items salten a la siguiente línea */
+        padding: 0px 10px; /* Aumentar el padding en móviles */
+        gap: 10px; /* Reducir el espacio entre los items en móviles */
+    }
+
+    .explore-rubro-list-item {
+        display: inline-block; /* Mostrar los items en línea */
+        min-width: 100px; /* Ancho mínimo para los items */
+    }
+}
+
+.explore-rubro-list-item img {
     cursor: pointer;
     transition: 0.2s;
 }
 
-.explore-rubro-list-item p{
+.explore-rubro-list-item p {
     margin-top: 10px;
     color: black;
-    font-size: max(1.4vw,16px);
+    font-size: max(1.4vw, 16px);
     cursor: pointer;
-
 }
 
-.explore-rubro hr{
+.explore-rubro hr {
     margin: 10px 0px;
     height: 2px;
     background-color: #e2e2e2;
     border: none;
 }
 
-.explore-rubro-list-item .active{
+.explore-rubro-list-item .active {
     border-radius: 50%;
     background-color: goldenrod;
     transition: 0.3s;

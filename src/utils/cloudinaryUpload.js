@@ -3,7 +3,7 @@
 export const uploadImageToCloudinary = async (file) => {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('upload_preset', 'Wallpaper'); // Debes configurar un "upload preset" en Cloudinary
+    formData.append('upload_preset', 'Wallpaper');
   
     try {
       const response = await fetch('https://api.cloudinary.com/v1_1/dbrz9aqlt/image/upload', {

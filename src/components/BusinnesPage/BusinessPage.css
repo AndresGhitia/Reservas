@@ -12,7 +12,6 @@
 .businesspage-container {
   display: flex;
   flex: 1; /* Permite que este contenedor tome el espacio restante */
-
   flex-wrap: wrap; /* Las tarjetas pasarán a una nueva fila cuando sea necesario */
   gap: 20px; /* Espacio entre las tarjetas */
   justify-content: center; /* Centra las tarjetas en el contenedor */

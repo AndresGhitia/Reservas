@@ -1,27 +1,61 @@
-/* src/components/Location/Location.css */
 .location-container {
-    margin: 20px;
-  }
-  
-  .location-container h3 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-  }
-  
-  .location-container p {
-    margin: 5px 0;
-  }
-  
-  .location-container input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-top: 10px;
-  }
-  
-  .error-message {
-    color: red;
-    margin-top: 10px;
-  }
-  
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 400px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.location-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.location-header h3 {
+  font-size: 1.75rem;
+  margin-left: 10px;
+  color: #333;
+}
+
+.location-icon {
+  color: #4caf50;
+  font-size: 1.75rem;
+}
+
+.location-container p {
+  margin: 10px 0;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.location-input-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-top: 15px;
+}
+
+.location-container input {
+  width: 100%;
+  width: 350px; /* Establecer un ancho máximo para evitar que sea demasiado grande */
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.location-container input:focus {
+  border-color: #4caf50;
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.2);
+  outline: none;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 0.9rem;
+  margin-top: 10px;
+  text-align: center;
+}
