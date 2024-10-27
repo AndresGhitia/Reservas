@@ -41,6 +41,7 @@
   display: flex;
   background-color: whitesmoke;
   padding: 8px;
+  border-radius: 8px;
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -66,32 +67,51 @@
     min-height: 1000px;
     padding-bottom: 10px;
   }
-
   /* Los componentes principales se apilan verticalmente */
   .businesspage-container {
     display: flex;
+    justify-content: flex-start;
     flex-direction: column; /* Coloca los elementos en columna */
     gap: 0px; /* Añade espacio entre los elementos */
-    margin-top: 20px;
+    margin-top: 0px;
     padding: 10px;
-    flex: 1 1 calc(50% - 20px);
-    margin-bottom: 20px;
+    margin: 0px;
+    margin-bottom: 0px;
   }
 
-  .businesspage-container {
-    display: flex;
-    flex-direction: column;
-    height: auto; /* Asegura que el contenedor crezca según el contenido */
-  }
   .businessmap-container {
     display: flex;
     flex-direction: column;
-    height: 300px;
     margin-top: auto; /* Coloca el mapa al final del contenedor */
-    margin: 00px ; /* Centra horizontalmente */
+    margin: 0px; /* Centra horizontalmente */
+    border-radius: 8px;
     margin-bottom:20px;
     background-color: white;
+    height: 300px;
+    margin-top: auto; /* Coloca el mapa al final del contenedor */
+    margin-bottom:20px;
+    background-color:whitesmoke;
     justify-content: center;
     align-items: center;
   }
+  .address-container {
+    width: 600px;
+    display: flex;
+    background-color: whitesmoke;
+    padding: 8px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .address-container a {
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+  }
+  
+  .location-container {
+    width: 100%;
+  }
+  
 }

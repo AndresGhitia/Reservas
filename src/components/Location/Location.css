@@ -59,3 +59,34 @@
   margin-top: 10px;
   text-align: center;
 }
+@media (max-width: 768px) {
+
+  .location-container {
+    margin: 20px auto;
+    padding-left: 10px;
+    max-width: 324px;
+    max-height: 350px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  .location-header h3 {
+    font-size: 1.45rem;
+    margin-left: 5px;
+    color: #333;
+  }
+  .location-input-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-top: 0px;  
+  }
+  .location-container input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+}

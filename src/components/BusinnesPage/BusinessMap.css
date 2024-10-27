@@ -12,11 +12,15 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
   }
   @media (max-width: 768px) {
-    .map-container {        
-        width: 280px;
-        margin: 0px;
-        padding: 0px;
-        max-width: 300px; 
+    .map-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    margin: 0px; 
+    width: 302px;
+    margin: 0px;
+    padding: 0px;
+    border-radius: 8px;
 
 
 

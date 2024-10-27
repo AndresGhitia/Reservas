@@ -55,10 +55,10 @@ export const assets = {
 }
 
 export const rubro_list = [
-    // {
-    //     rubro_name: 'Todos los deportes', 
-    //     rubro_image: All, 
-    //     },
+    {
+        rubro_name: 'Todos', 
+        rubro_image: All, 
+        },
     
 
     {

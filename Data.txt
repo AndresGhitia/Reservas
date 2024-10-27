@@ -191,3 +191,6 @@ c) Se agrega en selecton de desporter la opcion "All" para ver todas las cards.
 G#119 Mejorando los estilos de las cards (BusinessList.css)
 
 G#120 Llevamos los claves de firebase al .env y revise en los componentes que no me queden claves, para no publicarlas en github.
+
+G#121 Mejorando estilos de BusinessPage, mejora visual para mobile de distribucion de tarjetas y Maps. Tambien se trabajo la visual de
+Home para mobile, se acomodo la distribucion de ExploreRubro en dos filas y dimenciones del componente Location.

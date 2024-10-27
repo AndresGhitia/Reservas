@@ -65,12 +65,12 @@ const BusinessMap = ({ address, onAddressFormatted }) => {
         <GoogleMap
           center={mapLocation}
           zoom={15}
-          mapContainerStyle={{ width: '800px', height: '250px' }}
+          mapContainerStyle={{ width: '900px', height: '250px'}}
           options={{
             mapTypeControl: false, 
             streetViewControl: true,
             fullscreenControl: false, 
-            zoomControl: true, 
+            zoomControl: false, 
           }}
         >
           <Marker position={mapLocation} />

@@ -112,7 +112,7 @@ function BusinessPage() {
   return (
     <div>
       <Navbar />
-      
+
         <BpHeader 
         decodedName={decodedName}
         formattedAddress={formattedAddress}
@@ -161,7 +161,10 @@ function BusinessPage() {
           </a>
         </div>
       )}
+
       <BusinessMap address={ownerData.address} onAddressFormatted={setFormattedAddress} />
+
+      
     </div>
   )}
 </div>

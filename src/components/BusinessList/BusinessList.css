@@ -89,22 +89,16 @@
     text-align: center;
     width: fit-content;
   }
-  
-  button {
-    /* background-color: #28a745;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-    margin-top: 15px;
-    align-self: center; */
-  }
-  
-  button:hover {
-    /* background-color: #218838; */
-  }
   .business-card p:first-of-type {
     font-size: 1.2rem; /* Tamaño más pequeño para el rubro */
     color: #0a0101;
   }
+  /* Adaptación para móviles: cambiar de columnas a filas */
+@media (max-width: 768px) {
+  .business-list {
+    gap: 12px;
+    justify-content: center; /* Centra las tarjetas horizontalmente */
+    margin: 0px;
+  }
+
+}
