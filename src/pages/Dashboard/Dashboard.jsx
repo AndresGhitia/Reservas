@@ -109,7 +109,7 @@ function Dashboard() {
   }
 
   return (
-    <div>
+    <div className="dashboard-container">
       <Navbar />
       <div className="owner-container">
         <h1>Hola, {ownerData.ownerName}</h1>

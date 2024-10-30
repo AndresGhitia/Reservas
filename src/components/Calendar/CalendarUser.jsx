@@ -151,6 +151,7 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
   
               return (
                 <div key={index} className="timeslot-pair timeslot-half-hour">
+                
                   <button
                     className={`timeslot-button half-hour ${slot.available ? 'available' : 'reserved'} ${disableBooking ? 'disabled-business' : ''}`}
                     onClick={() => handleTimeslotClick(index)}
@@ -160,15 +161,18 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
                   </button>
   
                   {nextSlot && (
-                    <button
+                 
+                 <button
                       className={`timeslot-button half-hour ${nextSlot.available ? 'available' : 'reserved'} ${disableBooking ? 'disabled-business' : ''}`}
                       onClick={() => handleTimeslotClick(index + 1)}
                       disabled={disableBooking}
                     >
                       {nextSlot.time} - {disableBooking ? (nextSlot.available ? 'Disponible' : 'Ocupado') : (nextSlot.available ? 'Reservar' : `${nextSlot.name} ${nextSlot.whatsapp}`)}
+                   
                     </button>
                   )}
                 </div>
+
               );
             } else {
               // Mostrar individualmente para intervalos de 1 hora
@@ -185,6 +189,7 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
             }
           })}
         </div>
+        
       </div>
     </div>
   );

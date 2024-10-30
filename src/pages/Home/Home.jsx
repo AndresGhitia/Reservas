@@ -9,7 +9,6 @@ const Home = () => {
   const [category, setCategory] = useState("All");
   const [userLocation, setUserLocation] = useState(null);
   const [error, setError] = useState(null);
-  const Maps_ApiKey = import.meta.env.VITE_MAPS_APIKEY;
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -40,4 +39,3 @@ export default Home;
 
 
 
-const Maps_ApiKey = import.meta.env.VITE_MAPS_APIKEY;

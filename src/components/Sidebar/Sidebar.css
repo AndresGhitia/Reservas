@@ -20,8 +20,40 @@
 .sidebar-option.active{
     background-color: goldenrod;
 }
-@media (max-width:900px){
-    .sidebar-option p{
-        display: none;
+@media (max-width: 900px) {
+    .sidebar {
+      border: 1px solid rgb(169, 169, 169); /* Borde que utilizo como guía */
+      border-radius: px;
     }
-}
+  
+    .sidebar-options {
+      display: flex;
+      justify-content: space-around;
+      margin: 0px;
+    }
+  
+    .sidebar-option {
+      display: flex;
+      flex-direction: column; /* Cambia la dirección del contenido a columna */
+      align-items: center; /* Centra el contenido */
+      gap: 4px; /* Añade algo de espacio entre el icono y el texto */
+      width: 80px;
+      border: 1px solid rgb(169, 169, 169);
+      padding: 10px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  
+    .sidebar-option p {
+      display: block; /* Asegúrate de que el texto sea visible */
+      font-size: 0.8rem; /* Ajusta el tamaño de la fuente para que se vea bien en dispositivos móviles */
+      margin: 0; /* Elimina los márgenes por defecto */
+      text-align: center; /* Centra el texto debajo del icono */
+    }
+  
+    .sidebar-option img {
+      width: 24px; /* Ajusta el tamaño del icono si es necesario */
+      height: 24px; /* Ajusta el tamaño del icono si es necesario */
+    }
+  }
+  

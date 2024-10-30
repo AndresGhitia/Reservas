@@ -194,3 +194,5 @@ G#120 Llevamos los claves de firebase al .env y revise en los componentes que no
 
 G#121 Mejorando estilos de BusinessPage, mejora visual para mobile de distribucion de tarjetas y Maps. Tambien se trabajo la visual de
 Home para mobile, se acomodo la distribucion de ExploreRubro en dos filas y dimenciones del componente Location.
+
+G#122 Llevamos lo relativo a cloudinary al .env

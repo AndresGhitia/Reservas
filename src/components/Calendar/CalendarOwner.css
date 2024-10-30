@@ -1,46 +1,24 @@
-.Calendar-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro/borroso, sin margen gris */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000; /* Asegura que esté al frente */
-}
-
-/* .modal-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  width: 50%;
-  max-width: 90vw; 
-  max-height: 90vh;
-  overflow-y: auto; 
-} */
-
-/* Encabezado del modal 2*/
-/* .modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px;
-  border-bottom: 1px solid #ddd;
-} */
-
+  .Calendar-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro/borroso, sin margen gris */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Asegura que esté al frente */
+  }
 .calendar-header h3 {
   font-size: 1.8rem;
   margin: 0;
 }
-
 .calendar-header p {
   font-size: 1rem;
   color: #666;
   margin: 0;
 }
-
 /* Botón de cierre del modal */
 .modal-close-button {
   cursor: pointer;
@@ -57,6 +35,7 @@
 /* Contenedor principal del calendario */
 .calendar-container-Owner {
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: center;
 }
@@ -170,3 +149,65 @@
 .date-container {
   margin-bottom: 20px;
 }
+  @media (max-width: 768px) {
+    .Calendar-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro/borroso, sin margen gris */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+    }
+    /* Encabezado del calendario */
+.calendar-header h3 {
+  margin: 0;
+  margin-top: 30px;
+  font-size: 18px;
+  color: #333;
+}
+
+.calendar-header p {
+  font-size: 14px;
+  color: #666;
+  background-color: #10a818
+}
+
+    .date-container-Owner {
+      width: 100%; /* Ocupará todo el ancho de la pantalla */
+      margin-bottom: 25px;
+      min-width: 380px;
+      border: 1px solid rgb(243, 7, 7); /* Borde que utilizo como guía */
+
+
+    }
+    .react-calendar {
+      width: 100%; /* Asegura que el calendario ocupe todo el ancho disponible */
+      max-width: 100%; /* Evita que el calendario exceda el contenedor */
+      min-width: unset; /* Eliminar el ancho mínimo */
+      background-color: #f9f9f9;
+      border: 4px solid rgb(94, 243, 7); /* Borde de guía, puedes eliminarlo si no lo necesitas */
+      padding: 0; /* Eliminar padding dentro del calendario */
+      margin: 0; /* Eliminar márgenes extra */
+      box-sizing: border-box; /* Asegurar que el ancho total respete los bordes y el relleno */
+    }
+    
+
+    /* Ajustar el tamaño de los botones de horarios */
+    .timeslot-container-Owner {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Columnas más pequeñas para ajustarse al móvil */
+      max-height: 800px;
+    }
+
+    .timeslot-button {
+      padding: 10px; /* Reducir el padding para botones más pequeños */
+      font-size: 14px; /* Reducir el tamaño de la fuente */
+    }
+
+    .timeslot-button.one-hour {
+      min-width: 150px; /* Ajustar el ancho mínimo de los botones de una hora */
+    }
+  }

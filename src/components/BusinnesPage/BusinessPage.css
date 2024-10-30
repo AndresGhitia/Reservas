@@ -66,6 +66,7 @@
     position: relative;
     min-height: 1000px;
     padding-bottom: 10px;
+    
   }
   /* Los componentes principales se apilan verticalmente */
   .businesspage-container {

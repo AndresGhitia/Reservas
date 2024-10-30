@@ -1,5 +1,4 @@
 /* Global Styles */
-
 .owner-container {
   display: flex;
   flex-direction: column;
@@ -21,6 +20,7 @@
 
 .outlet-container{
   display: flex;
+  width: 100%;
   justify-content: center; /* Centra horizontalmente */
   align-items: center; /* Centra verticalmente */
 }
@@ -38,28 +38,7 @@
   justify-content: center; /* Centra verticalmente */
   padding-left: 20px; /* Margen interno para los elementos */
   padding-right: 20px; /* Margen interno para los elementos */
-
-
 }
-
-.spaces-container {
-  /* background-color: #ffffff;
-  border-radius: 20px;
-  padding: 30px;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-  margin-top: 20px;
-  transition: transform 0.3s ease;
-  width: 80%;
-  max-width: 1200px; 
-  margin-left: auto;
-  margin-right: auto;  */
-}
-
-
-.spaces-container:hover {
-  /* transform: scale(1.02); */
-}
-
 .spaces-container h2 {
   color: #2980b9;
   font-size: 28px;
@@ -111,41 +90,6 @@ ul li button:hover {
   transform: scale(1.05); /* Agrandar al hacer hover */
 }
 
-/* Campo de texto para agregar un nuevo espacio */
-/* input[type="text"] {
-  width: 100%;
-  padding: 16px;
-  margin-top: 20px;
-  margin-bottom: 30px;
-  border: 1px solid #bdc3c7;
-  border-radius: 12px;
-  font-size: 18px; 
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  color: #2c3e50;
-} */
-
-/* input[type="text"]:focus {
-  border-color: #2980b9; 
-  box-shadow: 0 0 8px rgba(41, 128, 185, 0.5); 
-} */
-
-/* Botones generales */
-button {
-  /* background-color: #2980b9;
-  color: white;
-  border: none;
-  padding: 15px 25px;
-  border-radius: 12px;
-  font-size: 18px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease; */
-}
-
-button:hover {
-  /* background-color: #3498db;
-  transform: scale(1.05); */
-}
-
 /* Botón específico de eliminar */
 
 button[style*="background-color: #dc143c"] {
@@ -159,21 +103,6 @@ button[style*="background-color: #dc143c"] {
 button[style*="background-color: #dc143c"]:hover {
   background-color: #c0392b;
 }
-
-
-/* Modal */
-/* .modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 40px;
-  border-radius: 20px;
-  box-shadow: 0 15px 40px rgba(231, 229, 229, 0.2);
-  width: 100%;
-  backdrop-filter: blur(0.01px); 
-} */
 
 /* Botón de cierre dentro del modal */
 .close-button {
@@ -272,4 +201,41 @@ button[style*="background-color: #dc143c"]:hover {
 .upload-background img:hover {
   transform: scale(1.05); /* Un pequeño zoom al pasar el mouse para darle dinamismo */
   transition: transform 0.2s ease-in-out;
+}
+
+@media (max-width: 768px) {
+  .owner-container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid rgb(169, 169, 169); /* Borde que utilizo como guía */
+    border-radius: 12px;
+  }
+  .outlet-container {
+    width: 100%; /* Asegura que tome todo el ancho de la pantalla en dispositivos móviles */
+    justify-content: center; /* Centra el contenido */
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  .upload-background {
+    text-align: center;
+    background-color: #f9f9f9; /* Fondo claro y neutral */
+    padding: 20px;
+    border-radius: 8px; /* Bordes ligeramente redondeados */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave para destacar el contenedor */
+    max-width: 300px; /* Limitar el ancho para un diseño más compacto */
+    margin: 0 auto; /* Centramos el div */
+  }
+  .upload-background input[type="file"] {
+    padding: 10px;
+    border: 1px solid #ccc; /* Borde claro */
+    border-radius: 5px;
+    background-color: #fff;
+    font-size: 1em;
+    max-width: 280px;
+    cursor: pointer; /* Indica que se puede interactuar con el input */
+  }
 }
