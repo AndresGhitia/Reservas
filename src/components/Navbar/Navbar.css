@@ -120,11 +120,11 @@
 /* Ajustes para dispositivos móviles */
 @media (max-width: 768px) {
     .navbar {
-        border: solid 3px goldenrod;
+        /* border: solid 3px goldenrod; */
         padding: 0px;
         justify-content: space-between;
         align-items: center;
-        height: 70px;
+        height: 50px;
     }
 
     /* Logotipo más pequeño */

@@ -1,7 +1,7 @@
 /* Estilos generales para pantallas grandes */
 .businesspage-container{
   margin: 0px;
-  border: solid 2px violet
+  /* border: solid 2px violet */
 }
 .business-container {
   display: flex;
@@ -68,7 +68,8 @@
   .businesspage-container{
     box-sizing: border-box; /* Asegura que padding y border no afecten el tamaño total */
     margin: 0px;
-    border: solid 2px violet
+    padding: 0px;
+    /* border: solid 2px violet */
   }
   .business-container {
     background-size: cover;

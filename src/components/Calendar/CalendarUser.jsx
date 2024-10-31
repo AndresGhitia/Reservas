@@ -50,11 +50,11 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
 
   const generateTimeSlots = (openTime, closeTime) => {
     const timeSlots = [];
-    let [openHour, openMinute] = openTime.split(':').map(Number);
-    let [closeHour, closeMinute] = closeTime.split(':').map(Number);
+    var [openHour, openMinute] = openTime.split(':').map(Number);
+    var [closeHour, closeMinute] = closeTime.split(':').map(Number);
   
     const incrementMinute = selectedSpace.sport === "Paddle" ? 30 : 60;
-    let isOvernight = closeHour < openHour || (closeHour === openHour && closeMinute < openMinute);
+    var isOvernight = closeHour < openHour || (closeHour === openHour && closeMinute < openMinute);
   
     // Bucle para generar los horarios, considerando el cruce de medianoche
     while (true) {
@@ -182,7 +182,7 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
                   onClick={() => handleTimeslotClick(index)}
                   disabled={disableBooking}
                 >
-                  {slot.time} - {disableBooking ? (slot.available ? 'Disponible' : 'Ocupado') : (slot.available ? 'Reservar' : `${slot.name} ${slot.whatsapp}`)}
+                  {slot.time} - {disableBooking ? (slot.available ? 'Disponible' : 'Ocupado') : (slot.available ? 'Reservar' : `Ocupado`)}
                 </button>
               );
             }
