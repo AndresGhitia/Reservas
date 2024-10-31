@@ -1,4 +1,8 @@
 /* Estilos generales para pantallas grandes */
+.businesspage-container{
+  margin: 0px;
+  border: solid 2px violet
+}
 .business-container {
   display: flex;
   background-size: cover;
@@ -9,7 +13,7 @@
   padding-bottom: 10px; 
 }
 
-.businesspage-container {
+.spaces-container {
   display: flex;
   flex: 1; /* Permite que este contenedor tome el espacio restante */
   flex-wrap: wrap; /* Las tarjetas pasarán a una nueva fila cuando sea necesario */
@@ -27,8 +31,8 @@
   width: 100%; /* Ocupa todo el ancho */
   max-width: 400px; /* Ajustable */
   height: 300px;
-  margin-top: auto; /* Coloca el mapa al final del contenedor */
   margin: 20px auto 0 auto; /* Centra horizontalmente */
+  margin-top: 120px; /* Coloca el mapa al final del contenedor */
   margin-bottom:20px;
   background-color: white;
   display: flex;
@@ -60,6 +64,12 @@
 
 /* Estilos para dispositivos móviles */
 @media (max-width: 768px) {
+
+  .businesspage-container{
+    box-sizing: border-box; /* Asegura que padding y border no afecten el tamaño total */
+    margin: 0px;
+    border: solid 2px violet
+  }
   .business-container {
     background-size: cover;
     background-repeat: no-repeat;
@@ -68,8 +78,7 @@
     padding-bottom: 10px;
     
   }
-  /* Los componentes principales se apilan verticalmente */
-  .businesspage-container {
+  .spaces-container {
     display: flex;
     justify-content: flex-start;
     flex-direction: column; /* Coloca los elementos en columna */

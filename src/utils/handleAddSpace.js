@@ -39,13 +39,27 @@ const validateFields = ({ name, sport, surface, players, rate, openTime, closeTi
     return "Debes ingresar las horas de apertura y cierre";
   }
 
+  const [openHour, openMinute] = openTime.split(':').map(Number);
+  const [closeHour, closeMinute] = closeTime.split(':').map(Number);
+
+  if (
+    openHour < 0 || openHour > 23 || openMinute < 0 || openMinute > 59 ||
+    closeHour < 0 || closeHour > 23 || closeMinute < 0 || closeMinute > 59
+  ) {
+    return "Las horas deben estar en el rango de 00:00 a 23:59";
+  }
+
+  // Validación de horarios de madrugada: permitir cierre después de medianoche
+  if (closeHour < openHour || (closeHour === openHour && closeMinute < openMinute)) {
+    return null; // Horario válido, permite horario de cierre en madrugada
+  }
+
   if (!techo || !['techada', 'no'].includes(techo)) { // Validar si techo es techada o no
     return "Debes seleccionar si el espacio es techado o al aire libre";
   }
 
   return null; // Si no hay errores, devuelve null
 };
-
 
 export const handleAddSpace = async (newSpace, setNewSpace, setUniqueError) => {
   const user = auth.currentUser;
@@ -115,4 +129,3 @@ export const handleAddSpace = async (newSpace, setNewSpace, setUniqueError) => {
     showToast('error', errorMessage);
   }
 };
-

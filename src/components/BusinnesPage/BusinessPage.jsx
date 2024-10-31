@@ -110,7 +110,7 @@ function BusinessPage() {
   const backgroundImageUrl = ownerData.backgroundImageUrl;
 
   return (
-    <div>
+    <div className="businesspage-container">
       <Navbar />
 
         <BpHeader 
@@ -120,7 +120,7 @@ function BusinessPage() {
       />
 
 <div className="business-container" style={{ backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : `url(${businessPage})` }}>
-  <div className="businesspage-container">
+  <div className="spaces-container">
     {spaces.map((space) => (
       <SpaceLine 
         key={space.id} 
@@ -161,9 +161,8 @@ function BusinessPage() {
           </a>
         </div>
       )}
-
+     
       <BusinessMap address={ownerData.address} onAddressFormatted={setFormattedAddress} />
-
       
     </div>
   )}

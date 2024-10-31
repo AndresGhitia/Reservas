@@ -56,7 +56,7 @@
   /* Estilos para dispositivos móviles */
   @media (max-width: 768px) {
         .business-header {
-            height: 35vh;
+            height: 28vh;
             display: flex;
             flex-direction: column;
             justify-content: center;

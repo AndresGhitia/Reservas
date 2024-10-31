@@ -51,29 +51,28 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
   const generateTimeSlots = (openTime, closeTime) => {
     const timeSlots = [];
     let [openHour, openMinute] = openTime.split(':').map(Number);
-    const [closeHour, closeMinute] = closeTime.split(':').map(Number);
-
-    const incrementMinute = sport === "Paddle" ? 30 : 60;
-
-    while (
-      openHour < closeHour ||
-      (openHour === closeHour && openMinute < closeMinute)
-    ) {
+    let [closeHour, closeMinute] = closeTime.split(':').map(Number);
+  
+    const incrementMinute = selectedSpace.sport === "Paddle" ? 30 : 60;
+    let isOvernight = closeHour < openHour || (closeHour === openHour && closeMinute < openMinute);
+  
+    // Bucle para generar los horarios, considerando el cruce de medianoche
+    while (true) {
       const time = `${String(openHour).padStart(2, '0')}:${String(openMinute).padStart(2, '0')}`;
       timeSlots.push({ time, available: true, name: null, whatsapp: null });
-
+  
       openMinute += incrementMinute;
-
+  
       if (openMinute >= 60) {
         openMinute -= 60;
-        openHour += 1;
+        openHour = (openHour + 1) % 24; // manejar las 24 horas
       }
-
-      if (openHour === 24) {
-        openHour = 0;
-      }
+  
+      // Lógica de parada al alcanzar el `closeTime`, incluso si es después de la medianoche
+      if (!isOvernight && openHour === closeHour && openMinute >= closeMinute) break;
+      if (isOvernight && openHour === closeHour && openMinute >= closeMinute) break;
     }
-
+  
     return timeSlots;
   };
 
