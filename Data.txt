@@ -202,3 +202,5 @@ de madrugada en la base de datos. Para esto se modifico handleAddSpace y las fun
 
 G#124 Se acomodan un poco mas los margenes de las pantallas, aun no puedo quitar el marge que hay entre body y App de Index.css, no se aun 
 cual es la causa de ese margen.
+
+G#125 Se arreglan los estilos del formulario Add.jsx, mas que nada para mobile.

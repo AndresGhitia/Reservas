@@ -32,11 +32,12 @@ function Add({ setSpaces, setError, setLoading }) {
 
   return (
     <div className='add-container'>
+     
       <input
         type="text"
         value={newSpace.name}
         onChange={(e) => setNewSpace({ ...newSpace, name: e.target.value })}
-        placeholder="Nombre del nuevo espacio"
+        placeholder="Nombre del espacio"
       />
 
       {/* Selección de deporte (se habilita si el nombre está completo) */}
@@ -114,10 +115,10 @@ function Add({ setSpaces, setError, setLoading }) {
 
       {/* Selectores de hora de apertura y cierre */}
       <div className='time-selection'>
-        <label>Selecciona el horario en el que estará disponible tu espacio</label>
+        {/* <label>Selecciona el horario en el que estará disponible tu espacio</label> */}
 
         <div className='opening-time'>
-          <label>Hora de Apertura</label>
+          <label>Apertura</label>
           <select
             value={newSpace.openTime}
             onChange={(e) => setNewSpace({ ...newSpace, openTime: e.target.value })}
@@ -131,7 +132,7 @@ function Add({ setSpaces, setError, setLoading }) {
         </div>
 
         <div className='close-time'>
-          <label>Hora de Cierre</label>
+          <label>Cierre</label>
           <select
             value={newSpace.closeTime}
             onChange={(e) => setNewSpace({ ...newSpace, closeTime: e.target.value })}

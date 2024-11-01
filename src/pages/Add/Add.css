@@ -1,22 +1,45 @@
 .add-container {
+  display: grid;
+  /* border: solid 2px green; */
+  grid-template-columns: 1fr 1fr; /* Dos columnas de igual ancho */
+  gap: 20px; /* Espacio entre columnas */
   width: 50%;
-  margin: 20px;
+  margin: 20px auto;
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   font-family: Arial, sans-serif;
-
 }
+.add-container input {
+  padding: 4px;
+}
+.add-container select {
+  padding: 4px;
+}
+
 
 .add-button {
   display: flex;
   justify-content: center;
-}
+  margin-top: auto; 
+  margin-bottom: 3px;
 
+}
+.add-button button {
+  width: 80%;
+  padding: 3px;
+  height: 40px;
+  color: #ffffff;
+  background-color: #4a90e2;
+  transition: background-color 0.3s, transform 0.2s ease;
+  transform: translateY(-2px);
+  font-size: 16px;
+  border-radius: 6px;
+}
 .time-selection {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-around;
   padding: 6px;
   border: 0.1px solid #cac8c8; /* Define el grosor, estilo y color del borde */
@@ -55,49 +78,12 @@
   margin-top: 0; /* Elimina cualquier espacio adicional entre la etiqueta y el selector */
 }
 
-
-/* Estilos de los inputs de texto */
-/* input[type="text"],
-input[type="number"],
-select {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font-size: 16px;
-} */
-
-/* Cambia el color del borde en el foco de los inputs */
-/* input[type="text"]:focus,
-input[type="number"]:focus,
-select:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-} */
-
-/* Estilo especial para mostrar errores */
-/* input.error,
-select.error {
-  border-color: #dc3545;
-} */
-
 .error-message {
   color: #dc3545;
   font-size: 14px;
   margin-top: 5px;
 }
 
-button:hover {
-  /* background-color: #218838; */
-}
-
-/* select,
-input {
-  margin-bottom: 10px;
-} */
 
 p.error-message {
   color: #dc3545;
@@ -107,7 +93,7 @@ p.error-message {
 }
 
 /* Agregar sombra y efecto hover al botón */
-button:active {
+.add-button:active button {
   transform: scale(0.98);
   background-color: #1e7e34;
 }
@@ -115,8 +101,37 @@ button:active {
 /* Añadir media queries para dispositivos móviles */
 @media (max-width: 768px) {
   div {
-    max-width: 100%;
-    padding: 15px;
-  }
 
+    padding: 5px;
+  }
+  .add-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dos columnas de igual ancho */
+    gap: 10px; /* Espacio entre columnas */
+    width: 98%;
+    margin: 10px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+  .add-container input {
+    width: 100%;
+    padding: 4px;
+  }
+  .add-container select {
+    padding: 4px;
+    width: 100%;
+    min-width: 72px;
+
+
+  }
+  .opening-time select{
+    width: 100%;
+  }
+  .close-time select{
+    width: 100%;
+    min-width: 72px;
+  }
 }
