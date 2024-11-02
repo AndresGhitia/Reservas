@@ -170,22 +170,21 @@ function Dashboard() {
             {imageUrl && <img src={imageUrl} alt="Imagen de fondo" style={{ width: '80px', marginTop: '10px' }} />}
           </div>
        
-          <div className="share-Button-container">
+<div className="share-Button-container">
 
-<div className="share-Buttons">   
- <button onClick={handleCopy}>
+ <div className="share-Buttons">   
+   <button onClick={handleCopy}>
    Compartir URL
- </button>
+   </button>
 
  <button onClick={handleShowQRModal} style={{ marginTop: '20px' }}>
-   Compartir con QR
+   Compartir QR
  </button>
- </div>
+</div>
 
  <button
     onClick={() => window.open(`${bookItUrl}/${establishmentName}`, '_blank')}
-    style={{ marginTop: '20px' }}
- >
+    style={{ marginTop: '20px' }} >
    Ir al sitio del negocio
  </button>
 
@@ -195,8 +194,10 @@ function Dashboard() {
  
       </div>
 
-  {/* Modal QR */}
-  {showQRModal && (
+   
+   
+     {/* Modal QR */}
+   {showQRModal && (
           <ShareQR
             url={`${bookItUrl}/${encodeURIComponent(decodedName.replace(/ /g, '-'))}`}
             businessName={decodedName}  // Pasa el nombre del negocio aquí

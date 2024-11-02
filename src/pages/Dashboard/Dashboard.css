@@ -1,12 +1,20 @@
-/* Global Styles */
+/* Main container */
+.dashboard-container {
+  background-color: #f7feff;
+  display: flex; 
+  flex-direction: column;
+}
 .owner-container {
+  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)),
+  url('https://t4.ftcdn.net/jpg/03/18/48/95/360_F_318489561_qpVjxV7GEF4btKaiD4OWe78vX737Jnzz.jpg');
+  color: white;
   display: flex;
   flex-direction: column;
   text-align: center;
   padding: 20px;
+  border-radius: 12px;
+
 }
-
-
 .owner-container h1 {
   font-size: 3em;
   border-radius: 16px;
@@ -25,20 +33,7 @@
   align-items: center; /* Centra verticalmente */
 }
 
-/* Main container */
-.container {
-  min-height: 100vh; /* Asegura que ocupe todo el alto de la pantalla */
-  background-image: url('../../assets/dashboard-II.jpg');
-  background-size: cover; /* Cubre todo el ancho y alto */
-  background-position: center;
-  background-repeat: no-repeat;
-    display: flex; /* Asegura que el contenido se ajuste dentro */
-  flex-direction: column;
-  align-items: center; /* Centra horizontalmente */
-  justify-content: center; /* Centra verticalmente */
-  padding-left: 20px; /* Margen interno para los elementos */
-  padding-right: 20px; /* Margen interno para los elementos */
-}
+
 .spaces-container h2 {
   color: #2980b9;
   font-size: 28px;
@@ -51,9 +46,38 @@
 }
 .share-Button-container {
   align-self: center;
-  margin-top: 5px;
+  margin-top: 25px;
+}
+.share-Buttons {
+  border: 1px solid red;
+  display: flex;
+  flex-direction: row;
+  align-self: center  ;
+  align-items: center ;
+  justify-content: center ;
+  min-width: 240px;
+  gap:3px;
 }
 
+
+.action-container button{
+  width: 100%;
+  padding: 3px;
+  height: 40px;
+  color: #ffffff;
+  background-color: #4a90e2;
+  transition: background-color 0.3s, transform 0.2s ease;
+  transform: translateY(-2px);
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 0; /* Asegúrate de que no haya margen adicional */
+
+}
+.action-container button:hover {
+  background-color: rgb(204, 149, 9);
+  transform: scale(1.01); 
+}
 .spaces-Button-container button:hover {
   background-color: #08945e; /* Color verde del botón */
   transform: scale(1.05); /* Efecto de agrandamiento en hover */
@@ -158,7 +182,7 @@ button[style*="background-color: #dc143c"]:hover {
 
 .reserve-button:hover,
 .cancel-button:hover {
-  background-color: #2ecc71;
+    background-color: goldenrod;
 }
 .control-panel{
  display: flex;
@@ -176,7 +200,7 @@ button[style*="background-color: #dc143c"]:hover {
 }
 
 .upload-background h2 {
-  font-size: 1.5em;
+  font-size: 1em;
   color: #333; /* Texto oscuro para un buen contraste */
   margin-bottom: 20px; /* Espacio adecuado entre el título y el input */
   font-weight: 600;
@@ -237,5 +261,17 @@ button[style*="background-color: #dc143c"]:hover {
     font-size: 1em;
     max-width: 280px;
     cursor: pointer; /* Indica que se puede interactuar con el input */
+  }
+  .action-container button{
+    width: 100%;
+    padding: 3px;
+    height: 40px;
+    color: #ffffff;
+    background-color: #4a90e2;
+    transition: background-color 0.3s, transform 0.2s ease;
+    transform: translateY(-2px);
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
   }
 }
