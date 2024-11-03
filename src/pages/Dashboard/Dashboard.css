@@ -1,8 +1,11 @@
-/* Main container */
+/*Dashboard styles*/
+
 .dashboard-container {
   background-color: #f7feff;
   display: flex; 
   flex-direction: column;
+  min-height: 100vh; /***** Ocupa al menos el 100% de la altura de la pantalla, pero permite crecer */
+  box-sizing: border-box; /***** Asegura que el padding esté incluido en la altura */
 }
 .owner-container {
   background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)),
@@ -13,27 +16,22 @@
   text-align: center;
   padding: 20px;
   border-radius: 12px;
-
 }
 .owner-container h1 {
   font-size: 3em;
   border-radius: 16px;
   padding-bottom: 10px;
 }
-
 .owner-container p {
   font-size: 20px;
   border-radius: 16px;
 }
-
 .outlet-container{
   display: flex;
   width: 100%;
-  justify-content: center; /* Centra horizontalmente */
-  align-items: center; /* Centra verticalmente */
+  justify-content: center; 
+  align-items: center; 
 }
-
-
 .spaces-container h2 {
   color: #2980b9;
   font-size: 28px;
@@ -49,7 +47,6 @@
   margin-top: 25px;
 }
 .share-Buttons {
-  border: 1px solid red;
   display: flex;
   flex-direction: row;
   align-self: center  ;
@@ -58,8 +55,6 @@
   min-width: 240px;
   gap:3px;
 }
-
-
 .action-container button{
   width: 100%;
   padding: 3px;
@@ -71,35 +66,30 @@
   font-size: 16px;
   border-radius: 6px;
   cursor: pointer;
-  margin: 0; /* Asegúrate de que no haya margen adicional */
-
+  margin-top: 20px; 
 }
 .action-container button:hover {
   background-color: rgb(204, 149, 9);
   transform: scale(1.01); 
 }
 .spaces-Button-container button:hover {
-  background-color: #08945e; /* Color verde del botón */
-  transform: scale(1.05); /* Efecto de agrandamiento en hover */
+  background-color: #08945e; 
+  transform: scale(1.05); 
 }
 .error-message {
   color: red;
   font-weight: bold;
   margin-top: 10px;
 }
-
 .error {
   border: 1px solid red;
 }
-
-/* Lista de espacios */
 ul {
   list-style-type: none;
   padding: 0;
 }
-
 ul li button {
-  background-color: #27ae60; /* Verde fuerte */
+  background-color: #27ae60; 
   color: white;
   border: none;
   padding: 12px 25px;
@@ -108,14 +98,10 @@ ul li button {
   font-size: 16px;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
-
 ul li button:hover {
   background-color: #2ecc71;
-  transform: scale(1.05); /* Agrandar al hacer hover */
+  transform: scale(1.05);
 }
-
-/* Botón específico de eliminar */
-
 button[style*="background-color: #dc143c"] {
   background-color: #c9a7a3;
   color: white;
@@ -123,12 +109,9 @@ button[style*="background-color: #dc143c"] {
   padding: 15px 25px;
   cursor: pointer;
 }
-
 button[style*="background-color: #dc143c"]:hover {
   background-color: #c0392b;
 }
-
-/* Botón de cierre dentro del modal */
 .close-button {
   background-color: #e74c3c;
   color: white;
@@ -137,12 +120,9 @@ button[style*="background-color: #dc143c"]:hover {
   border-radius: 12px;
   cursor: pointer;
 }
-
 .close-button:hover {
   background-color: #c0392b;
 }
-
-/* Sección de horarios en el modal */
 .time-slots {
   margin-top: 25px;
   background-color: #f9fafc;
@@ -150,7 +130,6 @@ button[style*="background-color: #dc143c"]:hover {
   padding: 20px;
   border-radius: 12px;
 }
-
 .slot-item {
   background-color: #d6eaf8;
   padding: 18px;
@@ -161,13 +140,10 @@ button[style*="background-color: #dc143c"]:hover {
   align-items: center;
   transition: transform 0.3s ease;
 }
-
 .slot-item:hover {
   transform: translateY(-6px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
 }
-
-/* Botones dentro de la sección de horarios */
 .reserve-button,
 .cancel-button {
   padding: 14px 20px;
@@ -179,7 +155,6 @@ button[style*="background-color: #dc143c"]:hover {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
 .reserve-button:hover,
 .cancel-button:hover {
     background-color: goldenrod;
@@ -191,54 +166,49 @@ button[style*="background-color: #dc143c"]:hover {
 .upload-background {
   margin-top: 40px;
   text-align: center;
-  background-color: #f9f9f9; /* Fondo claro y neutral */
+  background-color: #f9f9f9; 
   padding: 20px;
-  border-radius: 8px; /* Bordes ligeramente redondeados */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave para destacar el contenedor */
-  max-width: 600px; /* Limitar el ancho para un diseño más compacto */
-  margin: 0 auto; /* Centramos el div */
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px; 
+  margin: 0 auto; 
 }
-
 .upload-background h2 {
   font-size: 1em;
-  color: #333; /* Texto oscuro para un buen contraste */
-  margin-bottom: 20px; /* Espacio adecuado entre el título y el input */
+  color: #333;
+  margin-bottom: 20px; 
   font-weight: 600;
 }
-
 .upload-background input[type="file"] {
   padding: 10px;
-  border: 1px solid #ccc; /* Borde claro */
+  border: 1px solid #ccc; 
   border-radius: 5px;
   background-color: #fff;
   font-size: 1em;
-  cursor: pointer; /* Indica que se puede interactuar con el input */
+  cursor: pointer; 
 }
-
 .upload-background img {
-  width: 80px; /* Imágenes pequeñas pero visibles */
+  width: 80px; 
   margin-top: 10px;
   border-radius: 5px;
-  border: 1px solid #ddd; /* Un borde ligero para separarlo visualmente del fondo */
+  border: 1px solid #ddd; 
 }
-
 .upload-background img:hover {
-  transform: scale(1.05); /* Un pequeño zoom al pasar el mouse para darle dinamismo */
+  transform: scale(1.05); 
   transition: transform 0.2s ease-in-out;
 }
-
 @media (max-width: 768px) {
   .owner-container {
     display: flex;
     flex-direction: column;
     text-align: center;
     padding: 20px;
-    border: 1px solid rgb(169, 169, 169); /* Borde que utilizo como guía */
+    border: 1px solid rgb(169, 169, 169); 
     border-radius: 12px;
   }
   .outlet-container {
-    width: 100%; /* Asegura que tome todo el ancho de la pantalla en dispositivos móviles */
-    justify-content: center; /* Centra el contenido */
+    width: 100%;
+    justify-content: center;
     align-items: center;
     padding: 0;
     margin: 0;
@@ -246,21 +216,21 @@ button[style*="background-color: #dc143c"]:hover {
   }
   .upload-background {
     text-align: center;
-    background-color: #f9f9f9; /* Fondo claro y neutral */
+    background-color: #f9f9f9; 
     padding: 20px;
-    border-radius: 8px; /* Bordes ligeramente redondeados */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave para destacar el contenedor */
-    max-width: 300px; /* Limitar el ancho para un diseño más compacto */
-    margin: 0 auto; /* Centramos el div */
+    border-radius: 8px; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+    max-width: 380px;
+    margin: 0 auto;
   }
   .upload-background input[type="file"] {
     padding: 10px;
-    border: 1px solid #ccc; /* Borde claro */
+    border: 1px solid #ccc; 
     border-radius: 5px;
     background-color: #fff;
     font-size: 1em;
-    max-width: 280px;
-    cursor: pointer; /* Indica que se puede interactuar con el input */
+    max-width: 320px;
+    cursor: pointer; 
   }
   .action-container button{
     width: 100%;
@@ -273,5 +243,22 @@ button[style*="background-color: #dc143c"]:hover {
     font-size: 14px;
     border-radius: 6px;
     cursor: pointer;
+  }
+  .share-Buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; 
+  }
+  .share-Buttons button {
+    padding: 4px 4px; 
+    font-size: 14px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    min-width: 100px;
+    margin-top: 18px; 
   }
 }

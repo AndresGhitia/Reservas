@@ -108,7 +108,7 @@ function Add({ setSpaces, setError, setLoading }) {
         step="100"
         value={newSpace.rate}
         onChange={(e) => setNewSpace({ ...newSpace, rate: e.target.value })}
-        placeholder="Tarifa"
+        placeholder="Tarifa por hora AR$"
         disabled={!newSpace.players} 
       />
 
@@ -147,7 +147,7 @@ function Add({ setSpaces, setError, setLoading }) {
       </div>
 
       <div className='add-button'>
-        <button onClick={handleAddSpaceClick}>Agregar</button>
+        <button onClick={handleAddSpaceClick}>Agregar +</button>
       </div>
 
       {/* Mostrar mensaje de error si lo hay */}

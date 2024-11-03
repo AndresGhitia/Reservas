@@ -9,7 +9,7 @@ import './Dashboard.css';
 import CalendarOwner from '../../components/Calendar/CalendarOwner';
 import Navbar from '../../components/Navbar/Navbar';
 import Sidebar from '../../components/Sidebar/Sidebar';
-import ShareQR from '../../components/ShareQR/ShareQR'; 
+import ShareQR from '../../components/ShareQR/ShareQR';
 
 function Dashboard() {
   const { establishmentName } = useParams();
@@ -132,8 +132,7 @@ function Dashboard() {
               setTimeSlots={setTimeSlots}
               setSelectedDate={setSelectedDate}
               onClose={handleCloseModal}
-              sport={selectedSpace?.sport} // Necesario para llevar el deporte a CalendarOwner y usarlo en la funcion generateTimeSlots()
-
+              sport={selectedSpace?.sport} 
             />
             {selectedDate && (
               <div className="time-slots">
@@ -163,48 +162,47 @@ function Dashboard() {
 
         <div className="action-container">
 
-          {/* Input para subir la imagen de fondo */}
           <div className="upload-background">
             <h2>Cambiar imagen de fondo para la página del cliente</h2>
-            <input type="file" accept="image/*" onChange={handleUploadBackgroundImage} />
+            <input 
+              type="file"
+              accept="image/*" 
+              onChange={handleUploadBackgroundImage} />
             {imageUrl && <img src={imageUrl} alt="Imagen de fondo" style={{ width: '80px', marginTop: '10px' }} />}
           </div>
-       
-<div className="share-Button-container">
 
- <div className="share-Buttons">   
-   <button onClick={handleCopy}>
-   Compartir URL
-   </button>
+          <div className="share-Button-container">
 
- <button onClick={handleShowQRModal} style={{ marginTop: '20px' }}>
-   Compartir QR
- </button>
-</div>
+            <div className="share-Buttons">
+              <button onClick={handleCopy}>
+                Compartir URL
+              </button>
 
- <button
-    onClick={() => window.open(`${bookItUrl}/${establishmentName}`, '_blank')}
-    style={{ marginTop: '20px' }} >
-   Ir al sitio del negocio
- </button>
+              <button onClick={handleShowQRModal} style={{ marginTop: '20px' }}>
+                Compartir QR
+              </button>
+            </div>
 
-</div>
+            <button
+              onClick={() => window.open(`${bookItUrl}/${establishmentName}`, '_blank')}
+              style={{ marginTop: '20px' }} >
+              Ir al sitio del negocio
+            </button>
+
+          </div>
 
         </div>
- 
+
       </div>
 
-   
-   
-     {/* Modal QR */}
-   {showQRModal && (
-          <ShareQR
-            url={`${bookItUrl}/${encodeURIComponent(decodedName.replace(/ /g, '-'))}`}
-            businessName={decodedName}  // Pasa el nombre del negocio aquí
-            onClose={handleCloseQRModal}
-          />
-        )}
-
+      {showQRModal && (
+        <ShareQR
+          url={`${bookItUrl}/${encodeURIComponent(decodedName.replace(/ /g, '-'))}`}
+          businessName={decodedName}  
+          onClose={handleCloseQRModal}
+        />
+      )}
+      
     </div>
   );
 }

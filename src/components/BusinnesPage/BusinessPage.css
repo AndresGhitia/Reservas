@@ -1,5 +1,9 @@
 /* Estilos generales para pantallas grandes */
 .businesspage-container{
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /***** Ocupa al menos el 100% de la altura de la pantalla, pero permite crecer */
+  box-sizing: border-box; /***** Asegura que el padding esté incluido en la altura */
   margin: 0px;
   /* border: solid 2px violet */
 }

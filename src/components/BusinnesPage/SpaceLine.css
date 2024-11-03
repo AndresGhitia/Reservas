@@ -87,13 +87,8 @@ hr {
 
 .spaceline-card .spaceline-button:hover, 
 .spaceline-card .details-toggle-button:hover {
-  background-color: #357ab7;
+  background-color: goldenrod;
   transform: translateY(-2px);
-}
-
-.spaceline-card .spaceline-button:focus, 
-.spaceline-card .details-toggle-button:focus {
-  outline: 3px solid #357ab7;
 }
 
 .spaceline-card.expanded {
@@ -178,6 +173,11 @@ hr {
     font-size: 14px;
     padding: 6px; /* Reducir el padding para que los botones sean más compactos */
     height: 36px; /* Reducir la altura de los botones */
+  }
+  .spaceline-card .spaceline-button:hover, 
+  .spaceline-card .details-toggle-button:hover {
+    background-color: #4a90e2;
+    transform: translateY(0px);
   }
 
   .card-buttons {
