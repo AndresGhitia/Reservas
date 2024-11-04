@@ -89,8 +89,8 @@ function Add({ setSpaces, setError, setLoading }) {
         disabled={!newSpace.surface}
       >
         <option value="">Tipo de espacio</option>
-        <option value="techada">Techada</option>
-        <option value="no">Aire libre</option>
+        <option value="Techada">Techada</option>
+        <option value="Aire libre">Aire libre</option>
       </select>
 
       {/* Cantidad de jugadores (se habilita si el tipo de espacio está seleccionado) */}

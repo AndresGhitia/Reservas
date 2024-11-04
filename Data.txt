@@ -208,3 +208,5 @@ G#125 Se arreglan los estilos del formulario Add.jsx, mas que nada para mobile.
 G#126 Se mejoran los estilos del formulario Add.jsx.
 
 G#127 Ajustanto estilos generales de varis componentes para pc y mobile.
+
+G#128 Se corrije en Add.jsx la opcion de "Cerramiento" con opcion "Aire libre / Techada".
