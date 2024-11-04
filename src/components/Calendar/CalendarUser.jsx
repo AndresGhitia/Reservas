@@ -134,6 +134,7 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
             dateFormat="dd - MMMM - yyyy"
             className="datepicker-input"
             isClearable
+            minDate={new Date()} // Deshabilita fechas anteriores a hoy
             placeholderText="Selecciona una fecha"
           />
         </div>

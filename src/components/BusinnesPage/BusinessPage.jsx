@@ -9,7 +9,7 @@ import SpaceLine from './SpaceLine';
 import Navbar from '../Navbar/Navbar';
 import './BusinessPage.css';
 import { assets } from '../../assets/assets';
-import BpHeader from './BpHeader'; // Importa el componente Header
+import BpHeader from './BpHeader'; 
 
 function BusinessPage() {
   const { establishmentName } = useParams();
