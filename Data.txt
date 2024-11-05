@@ -212,3 +212,5 @@ G#127 Ajustanto estilos generales de varis componentes para pc y mobile.
 G#128 Se corrije en Add.jsx la opcion de "Cerramiento" con opcion "Aire libre / Techada".
 
 G#129 Deshabilitamos la seleccion de fechas anteriores al dia de hoy para BusinessPage.
+
+G#130 Dias del Header del calendario de BusinessPage en español.

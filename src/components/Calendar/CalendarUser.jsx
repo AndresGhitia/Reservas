@@ -3,6 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
+import { es } from 'date-fns/locale'; 
 import './CalendarUser.css';
 
 function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelectedDate, onClose, disableBooking, ownerId, cel, sport }) {
@@ -134,6 +135,7 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
             dateFormat="dd - MMMM - yyyy"
             className="datepicker-input"
             isClearable
+            locale={es} // Aplica el idioma español
             minDate={new Date()} // Deshabilita fechas anteriores a hoy
             placeholderText="Selecciona una fecha"
           />
