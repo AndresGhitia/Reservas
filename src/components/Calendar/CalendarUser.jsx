@@ -119,7 +119,7 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
     <div className="calendar-content">
       <div className="modal-header">
         <div className="calendar-header">
-          <h1>Disponibilidad {selectedSpace?.name || "Espacio"}</h1>
+          <h1> {selectedSpace?.name || "Espacio"}</h1>
         </div>
         <div className="modal-close-button">
           <p onClick={onClose}>✖</p>
@@ -138,6 +138,9 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
             locale={es} // Aplica el idioma español
             minDate={new Date()} // Deshabilita fechas anteriores a hoy
             placeholderText="Selecciona una fecha"
+            onFocus={(e) => e.target.blur()} // Deshabilita entrada manual
+            onClick={(e) => e.preventDefault()} // Evita que se escriba con el teclado
+            onSelect={() => document.activeElement.blur()} // Cierra el teclado virtual en dispositivos táctiles
           />
         </div>
   

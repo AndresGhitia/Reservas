@@ -41,8 +41,9 @@
 
 /* Ajusta el tamaño de los números en los días del calendario */
 .react-datepicker__day {
-  font-size: 18px; /* Cambia este valor al tamaño que prefieras */
+  font-size: 24px; /* Cambia este valor al tamaño que prefieras */
   gap: 10px;
+  margin: 8px;
   padding: 10px;
 }
 
@@ -60,7 +61,8 @@
 
 /* Ajusta el tamaño de los días de la semana en el encabezado del calendario */
 .react-datepicker__day-name {
-  font-size: 14px;
+  font-size: 24px;
+  margin: 8px;
 }
 
 .datepicker-input {

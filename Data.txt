@@ -214,3 +214,5 @@ G#128 Se corrije en Add.jsx la opcion de "Cerramiento" con opcion "Aire libre / 
 G#129 Deshabilitamos la seleccion de fechas anteriores al dia de hoy para BusinessPage.
 
 G#130 Dias del Header del calendario de BusinessPage en español.
+
+G#131 Desactivamos apertura del teclado del calendario de BusinessPage al precionar la el input.
