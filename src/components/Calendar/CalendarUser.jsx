@@ -135,7 +135,7 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
             dateFormat="dd - MMMM - yyyy"
             className="datepicker-input"
             isClearable
-            locale={es} // Aplica el idioma español
+            locale={es} 
             minDate={new Date()} // Deshabilita fechas anteriores a hoy
             placeholderText="Selecciona una fecha"
             onFocus={(e) => e.target.blur()} // Deshabilita entrada manual

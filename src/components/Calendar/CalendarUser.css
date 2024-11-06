@@ -32,36 +32,66 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* border:solid 1px red; */
+
+}
+.react-datepicker{
+  display: flex;
+  /* border: solid 1px, red; */
+ justify-content: center;
+ align-items: center;
+ align-content: center;
+  }
+  
+.react-datepicker__current-month {
+  font-size: 24px;
+  /* border:solid 1px red; */
+}
+.react-datepicker__header {
+  background-color: #f0f0f0; /* Color de fondo del encabezado */
+  border-bottom: 1px solid #ddd; /* Línea divisoria debajo */
+  padding: 15px 0; /* Espaciado interno */
 }
 
-.date-container {
-  font-weight: bold;
-  margin-bottom: 30px;
-}
-
+  .react-datepicker__navigation {
+    border-left-color: #007bff; /* Cambia el color de la flecha */
+    margin-right: 10px; /* Ajuste de margen si es necesario */
+    margin-top: 16px;
+      
+  }
+  .react-datepicker__navigation:hover {
+    opacity: 0.7; /* Efecto de opacidad al pasar el cursor */
+    cursor: pointer; /* Cambia el cursor a pointer */
+  }
 /* Ajusta el tamaño de los números en los días del calendario */
 .react-datepicker__day {
   font-size: 24px; /* Cambia este valor al tamaño que prefieras */
   gap: 10px;
   margin: 8px;
-  padding: 10px;
-}
+  padding: 0px;
+  width: 30px;
+  /* border: solid 1px, red; */
+  align-self: center;
 
-/* Para el día seleccionado, puedes ajustar el tamaño y el estilo de fondo */
+}
+.react-datepicker__month {
+  font-size: 24px; /* Cambia este valor al tamaño que prefieras */
+  gap: 10px;
+  margin: 8px;
+  padding: 10px;
+  /* border: solid 1px red; */
+
+}
 .react-datepicker__day--selected {
-  font-size: 18px;
+  font-size: 24px;
   background-color: #007bff; /* Cambia el color de fondo del día seleccionado */
   color: #fff; /* Cambia el color del texto */
 }
-
-/* Si quieres modificar también el tamaño en la parte superior donde se muestran el mes y el año */
-.react-datepicker__current-month {
-  font-size: 18px; /* Ajusta el tamaño del mes y año */
-}
-
 /* Ajusta el tamaño de los días de la semana en el encabezado del calendario */
 .react-datepicker__day-name {
+  font-weight: bold;
   font-size: 24px;
+  width: 30px;
   margin: 8px;
 }
 
@@ -118,6 +148,11 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
     margin: 0 auto;
+  }
+  .react-datepicker__navigation {
+    border-left-color: #007bff; /* Cambia el color de la flecha */
+    margin-right: 30px; /* Ajuste de margen si es necesario */
+    margin-top: 24px;
   }
 
   .calendar-content {

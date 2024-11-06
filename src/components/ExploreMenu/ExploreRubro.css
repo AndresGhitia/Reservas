@@ -18,7 +18,10 @@
     text-align: center;
     margin: 20px 0px;
     padding: 0px 20px;
+    cursor: pointer;
 }
+
+
  .explore-rubro-list-item .active {
     border-radius: 25%;
     background-color: goldenrod;

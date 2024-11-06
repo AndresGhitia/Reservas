@@ -216,3 +216,5 @@ G#129 Deshabilitamos la seleccion de fechas anteriores al dia de hoy para Busine
 G#130 Dias del Header del calendario de BusinessPage en español.
 
 G#131 Desactivamos apertura del teclado del calendario de BusinessPage al precionar la el input.
+
+G#132 Solucionando algunas cuestiones con los estilos de BusinessPage.

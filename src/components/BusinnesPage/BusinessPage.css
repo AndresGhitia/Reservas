@@ -110,7 +110,7 @@
     align-items: center;
   }
   .address-container {
-    width: 600px;
+    max-width: 300px;
     display: flex;
     background-color: whitesmoke;
     padding: 8px;
