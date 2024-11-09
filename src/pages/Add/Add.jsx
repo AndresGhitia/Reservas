@@ -13,9 +13,10 @@ function Add({ setSpaces, setError, setLoading }) {
     players: '',
     rate: '',
     techo: '',
-    openTime: '',  // Hora de apertura
-    closeTime: '', // Hora de cierre
-    walls: '',     // Nuevo atributo para Paddle
+    openTime: '',
+    closeTime: '',
+    walls: '',
+    closedDays: [], // Estado para los días de cierre
   });
 
   const [uniqueError, setUniqueError] = useState(null);
@@ -23,12 +24,23 @@ function Add({ setSpaces, setError, setLoading }) {
   const handleAddSpaceClick = async () => {
     try {
       await handleAddSpace(newSpace, setNewSpace, setUniqueError);
-      // Recargar los espacios después de agregar uno nuevo
       fetchOwnerDataAndSpaces(null, setSpaces, setError, setLoading);
     } catch (error) {
       console.error("Error al agregar espacio: ", error);
     }
   };
+
+  const handleClosedDayToggle = (day) => {
+    setNewSpace((prevState) => ({
+      ...prevState,
+      closedDays: Array.isArray(prevState.closedDays)
+        ? prevState.closedDays.includes(day)
+          ? prevState.closedDays.filter((d) => d !== day)
+          : [...prevState.closedDays, day]
+        : [day], // Si `closedDays` no es un array, inicializa con el día seleccionado
+    }));
+  };
+  
 
   return (
     <div className='add-container'>
@@ -39,7 +51,6 @@ function Add({ setSpaces, setError, setLoading }) {
         placeholder="Nombre del nuevo espacio"
       />
 
-      {/* Selección de deporte (se habilita si el nombre está completo) */}
       <select
         value={newSpace.sport}
         onChange={(e) => setNewSpace({ ...newSpace, sport: e.target.value })}
@@ -53,8 +64,7 @@ function Add({ setSpaces, setError, setLoading }) {
         <option value="Hockey">Hockey</option>
       </select>
 
-       {/* Mostrar selector de "walls" solo si el deporte es Paddle */}
-       {newSpace.sport === 'Paddle' && (
+      {newSpace.sport === 'Paddle' && (
         <select
           value={newSpace.walls}
           onChange={(e) => setNewSpace({ ...newSpace, walls: e.target.value })}
@@ -64,9 +74,7 @@ function Add({ setSpaces, setError, setLoading }) {
           <option value="Blindex">Blindex</option>
         </select>
       )}
-      
 
-      {/* Selección de superficie (se habilita si el deporte está seleccionado) */}
       <select
         value={newSpace.surface}
         onChange={(e) => setNewSpace({ ...newSpace, surface: e.target.value })}
@@ -78,10 +86,8 @@ function Add({ setSpaces, setError, setLoading }) {
         <option value="Césped Sintético">Césped Sintético</option>
         <option value="Polvo de ladrillo">Polvo de Ladrillo</option>
         <option value="Arena">Arena</option>
-
       </select>
 
-      {/* Selección de tipo de espacio (se habilita si la superficie está seleccionada) */}
       <select
         value={newSpace.techo}
         onChange={(e) => setNewSpace({ ...newSpace, techo: e.target.value })}
@@ -92,7 +98,6 @@ function Add({ setSpaces, setError, setLoading }) {
         <option value="Aire libre">Aire libre</option>
       </select>
 
-      {/* Cantidad de jugadores (se habilita si el tipo de espacio está seleccionado) */}
       <input
         type="number"
         value={newSpace.players}
@@ -101,7 +106,6 @@ function Add({ setSpaces, setError, setLoading }) {
         disabled={!newSpace.techo}
       />
 
-      {/* Tarifa (se habilita si la cantidad de jugadores está especificada) */}
       <input
         type="number"
         step="100"
@@ -111,11 +115,7 @@ function Add({ setSpaces, setError, setLoading }) {
         disabled={!newSpace.players} 
       />
 
-
-       {/* Selectores de hora de apertura y cierre */}
-       <div className='time-selection'>
-        {/* <label>Selecciona el horario en el que estará disponible tu espacio</label> */}
-
+      <div className='time-selection'>
         <div className='opening-time'>
           <label>Apertura</label>
           <select
@@ -145,15 +145,24 @@ function Add({ setSpaces, setError, setLoading }) {
         </div>
       </div>
 
+      {["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"].map((day) => (
+  <div key={day}>
+    <input
+      type="checkbox"
+      checked={Array.isArray(newSpace.closedDays) && newSpace.closedDays.includes(day)}
+      onChange={() => handleClosedDayToggle(day)}
+    />
+    <label>{day}</label>
+  </div>
+))}
+
 
       <div className='add-button'>
         <button onClick={handleAddSpaceClick}>Agregar</button>
       </div>
 
-      {/* Mostrar mensaje de error si lo hay */}
       {uniqueError && <p className="error-message">{uniqueError}</p>}
 
-      {/* Contenedor de notificaciones */}
       <ToastContainer />
     </div>
   );

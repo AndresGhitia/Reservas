@@ -78,7 +78,7 @@ export const handleAddSpace = async (newSpace, setNewSpace, setUniqueError) => {
     return;
   }
 
-  const { name, sport, surface, players, rate, openTime, closeTime, techo, walls } = newSpace;
+  const { name, sport, surface, players, rate, openTime, closeTime, techo, walls, closedDays } = newSpace;
 
   try {
     // Verificar si ya existe un espacio con el mismo nombre
@@ -103,7 +103,9 @@ export const handleAddSpace = async (newSpace, setNewSpace, setUniqueError) => {
       openTime: openTime,  
       closeTime: closeTime, 
       roof: techo, 
-      walls: sport === 'Paddle' ? walls : null // Solo agregar walls si es Paddle
+      walls: sport === 'Paddle' ? walls : null, // Solo agregar walls si es Paddle
+      closedDays: closedDays // Agregar closedDays al documento
+
     });
 
     // Limpiar los campos del formulario
