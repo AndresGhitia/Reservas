@@ -11,6 +11,10 @@ import edit_icon from './edit_icon.png'
 import clock_icon from './clock_icon.png'
 import address_icon from './address_icon.png'
 import call_icon from './call_icon.png'
+import eyeclose_icon from './eyeclose_icon.png'
+import eyeopen_icon from './eyeopen_icon.png'
+
+
 import All from './search_icon.png'
 import rubro_1 from './football_icon.png'
 import rubro_2 from './volley_icon.png'
@@ -50,7 +54,9 @@ export const assets = {
     clock_icon,
     edit_icon,
     address_icon,
-    call_icon
+    call_icon,
+    eyeclose_icon,
+    eyeopen_icon
 
 }
 

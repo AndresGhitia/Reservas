@@ -1,4 +1,3 @@
-// LoginForm.jsx
 import React, { useState } from 'react';
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth, db } from '../../firebase';
@@ -8,24 +7,31 @@ import { useNavigate } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import BuySubscription from '../BuySuscription/BuySuscription';
 import { handleIntegrationMP } from '../../../MP/preference';
+import { assets } from '../../assets/assets';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+
+// Esquema de validación con Yup
+const validationSchema = Yup.object({
+  email: Yup.string().email('Email inválido').required('Por favor, introduce una dirección de correo electrónico válida'),
+  password: Yup.string().required('Por favor, introduzca una contraseña'),
+});
 
 function LoginForm({ onClose }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showRegister, setShowRegister] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const handleLogin = async (values, { setSubmitting }) => {
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
       const user = userCredential.user;
 
       if (!user.emailVerified) {
         setError("Tu correo electrónico no ha sido verificado. Por favor, revisa tu correo y sigue las instrucciones para verificarlo.");
+        setSubmitting(false);
         return;
       }
 
@@ -48,6 +54,7 @@ function LoginForm({ onClose }) {
           if (paymentData) {
             window.location.href = paymentData.init_point;
           }
+          setSubmitting(false);
           return;
         }
 
@@ -59,10 +66,10 @@ function LoginForm({ onClose }) {
       } else {
         setError("Usuario no encontrado, por favor verifica tus credenciales.");
       }
-
     } catch (error) {
       setError("Usuario o contraseña incorrectos, revísalos y vuelve a ingresarlos por favor");
     }
+    setSubmitting(false);
   };
 
   const openRegisterModal = () => {
@@ -109,30 +116,49 @@ function LoginForm({ onClose }) {
               </section>
 
               {error && <p className="error">{error}</p>}
-              <form onSubmit={handleLogin}>
-                <div className="form-group">
-                  <input
-                    type="email"
-                    placeholder="Email Address"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
-                  <span className="toggle-password" onClick={togglePasswordVisibility}>
-                    {showPassword ? '🙈' : '👁️'}
-                  </span>
-                </div>
-                <button type="submit" className="login-button">LOG IN TO BOOK-IT</button>
-              </form>
+
+              <Formik
+                initialValues={{ email: '', password: '' }}
+                validationSchema={validationSchema}
+                onSubmit={handleLogin}
+              >
+                {({ isSubmitting, errors, touched }) => (
+                  <Form>
+                    {/* Email Field */}
+                    <div className={`form-group ${errors.email && touched.email ? 'has-error' : ''}`}>
+                      <Field
+                        type="email"
+                        name="email"
+                        placeholder="Email Address"
+                        className="form-control"
+                      />
+                      <ErrorMessage name="email" component="div" className="error" />
+                    </div>
+
+                    {/* Password Field */}
+                    <div className={`form-group ${errors.password && touched.password ? 'has-error' : ''}`}>
+                      <Field
+                        type={showPassword ? "text" : "password"}
+                        name="password"
+                        placeholder="Password"
+                        className="form-control"
+                      />
+                      <span className="toggle-password" onClick={togglePasswordVisibility}>
+                        {showPassword ? (
+                          <img src={assets.eyeopen_icon} alt="Hide password" />
+                        ) : (
+                          <img src={assets.eyeclose_icon} alt="Show password" />
+                        )}
+                      </span>
+                      <ErrorMessage name="password" component="div" className="error" />
+                    </div>
+
+                    <button type="submit" className="login-button" disabled={isSubmitting}>
+                      LOG IN TO BOOK-IT
+                    </button>
+                  </Form>
+                )}
+              </Formik>
             </div>
           </div>
         </div>

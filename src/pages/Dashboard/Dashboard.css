@@ -81,9 +81,10 @@
   font-weight: bold;
   margin-top: 10px;
 }
-.error {
+/* .error {
   border: 1px solid red;
-}
+} */
+
 ul {
   list-style-type: none;
   padding: 0;

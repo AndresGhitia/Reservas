@@ -110,8 +110,8 @@ input[type="password"] {
 }
 
 .error {
-    color: red;
-    margin-bottom: 10px;
+    /* color: red;
+    margin-bottom: 10px; */
 }
 .register-title {
     text-align: center;
