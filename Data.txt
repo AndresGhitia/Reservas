@@ -230,4 +230,7 @@ poner toda la atencion en tratar de resolver eso.
 G#134 Se agrega el valor closedDays[], para que el dueño pueda configurar dias que el complejo este cerrado. 
 Ahora trataremos de adaptar el calendar a ese Array para que deshabilite esos dias.
 
-A#135 se agregan estilos y se ajusta el formulario de LOG IN para que sea responsive tanto en web como en mobile.
+G#135 Se la funcionalidad para que desde BusinessPage el cliente no pueda acceder a los dias en los que el negocio
+permanecera cerrado (closedDays de la base de datos)
+
+A#136 Se añade estilos y se ajusta el formulario LOG IN para que sea responsive tanto en web como mobile.

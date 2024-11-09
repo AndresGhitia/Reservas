@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect , useMemo } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { es } from 'date-fns/locale'; 
 import './CalendarUser.css';
+import { format } from 'date-fns';
 
 function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelectedDate, onClose, disableBooking, ownerId, cel, sport }) {
   const [date, setDate] = useState(null);
   const [timeSlots, setLocalTimeSlots] = useState([]);
+  const [closedDays, setClosedDays] = useState ([]);
 
   useEffect(() => {
     if (selectedSpace && date) {
@@ -49,6 +51,66 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
     }
   }, [date, selectedSpace, calendarData, ownerId]);
 
+  const fetchClosedDays = async () => {
+    if (selectedSpace && ownerId) {
+      try {
+        // Referencia al documento del espacio
+        const spaceRef = doc(db, 'owners', ownerId, 'spaces', selectedSpace.id);
+        const spaceSnap = await getDoc(spaceRef);
+  
+        if (spaceSnap.exists()) {
+          const spaceData = spaceSnap.data();
+          const { closedDays } = spaceData;
+  
+          console.log("Array 'closedDays' desde Firestore:", closedDays); // Log para verificar el array
+  
+          // Verifica si closedDays tiene valores y actualiza el estado si es necesario
+          if (Array.isArray(closedDays) && closedDays.length > 0) {
+            setClosedDays(closedDays);
+          } else {
+            console.warn("El array 'closedDays' está vacío o no existe en Firestore.");
+          }
+        } else {
+          console.error("No se encontró el documento del espacio seleccionado en Firestore.");
+        }
+      } catch (error) {
+        console.error("Error al obtener 'closedDays' desde Firestore:", error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    console.log('Array closedDays:', closedDays); // Confirma los valores en closedDays
+  }, [closedDays]);
+  
+
+  useEffect(() => {
+    fetchClosedDays();
+  }, [selectedSpace, ownerId]);
+  
+  const isDayClosed = useMemo(() => (date) => {
+    // Obtén el nombre del día en español (asegurándonos de que esté limpio)
+    const dayName = format(date, 'EEEE', { locale: es }).trim();
+    console.log('Nombre del día obtenido:', dayName); // Verifica el valor de dayName
+    
+    // Verifica los días cerrados que se han pasado como prop
+    console.log('Array closedDays:', closedDays);
+
+    // Comparar el nombre del día con los días cerrados
+    const isClosed = closedDays.some(closedDay => {
+      const normalizedClosedDay = closedDay.trim().toLowerCase();
+      const normalizedDayName = dayName.toLowerCase();
+      console.log(`Comparando: "${normalizedClosedDay}" con "${normalizedDayName}"`);
+      return normalizedClosedDay === normalizedDayName;
+    });
+    
+    // Mostrar el resultado de la comparación para depuración
+    console.log('¿Está cerrado este día?', isClosed);
+    return isClosed;
+  }, [closedDays]);
+
+  
+  
   const generateTimeSlots = (openTime, closeTime) => {
     const timeSlots = [];
     var [openHour, openMinute] = openTime.split(':').map(Number);
@@ -141,6 +203,8 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
             onFocus={(e) => e.target.blur()} // Deshabilita entrada manual
             onClick={(e) => e.preventDefault()} // Evita que se escriba con el teclado
             onSelect={() => document.activeElement.blur()} // Cierra el teclado virtual en dispositivos táctiles
+            filterDate={(date) => !isDayClosed(date)} // Invertir la lógica aquí
+
           />
         </div>
   
