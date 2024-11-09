@@ -218,3 +218,11 @@ G#130 Dias del Header del calendario de BusinessPage en español.
 G#131 Desactivamos apertura del teclado del calendario de BusinessPage al precionar la el input.
 
 G#132 Solucionando algunas cuestiones con los estilos de BusinessPage.
+
+G#133 Resolucion de conflicto existente al agregar espacio, el sistema no permitia agregar espacio, luego de 
+varios dias de busqueda descubrimos que el problema provenia del valor de la seleccion del techo de la cancha,
+de pasar de opciones (techada / no) a (Techada / Aire libre), se producia error porque en la funcion handleAddSpace
+no se habian actulizado dichos valores. 
+*La confusion a la hora de detectar el conflicto surgio debido a que a la hora de agregar un completo, la consola
+muestra dos erroes correspondientes a fetchOwnerData, lo que me hizo pensar que de ahi provenia la cuestion y
+poner toda la atencion en tratar de resolver eso.

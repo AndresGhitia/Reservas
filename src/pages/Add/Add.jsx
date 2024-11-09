@@ -32,12 +32,11 @@ function Add({ setSpaces, setError, setLoading }) {
 
   return (
     <div className='add-container'>
-     
       <input
         type="text"
         value={newSpace.name}
         onChange={(e) => setNewSpace({ ...newSpace, name: e.target.value })}
-        placeholder="Nombre del espacio"
+        placeholder="Nombre del nuevo espacio"
       />
 
       {/* Selección de deporte (se habilita si el nombre está completo) */}
@@ -108,13 +107,13 @@ function Add({ setSpaces, setError, setLoading }) {
         step="100"
         value={newSpace.rate}
         onChange={(e) => setNewSpace({ ...newSpace, rate: e.target.value })}
-        placeholder="Tarifa por hora AR$"
+        placeholder="Tarifa"
         disabled={!newSpace.players} 
       />
 
 
-      {/* Selectores de hora de apertura y cierre */}
-      <div className='time-selection'>
+       {/* Selectores de hora de apertura y cierre */}
+       <div className='time-selection'>
         {/* <label>Selecciona el horario en el que estará disponible tu espacio</label> */}
 
         <div className='opening-time'>
@@ -146,8 +145,9 @@ function Add({ setSpaces, setError, setLoading }) {
         </div>
       </div>
 
+
       <div className='add-button'>
-        <button onClick={handleAddSpaceClick}>Agregar +</button>
+        <button onClick={handleAddSpaceClick}>Agregar</button>
       </div>
 
       {/* Mostrar mensaje de error si lo hay */}

@@ -54,7 +54,7 @@ const validateFields = ({ name, sport, surface, players, rate, openTime, closeTi
     return null; // Horario válido, permite horario de cierre en madrugada
   }
 
-  if (!techo || !['techada', 'no'].includes(techo)) { // Validar si techo es techada o no
+  if (!techo || !['Techada', 'Aire libre'].includes(techo)) { // Validar si techo es techada o no
     return "Debes seleccionar si el espacio es techado o al aire libre";
   }
 
