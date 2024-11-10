@@ -91,21 +91,21 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
   const isDayClosed = useMemo(() => (date) => {
     // Obtén el nombre del día en español (asegurándonos de que esté limpio)
     const dayName = format(date, 'EEEE', { locale: es }).trim();
-    console.log('Nombre del día obtenido:', dayName); // Verifica el valor de dayName
+   // console.log('Nombre del día obtenido:', dayName); // Verifica el valor de dayName
     
     // Verifica los días cerrados que se han pasado como prop
-    console.log('Array closedDays:', closedDays);
+  //  console.log('Array closedDays:', closedDays);
 
     // Comparar el nombre del día con los días cerrados
     const isClosed = closedDays.some(closedDay => {
       const normalizedClosedDay = closedDay.trim().toLowerCase();
       const normalizedDayName = dayName.toLowerCase();
-      console.log(`Comparando: "${normalizedClosedDay}" con "${normalizedDayName}"`);
+   //   console.log(`Comparando: "${normalizedClosedDay}" con "${normalizedDayName}"`);
       return normalizedClosedDay === normalizedDayName;
     });
     
     // Mostrar el resultado de la comparación para depuración
-    console.log('¿Está cerrado este día?', isClosed);
+ //   console.log('¿Está cerrado este día?', isClosed);
     return isClosed;
   }, [closedDays]);
 
