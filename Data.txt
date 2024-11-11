@@ -236,3 +236,5 @@ permanecera cerrado (closedDays de la base de datos)
 A#136 Se añade estilos y se ajusta el formulario LOG IN para que sea responsive tanto en web como mobile.
 
 G#137 Pasamos la libreria Calendar a DatePicker en calendarOwner, ahora es cuestion de ver los estilos.
+
+G#138 Acomodamos la distribucion de los horarios de calendarOwner.

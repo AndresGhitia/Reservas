@@ -55,15 +55,15 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Contenedor de los botones de horarios */
 .timeslot-container-Owner {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Ajuste automático de columnas */
-  gap: 10px; /* Espacio entre botones */
+  grid-template-columns: repeat(4, 1fr); /* 4 columnas de igual ancho */
+  gap: 10px; /* Espacio entre los botones */
   width: 100%;
-  padding: 20px; /* Espaciado alrededor del contenedor */
+  padding: 20px;
   box-sizing: border-box;
 }
+
 
 /* Estilos generales para los botones de horarios */
 .timeslot-pair {
@@ -177,11 +177,12 @@
 }
 
     .date-container-Owner {
-      width: 100%; /* Ocupará todo el ancho de la pantalla */
-      margin-bottom: 25px;
-      min-width: 380px;
-      border: 1px solid rgb(243, 7, 7); /* Borde que utilizo como guía */
-
+     display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Ajuste automático de columnas */
+  gap: 10px; /* Espacio entre botones */
+  width: 100%;
+  padding: 20px; /* Espaciado alrededor del contenedor */
+  box-sizing: border-box;
 
     }
     .react-calendar {
@@ -198,8 +199,12 @@
 
     /* Ajustar el tamaño de los botones de horarios */
     .timeslot-container-Owner {
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Columnas más pequeñas para ajustarse al móvil */
-      max-height: 800px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Ajuste automático de columnas */
+      gap: 10px; /* Espacio entre botones */
+      width: 100%;
+      padding: 20px; /* Espaciado alrededor del contenedor */
+      box-sizing: border-box;
     }
 
     .timeslot-button {
