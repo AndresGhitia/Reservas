@@ -1,20 +1,57 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db, auth } from '../../firebase';
+import { format } from 'date-fns';  // Importa 'format' desde 'date-fns'
+import { es } from 'date-fns/locale';  // Importa el locale en español
 import './CalendarOwner.css';
 
 function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSelectedDate, onClose, disableBooking, addTimeSlots, sport }) {
   const [date, setDate] = useState(null);
   const [timeSlots, setLocalTimeSlots] = useState([]);
+  const [closedDays, setClosedDays] = useState([]);
 
+  useEffect(() => {
+    if (selectedSpace) {
+      const fetchClosedDays = async () => {
+        try {
+          const spaceRef = doc(db, 'owners', auth.currentUser.uid, 'spaces', selectedSpace.id);
+          const spaceSnap = await getDoc(spaceRef);
+      
+          if (spaceSnap.exists()) {
+            const { closedDays: fetchedClosedDays } = spaceSnap.data();
+            console.log("closedDays desde Firestore:", fetchedClosedDays); // Para ver los días en Firestore
+            
+            // Aquí no necesitamos convertir a Date, solo usamos los nombres de los días
+            setClosedDays(fetchedClosedDays);
+          }
+        } catch (error) {
+          console.error("Error al obtener los días cerrados: ", error);
+        }
+      };
+  
+      fetchClosedDays();
+    }
+  }, [selectedSpace]);
+  
+  const isDayClosed = useMemo(() => (date) => {
+    // Obtener el nombre del día en español (por ejemplo, 'lunes', 'martes', etc.)
+    const dayName = format(date, 'EEEE', { locale: es }).toLowerCase(); // Obtén el nombre del día en minúsculas
+    
+    // Verificar si el nombre del día está en el array de `closedDays`
+    return closedDays.map(day => day.toLowerCase()).includes(dayName);
+  }, [closedDays]);
+  
+  useEffect(() => {
+    console.log("Días cerrados:", closedDays); // Asegúrate de que sean ['lunes', 'martes'] u otro formato correcto
+  }, [closedDays]);
+    
   useEffect(() => {
     if (selectedSpace && date) {
       const fetchCalendarData = async () => {
         try {
           const formattedDate = date.toISOString().split('T')[0];
-
           const selectedDayData = calendarData.find(day => day.date === formattedDate);
 
           if (selectedDayData) {
@@ -158,56 +195,26 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
             <DatePicker
               selected={date}
               onChange={setDate}
-              //minDate={new Date()} // Deshabilita fechas anteriores a hoy
               dateFormat="dd/MM/yyyy"
               placeholderText="Selecciona una fecha"
               inline
+              filterDate={(date) => !isDayClosed(date)}
+
+
             />
           </div>
   
           <div className="timeslot-container-Owner">
-            {timeSlots.map((slot, index) => {
-              const isHalfHourInterval = selectedSpace.sport === "Paddle";
-
-              if (isHalfHourInterval) {
-                if (index % 2 !== 0) return null;
-
-                const nextSlot = timeSlots[index + 1];
-
-                return (
-                  <div key={index} className="timeslot-pair timeslot-half-hour">
-                    <button
-                      className={`timeslot-button half-hour ${slot.available ? "available" : "reserved"} ${disableBooking ? "disabled-business" : ""}`}
-                      onClick={() => handleTimeslotClick(index)}
-                      disabled={disableBooking}
-                    >
-                      {slot.time} - {disableBooking ? (slot.available ? 'Disponible' : 'Ocupado') : (slot.available ? 'Reservar' : `${slot.name} ${slot.whatsapp}`)}
-                    </button>
-                    
-                    {nextSlot && (
-                      <button
-                        className={`timeslot-button half-hour ${nextSlot.available ? "available" : "reserved"} ${disableBooking ? "disabled-business" : ""}`}
-                        onClick={() => handleTimeslotClick(index + 1)}
-                        disabled={disableBooking}
-                      >
-                        {nextSlot.time} - {disableBooking ? (nextSlot.available ? 'Disponible' : 'Ocupado') : (nextSlot.available ? 'Reservar' : `${nextSlot.name} ${nextSlot.whatsapp}`)}
-                      </button>
-                    )}
-                  </div>
-                );
-              } else {
-                return (
-                  <button
-                    key={index}
-                    className={`timeslot-button ${slot.available ? "available" : "reserved"} ${disableBooking ? "disabled-business" : ""}`}
-                    onClick={() => handleTimeslotClick(index)}
-                    disabled={disableBooking}
-                  >
-                    {slot.time} - {disableBooking ? (slot.available ? 'Disponible' : 'Ocupado') : (slot.available ? 'Reservar' : `${slot.name} ${slot.whatsapp}`)}
-                  </button>
-                );
-              }
-            })}
+            {timeSlots.map((slot, index) => (
+              <button
+                key={index}
+                className={`timeslot-button ${slot.available ? "available" : "reserved"} ${disableBooking ? "disabled-business" : ""}`}
+                onClick={() => handleTimeslotClick(index)}
+                disabled={disableBooking}
+              >
+                {slot.time} - {disableBooking ? (slot.available ? 'Disponible' : 'Ocupado') : (slot.available ? 'Reservar' : `${slot.name} ${slot.whatsapp}`)}
+              </button>
+            ))}
           </div>
         </div>
       </div>

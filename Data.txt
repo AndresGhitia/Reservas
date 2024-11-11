@@ -238,3 +238,6 @@ A#136 Se añade estilos y se ajusta el formulario LOG IN para que sea responsive
 G#137 Pasamos la libreria Calendar a DatePicker en calendarOwner, ahora es cuestion de ver los estilos.
 
 G#138 Acomodamos la distribucion de los horarios de calendarOwner.
+
+G#139 Se la funcionalidad para que desde Dashboard se deshabiliten los dias en los que el negocio
+permanecera cerrado (closedDays de la base de datos)

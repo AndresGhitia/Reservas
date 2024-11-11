@@ -8,6 +8,7 @@ import './CalendarUser.css';
 import { format } from 'date-fns';
 
 function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelectedDate, onClose, disableBooking, ownerId, cel, sport }) {
+  
   const [date, setDate] = useState(null);
   const [timeSlots, setLocalTimeSlots] = useState([]);
   const [closedDays, setClosedDays] = useState ([]);
