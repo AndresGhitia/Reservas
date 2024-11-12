@@ -129,6 +129,17 @@ p.error-message {
   transform: scale(0.98);
   background-color: goldenrod;
 }
+.day-item {
+  background-color: #f0f0f0; /* Color de fondo no seleccionado */
+  color: #333;
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+.day-item.selected {
+  background-color: #ec1822; /* Color de fondo seleccionado */
+  color: white;
+}
 
 /* Añadir media queries para dispositivos móviles */
 @media (max-width: 768px) {

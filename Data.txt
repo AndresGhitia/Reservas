@@ -241,3 +241,5 @@ G#138 Acomodamos la distribucion de los horarios de calendarOwner.
 
 G#139 Se la funcionalidad para que desde Dashboard se deshabiliten los dias en los que el negocio
 permanecera cerrado (closedDays de la base de datos)
+
+G#140 Se modifica la manera seleccion de dias cerrados en Add.jsx

@@ -205,7 +205,7 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
             onClick={(e) => e.preventDefault()} // Evita que se escriba con el teclado
             onSelect={() => document.activeElement.blur()} // Cierra el teclado virtual en dispositivos táctiles
             filterDate={(date) => !isDayClosed(date)} // Invertir la lógica aquí
-
+            inline
           />
         </div>
   

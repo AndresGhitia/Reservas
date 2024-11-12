@@ -145,20 +145,22 @@ function Add({ setSpaces, setError, setLoading }) {
         </div>
       </div>
 
+     <p>Selecciona los dias en los que el espacio permanecera cerrados</p>
       {["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"].map((day) => (
-  <div key={day}>
-    <input
-      type="checkbox"
-      checked={Array.isArray(newSpace.closedDays) && newSpace.closedDays.includes(day)}
-      onChange={() => handleClosedDayToggle(day)}
-    />
-    <label>{day}</label>
+  <div
+    key={day}
+    onClick={() => handleClosedDayToggle(day)}
+    className={`day-item ${Array.isArray(newSpace.closedDays) && newSpace.closedDays.includes(day) ? 'selected' : ''}`}
+    style={{ cursor: 'pointer', padding: '8px', borderRadius: '5px', textAlign: 'center', margin: '4px' }}
+  >
+    {day}
   </div>
 ))}
 
 
+
       <div className='add-button'>
-        <button onClick={handleAddSpaceClick}>Agregar</button>
+        <button onClick={handleAddSpaceClick}> Agregar (+) </button>
       </div>
 
       {uniqueError && <p className="error-message">{uniqueError}</p>}

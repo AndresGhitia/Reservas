@@ -1,0 +1,28 @@
+/* src/components/DaySelector.css */
+
+.week-days {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Tres columnas, ajusta según prefieras */
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .week-day {
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .week-day.selected {
+    background-color: #4caf50; /* Color para los días seleccionados */
+    color: white;
+    border-color: #4caf50;
+  }
+  
+  .week-day:hover {
+    background-color: #e0e0e0; /* Color de fondo al pasar el mouse */
+  }
+  
