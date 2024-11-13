@@ -4,9 +4,11 @@ import { fetchOwnerDataAndSpaces } from '../../utils/fetchOwnerData';
 import './Add.css';
 import { ToastContainer } from 'react-toastify';
 import ClosedDays from './ClosedDays';
+import TimeSelection from './TimeSelection';
 import 'react-toastify/dist/ReactToastify.css';
 
 function Add({ setSpaces, setError, setLoading }) {
+
   const [newSpace, setNewSpace] = useState({
     name: '',
     sport: '',
@@ -41,7 +43,21 @@ function Add({ setSpaces, setError, setLoading }) {
         : [day], // Si `closedDays` no es un array, inicializa con el día seleccionado
     }));
   };
-  
+ 
+  const handleOpenTimeChange = (e) => {
+    setNewSpace((prevState) => ({
+      ...prevState,
+      openTime: e.target.value,
+      closeTime: "" // resetear la hora de cierre cuando cambia la de apertura
+    }));
+  };
+
+  const handleCloseTimeChange = (e) => {
+    setNewSpace((prevState) => ({
+      ...prevState,
+      closeTime: e.target.value
+    }));
+  };
 
   return (
     <div className='add-container'>
@@ -116,35 +132,13 @@ function Add({ setSpaces, setError, setLoading }) {
         disabled={!newSpace.players} 
       />
 
-      <div className='time-selection'>
-        <div className='opening-time'>
-          <label>Apertura</label>
-          <select
-            value={newSpace.openTime}
-            onChange={(e) => setNewSpace({ ...newSpace, openTime: e.target.value })}
-            disabled={!newSpace.rate}  
-          >
-            {Array.from({ length: 22 }, (_, i) => {
-              const hour = (i + 1).toString().padStart(2, '0') + ":00";
-              return <option key={hour} value={hour}>{hour}</option>;
-            })}
-          </select>
-        </div>
+<TimeSelection
+        openTime={newSpace.openTime}
+        closeTime={newSpace.closeTime}
+        onOpenTimeChange={handleOpenTimeChange}
+        onCloseTimeChange={handleCloseTimeChange}
+      />
 
-        <div className='close-time'>
-          <label>Cierre</label>
-          <select
-            value={newSpace.closeTime}
-            onChange={(e) => setNewSpace({ ...newSpace, closeTime: e.target.value })}
-            disabled={!newSpace.openTime} 
-          >
-            {Array.from({ length: 23 }, (_, i) => {
-              const hour = (i + 1).toString().padStart(2, '0') + ":00";
-              return <option key={hour} value={hour}>{hour}</option>;
-            })}
-          </select>
-        </div>
-      </div>
 
       <ClosedDays closedDays={newSpace.closedDays} onToggleDay={handleClosedDayToggle} />
 

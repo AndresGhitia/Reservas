@@ -245,4 +245,7 @@ permanecera cerrado (closedDays de la base de datos)
 G#140 Se modifica la manera seleccion de dias cerrados en Add.jsx
 
 G#141 Modularizando un Add.jsx con el fin de simplificar y ordenar el codigo, creamos el componente ClosedDays.jsx
-y lo importamos en Add.
+y lo importamos en Add. (Dias en los que el complejo permanecera cerrado)
+
+G#142 Modularizando un Add.jsx con el fin de simplificar y ordenar el codigo, creamos el componente TimeSelection.jsx
+y lo importamos en Add. (Horarios de apertura y cierre)
