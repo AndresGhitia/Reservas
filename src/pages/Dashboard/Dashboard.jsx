@@ -51,10 +51,32 @@ function Dashboard() {
   }, []);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(`${bookItUrl}/${encodeURIComponent(decodedName.replace(/ /g, '-'))}`)
-      .then(() => alert("Dirección de tu negocio copiada en el portapapeles"))
-      .catch(err => console.error('Error al copiar el enlace: ', err));
+    const textToCopy = `${bookItUrl}/${encodeURIComponent(decodedName.replace(/ /g, '-'))}`;
+    
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      // Usa Clipboard API si está disponible
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => alert("Dirección de tu negocio copiada en el portapapeles"))
+        .catch(err => console.error('Error al copiar el enlace: ', err));
+    } else {
+      // Alternativa con execCommand para entornos no compatibles con Clipboard API
+      const textArea = document.createElement("textarea");
+      textArea.value = textToCopy;
+      document.body.appendChild(textArea);
+      textArea.select();
+      
+      try {
+        document.execCommand('copy');
+        alert("Dirección de tu negocio copiada en el portapapeles");
+      } catch (err) {
+        console.error('Error al copiar el enlace: ', err);
+      }
+      
+      document.body.removeChild(textArea);
+    }
   };
+  
+  
 
   const handleCloseModal = () => {
     setShowModal(false);

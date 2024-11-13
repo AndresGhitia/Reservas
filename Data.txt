@@ -249,3 +249,6 @@ y lo importamos en Add. (Dias en los que el complejo permanecera cerrado)
 
 G#142 Modularizando un Add.jsx con el fin de simplificar y ordenar el codigo, creamos el componente TimeSelection.jsx
 y lo importamos en Add. (Horarios de apertura y cierre)
+
+G#143 Cambiamos el metodo de la funcion "Compartir URL" de Dashboard.jsx porque habia dejado de funcionar.
+( const handleCopy )
