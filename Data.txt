@@ -243,3 +243,6 @@ G#139 Se la funcionalidad para que desde Dashboard se deshabiliten los dias en l
 permanecera cerrado (closedDays de la base de datos)
 
 G#140 Se modifica la manera seleccion de dias cerrados en Add.jsx
+
+G#141 Modularizando un Add.jsx con el fin de simplificar y ordenar el codigo, creamos el componente ClosedDays.jsx
+y lo importamos en Add.

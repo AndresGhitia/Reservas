@@ -1,0 +1,12 @@
+/* src/components/ClosedDays.css */
+.day-item {
+    background-color: #f0f0f0; /* Fondo no seleccionado */
+    color: #333;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .day-item.selected {
+    background-color: #4CAF50; /* Fondo seleccionado */
+    color: white;
+  }
+  

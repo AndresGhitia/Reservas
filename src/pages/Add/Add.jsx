@@ -3,6 +3,7 @@ import { handleAddSpace } from '../../utils/handleAddSpace';
 import { fetchOwnerDataAndSpaces } from '../../utils/fetchOwnerData';
 import './Add.css';
 import { ToastContainer } from 'react-toastify';
+import ClosedDays from './ClosedDays';
 import 'react-toastify/dist/ReactToastify.css';
 
 function Add({ setSpaces, setError, setLoading }) {
@@ -16,7 +17,7 @@ function Add({ setSpaces, setError, setLoading }) {
     openTime: '',
     closeTime: '',
     walls: '',
-    closedDays: [], // Estado para los días de cierre
+    closedDays: [], 
   });
 
   const [uniqueError, setUniqueError] = useState(null);
@@ -145,17 +146,8 @@ function Add({ setSpaces, setError, setLoading }) {
         </div>
       </div>
 
-     <p>Selecciona los dias en los que el espacio permanecera cerrados</p>
-      {["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"].map((day) => (
-  <div
-    key={day}
-    onClick={() => handleClosedDayToggle(day)}
-    className={`day-item ${Array.isArray(newSpace.closedDays) && newSpace.closedDays.includes(day) ? 'selected' : ''}`}
-    style={{ cursor: 'pointer', padding: '8px', borderRadius: '5px', textAlign: 'center', margin: '4px' }}
-  >
-    {day}
-  </div>
-))}
+      <ClosedDays closedDays={newSpace.closedDays} onToggleDay={handleClosedDayToggle} />
+
 
 
 
