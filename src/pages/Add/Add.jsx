@@ -5,7 +5,6 @@ import './Add.css';
 import { ToastContainer } from 'react-toastify';
 import ClosedDays from './ClosedDays';
 import TimeSelection from './TimeSelection';
-import GeneralInfo from './GeneralInfo';
 import 'react-toastify/dist/ReactToastify.css';
 
 function Add({ setSpaces, setError, setLoading }) {

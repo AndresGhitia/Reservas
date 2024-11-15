@@ -143,14 +143,21 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
   const handleTimeslotClick = async (slotIndex) => {
     const selectedSlot = timeSlots[slotIndex];
     if (selectedSlot.available) {
-      const message = encodeURIComponent(`Hola, estoy interesado en reservar el espacio ${selectedSpace.name} para el horario ${selectedSlot.time}.`);
-      const whatsappLink = `https://wa.me/${cel}?text=${message}`;
-      window.open(whatsappLink, '_blank');
+      const confirmation = window.confirm(
+        `¿Deseas consultar por el horario seleccionado (${selectedSlot.time}) para el espacio ${selectedSpace.name}?`
+      );
+      if (confirmation) {
+        const message = encodeURIComponent(
+          `Hola, estoy interesado en reservar el espacio ${selectedSpace.name} para el horario ${selectedSlot.time}.`
+        );
+        const whatsappLink = `https://wa.me/${cel}?text=${message}`;
+        window.open(whatsappLink, '_blank');
+      }
     } else {
       alert("Este horario está reservado.");
     }
   };
-
+  
   const saveNotificationRequest = async (time, whatsappNumber, spaceId, ownerId, spaceName) => {
     try {
       const notificationId = `${whatsappNumber}_${time}`;
@@ -224,7 +231,7 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
                 
                   <button
                     className={`timeslot-button half-hour ${slot.available ? 'available' : 'reserved'} ${disableBooking ? 'disabled-business' : ''}`}
-                    onClick={() => handleTimeslotClick(index)}
+                    onClick={() =>  (index)}
                     disabled={disableBooking}
                   >
                     {slot.time} - {disableBooking ? (slot.available ? 'Disponible' : 'Ocupado') : (slot.available ? 'Reservar' : `${slot.name} ${slot.whatsapp}`)}

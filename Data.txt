@@ -252,3 +252,6 @@ y lo importamos en Add. (Horarios de apertura y cierre)
 
 G#143 Cambiamos el metodo de la funcion "Compartir URL" de Dashboard.jsx porque habia dejado de funcionar.
 ( const handleCopy )
+
+G#144 Modificamos la funcion handleTimeslotClick de CalendarUser. De este modo agregamos aviso previo abrir whatsapp con mensaje 
+plantilla, en lugar de abrir whatsapp de una.
