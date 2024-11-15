@@ -1,15 +1,18 @@
+// src/components/UserProfileDropdown.jsx
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom'; // Importar useLocation para obtener la ruta actual
+import { useNavigate, useLocation } from 'react-router-dom'; 
 import { assets } from '../../src/assets/assets'; 
 import { auth, db } from '../firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { resetInactivityTimer } from '../components/Navbar/authUtils'; 
+import ProfileInfoModal from '../pages/Dashboard/ProfileInfoModal';  
 
 function UserProfileDropdown() {
   const [user, setUser] = useState(null);
   const [userData, setUserData] = useState(null);
   const [userCollection, setUserCollection] = useState(null); // Estado para identificar si es 'owners' o 'users'
+  const [showAccountModal, setShowAccountModal] = useState(false); // Estado para mostrar el modal
   const [showWarningModal, setShowWarningModal] = useState(false);
   const [showSessionClosedModal, setShowSessionClosedModal] = useState(false);
   const [countdown, setCountdown] = useState(30);
@@ -97,6 +100,10 @@ function UserProfileDropdown() {
     }
   };
 
+  const handleAccountClick = () => {
+    setShowAccountModal(true); // Abrir el modal cuando se haga clic en "Mi cuenta"
+  };
+
   if (!user) {
     // Si el usuario no está autenticado, mostrar la opción de iniciar sesión
     return (
@@ -113,7 +120,9 @@ function UserProfileDropdown() {
         <img src={assets.profile_icon} alt="profile icon" /> 
       </div>
       <ul className="nav-profile-dropdown">
-        <li><img src={assets.booking_icon} alt="Reservas icon" />Reservas</li>
+        <li onClick={handleAccountClick}>
+          <img src={assets.booking_icon} alt="Reservas icon" />Mi cuenta
+        </li>
         <hr />
         <li onClick={() => handleSignOut(false)}><img src={assets.logout_icon} alt="Logout icon" />Logout</li>
         <hr />
@@ -134,6 +143,15 @@ function UserProfileDropdown() {
       )}
       {showSessionClosedModal && (
         <showSessionClosedModal onClose={() => setShowSessionClosedModal(false)} />
+      )}
+
+      {/* Aquí llamamos al componente ProfileInfoModal */}
+      {showAccountModal && (
+        <ProfileInfoModal 
+          userData={userData} 
+          userCollection={userCollection} 
+          onClose={() => setShowAccountModal(false)} 
+        />
       )}
     </div>
   );

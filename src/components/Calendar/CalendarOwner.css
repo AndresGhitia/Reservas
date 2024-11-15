@@ -19,6 +19,11 @@
   color: #666;
   margin: 0;
 }
+.react-datepicker__header {
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #ddd;
+  padding: 15px 0;
+}
 /* Botón de cierre del modal */
 .modal-close-button {
   cursor: pointer;
@@ -42,7 +47,11 @@
   max-height: 100vh; /* Limita la altura para mantener el desplazamiento */
 
 }
-
+.react-datepicker__header {
+  background-color: #f0f0f0; /* Color de fondo del encabezado */
+  border-bottom: 1px solid #ddd; /* Línea divisoria debajo */
+  padding: 15px 0; /* Espaciado interno */
+}
 /* Contenedor de la fecha */
 .date-container-Owner {
   margin-bottom: 25px;
@@ -178,7 +187,11 @@
   color: #666;
   background-color: #10a818
 }
-
+.react-datepicker__month{
+  display: flex;
+  flex-wrap: wrap;
+  /* border:solid 3px red; */
+}
     .date-container-Owner {
      display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Ajuste automático de columnas */
@@ -186,17 +199,8 @@
   width: 100%;
   padding: 20px; /* Espaciado alrededor del contenedor */
   box-sizing: border-box;
+  /* border: solid 3px, red; */
 
-    }
-    .react-calendar {
-      width: 100%; /* Asegura que el calendario ocupe todo el ancho disponible */
-      max-width: 100%; /* Evita que el calendario exceda el contenedor */
-      min-width: unset; /* Eliminar el ancho mínimo */
-      background-color: #f9f9f9;
-      border: 4px solid rgb(94, 243, 7); /* Borde de guía, puedes eliminarlo si no lo necesitas */
-      padding: 0; /* Eliminar padding dentro del calendario */
-      margin: 0; /* Eliminar márgenes extra */
-      box-sizing: border-box; /* Asegurar que el ancho total respete los bordes y el relleno */
     }
     .calendar-container-Owner {
       max-height: 70vh; /* Ajusta la altura visible en pantallas pequeñas */
@@ -213,6 +217,8 @@
       width: 100%;
       padding: 20px; /* Espaciado alrededor del contenedor */
       box-sizing: border-box;
+      /* border: solid 3px, red; */
+
     }
 
     .timeslot-button {

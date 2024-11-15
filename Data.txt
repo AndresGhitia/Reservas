@@ -258,3 +258,7 @@ plantilla, en lugar de abrir whatsapp de una.
 
 G#145 Se modifica la disposicion de los horarios de calendarOwner para mobile, se corrigen dos bugs de calendarUser (Solo funcionaba watsap 
 en los hoarios de 30´ y mostraba en los horarios reservados nombre y telefono)
+
+G#146 Se crea el componente ProfileInfoModal.jsx disponible desde UserProfileDropdown, mediante el cual el usuario accede a los datos
+registrados en su cuenta. La idea es agregar el boton eliminar cuenta.
+

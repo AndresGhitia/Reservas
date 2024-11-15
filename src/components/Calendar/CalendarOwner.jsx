@@ -199,8 +199,7 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
               placeholderText="Selecciona una fecha"
               inline
               filterDate={(date) => !isDayClosed(date)}
-
-
+              locale={es}    
             />
           </div>
   
