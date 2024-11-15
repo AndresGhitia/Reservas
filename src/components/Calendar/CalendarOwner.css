@@ -38,6 +38,9 @@
   width: 100%;
   flex-direction: column;
   align-items: center;
+  overflow-y: auto; /* Habilita el desplazamiento vertical */
+  max-height: 100vh; /* Limita la altura para mantener el desplazamiento */
+
 }
 
 /* Contenedor de la fecha */
@@ -195,12 +198,17 @@
       margin: 0; /* Eliminar márgenes extra */
       box-sizing: border-box; /* Asegurar que el ancho total respete los bordes y el relleno */
     }
+    .calendar-container-Owner {
+      max-height: 70vh; /* Ajusta la altura visible en pantallas pequeñas */
+      overflow-y: scroll; /* Fuerza el desplazamiento en móviles */
+      -webkit-overflow-scrolling: touch; /* Mejora la experiencia de desplazamiento en iOS */
+    }
     
 
     /* Ajustar el tamaño de los botones de horarios */
     .timeslot-container-Owner {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Ajuste automático de columnas */
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); /* Ajuste automático de columnas */
       gap: 10px; /* Espacio entre botones */
       width: 100%;
       padding: 20px; /* Espaciado alrededor del contenedor */

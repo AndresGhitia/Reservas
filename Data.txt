@@ -255,3 +255,6 @@ G#143 Cambiamos el metodo de la funcion "Compartir URL" de Dashboard.jsx porque 
 
 G#144 Modificamos la funcion handleTimeslotClick de CalendarUser. De este modo agregamos aviso previo abrir whatsapp con mensaje 
 plantilla, en lugar de abrir whatsapp de una.
+
+G#145 Se modifica la disposicion de los horarios de calendarOwner para mobile, se corrigen dos bugs de calendarUser (Solo funcionaba watsap 
+en los hoarios de 30´ y mostraba en los horarios reservados nombre y telefono)

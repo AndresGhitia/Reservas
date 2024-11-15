@@ -231,10 +231,10 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
                 
                   <button
                     className={`timeslot-button half-hour ${slot.available ? 'available' : 'reserved'} ${disableBooking ? 'disabled-business' : ''}`}
-                    onClick={() =>  (index)}
+                    onClick={() => handleTimeslotClick(index)}
                     disabled={disableBooking}
                   >
-                    {slot.time} - {disableBooking ? (slot.available ? 'Disponible' : 'Ocupado') : (slot.available ? 'Reservar' : `${slot.name} ${slot.whatsapp}`)}
+                    {slot.time} - {disableBooking ? (slot.available ? 'Disponible' : 'Ocupado') : (slot.available ? 'Reservar' : `Ocupado`)}
                   </button>
   
                   {nextSlot && (
@@ -244,7 +244,7 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
                       onClick={() => handleTimeslotClick(index + 1)}
                       disabled={disableBooking}
                     >
-                      {nextSlot.time} - {disableBooking ? (nextSlot.available ? 'Disponible' : 'Ocupado') : (nextSlot.available ? 'Reservar' : `${nextSlot.name} ${nextSlot.whatsapp}`)}
+                      {nextSlot.time} - {disableBooking ? (nextSlot.available ? 'Disponible' : 'Ocupado') : (nextSlot.available ? 'Reservar' : `Ocupado`)}
                    
                     </button>
                   )}
