@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { signInWithEmailAndPassword, signOut, sendPasswordResetEmail  } from 'firebase/auth';
 import { auth, db } from '../../firebase';
 import './LoginForm.css';
 import RegisterForm from '../RegisterForm/RegisterForm';
@@ -71,6 +71,21 @@ function LoginForm({ onClose }) {
     }
     setSubmitting(false);
   };
+
+  const handleForgotPassword = async () => {
+    const email = prompt("Por favor, introduce tu correo electrónico para recuperar la contraseña:");
+  
+    if (email) {
+      try {
+        await sendPasswordResetEmail(auth, email);
+        alert("Se ha enviado un correo de recuperación. Por favor, revisa tu bandeja de entrada.");
+      } catch (error) {
+        console.error("Error al enviar el correo de recuperación:", error);
+        setError("No se pudo enviar el correo de recuperación. Verifica el email ingresado.");
+      }
+    }
+  };
+  
 
   const openRegisterModal = () => {
     setShowRegister(true);
@@ -152,6 +167,10 @@ function LoginForm({ onClose }) {
                       </span>
                       <ErrorMessage name="password" component="div" className="error" />
                     </div>
+                    <p className="forgot-password">
+  <span onClick={handleForgotPassword} >¿Olvidaste tu contraseña?</span>
+</p>
+
 
                     <button type="submit" className="login-button" disabled={isSubmitting}>
                       LOG IN TO BOOK-IT
