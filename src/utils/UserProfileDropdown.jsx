@@ -15,33 +15,48 @@ function UserProfileDropdown() {
   const [showAccountModal, setShowAccountModal] = useState(false); // Estado para mostrar el modal
   const [showWarningModal, setShowWarningModal] = useState(false);
   const [showSessionClosedModal, setShowSessionClosedModal] = useState(false);
+  const [numSpaces, setNumSpaces] = useState(0); // Estado para almacenar el número de espacios activos
   const [countdown, setCountdown] = useState(30);
   const navigate = useNavigate();
   const locationUrl = useLocation(); // Obtener la ruta actual
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
-      if (currentUser) {
-        const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
-        if (userDoc.exists()) {
-          setUserData(userDoc.data());
-          setUserCollection('users'); // Identificar que es de la colección 'users'
-        } else {
-          const ownerDoc = await getDoc(doc(db, 'owners', currentUser.uid));
-          if (ownerDoc.exists()) {
-            setUserData(ownerDoc.data());
-            setUserCollection('owners'); // Identificar que es de la colección 'owners'
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    setUser(currentUser);
+    if (currentUser) {
+      // Comprobar si es un usuario
+      const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+      if (userDoc.exists()) {
+        setUserData(userDoc.data());
+        setUserCollection('users'); // Identificar que es de la colección 'users'
+      } else {
+        // Comprobar si es un propietario
+        const ownerDoc = await getDoc(doc(db, 'owners', currentUser.uid));
+        if (ownerDoc.exists()) {
+          setUserData(ownerDoc.data());
+          setUserCollection('owners'); // Identificar que es de la colección 'owners'
+
+          // Obtener el número de espacios activos (número de documentos en la subcolección 'spaces')
+          const spacesRef = collection(db, 'owners', currentUser.uid, 'spaces');
+          const spacesSnapshot = await getDocs(spacesRef);
+          
+          // Verificar si la subcolección existe y tiene documentos
+          if (spacesSnapshot.empty) {
+            console.log("No hay espacios disponibles");
+            setNumSpaces(0);
+          } else {
+            setNumSpaces(spacesSnapshot.size); // Contar los espacios activos
           }
         }
-      } else {
-        setUserData(null);
-        setUserCollection(null); // Resetear el estado de la colección si no hay usuario
       }
-    });
+    } else {
+      setUserData(null);
+      setUserCollection(null); // Resetear el estado de la colección si no hay usuario
+    }
+  });
 
-    return () => unsubscribe();
-  }, []);
+  return () => unsubscribe();
+}, []);
 
   useEffect(() => {
     if (user) {
@@ -151,6 +166,8 @@ function UserProfileDropdown() {
           userData={userData} 
           userCollection={userCollection} 
           onClose={() => setShowAccountModal(false)} 
+          numSpaces={numSpaces} // Pasar número de espacios activos
+
         />
       )}
     </div>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { auth, db } from '../../firebase'; 
-import { doc, setDoc, Timestamp } from 'firebase/firestore';
+import { doc, setDoc, Timestamp, query, collection, where, getDocs } from 'firebase/firestore';
 import OwnerForm from './OwnerForm'; 
 import UserForm from './UserForm'; 
 import './RegisterForm.css';
@@ -24,6 +24,19 @@ function RegisterForm({ onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Verificar si el negocio ya existe
+      if (accountType === 'owner') {
+        const ownersRef = collection(db, 'owners');
+        const q = query(ownersRef, where('establishmentName', '==', establishmentName));
+        const querySnapshot = await getDocs(q);
+  
+        if (!querySnapshot.empty) {
+          // Si el negocio ya existe, lanzamos un error
+          setError(`Ya existe un negocio registrado con el nombre "${establishmentName}". Por favor, elige otro nombre.`);
+          return; // Salimos del flujo de registro
+        }
+      }
+  
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
   
@@ -33,7 +46,7 @@ function RegisterForm({ onClose }) {
       // Calculate expiration date (3 months from now)
       const createdAt = new Date();
       const expirationDate = new Date();
-      expirationDate.setMonth(expirationDate.getMonth() + 3); // Add 3 months to the current date
+      expirationDate.setMonth(expirationDate.getMonth() + 3);
   
       // Convert dates to Firebase Timestamp
       const createdAtTimestamp = Timestamp.fromDate(createdAt);
@@ -44,8 +57,6 @@ function RegisterForm({ onClose }) {
           firstName,
           lastName,
           email,
-      //    createdAt: createdAtTimestamp,  // Store created date as Timestamp
-      //    expdate: expdateTimestamp        // Store expiration date as Timestamp
         });
       } else if (accountType === 'owner') {
         await setDoc(doc(db, 'owners', user.uid), {
@@ -55,8 +66,8 @@ function RegisterForm({ onClose }) {
           whatsapp,
           businessType,
           address,
-          createdAt: createdAtTimestamp,   // Store created date as Timestamp
-          expdate: expdateTimestamp        // Store expiration date as Timestamp
+          createdAt: createdAtTimestamp,
+          expdate: expdateTimestamp,
         });
       }
   
@@ -67,7 +78,6 @@ function RegisterForm({ onClose }) {
       setError("Error al registrar el usuario: " + error.message);
     }
   };
-  
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);

@@ -1,8 +1,8 @@
 // src/components/ProfileInfoModal.jsx
 import React from 'react';
-import './ProfileInfoModal.css'; 
+import './ProfileInfoModal.css';
 
-function ProfileInfoModal({ userData, userCollection, onClose }) {
+function ProfileInfoModal({ userData, userCollection, numSpaces, onClose }) {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
@@ -12,15 +12,16 @@ function ProfileInfoModal({ userData, userCollection, onClose }) {
             <h3>Información del Usuario</h3>
             <p>Nombre: {userData?.firstName} {userData?.lastName}</p>
             <p>Email: {userData?.email}</p>
-            {/* más campos si es necesario */}
+            
           </div>
         ) : userCollection === 'owners' ? (
           <div>
             <h3>Información del Propietario</h3>
-            <p>Nombre del Establecimiento: {userData?.establishmentName}</p>
-            <p>Propietario: {userData?.ownerName}</p>
-            <p>Email: {userData?.email}</p>
-            {/*  más campos si es necesario */}
+            <p>Tipo de cuenta: Administrador (Owner)</p>
+            <p>Establecimiento: {userData?.establishmentName}</p>
+            <p>Dirección: {userData?.address}</p>
+            <p>Número de espacios activos: {numSpaces}</p> 
+            <p>Número de contacto: {userData?.contactNumber}</p>
           </div>
         ) : null}
         <button onClick={onClose}>Cerrar</button>
@@ -30,3 +31,4 @@ function ProfileInfoModal({ userData, userCollection, onClose }) {
 }
 
 export default ProfileInfoModal;
+

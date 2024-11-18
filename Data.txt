@@ -262,3 +262,6 @@ en los hoarios de 30´ y mostraba en los horarios reservados nombre y telefono)
 G#146 Se crea el componente ProfileInfoModal.jsx disponible desde UserProfileDropdown, mediante el cual el usuario accede a los datos
 registrados en su cuenta. La idea es agregar el boton eliminar cuenta.
 
+G#147 Se añade la funcion en el formulario RegisterForm.jsx para que antes de crear cuenta de negocio, se compruebe mediante el dato
+StabislhmentName que no exista negocio registrado con el mismo nombre. Para esto se modifia la funcion "handleSubmit" de RegisterForm.
+
