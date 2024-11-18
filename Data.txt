@@ -263,5 +263,5 @@ G#146 Se crea el componente ProfileInfoModal.jsx disponible desde UserProfileDro
 registrados en su cuenta. La idea es agregar el boton eliminar cuenta.
 
 G#147 Se añade la funcion en el formulario RegisterForm.jsx para que antes de crear cuenta de negocio, se compruebe mediante el dato
-StabislhmentName que no exista negocio registrado con el mismo nombre. Para esto se modifia la funcion "handleSubmit" de RegisterForm.
+StabislhmentName que no exista negocio registrado con el mismo nombre. Para esto se modifia la funcion "handleSubmit" de RegisterForm .
 
