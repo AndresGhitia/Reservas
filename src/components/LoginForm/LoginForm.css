@@ -17,7 +17,7 @@
     /* background-color: white; */
 }
 
-.modal-content {
+.modal-content-form {
     display: flex;
     flex-direction: column;
 }
@@ -147,6 +147,10 @@
     padding: 0 24px;
     font-size: 24px;
     color: #fff;
+    cursor: pointer;
+}
+
+.forgot-password span{
     cursor: pointer;
 }
 

@@ -1,5 +1,3 @@
-// src/App.js
-
 import { Route, Routes, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home/Home";
@@ -13,10 +11,11 @@ import List from "./pages/List/List";
 import Booking from "./pages/Booking/Booking";
 import Success from "./pages/PaymentStates/Succes"; 
 import Failure from "./pages/PaymentStates/Failure";
+import PasswordReset from "./components/PasswordReset/PasswordReset";
 
 const App = () => {
   const location = useLocation();
-  
+
   const showNavbarRoutes = ['/', '/cart', '/order'];
   const showNavbar = showNavbarRoutes.includes(location.pathname) || location.pathname.startsWith('/item');
 
@@ -28,20 +27,21 @@ const App = () => {
         <Route path='/item/:itemId' element={<RubroDetailContainer />} />
         <Route path='/cart' element={<Cart />} />
         <Route path='/order' element={<PlaceOrder />} />
-  
+
         <Route path="/dashboard/:establishmentName" element={<Dashboard />}>
           <Route path="add" element={<Add />} />  
           <Route path="list" element={<List />} /> 
           <Route path="booking" element={<Booking />} />
         </Route>
-  
+
         <Route path="/:establishmentName" element={<BusinessPage />} />
 
-        {/* Ruta para la pantalla de éxito de pago */}
+        {/* Nuevas rutas */}
+        <Route path="/password-reset" element={<PasswordReset />} />
+        
         <Route path="/success" element={<Success />} /> 
-        <Route path="/failure" element={<Failure />} />  {/* Ruta para "failure" */}
-    
-        </Routes>
+        <Route path="/failure" element={<Failure />} /> 
+      </Routes>
     </div>
   );
 };

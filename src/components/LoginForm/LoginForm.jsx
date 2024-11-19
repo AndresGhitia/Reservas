@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { signInWithEmailAndPassword, signOut, sendPasswordResetEmail  } from 'firebase/auth';
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth, db } from '../../firebase';
 import './LoginForm.css';
 import RegisterForm from '../RegisterForm/RegisterForm';
@@ -21,7 +21,6 @@ function LoginForm({ onClose }) {
   const [error, setError] = useState('');
   const [showRegister, setShowRegister] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (values, { setSubmitting }) => {
@@ -48,12 +47,6 @@ function LoginForm({ onClose }) {
 
         if (today > expdate) {
           setError("Tu cuenta ha vencido. Por favor, contacta a soporte para renovarla.");
-          setIsSubscriptionModalOpen(true);
-          await signOut(auth);
-          const paymentData = await handleIntegrationMP(user.email);
-          if (paymentData) {
-            window.location.href = paymentData.init_point;
-          }
           setSubmitting(false);
           return;
         }
@@ -72,21 +65,6 @@ function LoginForm({ onClose }) {
     setSubmitting(false);
   };
 
-  const handleForgotPassword = async () => {
-    const email = prompt("Por favor, introduce tu correo electrónico para recuperar la contraseña:");
-  
-    if (email) {
-      try {
-        await sendPasswordResetEmail(auth, email);
-        alert("Se ha enviado un correo de recuperación. Por favor, revisa tu bandeja de entrada.");
-      } catch (error) {
-        console.error("Error al enviar el correo de recuperación:", error);
-        setError("No se pudo enviar el correo de recuperación. Verifica el email ingresado.");
-      }
-    }
-  };
-  
-
   const openRegisterModal = () => {
     setShowRegister(true);
   };
@@ -99,27 +77,11 @@ function LoginForm({ onClose }) {
     setShowPassword(!showPassword);
   };
 
-  const handleModalClose = () => {
-    setIsSubscriptionModalOpen(false);
-  };
-
-  const handleRenewSubscription = async () => {
-    const preference = await handleIntegrationMP();
-
-    if (preference) {
-      window.location.href = preference.init_point;
-    } else {
-      alert("Error al crear la preferencia de pago.");
-    }
-
-    setIsSubscriptionModalOpen(false);
-  };
-
   return (
     <>
       <div className="modal">
         <div className="modal-dialog">
-          <div className="modal-content">
+          <div className="modal-content-form">
             <div className='modal-header'>
               <p className="login-header">Bienvenido a Book-It</p>
               <span className="close" onClick={onClose}>&times;</span>
@@ -168,9 +130,8 @@ function LoginForm({ onClose }) {
                       <ErrorMessage name="password" component="div" className="error" />
                     </div>
                     <p className="forgot-password">
-  <span onClick={handleForgotPassword} >¿Olvidaste tu contraseña?</span>
-</p>
-
+                      <span onClick={() => navigate("/password-reset")}>¿Olvidaste tu contraseña?</span>
+                    </p>
 
                     <button type="submit" className="login-button" disabled={isSubmitting}>
                       LOG IN TO BOOK-IT
@@ -182,14 +143,7 @@ function LoginForm({ onClose }) {
           </div>
         </div>
       </div>
-
       {showRegister && <RegisterForm onClose={closeRegisterModal} />}
-
-      <BuySubscription
-        isOpen={isSubscriptionModalOpen}
-        onClose={handleModalClose}
-        onRenew={handleRenewSubscription}
-      />
     </>
   );
 }

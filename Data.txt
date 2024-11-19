@@ -267,3 +267,6 @@ StabislhmentName que no exista negocio registrado con el mismo nombre. Para esto
 
 G#148 Se añade la funcion de "Recuperar contraseña" de firebase. Para esto se modifica el componente LoginForm (se añade la funcion "handleForgotPassword")
 resta setear los mensaje que envian los servicios de firebase, por el momento estan por default y en ingles.
+
+A#149 Se añade una nueva vista y estilos para "Recuperar contraseña". Se crea un componente nuevo llamado PasswordReset con las funciones correspondientes
+para recuperar el Password. Se quita la funcion de LoginForm y se coloca en PasswordReset
