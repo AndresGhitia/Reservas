@@ -270,3 +270,6 @@ resta setear los mensaje que envian los servicios de firebase, por el momento es
 
 A#149 Se añade una nueva vista y estilos para "Recuperar contraseña". Se crea un componente nuevo llamado PasswordReset con las funciones correspondientes
 para recuperar el Password. Se quita la funcion de LoginForm y se coloca en PasswordReset
+
+G#150 Agregamos la funcionalidad de reestablecer contraseña, con el commit #149 se mejoraron los estilos, pero habia dejado de funcionar.
+
