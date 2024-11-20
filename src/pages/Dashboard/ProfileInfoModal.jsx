@@ -21,7 +21,7 @@ function ProfileInfoModal({ userData, userCollection, numSpaces, onClose }) {
             <p>Establecimiento: {userData?.establishmentName}</p>
             <p>Dirección: {userData?.address}</p>
             <p>Número de espacios activos: {numSpaces}</p> 
-            <p>Número de contacto: {userData?.contactNumber}</p>
+            <p>Número de contacto: {userData?.whatsapp}</p>
           </div>
         ) : null}
         <button onClick={onClose}>Cerrar</button>

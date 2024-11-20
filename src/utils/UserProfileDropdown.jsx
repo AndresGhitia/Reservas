@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { assets } from '../../src/assets/assets'; 
 import { auth, db } from '../firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, collection,getDocs  } from 'firebase/firestore';
 import { resetInactivityTimer } from '../components/Navbar/authUtils'; 
 import ProfileInfoModal from '../pages/Dashboard/ProfileInfoModal';  
 
@@ -46,6 +46,8 @@ useEffect(() => {
             setNumSpaces(0);
           } else {
             setNumSpaces(spacesSnapshot.size); // Contar los espacios activos
+            console.log("Numero de espacios: "+ numSpaces);
+
           }
         }
       }

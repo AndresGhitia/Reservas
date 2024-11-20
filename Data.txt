@@ -273,3 +273,7 @@ para recuperar el Password. Se quita la funcion de LoginForm y se coloca en Pass
 
 G#150 Agregamos la funcionalidad de reestablecer contraseña, con el commit #149 se mejoraron los estilos, pero habia dejado de funcionar.
 
+G#151 Se arregla un problema que habia en los datos de la cuenta que mostraba el componete ProfileInfoModal. Antes nos mostraba ni 
+Watsapp ni cantidad de espacios activos del usuario, ahora si.
+
+
