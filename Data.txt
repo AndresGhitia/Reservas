@@ -276,4 +276,8 @@ G#150 Agregamos la funcionalidad de reestablecer contraseña, con el commit #149
 G#151 Se arregla un problema que habia en los datos de la cuenta que mostraba el componete ProfileInfoModal. Antes nos mostraba ni 
 Watsapp ni cantidad de espacios activos del usuario, ahora si.
 
+G#152 Corregimos algunas cuestiones de inicio de sesion, sucedia que cuando se creaba el usuario, se logueba automaticamente, dando acceso a usuarios
+sin que previamente confirmen el mail cuando se crea. Por otro lado la funcion login a pesar de avisar que el usaurio se logueaba con una cuenta no 
+verificada, se iniciaba la sesion. Se corrigio esto agregando signOut en creacion de usuaio y en Login.
+
 

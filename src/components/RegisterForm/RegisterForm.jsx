@@ -24,60 +24,59 @@ function RegisterForm({ onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Verificar si el negocio ya existe
-      if (accountType === 'owner') {
-        const ownersRef = collection(db, 'owners');
-        const q = query(ownersRef, where('establishmentName', '==', establishmentName));
-        const querySnapshot = await getDocs(q);
-  
-        if (!querySnapshot.empty) {
-          // Si el negocio ya existe, lanzamos un error
-          setError(`Ya existe un negocio registrado con el nombre "${establishmentName}". Por favor, elige otro nombre.`);
-          return; // Salimos del flujo de registro
+        if (accountType === 'owner') {
+            const ownersRef = collection(db, 'owners');
+            const q = query(ownersRef, where('establishmentName', '==', establishmentName));
+            const querySnapshot = await getDocs(q);
+            if (!querySnapshot.empty) {
+                setError(`Ya existe un negocio registrado con el nombre "${establishmentName}". Por favor, elige otro nombre.`);
+                return;
+            }
         }
-      }
-  
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-  
-      // Enviar correo de verificación
-      await sendEmailVerification(user);
-  
-      // Calculate expiration date (3 months from now)
-      const createdAt = new Date();
-      const expirationDate = new Date();
-      expirationDate.setMonth(expirationDate.getMonth() + 3);
-  
-      // Convert dates to Firebase Timestamp
-      const createdAtTimestamp = Timestamp.fromDate(createdAt);
-      const expdateTimestamp = Timestamp.fromDate(expirationDate);
-  
-      if (accountType === 'user') {
-        await setDoc(doc(db, 'users', user.uid), {
-          firstName,
-          lastName,
-          email,
-        });
-      } else if (accountType === 'owner') {
-        await setDoc(doc(db, 'owners', user.uid), {
-          establishmentName,
-          ownerName,
-          establishmentEmail: email,
-          whatsapp,
-          businessType,
-          address,
-          createdAt: createdAtTimestamp,
-          expdate: expdateTimestamp,
-        });
-      }
-  
-      alert("Usuario registrado con éxito. Por favor, revisa tu correo electrónico para verificar tu cuenta.");
-      onClose();
+
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // Enviar correo de verificación
+        await sendEmailVerification(user);
+
+        // Cerrar sesión inmediatamente
+        await auth.signOut();
+
+        const createdAt = new Date();
+        const expirationDate = new Date();
+        expirationDate.setMonth(expirationDate.getMonth() + 3);
+
+        const createdAtTimestamp = Timestamp.fromDate(createdAt);
+        const expdateTimestamp = Timestamp.fromDate(expirationDate);
+
+        if (accountType === 'user') {
+            await setDoc(doc(db, 'users', user.uid), {
+                firstName,
+                lastName,
+                email,
+            });
+        } else if (accountType === 'owner') {
+            await setDoc(doc(db, 'owners', user.uid), {
+                establishmentName,
+                ownerName,
+                establishmentEmail: email,
+                whatsapp,
+                businessType,
+                address,
+                createdAt: createdAtTimestamp,
+                expdate: expdateTimestamp,
+            });
+        }
+
+        alert("Usuario registrado con éxito. Por favor, revisa tu correo electrónico para verificar tu cuenta.");
+        onClose();
     } catch (error) {
-      console.error("Firebase Error:", error);
-      setError("Error al registrar el usuario: " + error.message);
+        console.error("Firebase Error:", error);
+        setError("Error al registrar el usuario: " + error.message);
     }
-  };
+};
+
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);

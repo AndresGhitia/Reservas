@@ -30,6 +30,7 @@ function LoginForm({ onClose }) {
 
       if (!user.emailVerified) {
         setError("Tu correo electrónico no ha sido verificado. Por favor, revisa tu correo y sigue las instrucciones para verificarlo.");
+        await auth.signOut();
         setSubmitting(false);
         return;
       }
