@@ -282,3 +282,5 @@ verificada, se iniciaba la sesion. Se corrigio esto agregando signOut en creacio
 
 G#153 Se modifica el navigation de LogIn para para que redirija al "list" de espacios. Queda como Dashboard/Tu-Neogocio/list.com
 
+G#154 Se crea una nueva rama "B" porque no encuentro manera de pasar cambiar del modo detached-Head a la rama merge llevando los
+cambios. Este es el primer commit de esta rama.
