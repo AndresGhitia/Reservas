@@ -55,7 +55,7 @@ function LoginForm({ onClose }) {
         onClose();
         setTimeout(() => {
           const dashboardUrl = `/dashboard/${encodeURIComponent(ownerData.establishmentName.replace(/\s+/g, '-'))}`;
-          navigate(dashboardUrl);
+          navigate(dashboardUrl + '/list');
         }, 100);
       } else {
         setError("Usuario no encontrado, por favor verifica tus credenciales.");

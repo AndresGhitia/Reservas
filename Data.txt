@@ -280,4 +280,5 @@ G#152 Corregimos algunas cuestiones de inicio de sesion, sucedia que cuando se c
 sin que previamente confirmen el mail cuando se crea. Por otro lado la funcion login a pesar de avisar que el usaurio se logueaba con una cuenta no 
 verificada, se iniciaba la sesion. Se corrigio esto agregando signOut en creacion de usuaio y en Login.
 
+G#153 Se modifica el navigation de LogIn para para que redirija al "list" de espacios. Queda como Dashboard/Tu-Neogocio/list.com
 
