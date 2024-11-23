@@ -2,6 +2,7 @@ import { collection, query, where, getDocs, setDoc, doc } from 'firebase/firesto
 import { db, auth } from '../firebase';
 import { toast } from 'react-toastify';
 
+
 const showToast = (type, message) => {
   if (type === 'error') {
     toast.error(message);
@@ -11,6 +12,8 @@ const showToast = (type, message) => {
 };
 
 const validateFields = ({ name, sport, surface, players, rate, openTime, closeTime, techo, walls }) => { 
+ // console.log("Función validateFields llamada");
+
   if (!name.trim()) {
     return "Debes ingresar un nombre para el espacio";
   }
@@ -35,12 +38,17 @@ const validateFields = ({ name, sport, surface, players, rate, openTime, closeTi
     return "Debes ingresar una tarifa válida";
   }
 
+ // console.log("Estado de closeTime:", closeTime);
+
   if (!openTime || !closeTime) {
     return "Debes ingresar las horas de apertura y cierre";
   }
 
   const [openHour, openMinute] = openTime.split(':').map(Number);
   const [closeHour, closeMinute] = closeTime.split(':').map(Number);
+
+ // console.log(`openTime: ${openTime}, closeTime: ${closeTime}`);
+ // console.log(`openHour: ${openHour}, openMinute: ${openMinute}, closeHour: ${closeHour}, closeMinute: ${closeMinute}`);
 
   if (
     openHour < 0 || openHour > 23 || openMinute < 0 || openMinute > 59 ||

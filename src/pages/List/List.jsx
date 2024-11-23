@@ -10,6 +10,8 @@ import './List.css';
 import { assets } from '../../assets/assets';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom'; 
+
 
 function List() {
   const [ownerData, setOwnerData] = useState(null);
@@ -23,7 +25,9 @@ function List() {
   const [timeSlots, setTimeSlots] = useState([]);
   const [editingSpaceId, setEditingSpaceId] = useState(null);
   const [editedSpace, setEditedSpace] = useState(null);
-
+  const navigate = useNavigate(); // Inicializa el hook useNavigate
+  const dashboardUrl = '/dashboard'; // Define tu base URL para la navegación
+  
   useEffect(() => {
     const fetchData = async () => {
       await fetchOwnerDataAndSpaces(setOwnerData, setSpaces, setError, setLoading);
@@ -138,6 +142,14 @@ function List() {
           </div>
         ))}
       </div>
+
+      {/* Botón para agregar cancha */}
+      <button
+        className="add-space-button"
+        onClick={() => navigate(dashboardUrl + '/add/add')}
+      >
+        Agregar cancha (+)
+      </button>
 
       {showModal && (
         <div className="modal">

@@ -12,7 +12,7 @@ const BusinessMap = ({ address, onAddressFormatted }) => {
     const geocodeAddress = async (address) => {
       try {
         const apiKey = 'AIzaSyBWI5EoMzcJk-y6Mtdy0whcUwFQRvqc7po'; 
-        console.log('Dirección que se va a geocodificar:', address);
+     //   console.log('Dirección que se va a geocodificar:', address);
         const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`);
         
         if (!response.ok) {
@@ -20,7 +20,7 @@ const BusinessMap = ({ address, onAddressFormatted }) => {
         }
 
         const data = await response.json();
-        console.log('Respuesta de la API:', data); 
+     //   console.log('Respuesta de la API:', data); 
         
         if (data.results.length > 0) {
           const location = {

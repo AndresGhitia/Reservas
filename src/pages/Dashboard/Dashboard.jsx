@@ -27,11 +27,14 @@ function Dashboard() {
   const [showQRModal, setShowQRModal] = useState(false);
   const bookItUrl = import.meta.env.VITE_BOOKIT_URL;
 
+//console.log("establishmentName:" + establishmentName);
+//console.log("decodeName:" + decodedName);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      console.log("Verificando autenticación...");
+    //  console.log("Verificando autenticación...");
       if (user) {
-        console.log("Usuario autenticado:", user);
+    //    console.log("Usuario autenticado:", user);
         try {
           // Cargar datos del propietario y los espacios
           await fetchOwnerDataAndSpaces(setOwnerData, setSpaces, setError, setLoading);
@@ -94,7 +97,7 @@ function Dashboard() {
       const url = await uploadImageToCloudinary(file);
       setImageUrl(url);
       saveBackgroundImageUrl(url);
-      console.log("URL de la imagen subida:", url);
+    //  console.log("URL de la imagen subida:", url);
     } catch (error) {
       console.error("Error al subir la imagen a Cloudinary: ", error);
     }
@@ -206,6 +209,7 @@ function Dashboard() {
             </div>
 
             <button
+
               onClick={() => window.open(`${bookItUrl}/${establishmentName}`, '_blank')}
               style={{ marginTop: '20px' }} >
               Ir al sitio del negocio

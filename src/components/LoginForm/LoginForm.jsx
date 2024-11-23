@@ -5,8 +5,6 @@ import './LoginForm.css';
 import RegisterForm from '../RegisterForm/RegisterForm';
 import { useNavigate } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
-import BuySubscription from '../BuySuscription/BuySuscription';
-import { handleIntegrationMP } from '../../../MP/preference';
 import { assets } from '../../assets/assets';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';

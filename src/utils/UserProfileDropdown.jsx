@@ -42,11 +42,11 @@ useEffect(() => {
           
           // Verificar si la subcolección existe y tiene documentos
           if (spacesSnapshot.empty) {
-            console.log("No hay espacios disponibles");
+        //    console.log("No hay espacios disponibles");
             setNumSpaces(0);
           } else {
             setNumSpaces(spacesSnapshot.size); // Contar los espacios activos
-            console.log("Numero de espacios: "+ numSpaces);
+        //    console.log("Numero de espacios: "+ numSpaces);
 
           }
         }
@@ -83,7 +83,7 @@ useEffect(() => {
       .then(() => {
         setUser(null);
         setUserData(null);
-        console.log('URL: ' + locationUrl.pathname)
+     //   console.log('URL: ' + locationUrl.pathname)
         if (locationUrl.pathname.includes('/dashboard')) {
           navigate('/');
         }

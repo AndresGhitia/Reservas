@@ -284,3 +284,5 @@ G#153 Se modifica el navigation de LogIn para para que redirija al "list" de esp
 
 G#154 Se crea una nueva rama "B" porque no encuentro manera de pasar cambiar del modo detached-Head a la rama merge llevando los
 cambios. Este es el primer commit de esta rama.
+
+G#155 Corregimos algunos conflictos en los horarios de cierre a la hora de crear la cancha. 
