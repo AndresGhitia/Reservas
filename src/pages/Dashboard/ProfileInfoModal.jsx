@@ -2,7 +2,7 @@
 import React from 'react';
 import './ProfileInfoModal.css';
 
-function ProfileInfoModal({ userData, userCollection, numSpaces, onClose }) {
+function ProfileInfoModal({ userData, userCollection, numSpaces, onClose, onDeleteAccount }) {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
@@ -24,7 +24,11 @@ function ProfileInfoModal({ userData, userCollection, numSpaces, onClose }) {
             <p>Número de contacto: {userData?.whatsapp}</p>
           </div>
         ) : null}
-        <button onClick={onClose}>Cerrar</button>
+      
+       <div className="modal-buttons">
+          <button onClick={onClose}>Cerrar</button>
+          <button onClick={onDeleteAccount} className="delete-button">Borrar cuenta</button>
+        </div>
       </div>
     </div>
   );

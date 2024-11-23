@@ -198,6 +198,11 @@ button[style*="background-color: #dc143c"]:hover {
   transform: scale(1.05); 
   transition: transform 0.2s ease-in-out;
 }
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+} 
 @media (max-width: 768px) {
   .owner-container {
     display: flex;

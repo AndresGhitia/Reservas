@@ -286,3 +286,5 @@ G#154 Se crea una nueva rama "B" porque no encuentro manera de pasar cambiar del
 cambios. Este es el primer commit de esta rama.
 
 G#155 Corregimos algunos conflictos en los horarios de cierre a la hora de crear la cancha. 
+
+G#156 Se agrega boton "Eliminar cuenta", se encara para el proximo commit la funcionalidad de dicho boton. 

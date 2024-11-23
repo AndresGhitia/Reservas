@@ -121,6 +121,16 @@ useEffect(() => {
     setShowAccountModal(true); // Abrir el modal cuando se haga clic en "Mi cuenta"
   };
 
+  const handleDeleteAccount = () => {
+    const confirmation = window.confirm('¿Estás seguro de que deseas borrar tu cuenta? Se borraran todos tus datos, incluyendo informacion de tu complejo y reservas.');
+    if (confirmation) {
+      // Implementa aquí la lógica para borrar la cuenta
+      console.log('Cuenta borrada');
+      // Lógica para cerrar el modal
+      setShowAccountModal(false);
+    }
+  };
+
   if (!user) {
     // Si el usuario no está autenticado, mostrar la opción de iniciar sesión
     return (
@@ -169,6 +179,7 @@ useEffect(() => {
           userCollection={userCollection} 
           onClose={() => setShowAccountModal(false)} 
           numSpaces={numSpaces} // Pasar número de espacios activos
+          onDeleteAccount={handleDeleteAccount}
 
         />
       )}
