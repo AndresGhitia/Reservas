@@ -291,4 +291,7 @@ G#156 Se agrega boton "Eliminar cuenta", se encara para el proximo commit la fun
 
 G#157 Agregamos la funcionalidad de "Eliminar cuenta", se empleo metodo de eliminacion por parte del usuario, lo cual es sencillo de 
 implementar pero quizas para una mejor escalabilidad en un futuro seria mas adecuado utilizar los servicios de firebase para la 
-eliminacion de cuentas.  
+eliminacion de cuentas.
+
+A#158 Se dan los mismos estilos al formulario de Login, Crear Usuario y Crear Negocio. Quede arreglar los estilos cuando se seleccionan
+los rubros.

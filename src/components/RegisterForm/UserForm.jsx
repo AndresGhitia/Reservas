@@ -5,7 +5,6 @@ const UserForm = ({ firstName, setFirstName, lastName, setLastName, email, setEm
   return (
     <>
       <div className="form-group">
-        <label>Nombre <span className="required">*</span></label>
         <input
           type="text"
           placeholder="Nombre"
@@ -15,7 +14,6 @@ const UserForm = ({ firstName, setFirstName, lastName, setLastName, email, setEm
         />
       </div>
       <div className="form-group">
-        <label>Apellido <span className="required">*</span></label>
         <input
           type="text"
           placeholder="Apellido"
@@ -25,7 +23,6 @@ const UserForm = ({ firstName, setFirstName, lastName, setLastName, email, setEm
         />
       </div>
       <div className="form-group">
-        <label>Email <span className="required">*</span></label>
         <input
           type="email"
           placeholder="Correo Electrónico"

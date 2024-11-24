@@ -96,7 +96,6 @@ const OwnerForm = ({
     <div className="owner-form">
       <div className="left-column">
         <div className="form-group">
-          <label>Nombre del Establecimiento <span className="required">*</span></label>
           <input
             type="text"
             placeholder="Nombre del Establecimiento"
@@ -107,7 +106,6 @@ const OwnerForm = ({
         </div>
 
         <div className="form-group">
-          <label>Nombre del Propietario <span className="required">*</span></label>
           <input
             type="text"
             placeholder="Nombre del Propietario"
@@ -118,7 +116,6 @@ const OwnerForm = ({
         </div>
 
         <div className="form-group">
-          <label>Correo Electrónico del Establecimiento <span className="required">*</span></label>
           <input
             type="email"
             placeholder="Correo Electrónico del Establecimiento"
@@ -131,7 +128,6 @@ const OwnerForm = ({
 
       <div className="right-column">
         <div className="form-group">
-          <label>WhatsApp del Negocio <span className="required">*</span></label>
           <input
             type="text"
             placeholder="Número de WhatsApp"
@@ -142,7 +138,6 @@ const OwnerForm = ({
         </div>
 
         <div className="form-group">
-          <label>Dirección del Establecimiento <span className="required">*</span></label>
           <div style={{ position: 'relative' }}>
             <input
               type="text"
@@ -168,7 +163,6 @@ const OwnerForm = ({
         </div>
 
         <div className="form-group">
-          <label>Rubro <span className="required">*</span></label>
           <select onChange={handleBusinessTypeChange}>
             <option value="">Selecciona un rubro</option>
             {availableBusinessTypes.map((type) => (
