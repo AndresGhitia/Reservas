@@ -6,6 +6,7 @@ import { auth, db } from '../firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, getDoc, collection,getDocs  } from 'firebase/firestore';
 import { resetInactivityTimer } from '../components/Navbar/authUtils'; 
+import { deleteOwnerData } from './deleteOwnerData';
 import ProfileInfoModal from '../pages/Dashboard/ProfileInfoModal';  
 
 function UserProfileDropdown() {
@@ -121,15 +122,28 @@ useEffect(() => {
     setShowAccountModal(true); // Abrir el modal cuando se haga clic en "Mi cuenta"
   };
 
-  const handleDeleteAccount = () => {
-    const confirmation = window.confirm('¿Estás seguro de que deseas borrar tu cuenta? Se borraran todos tus datos, incluyendo informacion de tu complejo y reservas.');
+  const handleDeleteAccount = async () => {
+    const confirmation = window.confirm('¿Estás seguro de que deseas borrar tu cuenta? Se borrarán todos tus datos, incluyendo información de tu complejo y reservas.');
+  
     if (confirmation) {
-      // Implementa aquí la lógica para borrar la cuenta
-      console.log('Cuenta borrada');
-      // Lógica para cerrar el modal
-      setShowAccountModal(false);
+      try {
+        // Mostrar feedback al usuario (puedes usar un estado de carga aquí si lo deseas)
+        console.log('Eliminando cuenta...');
+  
+        // Implementar la lógica de eliminación (usa tu función deleteOwnerData)
+        await deleteOwnerData(); // Asegúrate de importar esta función correctamente
+  
+        alert('Tu cuenta ha sido eliminada con éxito.');
+        setShowAccountModal(false); // Cerrar modal
+        signOut(auth); // Cerrar sesión después de borrar la cuenta
+        navigate('/'); // Redirigir al usuario al home
+      } catch (error) {
+        console.error('Error al eliminar la cuenta:', error);
+        alert('Hubo un error al eliminar tu cuenta. Por favor, inténtalo de nuevo.');
+      }
     }
   };
+  
 
   if (!user) {
     // Si el usuario no está autenticado, mostrar la opción de iniciar sesión

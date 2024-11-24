@@ -288,3 +288,7 @@ cambios. Este es el primer commit de esta rama.
 G#155 Corregimos algunos conflictos en los horarios de cierre a la hora de crear la cancha. 
 
 G#156 Se agrega boton "Eliminar cuenta", se encara para el proximo commit la funcionalidad de dicho boton. 
+
+G#157 Agregamos la funcionalidad de "Eliminar cuenta", se empleo metodo de eliminacion por parte del usuario, lo cual es sencillo de 
+implementar pero quizas para una mejor escalabilidad en un futuro seria mas adecuado utilizar los servicios de firebase para la 
+eliminacion de cuentas.  
