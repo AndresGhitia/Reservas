@@ -6,7 +6,7 @@ import { auth, db } from '../firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, getDoc, collection,getDocs  } from 'firebase/firestore';
 import { resetInactivityTimer } from '../components/Navbar/authUtils'; 
-import { deleteOwnerData } from './deleteOwnerData';
+import onDeleteAccount from '../../functions/onDeleteAccount'
 import ProfileInfoModal from '../pages/Dashboard/ProfileInfoModal';  
 
 function UserProfileDropdown() {
@@ -131,8 +131,8 @@ useEffect(() => {
         console.log('Eliminando cuenta...');
   
         // Implementar la lógica de eliminación (usa tu función deleteOwnerData)
-        await deleteOwnerData(); // Asegúrate de importar esta función correctamente
-  
+       // await deleteOwnerData(); // Asegúrate de importar esta función correctamente
+          await onDeleteAccount();
         alert('Tu cuenta ha sido eliminada con éxito.');
         setShowAccountModal(false); // Cerrar modal
         signOut(auth); // Cerrar sesión después de borrar la cuenta

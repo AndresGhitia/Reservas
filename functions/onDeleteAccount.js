@@ -1,5 +1,5 @@
 import { auth, db } from '../src/firebase';
-import { doc, deleteDoc, collection, getDocs } from 'firebase/firestore';
+import { doc, deleteDoc, collection, getDocs, setDoc } from 'firebase/firestore';
 
 const onDeleteAccount = async (userCollection) => {
   try {
@@ -12,6 +12,9 @@ const onDeleteAccount = async (userCollection) => {
 
       // Eliminar datos relacionados al usuario en Firestore
       await deleteUserRelatedData(documentId);
+
+      // Registrar el usuario en la colección 'disabled/disabled-users'
+      await logDisabledUser(user.email);
 
       // Deshabilitar la cuenta en el backend
       console.log('Deshabilitando la cuenta en backend...');
@@ -67,6 +70,23 @@ const deleteUserRelatedData = async (userId) => {
     console.log('Documento de usuario eliminado.');
   } catch (error) {
     console.error('Error al eliminar los datos del usuario:', error);
+  }
+};
+
+// Función para registrar usuarios deshabilitados
+const logDisabledUser = async (email) => {
+  try {
+    const disabledUsersRef = doc(db, 'disabled', 'disabled-users'); // Referencia al documento
+    const disabledData = {
+      email: email,
+      disabledAt: new Date().toISOString(), // Timestamp del momento en que se deshabilita
+    };
+
+    // Registrar el email en la colección 'disabled/disabled-users'
+    await setDoc(disabledUsersRef, { [email]: disabledData }, { merge: true });
+    console.log(`Usuario ${email} registrado en la colección 'disabled/disabled-users'.`);
+  } catch (error) {
+    console.error('Error al registrar el usuario en la colección disabled:', error);
   }
 };
 
