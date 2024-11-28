@@ -23,33 +23,53 @@ function LoginForm({ onClose }) {
 
   const handleLogin = async (values, { setSubmitting }) => {
     try {
+      // Verificar si el correo está en la colección de usuarios deshabilitados
+      const disabledUsersRef = doc(db, 'disabled', 'disabled-users');
+      const disabledSnapshot = await getDoc(disabledUsersRef);
+  
+      if (disabledSnapshot.exists()) {
+        const disabledData = disabledSnapshot.data();
+        console.log('Disabled Data: ' + JSON.stringify(disabledData));  // Verificar el formato de los datos
+  
+        // Verificar si el correo está en el documento de usuarios deshabilitados
+        if (disabledData[values.email]) {  // Verifica si el correo está en los usuarios deshabilitados
+          console.log("Usuario deshabilitado");
+          setError("Tu cuenta ha sido deshabilitada. Contacta al soporte para más información.");
+          setSubmitting(false);
+          return; // Detener el flujo si el usuario está deshabilitado
+        }
+      }
+  
+      // Si el correo no está en la lista de deshabilitados, continuar con el inicio de sesión
       const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
       const user = userCredential.user;
-
+  
       if (!user.emailVerified) {
         setError("Tu correo electrónico no ha sido verificado. Por favor, revisa tu correo y sigue las instrucciones para verificarlo.");
         await auth.signOut();
         setSubmitting(false);
         return;
       }
-
-      var ownerDoc = await getDoc(doc(db, 'owners', user.uid));
-
+  
+      // Intentar obtener el documento de propietario
+      let ownerDoc = await getDoc(doc(db, 'owners', user.uid));
+  
       if (!ownerDoc.exists()) {
+        // Si no se encuentra, intentar obtener el documento del usuario
         ownerDoc = await getDoc(doc(db, 'users', user.uid));
       }
-
+  
       if (ownerDoc.exists()) {
         const ownerData = ownerDoc.data();
         const expdate = ownerData.expdate && ownerData.expdate.toDate ? ownerData.expdate.toDate() : new Date(ownerData.expdate);
         const today = new Date();
-
+  
         if (today > expdate) {
           setError("Tu cuenta ha vencido. Por favor, contacta a soporte para renovarla.");
           setSubmitting(false);
           return;
         }
-
+  
         onClose();
         setTimeout(() => {
           const dashboardUrl = `/dashboard/${encodeURIComponent(ownerData.establishmentName.replace(/\s+/g, '-'))}`;
@@ -59,11 +79,13 @@ function LoginForm({ onClose }) {
         setError("Usuario no encontrado, por favor verifica tus credenciales.");
       }
     } catch (error) {
+      console.error("Error de inicio de sesión:", error);
       setError("Usuario o contraseña incorrectos, revísalos y vuelve a ingresarlos por favor");
     }
     setSubmitting(false);
   };
-
+  
+  
   const openRegisterModal = () => {
     setShowRegister(true);
   };

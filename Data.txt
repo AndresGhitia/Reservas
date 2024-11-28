@@ -296,6 +296,8 @@ eliminacion de cuentas.
 A#158 Se dan los mismos estilos al formulario de Login, Crear Usuario y Crear Negocio. Quede arreglar los estilos cuando se seleccionan
 los rubros.
 
-A#160 Se implementa el borrado de datos por parte del usuario pero manejado por una funcion de firebase cloud, desplegada en firebase.
+G#160 Se implementa el borrado de datos por parte del usuario pero manejado por una funcion de firebase cloud, desplegada en firebase.
 Lo que hace es borrar mail, datos y todo registro del usuario de la coleccion Owners, se envia el mail a una coleccion llamada disabled,
 para que la plataforma lleve un registro de los usuarios dados deshabilitados. Y se deshabilita el mail de firebase Auth. 
+
+&#161 Se implementa que cuando el usuario se loguea, reconoce si este esta inhabilitado. 
