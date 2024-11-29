@@ -33,7 +33,7 @@ const Location = ({ userLocation, setUserLocation }) => {
           const { latitude, longitude } = position.coords;
           setUserLocation({ latitude, longitude });
           const address = await reverseGeocode(latitude, longitude);
-          setManualLocation(address); 
+          setManualLocation(address);
         },
         (err) => setError(err.message)
       );
@@ -60,31 +60,34 @@ const Location = ({ userLocation, setUserLocation }) => {
   };
 
   return (
-    <div className="location-container">
-      <div className="location-header">
-        <FaMapMarkerAlt className="location-icon" /> {/* Icono de ubicación en el encabezado */}
-        <h3>Ingresa tu ubicación</h3>
+    <div className='location-background'>
+      <div className="location-container">
+        <div className="location-header-title">
+        {/* <FaMapMarkerAlt className="location-icon" /> */}
+          <h3> ENCUENTRA UNA CANCHA </h3>
+        </div>
+        <div className='location-header-subtitle'>
+          <p>Encuentra canchas cercanas dentro de Argentina</p>
+        </div>
+        {/* <p>{manualLocation ? manualLocation : 'Ubicación no disponible'}</p> */}
+        <div className="location-input-container">
+          <Autocomplete
+            onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
+            onPlaceChanged={handlePlaceChanged}
+          >
+            <input
+              type="text"
+              placeholder="Introduce tu ubicación"
+              value={manualLocation}
+              onChange={(e) => setManualLocation(e.target.value)}
+              onFocus={() => setManualLocation('')}
+            />
+          </Autocomplete>
+        </div>
+        {error && <p className="error-message">{error}</p>}
       </div>
-      <p>{manualLocation ? manualLocation : 'Ubicación no disponible'}</p>
-      <div className="location-input-container">
-        <Autocomplete
-          onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
-          onPlaceChanged={handlePlaceChanged}
-        >
-          <input
-            type="text"
-            placeholder="Introduce tu ubicación"
-            value={manualLocation}
-            onChange={(e) => setManualLocation(e.target.value)}
-            onFocus={() => setManualLocation('')} 
-          />
-        </Autocomplete>
-      </div>
-      {error && <p className="error-message">{error}</p>}
     </div>
   );
 };
 
 export default Location;
-
-

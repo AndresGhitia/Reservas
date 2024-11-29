@@ -127,8 +127,8 @@ const BusinessList = ({ category, userLocation }) => {
             </p>
           )}
 
-          <button onClick={() => window.open(`/${business.establishmentName.replace(/\s+/g, '-')}`, '_blank')}>
-            Ingresar
+          <button  className="login-button-card" onClick={() => window.open(`/${business.establishmentName.replace(/\s+/g, '-')}`, '_blank')}>
+            VER DISPONIBILIDAD
           </button>
         </div>
       ))}

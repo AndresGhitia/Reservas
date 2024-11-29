@@ -301,3 +301,6 @@ Lo que hace es borrar mail, datos y todo registro del usuario de la coleccion Ow
 para que la plataforma lleve un registro de los usuarios dados deshabilitados. Y se deshabilita el mail de firebase Auth. 
 
 &#161 Se implementa que cuando el usuario se loguea, reconoce si este esta inhabilitado. 
+
+A#161 Se añada estilos Home y se comienza a unificar estilos. Se añade un Hero para ser mas atractivo la visual.
+Resta por añadir estilos al Navbar, Cards y el selector de rubro.

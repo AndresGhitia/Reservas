@@ -1,3 +1,15 @@
+.location-background {
+  background: url(https://image.slidesdocs.com/responsive-images/background/football-player-illustration-color-advertising-powerpoint-background_a455daa2b5__960_540.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 70vh;
+  
+  display: flex;
+  justify-content: center;  /* Centra horizontalmente */
+  align-items: center;      /* Centra verticalmente */
+}
+
 .location-container {
   margin: 20px auto;
   padding: 20px;
@@ -5,23 +17,30 @@
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;  /* Esto asegura que se ajuste al tamaño del contenedor padre */
 }
 
-.location-header {
-  display: flex;
+.location-header-title {
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
-.location-header h3 {
-  font-size: 1.75rem;
-  margin-left: 10px;
-  color: #333;
+.location-header-title h3 {
+  text-align: center;
+  font-size: 40px;
+  font-weight: bold;
+  color: #56e07b;
+}
+
+.location-header-subtitle p {
+  font-size: 15px;
+  font-weight: bold;
 }
 
 .location-icon {
-  color: #4caf50;
-  font-size: 1.75rem;
+  padding-right: 10px;
+  color:  #2f285a;
+  font-size: 2.25rem;
 }
 
 .location-container p {
@@ -59,8 +78,8 @@
   margin-top: 10px;
   text-align: center;
 }
-@media (max-width: 768px) {
 
+@media (max-width: 768px) {
   .location-container {
     margin: 20px auto;
     padding-left: 10px;
@@ -70,10 +89,10 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
-  .location-header h3 {
+  .location-header-title h3 {
     font-size: 1.45rem;
     margin-left: 5px;
-    color: #333;
+    color: 56e07b;
   }
   .location-input-container {
     display: flex;
