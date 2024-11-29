@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { db } from '../../firebase'; // Asegúrate de tener configurado Firebase
+import { db } from '../../firebase'; 
 import { collection, query, where, getDocs, updateDoc, Timestamp } from 'firebase/firestore';
 
 const Success = () => {
@@ -11,36 +11,38 @@ const Success = () => {
   const queryParams = new URLSearchParams(location.search);
   const paymentId = queryParams.get('payment_id');
   const paymentStatus = queryParams.get('status');
-  const customerEmail = queryParams.get('external_reference'); // Suponiendo que se usa para el email del cliente
+  const customerEmail = decodeURIComponent(queryParams.get('external_reference'));
 
   // Función para buscar el usuario y actualizar la expdate
   const updateExpDate = async () => {
     try {
       const ownersRef = collection(db, 'owners');
-      const q = query(ownersRef, where('establishmentEmail', '==', customerEmail)); // Buscar por email
-
+      console.log('Buscando en Firestore con correo:', customerEmail);
+      
+      const q = query(ownersRef, where('establishmentEmail', '==', customerEmail));
       const querySnapshot = await getDocs(q);
+  
       if (!querySnapshot.empty) {
+        console.log('Documentos encontrados:', querySnapshot.size);
         const userDoc = querySnapshot.docs[0];
         const userDocRef = userDoc.ref;
-
-        // Sumar un mes a la fecha actual
+  
         const currentDate = new Date();
         const newExpDate = new Date(currentDate.setMonth(currentDate.getMonth() + 1));
-
-        // Actualizar el campo expdate
+  
         await updateDoc(userDocRef, {
           expdate: Timestamp.fromDate(newExpDate),
         });
-
+  
         console.log('Fecha de expiración actualizada correctamente.');
       } else {
-        console.error('No se encontró el usuario con ese email.');
+        console.error('No se encontró el usuario con ese email:', customerEmail);
       }
     } catch (error) {
       console.error('Error al actualizar la fecha de expiración:', error);
     }
   };
+  
 
   // Llamar a la función cuando el pago sea aprobado
   useEffect(() => {

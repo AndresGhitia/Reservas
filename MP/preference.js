@@ -18,14 +18,16 @@ export const handleIntegrationMP = async (email) => {
                 sandbox: true
             },
         ],
-        external_reference: email, // Asegúrate de agregar esto
-
+        external_reference: encodeURIComponent(email),
         back_urls: {
             success: `${import.meta.env.VITE_BOOKIT_URL}/success`,
             failure: `${import.meta.env.VITE_BOOKIT_URL}/failure`,
             pending: `${import.meta.env.VITE_BOOKIT_URL}/pending`
         },
     };
+
+    // Verificar si el email y los parámetros son correctos
+    console.log("Verificando preferencia antes de enviarla:", preferencia);
 
     try {
         const response = await fetch("https://api.mercadopago.com/checkout/preferences", {

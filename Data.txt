@@ -303,4 +303,7 @@ para que la plataforma lleve un registro de los usuarios dados deshabilitados. Y
 &#161 Se implementa que cuando el usuario se loguea, reconoce si este esta inhabilitado. 
 
 A#162 Se añada estilos Home y se comienza a unificar estilos. Se añade un Hero para ser mas atractivo la visual.
-Resta por añadir estilos al Navbar, Cards y el selector de rubro.
+Resta por añadir estilos al Navbar, Cards y el selector de rubro. 
+
+A#163 Resolvemos problemas con la integracion de MP, pricipalmente generados por borrado de funciones y componentes de LoginForm.jsx. 
+Ahora funciona la integracion y la interaccion con la base de datos a la hora de actualizar la fecha de caducidad del usuario.

@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { assets } from '../../assets/assets';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import BuySubscription from '../BuySuscription/BuySubscription'; 
+import {handleIntegrationMP} from '../../../MP/preference';
 import * as Yup from 'yup';
 
 // Esquema de validación con Yup
@@ -19,6 +21,9 @@ function LoginForm({ onClose }) {
   const [error, setError] = useState('');
   const [showRegister, setShowRegister] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false); 
+  const [userEmail, setUserEmail] = useState('');
+
   const navigate = useNavigate();
 
   const handleLogin = async (values, { setSubmitting }) => {
@@ -44,6 +49,8 @@ function LoginForm({ onClose }) {
       const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
       const user = userCredential.user;
   
+      setUserEmail(values.email);
+
       if (!user.emailVerified) {
         setError("Tu correo electrónico no ha sido verificado. Por favor, revisa tu correo y sigue las instrucciones para verificarlo.");
         await auth.signOut();
@@ -66,7 +73,9 @@ function LoginForm({ onClose }) {
   
         if (today > expdate) {
           setError("Tu cuenta ha vencido. Por favor, contacta a soporte para renovarla.");
-          setSubmitting(false);
+          console.log('Usuario Vencido');
+          setIsSubscriptionModalOpen(true); // Abrir el modal de suscripción
+          await signOut(auth); // Cerrar la sesión si el usuario está vencido
           return;
         }
   
@@ -96,6 +105,26 @@ function LoginForm({ onClose }) {
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+ 
+  const handleModalClose = () => {
+    setIsSubscriptionModalOpen(false);
+  };
+
+  const handleRenewSubscription = async () => { 
+    console.log('Renovando suscripción...');
+
+    // Llamar a la función para crear la preferencia de pago
+    const preference = await handleIntegrationMP(userEmail);
+
+    if (preference) {
+      // Redirigir al usuario a la URL de inicio de pago
+      window.location.href = preference.init_point;
+    } else {
+      alert("Error al crear la preferencia de pago.");
+    }
+    // Cerrar el modal de suscripción
+    setIsSubscriptionModalOpen(false);
   };
 
   return (
@@ -163,6 +192,13 @@ function LoginForm({ onClose }) {
             </div>
           </div>
         </div>
+         {/* Modal de suscripción vencida */}
+      <BuySubscription 
+        isOpen={isSubscriptionModalOpen} 
+        onClose={handleModalClose} 
+        onRenew={handleRenewSubscription} 
+      />
+
       </div>
       {showRegister && <RegisterForm onClose={closeRegisterModal} />}
     </>
