@@ -8,7 +8,7 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { WarningModal, SessionClosedModal } from './CloseSessionModals.jsx';
 import { resetInactivityTimer } from './authUtils.js';
-import UserProfileDropdown from '../../utils/UserProfileDropdown'; 
+import UserProfileDropdown from '../../utils/UserProfileDropdown';
 import { useLocation } from 'react-router-dom'; // Importar useLocation
 
 function Navbar() {
@@ -80,14 +80,15 @@ function Navbar() {
   return (
     <>
       <div className='navbar'>
-        <img src={assets.logo_header} alt="logo de la marca" className='logo' />
-  
+        <div className='navbar-title'>
+          <h3>BOOK-IT</h3>
+        </div>
         <div className='navbar-right'>
           <div className='navbar-search-icon'>
           </div>
-  
+
           {!user ? (
-            <button onClick={() => setShowLogin(true)}>Sign In</button>
+            <span onClick={() => setShowLogin(true)}>INICIAR SESION</span>
           ) : (
             <UserProfileDropdown
               userData={userData}
@@ -98,7 +99,7 @@ function Navbar() {
           )}
         </div>
       </div>
-  
+
       {/* Modales fuera del contenedor navbar */}
       {showLogin && <LoginForm onClose={() => setShowLogin(false)} />}
       {showWarningModal && (
@@ -112,7 +113,7 @@ function Navbar() {
       )}
     </>
   );
-  
+
 }
 
 export default Navbar;

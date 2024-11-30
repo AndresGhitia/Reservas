@@ -23,8 +23,8 @@
 
 
  .explore-rubro-list-item .active {
-    border-radius: 25%;
-    background-color: goldenrod;
+    border-radius: 50%;
+    background-color:#56e07b;
     transition: 0.5s;
 }
 

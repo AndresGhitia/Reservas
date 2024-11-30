@@ -138,7 +138,7 @@ function LoginForm({ onClose }) {
             </div>
             <div className='modal-body'>
               <section className='modal-login'>
-                <h3>LOG IN</h3>
+                <h3 onClick={onClose} >LOG IN</h3>
                 <p>No tienes cuenta? <span className="join-now" onClick={openRegisterModal}>CREAR CUENTA</span></p>
               </section>
 

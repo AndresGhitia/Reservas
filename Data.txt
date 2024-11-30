@@ -307,3 +307,5 @@ Resta por añadir estilos al Navbar, Cards y el selector de rubro.
 
 A#163 Resolvemos problemas con la integracion de MP, pricipalmente generados por borrado de funciones y componentes de LoginForm.jsx. 
 Ahora funciona la integracion y la interaccion con la base de datos a la hora de actualizar la fecha de caducidad del usuario.
+
+A#164 Se añade estilos al Navbar.
