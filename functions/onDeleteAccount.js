@@ -31,11 +31,11 @@ const onDeleteAccount = async (userCollection) => {
         throw new Error('Error al deshabilitar la cuenta en el backend.');
       }
       const result = await response.json();
-      console.log('Cuenta deshabilitada exitosamente:', result.message);
+   //   console.log('Cuenta deshabilitada exitosamente:', result.message);
 
       alert('Cuenta eliminada y deshabilitada con éxito.');
     } else {
-      console.log('No hay usuario autenticado.');
+   //   console.log('No hay usuario autenticado.');
       alert('No hay usuario autenticado.');
     }
   } catch (error) {

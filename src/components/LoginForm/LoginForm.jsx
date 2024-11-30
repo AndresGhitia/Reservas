@@ -8,7 +8,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { assets } from '../../assets/assets';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import BuySubscription from '../BuySuscription/BuySubscription'; 
-import {handleIntegrationMP} from '../../../MP/preference';
+import { handleIntegrationMP } from '../../../MP/preference';
 import * as Yup from 'yup';
 
 // Esquema de validación con Yup
@@ -23,32 +23,30 @@ function LoginForm({ onClose }) {
   const [showPassword, setShowPassword] = useState(false);
   const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false); 
   const [userEmail, setUserEmail] = useState('');
+  const [isDisabledUser, setIsDisabledUser] = useState(false); // Nuevo estado para usuarios deshabilitados
 
   const navigate = useNavigate();
 
   const handleLogin = async (values, { setSubmitting }) => {
     try {
-      // Verificar si el correo está en la colección de usuarios deshabilitados
       const disabledUsersRef = doc(db, 'disabled', 'disabled-users');
       const disabledSnapshot = await getDoc(disabledUsersRef);
-  
+
       if (disabledSnapshot.exists()) {
         const disabledData = disabledSnapshot.data();
-        console.log('Disabled Data: ' + JSON.stringify(disabledData));  // Verificar el formato de los datos
-  
-        // Verificar si el correo está en el documento de usuarios deshabilitados
-        if (disabledData[values.email]) {  // Verifica si el correo está en los usuarios deshabilitados
+        console.log('Disabled Data: ' + JSON.stringify(disabledData));
+
+        if (disabledData[values.email]) {
           console.log("Usuario deshabilitado");
-          setError("Tu cuenta ha sido deshabilitada. Contacta al soporte para más información.");
+          setError("Tu cuenta ha sido deshabilitada. ¿Deseas recuperarla?");
+          setIsDisabledUser(true); // Mostrar el botón de recuperación
           setSubmitting(false);
-          return; // Detener el flujo si el usuario está deshabilitado
+          return;
         }
       }
-  
-      // Si el correo no está en la lista de deshabilitados, continuar con el inicio de sesión
+
       const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
       const user = userCredential.user;
-  
       setUserEmail(values.email);
 
       if (!user.emailVerified) {
@@ -57,28 +55,25 @@ function LoginForm({ onClose }) {
         setSubmitting(false);
         return;
       }
-  
-      // Intentar obtener el documento de propietario
+
       let ownerDoc = await getDoc(doc(db, 'owners', user.uid));
-  
       if (!ownerDoc.exists()) {
-        // Si no se encuentra, intentar obtener el documento del usuario
         ownerDoc = await getDoc(doc(db, 'users', user.uid));
       }
-  
+
       if (ownerDoc.exists()) {
         const ownerData = ownerDoc.data();
         const expdate = ownerData.expdate && ownerData.expdate.toDate ? ownerData.expdate.toDate() : new Date(ownerData.expdate);
         const today = new Date();
-  
+
         if (today > expdate) {
           setError("Tu cuenta ha vencido. Por favor, contacta a soporte para renovarla.");
           console.log('Usuario Vencido');
-          setIsSubscriptionModalOpen(true); // Abrir el modal de suscripción
-          await signOut(auth); // Cerrar la sesión si el usuario está vencido
+          setIsSubscriptionModalOpen(true);
+          await signOut(auth);
           return;
         }
-  
+
         onClose();
         setTimeout(() => {
           const dashboardUrl = `/dashboard/${encodeURIComponent(ownerData.establishmentName.replace(/\s+/g, '-'))}`;
@@ -93,8 +88,13 @@ function LoginForm({ onClose }) {
     }
     setSubmitting(false);
   };
-  
-  
+
+  const handleAccountRecovery = () => {
+    console.log("Recuperación de cuenta solicitada para:", userEmail);
+    alert("Se ha solicitado la recuperación de tu cuenta. Nuestro equipo se pondrá en contacto contigo pronto.");
+    setIsDisabledUser(false); // Ocultar el botón tras solicitar recuperación
+  };
+
   const openRegisterModal = () => {
     setShowRegister(true);
   };
@@ -106,24 +106,20 @@ function LoginForm({ onClose }) {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
- 
+
   const handleModalClose = () => {
     setIsSubscriptionModalOpen(false);
   };
 
   const handleRenewSubscription = async () => { 
-    console.log('Renovando suscripción...');
-
-    // Llamar a la función para crear la preferencia de pago
+ //   console.log('Renovando suscripción...');
     const preference = await handleIntegrationMP(userEmail);
 
     if (preference) {
-      // Redirigir al usuario a la URL de inicio de pago
       window.location.href = preference.init_point;
     } else {
       alert("Error al crear la preferencia de pago.");
     }
-    // Cerrar el modal de suscripción
     setIsSubscriptionModalOpen(false);
   };
 
@@ -143,6 +139,11 @@ function LoginForm({ onClose }) {
               </section>
 
               {error && <p className="error">{error}</p>}
+              {isDisabledUser && (
+                <button className="recover-account-button" onClick={handleAccountRecovery}>
+                  Recuperar cuenta
+                </button>
+              )}
 
               <Formik
                 initialValues={{ email: '', password: '' }}
@@ -151,7 +152,6 @@ function LoginForm({ onClose }) {
               >
                 {({ isSubmitting, errors, touched }) => (
                   <Form>
-                    {/* Email Field */}
                     <div className={`form-group ${errors.email && touched.email ? 'has-error' : ''}`}>
                       <Field
                         type="email"
@@ -162,7 +162,6 @@ function LoginForm({ onClose }) {
                       <ErrorMessage name="email" component="div" className="error" />
                     </div>
 
-                    {/* Password Field */}
                     <div className={`form-group ${errors.password && touched.password ? 'has-error' : ''}`}>
                       <Field
                         type={showPassword ? "text" : "password"}
@@ -192,13 +191,12 @@ function LoginForm({ onClose }) {
             </div>
           </div>
         </div>
-         {/* Modal de suscripción vencida */}
-      <BuySubscription 
-        isOpen={isSubscriptionModalOpen} 
-        onClose={handleModalClose} 
-        onRenew={handleRenewSubscription} 
-      />
 
+        <BuySubscription 
+          isOpen={isSubscriptionModalOpen} 
+          onClose={handleModalClose} 
+          onRenew={handleRenewSubscription} 
+        />
       </div>
       {showRegister && <RegisterForm onClose={closeRegisterModal} />}
     </>

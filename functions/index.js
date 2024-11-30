@@ -40,7 +40,7 @@ exports.deleteUserAccount = onRequest((req, res) => {
       await ownerDocRef.delete();
 
       // Deshabilitar al usuario (en lugar de eliminarlo)
-      await admin.auth().updateUser(ownerId, { disabled: true });
+      await admin.auth().deleteUser(ownerId);
 
       return res.status(200).send({ message: "Cuenta deshabilitada y datos eliminados correctamente." });
     } catch (error) {

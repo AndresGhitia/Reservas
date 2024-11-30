@@ -305,5 +305,9 @@ para que la plataforma lleve un registro de los usuarios dados deshabilitados. Y
 A#162 Se añada estilos Home y se comienza a unificar estilos. Se añade un Hero para ser mas atractivo la visual.
 Resta por añadir estilos al Navbar, Cards y el selector de rubro. 
 
-A#163 Resolvemos problemas con la integracion de MP, pricipalmente generados por borrado de funciones y componentes de LoginForm.jsx. 
+G#163 Resolvemos problemas con la integracion de MP, pricipalmente generados por borrado de funciones y componentes de LoginForm.jsx. 
 Ahora funciona la integracion y la interaccion con la base de datos a la hora de actualizar la fecha de caducidad del usuario.
+
+G#164 Reemplazamos la funcion de deshabilitar el mail de firebase auth por borrado (funcions/index) porque ya estamos guardando el mail
+en la coleccion disabled de firestore y esta siendo redundante el guardado de los dos mail. 
+Ademas se agrega el boton recuperar en LoginForm, cuando previamente borro su cuenta y decide ingresar al sistema.
