@@ -311,3 +311,12 @@ Ahora funciona la integracion y la interaccion con la base de datos a la hora de
 G#164 Reemplazamos la funcion de deshabilitar el mail de firebase auth por borrado (funcions/index) porque ya estamos guardando el mail
 en la coleccion disabled de firestore y esta siendo redundante el guardado de los dos mail. 
 Ademas se agrega el boton recuperar en LoginForm, cuando previamente borro su cuenta y decide ingresar al sistema.
+=======
+G#163 Resolvemos problemas con la integracion de MP, pricipalmente generados por borrado de funciones y componentes de LoginForm.jsx. 
+Ahora funciona la integracion y la interaccion con la base de datos a la hora de actualizar la fecha de caducidad del usuario.
+
+A#164 Se añade estilos al Navbar.
+
+G#165 Reemplazamos la funcion de deshabilitar el mail de firebase auth por borrado (funcions/index) porque ya estamos guardando el mail
+en la coleccion disabled de firestore y esta siendo redundante el guardado de los dos mail. 
+Ademas se agrega el boton recuperar en LoginForm, cuando previamente borro su cuenta y decide ingresar al sistema.

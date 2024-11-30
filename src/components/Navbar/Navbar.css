@@ -1,12 +1,15 @@
 .navbar{
-    padding: 20px 0px;
+    padding: 10px 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.navbar .logo{
-    width: 170px;
+.navbar-title h3{
+    font-size: 40px;
+    font-weight:700;
+    letter-spacing: 2px;
+    color: #56e07b;
 }
 
 .navbar-profile-user img{
@@ -44,6 +47,16 @@
     display: flex;
     align-items: center;
     gap: 40px
+}
+
+.navbar-right span{
+    font-weight: bold;
+    letter-spacing: 2px;
+    cursor: pointer;
+}
+
+.navbar-right span:hover{
+    color: #56e07b;
 }
 
 .navbar button{
