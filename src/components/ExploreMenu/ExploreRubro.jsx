@@ -7,6 +7,7 @@ import './ExploreRubro.css'
 const ExploreRubro = ({category, setCategory}) => {
   return (
     <div className='explore-rubro' id='explore-rubro'>
+      <h3>SELECCIONA TU DEPORTE</h3>
       <div className='explore-rubro-list'>
         {rubro_list.map((item, index)=>{
           return (

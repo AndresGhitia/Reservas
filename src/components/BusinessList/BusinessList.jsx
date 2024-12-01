@@ -107,12 +107,9 @@ const BusinessList = ({ category, userLocation }) => {
     <div className="business-list">
       {filteredAndSortedBusinesses.map((business) => (
         <div key={business.id} className="business-card">
-          <img
-            src={business.backgroundImageUrl || businessPage}
-            alt={`${business.establishmentName} banner`}
-            className="business-image"
-          />
+          <img className="business-image" src={business.backgroundImageUrl || businessPage} alt={`${business.establishmentName} banner`}/>
           <h3>{business.establishmentName}</h3>
+          <hr />
           <p>{Array.isArray(business.businessType) ? business.businessType.join(', ') : business.businessType || 'Sin rubro'}</p>
           
           {business.address && (

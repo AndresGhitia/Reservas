@@ -42,6 +42,10 @@
 
 }
 
+.business-card hr{
+  border: 1px solid #56e07b;
+}
+
 .business-card.animate {
   opacity: 1;
 }
@@ -59,13 +63,11 @@
   object-fit: cover;
   /* Mantiene la proporción de la imagen recortando si es necesario */
   border-radius: 8px;
-  margin-bottom: 10px;
 }
 
 
 .business-card h3 {
   font-size: 1.8rem;
-  margin: 3px 0;
 }
 
 .business-address {

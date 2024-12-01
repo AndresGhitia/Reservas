@@ -65,7 +65,7 @@
   color: #000;
 }
 
-hr {
+.spaceline-card hr {
   width: 100%;
   border: 0;
   height: 1px;

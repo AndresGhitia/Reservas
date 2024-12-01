@@ -320,3 +320,5 @@ A#164 Se añade estilos al Navbar.
 G#165 Reemplazamos la funcion de deshabilitar el mail de firebase auth por borrado (funcions/index) porque ya estamos guardando el mail
 en la coleccion disabled de firestore y esta siendo redundante el guardado de los dos mail. 
 Ademas se agrega el boton recuperar en LoginForm, cuando previamente borro su cuenta y decide ingresar al sistema.
+
+A#166 Se finalizan los estilos del HOME.

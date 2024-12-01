@@ -86,7 +86,6 @@ function Navbar() {
         <div className='navbar-right'>
           <div className='navbar-search-icon'>
           </div>
-
           {!user ? (
             <span onClick={() => setShowLogin(true)}>INICIAR SESION</span>
           ) : (

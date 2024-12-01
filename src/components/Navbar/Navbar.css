@@ -3,13 +3,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: #2f285a;
 }
 
 .navbar-title h3{
     font-size: 40px;
     font-weight:700;
     letter-spacing: 2px;
-    color: #56e07b;
+    color: #f0f0f0;
 }
 
 .navbar-profile-user img{
@@ -52,6 +53,7 @@
 .navbar-right span{
     font-weight: bold;
     letter-spacing: 2px;
+    color: #f0f0f0;
     cursor: pointer;
 }
 

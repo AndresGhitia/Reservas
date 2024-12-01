@@ -64,10 +64,10 @@ const Location = ({ userLocation, setUserLocation }) => {
       <div className="location-container">
         <div className="location-header-title">
         {/* <FaMapMarkerAlt className="location-icon" /> */}
-          <h3> ENCUENTRA UNA CANCHA </h3>
+          <h3> INGRESA TU UBICACION </h3>
         </div>
         <div className='location-header-subtitle'>
-          <p>Encuentra canchas cercanas dentro de Argentina</p>
+          <p>Encuentra canchas cercanas a ti dentro de Argentina</p>
         </div>
         {/* <p>{manualLocation ? manualLocation : 'Ubicación no disponible'}</p> */}
         <div className="location-input-container">

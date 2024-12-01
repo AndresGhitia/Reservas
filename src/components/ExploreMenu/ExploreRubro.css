@@ -4,15 +4,20 @@
     flex-direction: column;
 }
 
-.explore-rubro h2 {
+.explore-rubro h3 {
+    padding: 20px;
+    margin-bottom: 20px;
     text-align: center;
-    color: #262626;
-    font-weight: 500;
+    font-size: 40px;
+    letter-spacing: 3px;
+    color: #f2f2f2;
+    background-color: #2f285a;
+
 }
 
 .explore-rubro-list {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     gap: 30px;
     text-align: center;
@@ -25,7 +30,7 @@
  .explore-rubro-list-item .active {
     border-radius: 50%;
     background-color:#56e07b;
-    transition: 0.5s;
+    transition: 0.1s;
 }
 
 /* Adaptación para móviles: cambiar de columnas a filas */
