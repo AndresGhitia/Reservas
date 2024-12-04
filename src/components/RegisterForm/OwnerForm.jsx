@@ -15,8 +15,8 @@ const OwnerForm = ({
   setAddress,
   businessType,
   setBusinessType,
-  availableBusinessTypes,
-}) => {
+  availableBusinessTypes,}) => {
+    
   const [predictions, setPredictions] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [highlightedPrediction, setHighlightedPrediction] = useState('');
@@ -82,15 +82,27 @@ const OwnerForm = ({
   };
 
   const handleWhatsAppChange = (e) => {
-    const value = e.target.value;
-
-    // Evitar que el usuario elimine el prefijo
+    let value = e.target.value;
+  
+    // Si el valor no comienza con '+54 11', agregar el prefijo
     if (!value.startsWith('+54 11')) {
-      setWhatsapp('+54 11' + value.replace('+54 11', '')); // Asegúrate de que el prefijo esté siempre presente
-    } else {
-      setWhatsapp(value);
+      value = '+54 11' + value.replace('+54 11', ''); // Asegúrate de que el prefijo esté siempre presente
     }
+  
+    // Filtrar todo lo que no sean números, pero solo después del prefijo
+    if (value.startsWith('+54 11')) {
+      value = '+54 11' + value.slice(6).replace(/[^0-9]/g, ''); // Eliminar caracteres no numéricos solo después del prefijo
+    }
+  
+    // Si el valor es menor que '+54 11' (por ejemplo, '5411'), lo eliminamos.
+    if (value.length < 6) {
+      value = ''; // Borrar el valor si el número es demasiado corto
+    }
+  
+    // Setear el valor actualizado
+    setWhatsapp(value);
   };
+  
 
   return (
     <div className="owner-form">
@@ -130,14 +142,14 @@ const OwnerForm = ({
         <div className="form-group">
           <input
             type="text"
-            placeholder="Número de WhatsApp"
+            placeholder="+54 11 - Número de WhatsApp"
             value={whatsapp}
             onChange={handleWhatsAppChange}
             required
           />
         </div>
 
-        <div className="form-group">
+        <div className="form-group address-group">
           <div style={{ position: 'relative' }}>
             <input
               type="text"
@@ -145,7 +157,7 @@ const OwnerForm = ({
               value={inputValue}
               onChange={handleInputChange}
               required
-              style={{ width: '100%' }}
+              className="address-input"
             />
             <div style={{ position: 'absolute', top: '0', left: '0', pointerEvents: 'none' }}>
               {renderPrediction()}
@@ -163,7 +175,7 @@ const OwnerForm = ({
         </div>
 
         <div className="form-group">
-          <select onChange={handleBusinessTypeChange}>
+          <select onChange={handleBusinessTypeChange} className="business-type-select">
             <option value="">Selecciona un rubro</option>
             {availableBusinessTypes.map((type) => (
               <option key={type} value={type}>

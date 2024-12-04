@@ -322,3 +322,28 @@ en la coleccion disabled de firestore y esta siendo redundante el guardado de lo
 Ademas se agrega el boton recuperar en LoginForm, cuando previamente borro su cuenta y decide ingresar al sistema.
 
 A#166 Se finalizan los estilos del HOME.
+
+G#167 Decido probrar la siguiente estructura para la revalidacion de usuario cuendo fue eliminado previamente.
+
+     Log In
+          |_____ Check q el mail no este dentro de disabled
+                                                          |__Loguea normalmente
+                                                          | 
+                                                          | 
+                                                       Si |__Lleva al formlario crear/recuperar cuenta
+  Crear/recuperar cuenta
+            |_____ Check valor (disabled == true/false)
+            |                                         |  
+            |_____ Crea mail firebase Auth        tru |__
+            |
+            |____ Crea base de datos en Owners
+
+
+Borrar cuenta_____Borra mail firebase Auth
+             |
+             |____Borra base de datos en Owners
+             |
+             |____Guarda mail dentro de disabled  
+
+Voy a probar de reutilizar el componente RegisterForm, reconociendo este si el usuario esta creando o recuperando su cuenta. 
+Hasta este commit, RegisterForm reconoce si el usuario esta accediendo para crear o para recuperar su cuenta.

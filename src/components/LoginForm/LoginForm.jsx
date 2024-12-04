@@ -9,6 +9,7 @@ import { assets } from '../../assets/assets';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import BuySubscription from '../BuySuscription/BuySubscription'; 
 import { handleIntegrationMP } from '../../../MP/preference';
+import RecoverAccountModal from '../RecoverAccount/RecoverAccountModal';
 import * as Yup from 'yup';
 
 // Esquema de validación con Yup
@@ -24,6 +25,8 @@ function LoginForm({ onClose }) {
   const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false); 
   const [userEmail, setUserEmail] = useState('');
   const [isDisabledUser, setIsDisabledUser] = useState(false); // Nuevo estado para usuarios deshabilitados
+  const [showRecoverModal, setShowRecoverModal] = useState(false);
+  const [isRecoveringAccount, setIsRecoveringAccount] = useState(false);
 
   const navigate = useNavigate();
 
@@ -95,7 +98,8 @@ function LoginForm({ onClose }) {
     setIsDisabledUser(false); // Ocultar el botón tras solicitar recuperación
   };
 
-  const openRegisterModal = () => {
+  const openRegisterModal = (recovering = false) => {
+    setIsRecoveringAccount(recovering); 
     setShowRegister(true);
   };
 
@@ -135,14 +139,14 @@ function LoginForm({ onClose }) {
             <div className='modal-body'>
               <section className='modal-login'>
                 <h3 onClick={onClose} >LOG IN</h3>
-                <p>No tienes cuenta? <span className="join-now" onClick={openRegisterModal}>CREAR CUENTA</span></p>
+                <p>No tienes cuenta? <span className="join-now"  onClick={() => openRegisterModal(false)}>CREAR CUENTA</span></p>
               </section>
 
               {error && <p className="error">{error}</p>}
               {isDisabledUser && (
-                <button className="recover-account-button" onClick={handleAccountRecovery}>
-                  Recuperar cuenta
-                </button>
+                <button className="recover-account-button" onClick={() => openRegisterModal(true)}>
+                Recuperar cuenta
+              </button>
               )}
 
               <Formik
@@ -198,7 +202,15 @@ function LoginForm({ onClose }) {
           onRenew={handleRenewSubscription} 
         />
       </div>
-      {showRegister && <RegisterForm onClose={closeRegisterModal} />}
+      {showRegister && <RegisterForm onClose={closeRegisterModal}
+      isRecoveringAccount={isRecoveringAccount} />}
+       {/* Modal de recuperación */}
+    {showRecoverModal && (
+      <RecoverAccountModal
+        onClose={() => setShowRecoverModal(false)}
+        onRecover={handleAccountRecovery}
+      />
+    )}
     </>
   );
 }
