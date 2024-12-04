@@ -347,3 +347,8 @@ Borrar cuenta_____Borra mail firebase Auth
 
 Voy a probar de reutilizar el componente RegisterForm, reconociendo este si el usuario esta creando o recuperando su cuenta. 
 Hasta este commit, RegisterForm reconoce si el usuario esta accediendo para crear o para recuperar su cuenta.
+
+G#168 Llevamos el valor del mail deshabilitado al formulario de registro para reemplazar el input. 
+Agregamos en la funcion handleSubmit que antes de crear cuenta filte si el mail esta dentro de disabled, en caso de estarlo
+el sistema indica al usuario que su usuario esta deshabilitado, que de querer recuperar su cuenta, se loguee y siga los pasos.
+

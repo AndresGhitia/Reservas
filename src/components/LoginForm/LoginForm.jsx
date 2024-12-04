@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth, db } from '../../firebase';
 import './LoginForm.css';
@@ -24,59 +24,72 @@ function LoginForm({ onClose }) {
   const [showPassword, setShowPassword] = useState(false);
   const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false); 
   const [userEmail, setUserEmail] = useState('');
-  const [isDisabledUser, setIsDisabledUser] = useState(false); // Nuevo estado para usuarios deshabilitados
+  const [isDisabledUser, setIsDisabledUser] = useState(false); 
   const [showRecoverModal, setShowRecoverModal] = useState(false);
   const [isRecoveringAccount, setIsRecoveringAccount] = useState(false);
+  const [disabledEmail, setDisabledEmail] = useState(''); 
 
   const navigate = useNavigate();
 
   const handleLogin = async (values, { setSubmitting }) => {
     try {
+      // Establecemos el email deshabilitado (para no usar userEmail más adelante)
+      setDisabledEmail(values.email);
+      // console.log('disabledEmail después de login: ', values.email);
+  
+      // Obtención de datos de usuarios deshabilitados
       const disabledUsersRef = doc(db, 'disabled', 'disabled-users');
       const disabledSnapshot = await getDoc(disabledUsersRef);
-
+  
       if (disabledSnapshot.exists()) {
         const disabledData = disabledSnapshot.data();
-        console.log('Disabled Data: ' + JSON.stringify(disabledData));
-
+        // console.log('Disabled Data: ' + JSON.stringify(disabledData));
+  
+        // Verificamos si el correo está en los usuarios deshabilitados
         if (disabledData[values.email]) {
-          console.log("Usuario deshabilitado");
+          // console.log("Usuario deshabilitado");
           setError("Tu cuenta ha sido deshabilitada. ¿Deseas recuperarla?");
           setIsDisabledUser(true); // Mostrar el botón de recuperación
           setSubmitting(false);
           return;
         }
       }
-
+  
+      // Intentamos hacer login con el correo y la contraseña proporcionados
       const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
       const user = userCredential.user;
       setUserEmail(values.email);
-
+  
+      // Si el correo no está verificado, mostramos un mensaje y cerramos sesión
       if (!user.emailVerified) {
         setError("Tu correo electrónico no ha sido verificado. Por favor, revisa tu correo y sigue las instrucciones para verificarlo.");
         await auth.signOut();
         setSubmitting(false);
         return;
       }
-
+  
+      // Obtenemos los datos del propietario
       let ownerDoc = await getDoc(doc(db, 'owners', user.uid));
       if (!ownerDoc.exists()) {
         ownerDoc = await getDoc(doc(db, 'users', user.uid));
       }
-
+  
+      // Verificamos si el usuario existe y si tiene una cuenta válida
       if (ownerDoc.exists()) {
         const ownerData = ownerDoc.data();
         const expdate = ownerData.expdate && ownerData.expdate.toDate ? ownerData.expdate.toDate() : new Date(ownerData.expdate);
         const today = new Date();
-
+  
+        // Si la cuenta ha vencido, mostramos un mensaje y cerramos sesión
         if (today > expdate) {
           setError("Tu cuenta ha vencido. Por favor, contacta a soporte para renovarla.");
-          console.log('Usuario Vencido');
+          // console.log('Usuario Vencido');
           setIsSubscriptionModalOpen(true);
           await signOut(auth);
           return;
         }
-
+  
+        // Procedemos a la redirección al dashboard
         onClose();
         setTimeout(() => {
           const dashboardUrl = `/dashboard/${encodeURIComponent(ownerData.establishmentName.replace(/\s+/g, '-'))}`;
@@ -89,8 +102,14 @@ function LoginForm({ onClose }) {
       console.error("Error de inicio de sesión:", error);
       setError("Usuario o contraseña incorrectos, revísalos y vuelve a ingresarlos por favor");
     }
+  
     setSubmitting(false);
   };
+  
+  // useEffect para monitorear los cambios en disabledEmail
+  useEffect(() => {
+    console.log('disabledEmail actualizado: ', disabledEmail);
+  }, [disabledEmail]);
 
   const handleAccountRecovery = () => {
     console.log("Recuperación de cuenta solicitada para:", userEmail);
@@ -202,9 +221,13 @@ function LoginForm({ onClose }) {
           onRenew={handleRenewSubscription} 
         />
       </div>
-      {showRegister && <RegisterForm onClose={closeRegisterModal}
-      isRecoveringAccount={isRecoveringAccount} />}
-       {/* Modal de recuperación */}
+      {showRegister &&
+       <RegisterForm 
+       onClose={closeRegisterModal}
+       isRecoveringAccount={isRecoveringAccount} 
+       disabledEmail={disabledEmail} 
+       />}
+    {/* Modal de recuperación */}
     {showRecoverModal && (
       <RecoverAccountModal
         onClose={() => setShowRecoverModal(false)}

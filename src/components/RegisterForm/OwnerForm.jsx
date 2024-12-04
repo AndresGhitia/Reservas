@@ -15,8 +15,12 @@ const OwnerForm = ({
   setAddress,
   businessType,
   setBusinessType,
-  availableBusinessTypes,}) => {
-    
+  availableBusinessTypes,
+  isRecoveringAccount ,
+  disabledEmail
+}) => {
+    console.log('disabledEmail:', disabledEmail);  // Verifica el valor
+
   const [predictions, setPredictions] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [highlightedPrediction, setHighlightedPrediction] = useState('');
@@ -127,6 +131,7 @@ const OwnerForm = ({
           />
         </div>
 
+        {!isRecoveringAccount && (
         <div className="form-group">
           <input
             type="email"
@@ -136,6 +141,8 @@ const OwnerForm = ({
             required
           />
         </div>
+      )}
+      {/* <div><p>Email: {disabledEmail}</p></div> */}
       </div>
 
       <div className="right-column">
