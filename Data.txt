@@ -358,4 +358,5 @@ para esto debemos modificar la logica de login y la logica de recuperar cuenta. 
 ya no se borran los datos del usuario, sino que los campos permanecen en firestore pero en blanco, con el motivo de que cuando se recupere
 la cuenta, solo haya que buscar el documento del mail asociado y actualizar los datos en blanco con los que carga el usuario.
 
-
+G#170 Se modifica handleLogin para que corrobore el estado de status antes de iniciar sesion. 
+case enabled inicia secion : disabled no inicia sesion y muestra cartel.

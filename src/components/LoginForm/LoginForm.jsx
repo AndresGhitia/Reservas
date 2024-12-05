@@ -33,71 +33,75 @@ function LoginForm({ onClose }) {
 
   const handleLogin = async (values, { setSubmitting }) => {
     try {
-      // Verificar si el correo está en la colección de usuarios deshabilitados
-      const disabledUsersRef = doc(db, 'disabled', 'disabled-users');
-      const disabledSnapshot = await getDoc(disabledUsersRef);
+      console.log("Iniciando sesión con email:", values.email);
   
-      if (disabledSnapshot.exists()) {
-        const disabledData = disabledSnapshot.data();
-        console.log('Disabled Data: ' + JSON.stringify(disabledData));  // Verificar el formato de los datos
-  
-        // Verificar si el correo está en el documento de usuarios deshabilitados
-        if (disabledData[values.email]) {  // Verifica si el correo está en los usuarios deshabilitados
-          console.log("Usuario deshabilitado");
-          setError("Tu cuenta ha sido deshabilitada. Contacta al soporte para más información.");
-          setSubmitting(false);
-          return; // Detener el flujo si el usuario está deshabilitado
-        }
-      }
-  
-      // Si el correo no está en la lista de deshabilitados, continuar con el inicio de sesión
+      // Intentar autenticar al usuario
       const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
       const user = userCredential.user;
   
-      setUserEmail(values.email);
-
+      // Verificar si el correo electrónico está verificado
       if (!user.emailVerified) {
         setError("Tu correo electrónico no ha sido verificado. Por favor, revisa tu correo y sigue las instrucciones para verificarlo.");
-        await auth.signOut();
+        await signOut(auth);
         setSubmitting(false);
         return;
       }
   
-      // Intentar obtener el documento de propietario
-      let ownerDoc = await getDoc(doc(db, 'owners', user.uid));
+      // Usar el UID del usuario para buscar en las colecciones
+      console.log("Buscando usuario en Firestore con UID:", user.uid);
   
-      if (!ownerDoc.exists()) {
-        // Si no se encuentra, intentar obtener el documento del usuario
-        ownerDoc = await getDoc(doc(db, 'users', user.uid));
+      let userDoc = await getDoc(doc(db, 'owners', user.uid));
+      if (!userDoc.exists()) {
+        console.log("Usuario no encontrado en 'owners'. Buscando en 'users'...");
+        userDoc = await getDoc(doc(db, 'users', user.uid));
       }
   
-      if (ownerDoc.exists()) {
-        const ownerData = ownerDoc.data();
-        const expdate = ownerData.expdate && ownerData.expdate.toDate ? ownerData.expdate.toDate() : new Date(ownerData.expdate);
-        const today = new Date();
-  
-        if (today > expdate) {
-          setError("Tu cuenta ha vencido. Por favor, contacta a soporte para renovarla.");
-          console.log('Usuario Vencido');
-          setIsSubscriptionModalOpen(true); // Abrir el modal de suscripción
-          await signOut(auth); // Cerrar la sesión si el usuario está vencido
-          return;
-        }
-  
-        onClose();
-        setTimeout(() => {
-          const dashboardUrl = `/dashboard/${encodeURIComponent(ownerData.establishmentName.replace(/\s+/g, '-'))}`;
-          navigate(dashboardUrl + '/list');
-        }, 100);
-      } else {
+      if (!userDoc.exists()) {
+        console.log("Usuario no encontrado en Firestore.");
         setError("Usuario no encontrado, por favor verifica tus credenciales.");
+        await signOut(auth);
+        setSubmitting(false);
+        return;
       }
+  
+      // Extraer los datos del documento
+      const userData = userDoc.data();
+      console.log("Datos del usuario:", userData);
+  
+      // Verificar el estado del usuario en el campo 'status'
+      if (userData.status === "disabled") {
+        setError("Tu cuenta ha sido deshabilitada. Contacta al soporte para más información.");
+        await signOut(auth);
+        setSubmitting(false);
+        return;
+      }
+  
+      // Validar fecha de expiración
+      const expdate = userData.expdate?.toDate ? userData.expdate.toDate() : new Date(userData.expdate);
+      const today = new Date();
+  
+      if (today > expdate) {
+        setError("Tu cuenta ha vencido. Por favor, contacta a soporte para renovarla.");
+        console.log("Usuario vencido.");
+        setIsSubscriptionModalOpen(true); // Abrir modal de suscripción
+        await signOut(auth);
+        return;
+      }
+  
+      // Si todo está bien, redirigir al dashboard
+      onClose();
+      setTimeout(() => {
+        const dashboardUrl = `/dashboard/${encodeURIComponent(userData.establishmentName.replace(/\s+/g, '-'))}`;
+        navigate(dashboardUrl + '/list');
+      }, 100);
     } catch (error) {
       console.error("Error de inicio de sesión:", error);
-      setError("Usuario o contraseña incorrectos, revísalos y vuelve a ingresarlos por favor");
+      setError("Usuario o contraseña incorrectos, revísalos y vuelve a ingresarlos por favor.");
+      setSubmitting(false);
     }
-    setSubmitting(false);
   };
+  
+
 
   // useEffect para monitorear los cambios en disabledEmail
   useEffect(() => {
