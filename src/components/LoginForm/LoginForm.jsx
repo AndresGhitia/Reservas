@@ -33,34 +33,29 @@ function LoginForm({ onClose }) {
 
   const handleLogin = async (values, { setSubmitting }) => {
     try {
-      // Establecemos el email deshabilitado (para no usar userEmail más adelante)
-      setDisabledEmail(values.email);
-      // console.log('disabledEmail después de login: ', values.email);
-  
-      // Obtención de datos de usuarios deshabilitados
+      // Verificar si el correo está en la colección de usuarios deshabilitados
       const disabledUsersRef = doc(db, 'disabled', 'disabled-users');
       const disabledSnapshot = await getDoc(disabledUsersRef);
   
       if (disabledSnapshot.exists()) {
         const disabledData = disabledSnapshot.data();
-        // console.log('Disabled Data: ' + JSON.stringify(disabledData));
+        console.log('Disabled Data: ' + JSON.stringify(disabledData));  // Verificar el formato de los datos
   
-        // Verificamos si el correo está en los usuarios deshabilitados
-        if (disabledData[values.email]) {
-          // console.log("Usuario deshabilitado");
-          setError("Tu cuenta ha sido deshabilitada. ¿Deseas recuperarla?");
-          setIsDisabledUser(true); // Mostrar el botón de recuperación
+        // Verificar si el correo está en el documento de usuarios deshabilitados
+        if (disabledData[values.email]) {  // Verifica si el correo está en los usuarios deshabilitados
+          console.log("Usuario deshabilitado");
+          setError("Tu cuenta ha sido deshabilitada. Contacta al soporte para más información.");
           setSubmitting(false);
-          return;
+          return; // Detener el flujo si el usuario está deshabilitado
         }
       }
   
-      // Intentamos hacer login con el correo y la contraseña proporcionados
+      // Si el correo no está en la lista de deshabilitados, continuar con el inicio de sesión
       const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
       const user = userCredential.user;
-      setUserEmail(values.email);
   
-      // Si el correo no está verificado, mostramos un mensaje y cerramos sesión
+      setUserEmail(values.email);
+
       if (!user.emailVerified) {
         setError("Tu correo electrónico no ha sido verificado. Por favor, revisa tu correo y sigue las instrucciones para verificarlo.");
         await auth.signOut();
@@ -68,28 +63,27 @@ function LoginForm({ onClose }) {
         return;
       }
   
-      // Obtenemos los datos del propietario
+      // Intentar obtener el documento de propietario
       let ownerDoc = await getDoc(doc(db, 'owners', user.uid));
+  
       if (!ownerDoc.exists()) {
+        // Si no se encuentra, intentar obtener el documento del usuario
         ownerDoc = await getDoc(doc(db, 'users', user.uid));
       }
   
-      // Verificamos si el usuario existe y si tiene una cuenta válida
       if (ownerDoc.exists()) {
         const ownerData = ownerDoc.data();
         const expdate = ownerData.expdate && ownerData.expdate.toDate ? ownerData.expdate.toDate() : new Date(ownerData.expdate);
         const today = new Date();
   
-        // Si la cuenta ha vencido, mostramos un mensaje y cerramos sesión
         if (today > expdate) {
           setError("Tu cuenta ha vencido. Por favor, contacta a soporte para renovarla.");
-          // console.log('Usuario Vencido');
-          setIsSubscriptionModalOpen(true);
-          await signOut(auth);
+          console.log('Usuario Vencido');
+          setIsSubscriptionModalOpen(true); // Abrir el modal de suscripción
+          await signOut(auth); // Cerrar la sesión si el usuario está vencido
           return;
         }
   
-        // Procedemos a la redirección al dashboard
         onClose();
         setTimeout(() => {
           const dashboardUrl = `/dashboard/${encodeURIComponent(ownerData.establishmentName.replace(/\s+/g, '-'))}`;
@@ -102,10 +96,9 @@ function LoginForm({ onClose }) {
       console.error("Error de inicio de sesión:", error);
       setError("Usuario o contraseña incorrectos, revísalos y vuelve a ingresarlos por favor");
     }
-  
     setSubmitting(false);
   };
-  
+
   // useEffect para monitorear los cambios en disabledEmail
   useEffect(() => {
     console.log('disabledEmail actualizado: ', disabledEmail);

@@ -352,3 +352,10 @@ G#168 Llevamos el valor del mail deshabilitado al formulario de registro para re
 Agregamos en la funcion handleSubmit que antes de crear cuenta filte si el mail esta dentro de disabled, en caso de estarlo
 el sistema indica al usuario que su usuario esta deshabilitado, que de querer recuperar su cuenta, se loguee y siga los pasos.
 
+G#169 Replanteo de flujo de sistema Create / Login / Borrar cuenta. se cambia el metodo, ahora cuando se borra la cuenta, se deja
+el mail en firebase aut, se crea un valor en el array status llamado disabled (se reemplaza la coleccion disabled / disabled-users),
+para esto debemos modificar la logica de login y la logica de recuperar cuenta. hasta este commit se modifico la funcion de borrar cuenta.
+ya no se borran los datos del usuario, sino que los campos permanecen en firestore pero en blanco, con el motivo de que cuando se recupere
+la cuenta, solo haya que buscar el documento del mail asociado y actualizar los datos en blanco con los que carga el usuario.
+
+

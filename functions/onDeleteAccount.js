@@ -1,93 +1,38 @@
-import { auth, db } from '../src/firebase';
-import { doc, deleteDoc, collection, getDocs, setDoc } from 'firebase/firestore';
+import { auth } from "../src/firebase";
 
-const onDeleteAccount = async (userCollection) => {
+const onDeleteAccount = async () => {
   try {
-    const user = auth.currentUser; // Obtener el usuario autenticado
-    console.log('Usuario autenticado:', user ? user.uid : 'No hay usuario autenticado');
+    const user = auth.currentUser;
 
     if (user) {
-      const documentId = user.uid;
-      console.log(`Intentando eliminar documento en Firestore: ${userCollection}/${documentId}`);
-
-      // Eliminar datos relacionados al usuario en Firestore
-      await deleteUserRelatedData(documentId);
-
-      // Registrar el usuario en la colección 'disabled/disabled-users'
-      await logDisabledUser(user.email);
+      const userId = user.uid; // Obtener el ID del usuario actual
+      console.log("Procesando actualización para el usuario:", userId);
 
       // Deshabilitar la cuenta en el backend
-      console.log('Deshabilitando la cuenta en backend...');
-      const response = await fetch('https://deleteuseraccount-a6vhaqpb7a-uc.a.run.app', {
-        method: 'POST',
+      console.log("Deshabilitando la cuenta en el backend...");
+      const response = await fetch("https://deleteuseraccount-a6vhaqpb7a-uc.a.run.app", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          idToken: await user.getIdToken(), // Obtén el ID Token del usuario
+          idToken: await user.getIdToken(),
         }),
       });
-      if (!response.ok) {
-        throw new Error('Error al deshabilitar la cuenta en el backend.');
-      }
-      const result = await response.json();
-   //   console.log('Cuenta deshabilitada exitosamente:', result.message);
 
-      alert('Cuenta eliminada y deshabilitada con éxito.');
+      if (!response.ok) {
+        throw new Error("Error al deshabilitar la cuenta en el backend.");
+      }
+
+      alert("La cuenta ha sido deshabilitada con éxito.");
     } else {
-   //   console.log('No hay usuario autenticado.');
-      alert('No hay usuario autenticado.');
+      alert("No hay un usuario autenticado.");
     }
   } catch (error) {
-    console.error('Error al procesar la solicitud:', error);
-    alert('Hubo un error al intentar eliminar la cuenta. Intenta de nuevo.');
-  }
-};
-
-// Función para eliminar datos relacionados con el usuario en Firestore
-const deleteUserRelatedData = async (userId) => {
-  try {
-    const userRef = doc(db, 'owners', userId); // Referencia a la colección 'owners'
-    const spacesRef = collection(db, `owners/${userId}/spaces`);
-    
-    // Obtener y eliminar espacios
-    const spacesSnapshot = await getDocs(spacesRef);
-    spacesSnapshot.forEach(async (doc) => {
-      await deleteDoc(doc.ref);
-      console.log(`Espacio ${doc.id} eliminado.`);
-      
-      // Eliminar subcolección schedules si existe
-      const schedulesRef = collection(db, `owners/${userId}/spaces/${doc.id}/schedules`);
-      const schedulesSnapshot = await getDocs(schedulesRef);
-      schedulesSnapshot.forEach(async (scheduleDoc) => {
-        await deleteDoc(scheduleDoc.ref);
-        console.log(`Horario ${scheduleDoc.id} eliminado.`);
-      });
-    });
-    
-    // Eliminar el documento principal del usuario
-    await deleteDoc(userRef);
-    console.log('Documento de usuario eliminado.');
-  } catch (error) {
-    console.error('Error al eliminar los datos del usuario:', error);
-  }
-};
-
-// Función para registrar usuarios deshabilitados
-const logDisabledUser = async (email) => {
-  try {
-    const disabledUsersRef = doc(db, 'disabled', 'disabled-users'); // Referencia al documento
-    const disabledData = {
-      email: email,
-      disabledAt: new Date().toISOString(), // Timestamp del momento en que se deshabilita
-    };
-
-    // Registrar el email en la colección 'disabled/disabled-users'
-    await setDoc(disabledUsersRef, { [email]: disabledData }, { merge: true });
-    console.log(`Usuario ${email} registrado en la colección 'disabled/disabled-users'.`);
-  } catch (error) {
-    console.error('Error al registrar el usuario en la colección disabled:', error);
+    console.error("Error al procesar la solicitud:", error);
+    alert("Hubo un error al intentar deshabilitar la cuenta. Por favor, inténtalo de nuevo.");
   }
 };
 
 export default onDeleteAccount;
+

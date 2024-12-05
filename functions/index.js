@@ -1,4 +1,4 @@
-const {onRequest} = require("firebase-functions/v2/https");
+const { onRequest } = require("firebase-functions/v2/https");
 const admin = require("firebase-admin");
 const cors = require("cors")({ origin: true });
 
@@ -20,7 +20,7 @@ exports.deleteUserAccount = onRequest((req, res) => {
       const decodedToken = await admin.auth().verifyIdToken(idToken);
       const ownerId = decodedToken.uid;
 
-      // Eliminar datos en Firestore
+      // Referencia al documento del usuario
       const ownerDocRef = admin.firestore().doc(`owners/${ownerId}`);
       const spacesCollectionRef = admin.firestore().collection(`owners/${ownerId}/spaces`);
 
@@ -37,12 +37,25 @@ exports.deleteUserAccount = onRequest((req, res) => {
         await spaceDoc.ref.delete();
       }
 
-      await ownerDocRef.delete();
+      // Actualizar los datos del usuario en lugar de eliminar el documento
+      await ownerDocRef.update({
+        address:"",
+        businessType: "", // Poner en blanco
+        establishmentEmail: "", // Poner en blanco
+        establishmentName: "", // Poner en blanco
+        expdate: "", // Poner en blanco
+        ownerName: "", // Poner en blanco
+        whatsapp: "", // Poner en blanco
+        status: "disabled", // Cambiar a "disabled"
+        statusHistory: admin.firestore.FieldValue.arrayUnion({
+          disabled: new Date().toISOString(), // Agregar el timestamp de deshabilitación
+        }),
+      });
 
-      // Deshabilitar al usuario (en lugar de eliminarlo)
-      await admin.auth().deleteUser(ownerId);
 
-      return res.status(200).send({ message: "Cuenta deshabilitada y datos eliminados correctamente." });
+    //  await admin.auth().deleteUser(ownerId);
+
+      return res.status(200).send({ message: "Cuenta deshabilitada y datos actualizados correctamente." });
     } catch (error) {
       console.error("Error al procesar la solicitud:", error);
       return res.status(500).send({ error: "Error interno al procesar la solicitud." });

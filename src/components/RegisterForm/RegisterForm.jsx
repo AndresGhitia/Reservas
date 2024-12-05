@@ -22,7 +22,6 @@
       const availableBusinessTypes = ['Football', 'Paddle', 'Tenis', 'Hockey', 'Volley', 'Handball'];
 
       // console.log("Valor de disabledEmail en RegisterForm:", disabledEmail);
-
       const handleSubmit = async (e) => {
         if (isRecoveringAccount) {
           console.log("Recuperando cuenta para el email:", disabledEmail);
@@ -71,12 +70,19 @@
             const createdAtTimestamp = Timestamp.fromDate(createdAt);
             const expdateTimestamp = Timestamp.fromDate(expirationDate);
       
+            // Crear entrada inicial para el historial de estados
+            const statusHistoryEntry = {
+              enabled: createdAtTimestamp // Representar el cambio de estado como clave-valor
+            };
+      
             // Registrar el usuario en Firestore según el tipo de cuenta
             if (accountType === 'user') {
               await setDoc(doc(db, 'users', user.uid), {
                 firstName,
                 lastName,
                 email,
+                status: "enabled", // Estado inicial por separado
+                statusHistory: [statusHistoryEntry] // Historial inicial
               });
             } else if (accountType === 'owner') {
               await setDoc(doc(db, 'owners', user.uid), {
@@ -88,6 +94,8 @@
                 address,
                 createdAt: createdAtTimestamp,
                 expdate: expdateTimestamp,
+                status: "enabled", // Estado actual como campo separado
+                statusHistory: [statusHistoryEntry] // Historial inicial
               });
             }
       
@@ -100,6 +108,7 @@
           }
         }
       };
+      
       
 
       const togglePasswordVisibility = () => {
