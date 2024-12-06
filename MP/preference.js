@@ -1,6 +1,10 @@
 export const handleIntegrationMP = async (email) => {
     const ACCESS_TOKEN = import.meta.env.VITE_MERCADO_PAGO_ACCESS_TOKEN;
 
+    // Verificar que el email se recibe correctamente
+    console.log("Email recibido:", email);
+
+    // Preparar la preferencia con external_reference
     const preferencia = {
         binary_mode: true,
         payer: {
@@ -18,6 +22,7 @@ export const handleIntegrationMP = async (email) => {
                 sandbox: true
             },
         ],
+        // Log para verificar la creación de external_reference
         external_reference: encodeURIComponent(email),
         back_urls: {
             success: `${import.meta.env.VITE_BOOKIT_URL}/success`,
@@ -26,8 +31,8 @@ export const handleIntegrationMP = async (email) => {
         },
     };
 
-    // Verificar si el email y los parámetros son correctos
-    console.log("Verificando preferencia antes de enviarla:", preferencia);
+    // Verificar preferencia antes de enviarla
+    console.log("Preferencia antes de enviarla:", preferencia);
 
     try {
         const response = await fetch("https://api.mercadopago.com/checkout/preferences", {
@@ -42,6 +47,8 @@ export const handleIntegrationMP = async (email) => {
         const data = await response.json();
 
         if (response.ok) {
+            // Log para verificar el response de MercadoPago
+            console.log("Respuesta de MercadoPago:", data);
             return { init_point: data.init_point, preference_id: data.id };
         } else {
             console.error('Error al crear la preferencia:', data);

@@ -360,3 +360,6 @@ la cuenta, solo haya que buscar el documento del mail asociado y actualizar los 
 
 G#170 Se modifica handleLogin para que corrobore el estado de status antes de iniciar sesion. 
 case enabled inicia secion : disabled no inicia sesion y muestra cartel.
+
+G#171 Creamos el componente RecoverAccount, este sera una screen. es un formulario para actualizar los datos en la recuperacion de la cuenta.
+Ahora tenemos q hacerlo funcionar. 
