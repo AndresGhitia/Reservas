@@ -363,3 +363,7 @@ case enabled inicia secion : disabled no inicia sesion y muestra cartel.
 
 G#171 Creamos el componente RecoverAccount, este sera una screen. es un formulario para actualizar los datos en la recuperacion de la cuenta.
 Ahora tenemos q hacerlo funcionar. 
+
+G#172 Finalmente logramos la sobreescritura de los datos de la base de datos (los necesarios) en el formulario RecoverForm. De esta forma el 
+usuario podra volver a dar de alta su cuenta, restaria agrega la funcionalidad de que se envie mail de recuperacion de cuenta como medida de 
+seguridad.
