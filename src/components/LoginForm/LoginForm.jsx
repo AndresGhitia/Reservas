@@ -9,7 +9,7 @@ import { assets } from '../../assets/assets';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import BuySubscription from '../BuySuscription/BuySubscription'; 
 import { handleIntegrationMP } from '../../../MP/preference';
-import RecoverForm from '../RecoverForm/RecoverForm';  // Importamos RecoverForm
+import RecoverForm from '../../pages/RecoverForm/RecoverForm';  // Importamos RecoverForm
 import * as Yup from 'yup';
 
 const validationSchema = Yup.object({

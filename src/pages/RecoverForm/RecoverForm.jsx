@@ -14,8 +14,7 @@ import { useLocation } from 'react-router-dom';
 import { useJsApiLoader } from '@react-google-maps/api';
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../firebase";
-
-import './RecoverForm.css';
+import styles from './RecoverForm.module.css';
 
 const RecoverForm = () => {
   const location = useLocation();
@@ -160,24 +159,29 @@ const RecoverForm = () => {
   };
 
   return (
-    <div>
-      <h2>Recuperar y Actualizar Datos</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Dirección</label>
-          <div style={{ position: 'relative' }}>
+    <div className={styles.container}>
+      <h2 className={styles.title}>Recuperar y Actualizar Datos</h2>
+      {error && <p className={styles.error}>{error}</p>}
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.field}>
+          <label className={styles.label}>Dirección</label>
+          <div className={styles.relative}>
             <input
               type="text"
               placeholder="Buscar dirección..."
               value={inputValue}
               onChange={handleInputChange}
+              className={styles.input}
               required
             />
             {predictions.length > 0 && (
-              <ul className="autocomplete-suggestions">
+              <ul className={styles.suggestions}>
                 {predictions.map((prediction) => (
-                  <li key={prediction.place_id} onClick={() => handlePredictionClick(prediction)}>
+                  <li
+                    key={prediction.place_id}
+                    onClick={() => handlePredictionClick(prediction)}
+                    className={styles.suggestionItem}
+                  >
                     {prediction.description}
                   </li>
                 ))}
@@ -185,52 +189,58 @@ const RecoverForm = () => {
             )}
           </div>
         </div>
-        <div>
-          <label>Número de WhatsApp</label>
+        <div className={styles.field}>
+          <label className={styles.label}>Número de WhatsApp</label>
           <input
             type="text"
             name="whatsapp"
             placeholder="+54 11..."
             value={formData.whatsapp}
             onChange={handleWhatsAppChange}
+            className={styles.input}
             required
           />
         </div>
-        <div>
-          <label>Tipo de Negocio</label>
+        <div className={styles.field}>
+          <label className={styles.label}>Tipo de Negocio</label>
           <input
             type="text"
             name="businessType"
             value={formData.businessType}
             onChange={handleChange}
+            className={styles.input}
             required
           />
         </div>
-        <div>
-          <label>Nombre del Establecimiento</label>
+        <div className={styles.field}>
+          <label className={styles.label}>Nombre del Establecimiento</label>
           <input
             type="text"
             name="establishmentName"
             value={formData.establishmentName}
             onChange={handleChange}
+            className={styles.input}
             required
           />
         </div>
-        <div>
-          <label>Nombre del Propietario</label>
+        <div className={styles.field}>
+          <label className={styles.label}>Nombre del Propietario</label>
           <input
             type="text"
             name="ownerName"
             value={formData.ownerName}
             onChange={handleChange}
+            className={styles.input}
             required
           />
         </div>
-        <button type="submit" disabled={loading}>
-          {loading ? 'Cargando...' : 'Actualizar'}
+        <button type="submit" disabled={loading} className={styles.button}>
+          {loading ? 'Cargando...' : 'Enviar'}
         </button>
       </form>
-      <a href="/">Regresar al inicio</a>
+      <a href="/" className={styles.link}>
+        Regresar al inicio
+      </a>
     </div>
   );
 };

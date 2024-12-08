@@ -12,7 +12,7 @@ import Booking from "./pages/Booking/Booking";
 import Success from "./pages/PaymentStates/Succes"; 
 import Failure from "./pages/PaymentStates/Failure";
 import PasswordReset from "./components/PasswordReset/PasswordReset";
-import RecoverForm from "./components/RecoverForm/RecoverForm";   
+import RecoverForm from "./pages/RecoverForm/RecoverForm";   
 
 const App = () => {
   const location = useLocation();

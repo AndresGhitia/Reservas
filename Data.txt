@@ -370,3 +370,5 @@ seguridad.
 
 G#173 Al reestablecimiento de cuenta le agregamos como medida de seguridad el envio de reestablecimiento de cuenta. Ademas se agregan detalles
 del formulario, como el predictivo de address y el placeholder de whatsapp.
+
+G#174 Se emplean estilos modularizados a RecoverForm para que sea un poco mas ameno su presentacion, al menos hasta aplicar estilos definitivos.
