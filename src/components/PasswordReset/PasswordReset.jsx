@@ -10,12 +10,12 @@ const PasswordReset = () => {
 
     const handlePasswordReset = async (e) => {
         e.preventDefault(); // Previene el comportamiento por defecto del formulario
-        console.log("Iniciando proceso de restablecimiento de contraseña...");
-        console.log("Email ingresado:", email);
+        // console.log("Iniciando proceso de restablecimiento de contraseña...");
+        // console.log("Email ingresado:", email);
 
         try {
             await sendPasswordResetEmail(auth, email);
-            console.log("Correo de restablecimiento enviado exitosamente.");
+            // console.log("Correo de restablecimiento enviado exitosamente.");
             setMessage("Se ha enviado un enlace para restablecer tu contraseña. Revisa tu bandeja de entrada,  Asegúrese de revisar su carpeta de correo no deseado o spam si no ha recibido nuestro correo electrónico..");
             setError(""); // Limpia cualquier mensaje de error
         } catch (error) {

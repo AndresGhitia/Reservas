@@ -367,3 +367,6 @@ Ahora tenemos q hacerlo funcionar.
 G#172 Finalmente logramos la sobreescritura de los datos de la base de datos (los necesarios) en el formulario RecoverForm. De esta forma el 
 usuario podra volver a dar de alta su cuenta, restaria agrega la funcionalidad de que se envie mail de recuperacion de cuenta como medida de 
 seguridad.
+
+G#173 Al reestablecimiento de cuenta le agregamos como medida de seguridad el envio de reestablecimiento de cuenta. Ademas se agregan detalles
+del formulario, como el predictivo de address y el placeholder de whatsapp.
