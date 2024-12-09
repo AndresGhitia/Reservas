@@ -372,3 +372,8 @@ G#173 Al reestablecimiento de cuenta le agregamos como medida de seguridad el en
 del formulario, como el predictivo de address y el placeholder de whatsapp.
 
 G#174 Se emplean estilos modularizados a RecoverForm para que sea un poco mas ameno su presentacion, al menos hasta aplicar estilos definitivos.
+
+G#175 Se aplica selector de deporte del formulario RecoverForm (previamente habia in input provisorio) y se agrega un navigate luego del envio 
+exitoso del formulario al Home. 
+*Se añade verificacion a la hora de crear negocio para que si o si haya un tipo de deporte en el array BussinesType para los formularios
+RegisterForm y RecoverForm (para esto se agrega codigo en funciones handleSubmit). 

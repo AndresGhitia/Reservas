@@ -164,7 +164,7 @@ const OwnerForm = ({
 
         <div className="form-group">
           <select onChange={handleBusinessTypeChange}>
-            <option value="">Selecciona un rubro</option>
+            <option value="">Selecciona un deporte</option>
             {availableBusinessTypes.map((type) => (
               <option key={type} value={type}>
                 {type}

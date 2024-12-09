@@ -46,11 +46,21 @@
               const ownersRef = collection(db, 'owners');
               const q = query(ownersRef, where('establishmentName', '==', establishmentName));
               const querySnapshot = await getDocs(q);
+           
               if (!querySnapshot.empty) {
                 setError(`Ya existe un negocio registrado con el nombre "${establishmentName}". Por favor, elige otro nombre.`);
                 return;
               }
+
+              // Verificar si hay al menos un deporte seleccionado
+             if (businessType.length === 0) {
+               setError("Debes seleccionar al menos un deporte.");
+              return;
+                }
+
             }
+
+
       
             // Crear cuenta de usuario
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);

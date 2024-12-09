@@ -10,7 +10,7 @@ import {
   arrayUnion,
   serverTimestamp,
 } from 'firebase/firestore';
-import { useLocation } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useJsApiLoader } from '@react-google-maps/api';
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../firebase";
@@ -33,7 +33,9 @@ const RecoverForm = () => {
   const [predictions, setPredictions] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const autocompleteServiceRef = useRef(null);
-
+  const availableBusinessTypes =['Football', 'Paddle', 'Tenis', 'Hockey', 'Volley', 'Handball'];
+  const [businessType, setBusinessType] = useState([]);
+  const navigate = useNavigate();
   const Maps_ApiKey = import.meta.env.VITE_MAPS_APIKEY;
 
   const { isLoaded } = useJsApiLoader({
@@ -72,6 +74,37 @@ const RecoverForm = () => {
     }));
     setPredictions([]);
   };
+
+  const handleBusinessTypeChange = (e) => {
+    const selectedType = e.target.value;
+  
+    if (selectedType && !businessType.includes(selectedType)) {
+      const updatedBusinessType = [...businessType, selectedType];
+  
+      // Actualizar el estado de businessType
+      setBusinessType(updatedBusinessType);
+  
+      // Sincronizar con formData
+      setFormData((prev) => ({
+        ...prev,
+        businessType: updatedBusinessType,
+      }));
+    }
+  };
+  
+  const removeBusinessType = (type) => {
+    const updatedBusinessType = businessType.filter((item) => item !== type);
+  
+    // Actualizar el estado de businessType
+    setBusinessType(updatedBusinessType);
+  
+    // Sincronizar con formData
+    setFormData((prev) => ({
+      ...prev,
+      businessType: updatedBusinessType,
+    }));
+  };
+  
 
   const handleWhatsAppChange = (e) => {
     const value = e.target.value;
@@ -122,6 +155,12 @@ const RecoverForm = () => {
       return;
     }
 
+       // Verificar si hay al menos un deporte seleccionado
+     if (businessType.length === 0) {
+       setError("Debes seleccionar al menos un deporte.");
+        return;
+   }
+
     setLoading(true);
 
     try {
@@ -132,13 +171,15 @@ const RecoverForm = () => {
         throw new Error('No se encontró un documento con ese correo electrónico.');
       }
 
+     
+
       const docId = querySnapshot.docs[0].id;
       const userDocRef = doc(db, 'owners', docId);
       const currentTimestamp = serverTimestamp();
 
       await updateDoc(userDocRef, {
         address: formData.address || '',
-        businessType: formData.businessType || '',
+        businessType: businessType,
         establishmentName: formData.establishmentName || '',
         ownerName: formData.ownerName || '',
         whatsapp: formData.whatsapp || '',
@@ -151,6 +192,7 @@ const RecoverForm = () => {
       alert('Datos actualizados correctamente. Se ha enviado un enlace para restablecer tu contraseña. Revisa tu bandeja de entrada,  Asegúrese de revisar su carpeta de correo no deseado o spam si no ha recibido nuestro correo electrónico.');
 
       handlePasswordReset(email);
+      navigate('/');
 
     } catch (err) {
       setLoading(false);
@@ -160,7 +202,7 @@ const RecoverForm = () => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Recuperar y Actualizar Datos</h2>
+      <h2 className={styles.title}>Recuperar cuenta</h2>
       {error && <p className={styles.error}>{error}</p>}
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.field}>
@@ -201,17 +243,25 @@ const RecoverForm = () => {
             required
           />
         </div>
-        <div className={styles.field}>
-          <label className={styles.label}>Tipo de Negocio</label>
-          <input
-            type="text"
-            name="businessType"
-            value={formData.businessType}
-            onChange={handleChange}
-            className={styles.input}
-            required
-          />
+       
+        <div className="form-group">
+          <select onChange={handleBusinessTypeChange}>
+            <option value="">Selecciona un deporte</option>
+            {availableBusinessTypes.map((type) => (
+              <option key={type} value={type}>
+                {type}
+              </option>
+            ))}
+          </select>
+          <div className="selected-business-types">
+            {businessType.map((type) => (
+              <span key={type} className="business-type">
+                {type} <button type="button" onClick={() => removeBusinessType(type)}>✖</button>
+              </span>
+            ))}
+          </div>
         </div>
+
         <div className={styles.field}>
           <label className={styles.label}>Nombre del Establecimiento</label>
           <input
