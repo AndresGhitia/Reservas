@@ -377,3 +377,5 @@ G#175 Se aplica selector de deporte del formulario RecoverForm (previamente habi
 exitoso del formulario al Home. 
 *Se añade verificacion a la hora de crear negocio para que si o si haya un tipo de deporte en el array BussinesType para los formularios
 RegisterForm y RecoverForm (para esto se agrega codigo en funciones handleSubmit). 
+
+A#176 Se comienza a dar estilos al SpaceLine, en especial a las tarjetas. Queda por dar estilos al Calendar,Header y Map.

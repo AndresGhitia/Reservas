@@ -22,47 +22,45 @@ const SpaceLine = ({ space, handleViewAvailability, isExpanded, onToggleExpand }
   return (
     <div className={`spaceline-card ${isExpanded ? 'expanded' : ''}`}>
       <div className="sport-icon">
-        {getSportIcon(space.sport) && (
-          <img src={getSportIcon(space.sport)} alt={`${space.sport} icon`} />
-        )}
-        <p>{space.name}</p>
+        {getSportIcon(space.sport) && (<img src={getSportIcon(space.sport)} alt={`${space.sport} icon`} />)}
+        <h3>{space.name}</h3>
+        <hr />
       </div>
 
       {isExpanded && (
         <>
+          <div className='spaceinfo'>
+            <p>Caracteristicas</p>
+          </div>
           <div className="spaceinfo-top">
-            {space.surface && <p>Superficie: <strong>{space.surface}</strong></p>}
-            {space.players && <p>Jugadores: <strong>{space.players}</strong></p>}
+            {space.surface && <p>SUPERFICIE <strong>{space.surface}</strong></p>}
+            {space.players && <p>JUGADORES <strong>{space.players}</strong></p>}
           </div>
 
           <div className="spaceinfo-top">
-             <p>Cerramiento: <strong>{space.roof === "no" ? "Aire libre" : space.roof}</strong></p>
-               {space.walls && (<p>Perímetro: <strong>{space.walls}</strong></p>)}
+            <p>CERRAMIENTO <strong>{space.roof === "no" ? "Aire libre" : space.roof}</strong></p>
+            {space.walls && (<p>PERIMETRO <strong>{space.walls}</strong></p>)}
           </div>
-         
-          <hr />
-         
+
           <div className="spaceinfo-bottom">
             <div className="space-detail">
-              <p style={{ fontSize: 'smaller' }}>VALOR TOTAL</p>
-              <p>~<strong>${space.rate}</strong></p>
+              <p>VALOR TOTAL<strong>${space.rate}</strong></p>
             </div>
-
-            <div className="space-detail">
-              <p>~<strong>${(space.rate / space.players).toFixed(2)}</strong></p>
-              <p style={{ fontSize: 'smaller' }}>POR PERSONA</p>
+            <div className="spaceinfo-top">
+              <p>POR PERSONA<strong>~${(space.rate / space.players).toFixed(2)}</strong></p>
             </div>
           </div>
+          <hr />
         </>
       )}
 
       <div className='card-buttons'>
         <button className="spaceline-button" onClick={() => handleViewAvailability(space)}>
-          Horarios
+          HORARIOS
         </button>
 
         <button className="details-toggle-button" onClick={onToggleExpand}>
-          {isExpanded ? 'Cerrar' : 'Ver detalles'}
+          {isExpanded ? 'CERRAR' : 'DETALLES'}
         </button>
       </div>
     </div>
