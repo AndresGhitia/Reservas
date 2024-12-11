@@ -1,22 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { db } from '../../firebase';
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  doc,
-  updateDoc,
-  arrayUnion,
-  serverTimestamp,
-} from 'firebase/firestore';
+import { collection,query,where,getDocs,doc,updateDoc,} from 'firebase/firestore';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useJsApiLoader } from '@react-google-maps/api';
-import { sendPasswordResetEmail } from "firebase/auth";
-import { auth } from "../../firebase";
-import styles from './RecoverForm.module.css';
+import styles from '../RecoverForm/RecoverForm.module.css';
 
-const RecoverForm = () => {
+
+const EditData = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const email = queryParams.get('email'); 
@@ -37,11 +27,55 @@ const RecoverForm = () => {
   const [businessType, setBusinessType] = useState([]);
   const navigate = useNavigate();
   const Maps_ApiKey = import.meta.env.VITE_MAPS_APIKEY;
-
+  const [userData, setUserData] = useState('')
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: Maps_ApiKey,
     libraries: ['places'],
   });
+
+  
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (!email) {
+        setError("No se proporcionó un email válido.");
+        return;
+      }
+  
+      try {
+        const q = query(collection(db, 'owners'), where('establishmentEmail', '==', email));
+        const querySnapshot = await getDocs(q);
+  
+        if (querySnapshot.empty) {
+          setError("No se encontraron datos para el email proporcionado.");
+          return;
+        }
+  
+        const userData = querySnapshot.docs[0].data();
+        console.log('address: ' + userData.address);
+  
+        // Actualiza tanto formData como businessType
+        setFormData({
+          address: userData.address || '',
+          businessType: userData.businessType || [], // Esto se asegura de no romper si no hay deportes.
+          establishmentName: userData.establishmentName || '',
+          ownerName: userData.ownerName || '',
+          whatsapp: userData.whatsapp || '',
+        });
+  
+        setInputValue(userData.address || '');
+        // Actualiza directamente el estado de businessType
+        setBusinessType(userData.businessType || []);
+      } catch (error) {
+        console.error("Error al obtener datos del usuario:", error);
+        setError("Hubo un error al cargar los datos.");
+      }
+    };
+  
+    fetchUserData();
+  }, [email]); // Ejecutar cuando cambie el email
+  
+  
+  
 
   useEffect(() => {
     if (isLoaded && !autocompleteServiceRef.current) {
@@ -129,13 +163,13 @@ const RecoverForm = () => {
     }));
   };
 
-  const handlePasswordReset = async (e) => {
+  const handleEditData = async (e) => {
   //  e.preventDefault();
     console.log("Iniciando proceso de restablecimiento de contraseña...");
     console.log("Email ingresado:", email);
 
     try {
-        await sendPasswordResetEmail(auth, email);
+        // await sendPasswordResetEmail(auth, email);
         // console.log("Correo de restablecimiento enviado exitosamente.");
         // setMessage("Se ha enviado un enlace para restablecer tu contraseña. Revisa tu bandeja de entrada,  Asegúrese de revisar su carpeta de correo no deseado o spam si no ha recibido nuestro correo electrónico.");
         // setError(""); // Limpia cualquier mensaje de error
@@ -147,62 +181,68 @@ const RecoverForm = () => {
 };
 
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
+    console.log("Formulario enviado. Verificando email...");
+    console.log("Email recibido desde query param:", email); // Log del email recibido
+    
     if (!email) {
       setError('El correo electrónico no está disponible.');
+      console.error("Error: El correo electrónico no está disponible.");
       return;
     }
-
-       // Verificar si hay al menos un deporte seleccionado
-     if (businessType.length === 0) {
-       setError("Debes seleccionar al menos un deporte.");
-        return;
-   }
-
+  
+    // Verificar si hay al menos un deporte seleccionado
+    if (businessType.length === 0) {
+      setError("Debes seleccionar al menos un deporte.");
+      console.error("Error: Debes seleccionar al menos un deporte.");
+      return;
+    }
+  
     setLoading(true);
-
+  
     try {
       const q = query(collection(db, 'owners'), where('establishmentEmail', '==', email));
-      const querySnapshot = await getDocs(q);
-
-      if (querySnapshot.empty) {
+      const querySnapshot = await getDocs(q); 
+      
+    if (querySnapshot.empty) {
         throw new Error('No se encontró un documento con ese correo electrónico.');
       }
-
-     
-
-      const docId = querySnapshot.docs[0].id;
+  
+      const docId = querySnapshot.docs[0].id;  
       const userDocRef = doc(db, 'owners', docId);
-      const currentTimestamp = serverTimestamp();
-
+  
       await updateDoc(userDocRef, {
         address: formData.address || '',
         businessType: businessType,
         establishmentName: formData.establishmentName || '',
         ownerName: formData.ownerName || '',
         whatsapp: formData.whatsapp || '',
-        status: 'enabled',
-        expdate: currentTimestamp,
-        statusHistory: arrayUnion(`enabled: ${new Date().toISOString()}`),
       });
-
+  
+  
       setLoading(false);
-      alert('Datos actualizados correctamente. Se ha enviado un enlace para restablecer tu contraseña. Revisa tu bandeja de entrada,  Asegúrese de revisar su carpeta de correo no deseado o spam si no ha recibido nuestro correo electrónico.');
+      alert('Datos actualizados correctamente.');
+  
+      handleEditData(email);
 
-      handlePasswordReset(email);
-      navigate('/');
+        // const dashboardUrl = `/dashboard/${encodeURIComponent(userData.establishmentName.replace(/\s+/g, '-'))}`;
+        // navigate(dashboardUrl + '/list');
 
+        // console.log('DashboardURL: '+ dashboardUrl)
+    
     } catch (err) {
       setLoading(false);
+      console.error("Error al actualizar los datos:", err);
       setError(err.message || 'Hubo un error al actualizar los datos.');
     }
   };
+  
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Recuperar cuenta</h2>
+      <h2 className={styles.title}>Actualiza los datos de tu cuenta</h2>
       {error && <p className={styles.error}>{error}</p>}
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.field}>
@@ -289,10 +329,11 @@ const RecoverForm = () => {
         </button>
       </form>
       <a href="/" className={styles.link}>
-        Regresar al inicio
+        Descartar cambios y cerrar
       </a>
     </div>
   );
 };
 
-export default RecoverForm;
+export default EditData;
+

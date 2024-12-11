@@ -379,3 +379,6 @@ exitoso del formulario al Home.
 RegisterForm y RecoverForm (para esto se agrega codigo en funciones handleSubmit). 
 
 A#176 Se comienza a dar estilos al SpaceLine, en especial a las tarjetas. Queda por dar estilos al Calendar,Header y Map.
+
+A#177 Se crea el componente EditForm.jsx para editar los datos del usuario, se accede a el mediante el formulario "Mi cuenta". Al montarse muestra 
+la info del usuario (solo la editable) y permite al usuario modificar sus datos, los cuales se envian a la base de datos.

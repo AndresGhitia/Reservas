@@ -1,8 +1,13 @@
 // src/components/ProfileInfoModal.jsx
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './ProfileInfoModal.css';
 
 function ProfileInfoModal({ userData, userCollection, numSpaces, onClose, onDeleteAccount }) {
+  const navigate = useNavigate();
+
+  const userEmail = userData?.establishmentEmail;
+
   return (
     <div className="modal-overlay">
       <div className="modal-content">
@@ -12,7 +17,6 @@ function ProfileInfoModal({ userData, userCollection, numSpaces, onClose, onDele
             <h3>Información del Usuario</h3>
             <p>Nombre: {userData?.firstName} {userData?.lastName}</p>
             <p>Email: {userData?.email}</p>
-            
           </div>
         ) : userCollection === 'owners' ? (
           <div>
@@ -24,9 +28,17 @@ function ProfileInfoModal({ userData, userCollection, numSpaces, onClose, onDele
             <p>Número de contacto: {userData?.whatsapp}</p>
           </div>
         ) : null}
-      
-       <div className="modal-buttons">
+
+        <div className="modal-buttons">
           <button onClick={onClose}>Cerrar</button>
+          <button
+          
+            onClick={() => navigate(`/edit-data?email=${userEmail}`)}
+            className="edit-button"
+             >
+            Editar datos 
+            </button>
+          
           <button onClick={onDeleteAccount} className="delete-button">Borrar cuenta</button>
         </div>
       </div>

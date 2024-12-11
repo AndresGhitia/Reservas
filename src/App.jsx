@@ -13,6 +13,7 @@ import Success from "./pages/PaymentStates/Succes";
 import Failure from "./pages/PaymentStates/Failure";
 import PasswordReset from "./components/PasswordReset/PasswordReset";
 import RecoverForm from "./pages/RecoverForm/RecoverForm";   
+import EditData from './pages/EditData/EditData';
 
 const App = () => {
   const location = useLocation();
@@ -41,7 +42,8 @@ const App = () => {
         <Route path="/password-reset" element={<PasswordReset />} />
         
         <Route path="/recover" element={<RecoverForm />} />
-        
+        <Route path="/edit-data" element={<EditData />} />
+
         <Route path="/success" element={<Success />} /> 
         <Route path="/failure" element={<Failure />} /> 
       </Routes>

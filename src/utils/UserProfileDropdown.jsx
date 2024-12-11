@@ -194,7 +194,6 @@ useEffect(() => {
           onClose={() => setShowAccountModal(false)} 
           numSpaces={numSpaces} // Pasar número de espacios activos
           onDeleteAccount={handleDeleteAccount}
-
         />
       )}
     </div>
