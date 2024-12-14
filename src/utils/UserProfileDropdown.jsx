@@ -112,7 +112,7 @@ useEffect(() => {
   const handleOwnerDashboardClick = () => {
     if (userData?.establishmentName) {
       const establishmentName = userData.establishmentName.replace(/\s+/g, '-');
-      navigate(`/dashboard/${establishmentName}`);
+      navigate(`/dashboard/${establishmentName}/list`);
     } else {
       navigate('/owner-dashboard');
     }
