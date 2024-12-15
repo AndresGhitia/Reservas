@@ -60,7 +60,7 @@ const AmenitiesSelector = ({ db, userDocId, onUpdateAmenities }) => {
         ? docSnapshot.data().amenities
         : [];
 
-      const updatedAmenities = Array.from(new Set([...previousAmenities, ...selectedAmenities]));
+        const updatedAmenities = selectedAmenities; // Sobrescribe estrictamente con las seleccionadas
 
       await updateDoc(userDocRef, {
         amenities: updatedAmenities,
@@ -123,7 +123,7 @@ const AmenitiesSelector = ({ db, userDocId, onUpdateAmenities }) => {
 
       {/* Lista de prestaciones seleccionadas */}
       <div className="selected-amenities">
-        <h3>Prestaciones seleccionadas</h3>
+        <h3>Prestaciones de tu complejo</h3>
         {selectedAmenities.length === 0 ? (
           <p>No se han seleccionado prestaciones.</p>
         ) : (

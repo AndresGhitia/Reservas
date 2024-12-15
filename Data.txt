@@ -389,3 +389,9 @@ dentro del array "amenities". Restaria que ests se muestren en BussinesPage.
 A#179 Se continua dandole estilos al BusinessPage, en este caso al Calendar. Proximamente se le dara estilos al mapa y se incorporara otras caracteristicas
 de cada complejo.
 
+G#180 Trabajo sobre el Backend, primero se interviene el codigo de /functions/index.js con el fin de que al borrar la cuenta por parte del usuario Owner, 
+se borren tambien los datos del campo "amenities" de la base de datos. Se agrega al componente RegisterForm el campo amenities para que se incluya al crear
+la cuenta owner.  
+
+G#181 Se ajusta la funcion handleUpdateAmenities del componente AmenitiesSelector para que actualice estrictamente el array de la base de datos con los objetos
+que estan en el lista, borrando los que no estan de la base de datos.

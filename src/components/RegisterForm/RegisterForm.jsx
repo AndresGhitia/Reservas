@@ -105,7 +105,9 @@
                 createdAt: createdAtTimestamp,
                 expdate: expdateTimestamp,
                 status: "enabled", // Estado actual como campo separado
-                statusHistory: [statusHistoryEntry] // Historial inicial
+                statusHistory: [statusHistoryEntry], // Historial inicial
+                amenities:[] // arreglo vacio que contendra las prestaciones del complejo
+
               });
             }
       
