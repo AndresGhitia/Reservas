@@ -47,6 +47,7 @@ exports.deleteUserAccount = onRequest((req, res) => {
         ownerName: "", // Poner en blanco
         whatsapp: "", // Poner en blanco
         status: "disabled", // Cambiar a "disabled"
+        amenities:[],
         statusHistory: admin.firestore.FieldValue.arrayUnion({
           disabled: new Date().toISOString(), // Agregar el timestamp de deshabilitación
         }),
