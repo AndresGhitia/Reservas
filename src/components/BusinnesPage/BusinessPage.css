@@ -28,6 +28,12 @@
   background-position: center;
   background-repeat: no-repeat;
 }
+.businessmap-amenities-container {
+  display: flex;
+  flex-direction: column; /* Mantenerlos en fila */
+  align-items: flex-start; /* Alinear elementos arriba */
+  gap: 20px; /* Espacio entre el mapa y las amenities */
+}
 
 .businessmap-container {
   display: flex;
@@ -93,6 +99,7 @@
     margin: 0px;
     margin-bottom: 0px;
   }
+  
 
   .businessmap-container {
     display: flex;

@@ -10,6 +10,8 @@ import Navbar from '../Navbar/Navbar';
 import './BusinessPage.css';
 import { assets } from '../../assets/assets';
 import BpHeader from './BpHeader'; 
+import BusinessAmenities from './BusinessAmenities';
+
 
 function BusinessPage() {
   const { establishmentName } = useParams();
@@ -148,24 +150,35 @@ function BusinessPage() {
     </div>
   )}
 
-  {ownerData.whatsapp && (
+{ownerData.whatsapp && (
+  <div className="businesspage-container">
+
+    {/* Contenedor del Mapa y Dirección */}
     <div className="businessmap-container">
       {ownerData.address && (
-        <div className='address-container'>
+        <div className="address-container">
           <img src={assets.address_icon} alt="Address Icon" />
           <a
             href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ownerData.address)}`}
-            target='_blank'
-            rel='noopener noreferrer'>
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             UBICACION
           </a>
         </div>
       )}
-     
-      <BusinessMap address={ownerData.address} onAddressFormatted={setFormattedAddress} />
-      
+      <BusinessMap 
+        address={ownerData.address} 
+        onAddressFormatted={setFormattedAddress} 
+      />
     </div>
-  )}
+
+    {/* Contenedor de Amenities */}
+    <BusinessAmenities amenities={ownerData.amenities} />
+
+  </div>
+)}
+
 </div>
 
     </div>
