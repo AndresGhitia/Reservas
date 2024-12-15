@@ -386,3 +386,6 @@ la info del usuario (solo la editable) y permite al usuario modificar sus datos,
 G#178 Agregamos al Dashboard, la opcion para que el owner pueda agregar "amenities" que ofrecera su complejo. Estas se cargan en la base de datos, 
 dentro del array "amenities". Restaria que ests se muestren en BussinesPage. 
 
+A#179 Se continua dandole estilos al BusinessPage, en este caso al Calendar. Proximamente se le dara estilos al mapa y se incorporara otras caracteristicas
+de cada complejo.
+

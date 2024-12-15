@@ -19,11 +19,6 @@
   color: #666;
   margin: 0;
 }
-.react-datepicker__header {
-  background-color: #f0f0f0;
-  border-bottom: 1px solid #ddd;
-  padding: 15px 0;
-}
 /* Botón de cierre del modal */
 .modal-close-button {
   cursor: pointer;
@@ -46,11 +41,6 @@
   overflow-y: auto; /* Habilita el desplazamiento vertical */
   max-height: 100vh; /* Limita la altura para mantener el desplazamiento */
 
-}
-.react-datepicker__header {
-  background-color: #f0f0f0; /* Color de fondo del encabezado */
-  border-bottom: 1px solid #ddd; /* Línea divisoria debajo */
-  padding: 15px 0; /* Espaciado interno */
 }
 /* Contenedor de la fecha */
 .date-container-Owner {
@@ -96,28 +86,24 @@
 
 /* Estilos para intervalos de 30 minutos */
 .timeslot-button.half-hour {
-  background-color: #007bff; /* Azul claro para intervalos de 30 minutos */
+  background-color: #2f285a;
   font-size: 14px;
   padding: 10px;
 }
 
 /* Estilos para intervalos de 1 hora */
 .timeslot-button.one-hour {
-  background-color: #17a2b8; /* Verde-azulado para intervalos de 1 hora */
-  font-size: 16px;
-  padding: 20px;
-  min-width: 200px; /* Asegura que tengan más ancho */
 
 }
 
 /* Botones disponibles */
-.timeslot-button.available {
-  background-color: #28a745;
-}
+/* .timeslot-button.available {
+  background-color: #2f285a;
+} */
 
 /* Botones reservados */
 .timeslot-button.reserved {
-  background-color: #dc3545;
+  background-color: #c80a0a;
   cursor: not-allowed;
   opacity: 0.7; /* Opacidad reducida para indicar que está reservado */
 }
@@ -125,6 +111,7 @@
 /* Efecto hover */
 .timeslot-button:hover {
   opacity: 0.85;
+  color: #56e07b;
 }
 
 /* Estilo para botones deshabilitados en modo negocio */
@@ -158,9 +145,7 @@
 }
 
 /* Contenedor de la fecha */
-.date-container {
-  margin-bottom: 20px;
-}
+
   @media (max-width: 768px) {
     .Calendar-modal {
       position: fixed;

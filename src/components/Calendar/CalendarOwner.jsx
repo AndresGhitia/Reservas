@@ -211,7 +211,7 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
                 onClick={() => handleTimeslotClick(index)}
                 disabled={disableBooking}
               >
-                {slot.time} - {disableBooking ? (slot.available ? 'Disponible' : 'Ocupado') : (slot.available ? 'Reservar' : `${slot.name} ${slot.whatsapp}`)}
+                {slot.time} - {disableBooking ? (slot.available ? 'DISPONIBLE' : 'Ocupado') : (slot.available ? 'Reservar' : `${slot.name} ${slot.whatsapp}`)}
               </button>
             ))}
           </div>

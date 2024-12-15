@@ -1,14 +1,44 @@
+
 .calendar-content {
   background-color: whitesmoke;
-  border-radius: 10px;
-  text-align: center;
-  padding: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 70%;
+  width: 75%;
   margin: 0 auto;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   /* border: solid 3px red; */
 }
 
+.modal-header-calendar {
+  background-color: #56e07b;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header-calendar p{
+  color: #2f285a;
+  text-align: center;
+  padding-left: 24px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.modal-header-calendar span {
+  background-color: #2f285a;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.close {
+  padding: 0 24px;
+  font-size: 24px;
+  color: #fff;
+  cursor: pointer;
+}
 
 .calendar-header h1 {
   font-size: 2rem;
@@ -30,42 +60,48 @@
 
 .calendar-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  /* border:solid 1px red; */
+  background-color: #fff;
 
 }
-.react-datepicker{
+
+.react-datepicker {
+  margin: 15px;
   display: flex;
-  /* border: solid 1px, red; */
- justify-content: center;
- align-items: center;
- align-content: center;
-  }
-  
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
 .react-datepicker__current-month {
   font-size: 24px;
-  /* border:solid 1px red; */
-}
-.react-datepicker__header {
-  background-color: #f0f0f0; /* Color de fondo del encabezado */
-  border-bottom: 1px solid #ddd; /* Línea divisoria debajo */
-  padding: 15px 0; /* Espaciado interno */
 }
 
-  .react-datepicker__navigation {
-    border-left-color: #007bff; /* Cambia el color de la flecha */
-    margin-right: 10px; /* Ajuste de margen si es necesario */
-    margin-top: 16px;
-      
-  }
-  .react-datepicker__navigation:hover {
-    opacity: 0.7; /* Efecto de opacidad al pasar el cursor */
-    cursor: pointer; /* Cambia el cursor a pointer */
-  }
+.react-datepicker__header {
+  background-color: #fff;
+  padding: 15px 0;
+}
+
+.react-datepicker__navigation {
+  border-left-color: #007bff;
+  /* Cambia el color de la flecha */
+  margin-right: 10px;
+  /* Ajuste de margen si es necesario */
+  margin-top: 16px;
+
+}
+
+.react-datepicker__navigation:hover {
+  opacity: 0.7;
+  /* Efecto de opacidad al pasar el cursor */
+  cursor: pointer;
+  /* Cambia el cursor a pointer */
+}
+
 /* Ajusta el tamaño de los números en los días del calendario */
 .react-datepicker__day {
-  font-size: 24px; /* Cambia este valor al tamaño que prefieras */
+  font-size: 24px;
+  /* Cambia este valor al tamaño que prefieras */
   gap: 10px;
   margin: 8px;
   padding: 0px;
@@ -74,19 +110,23 @@
   align-self: center;
 
 }
+
 .react-datepicker__month {
-  font-size: 24px; /* Cambia este valor al tamaño que prefieras */
+  font-size: 24px;
+  /* Cambia este valor al tamaño que prefieras */
   gap: 10px;
   margin: 8px;
   padding: 10px;
   /* border: solid 1px red; */
 
 }
+
 .react-datepicker__day--selected {
   font-size: 24px;
-  background-color: #007bff; /* Cambia el color de fondo del día seleccionado */
-  color: #fff; /* Cambia el color del texto */
+  background-color: #56e07b;
+  color: #fff;
 }
+
 /* Ajusta el tamaño de los días de la semana en el encabezado del calendario */
 .react-datepicker__day-name {
   font-weight: bold;
@@ -105,10 +145,13 @@
 
 .timeslot-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Ajuste automático de columnas */
-  gap: 10px; /* Espacio entre botones */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  /* Ajuste automático de columnas */
+  gap: 10px;
+  /* Espacio entre botones */
   width: 100%;
-  padding: 20px; /* Espaciado alrededor del contenedor */
+  padding: 20px;
+  /* Espaciado alrededor del contenedor */
   box-sizing: border-box;
 }
 
@@ -120,11 +163,12 @@
   color: white;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  width: 100%; /* Asegura que el botón ocupe el ancho completo de su contenedor */
+  width: 100%;
+  /* Asegura que el botón ocupe el ancho completo de su contenedor */
 }
 
 .timeslot-button.available {
-  background-color: #28a745;
+  background-color: #2f285a;
 }
 
 .timeslot-button.reserved {
@@ -139,6 +183,7 @@
   background-color: grey;
   cursor: not-allowed;
 }
+
 @media (max-width: 768px) {
   .calendar-content {
     background-color: whitesmoke;
@@ -149,25 +194,32 @@
     width: 100%;
     margin: 0 auto;
   }
+
   .react-datepicker__navigation {
-    border-left-color: #007bff; /* Cambia el color de la flecha */
-    margin-right: 30px; /* Ajuste de margen si es necesario */
+    border-left-color: #007bff;
+    /* Cambia el color de la flecha */
+    margin-right: 30px;
+    /* Ajuste de margen si es necesario */
     margin-top: 24px;
   }
 
   .calendar-content {
-    width: 100%; /* Ancho completo en pantallas pequeñas */
+    width: 100%;
+    /* Ancho completo en pantallas pequeñas */
     padding: 10px;
   }
 
   .timeslot-button {
-    font-size: 12px; /* Tamaño de texto ajustado para dispositivos móviles */
-    padding: 8px; /* Botones más compactos */
+    font-size: 12px;
+    /* Tamaño de texto ajustado para dispositivos móviles */
+    padding: 8px;
+    /* Botones más compactos */
   }
 
   /* Flexibilidad para que los pares de botones en intervalos de media hora también se ajusten */
   .timeslot-pair {
     flex-direction: column;
-    gap: 5px; /* Espaciado más pequeño en pantallas pequeñas */
+    gap: 5px;
+    /* Espaciado más pequeño en pantallas pequeñas */
   }
 }
