@@ -397,3 +397,5 @@ G#181 Se ajusta la funcion handleUpdateAmenities del componente AmenitiesSelecto
 que estan en el lista, borrando los que no estan de la base de datos.
 
 G#182 Se crea el componente BusinessAmenities con el fin de mostrar las prestaciones del negocio en BusinessPage. Ya funciona, resta ver el estilo.
+
+G#183 Se emplean estilos provisorios para Amenities, por el momento se muestran al costado de BusinessMap, probablemente optemos por ubicarlo en el header.

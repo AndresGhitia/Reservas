@@ -151,10 +151,11 @@ function BusinessPage() {
   )}
 
 {ownerData.whatsapp && (
-  <div className="businesspage-container">
 
-    {/* Contenedor del Mapa y Dirección */}
+    
+  <div className='businessmap-amenities-container'> 
     <div className="businessmap-container">
+    {/* Contenedor del Mapa y Dirección */}
       {ownerData.address && (
         <div className="address-container">
           <img src={assets.address_icon} alt="Address Icon" />
@@ -167,10 +168,10 @@ function BusinessPage() {
           </a>
         </div>
       )}
-      <BusinessMap 
-        address={ownerData.address} 
-        onAddressFormatted={setFormattedAddress} 
-      />
+        <BusinessMap 
+          address={ownerData.address} 
+          onAddressFormatted={setFormattedAddress} 
+        />
     </div>
 
     {/* Contenedor de Amenities */}
