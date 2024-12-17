@@ -123,23 +123,45 @@ useEffect(() => {
   };
 
   const handleDeleteAccount = async () => {
-    const confirmation = window.confirm('¿Estás seguro de que deseas borrar tu cuenta? Se borrarán todos tus datos, incluyendo información de tu complejo y reservas.');
+    const confirmation = window.confirm(
+      '¿Estás seguro de que deseas borrar tu cuenta? Se borrarán todos tus datos, incluyendo información de tu complejo y reservas.'
+    );
   
     if (confirmation) {
       try {
-        // Mostrar feedback al usuario (puedes usar un estado de carga aquí si lo deseas)
-        console.log('Eliminando cuenta...');
+        // Solicitar la contraseña del usuario
+        const password = prompt("Por favor, ingresa tu contraseña para confirmar:");
   
-        // Implementar la lógica de eliminación (usa tu función deleteOwnerData)
-       // await deleteOwnerData(); // Asegúrate de importar esta función correctamente
-          await onDeleteAccount();
-        alert('Tu cuenta ha sido eliminada con éxito.');
-        setShowAccountModal(false); // Cerrar modal
-        signOut(auth); // Cerrar sesión después de borrar la cuenta
-        navigate('/'); // Redirigir al usuario al home
+        if (!password) {
+          alert("La eliminación de la cuenta fue cancelada.");
+          return;
+        }
+  
+        // Obtener el usuario actual
+        const user = auth.currentUser;
+  
+        if (!user || !user.email) {
+          throw new Error("No se pudo obtener el usuario actual.");
+        }
+  
+        // Crear las credenciales con email y contraseña
+        const credential = EmailAuthProvider.credential(user.email, password);
+  
+        // Reautenticar al usuario
+        await reauthenticateWithCredential(user, credential);
+  
+        console.log("Usuario reautenticado correctamente.");
+  
+        // Llamar a tu lógica de eliminación (Cloud Function)
+        await onDeleteAccount(); // Asegúrate de importar tu función
+        alert("Tu cuenta ha sido eliminada con éxito.");
+  
+        // Cerrar sesión y redirigir
+        await signOut(auth);
+        navigate("/"); // Redirigir al home
       } catch (error) {
-        console.error('Error al eliminar la cuenta:', error);
-        alert('Hubo un error al eliminar tu cuenta. Por favor, inténtalo de nuevo.');
+        console.error("Error al eliminar la cuenta:", error);
+        alert("Error al verificar la contraseña o eliminar la cuenta. Por favor, inténtalo de nuevo.");
       }
     }
   };
