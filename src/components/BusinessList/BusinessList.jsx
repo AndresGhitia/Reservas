@@ -87,21 +87,26 @@ const BusinessList = ({ category, userLocation }) => {
   }, [userLocation, businesses]);
 
   // Filtrar por rubro seleccionado o mostrar todos los negocios si se elige "Todos los deportes"
-  const filteredAndSortedBusinesses = [...businesses]
-    .filter(business => category === 'All' || category === 'Todos los deportes' || (business.businessType && business.businessType.includes(category))) // Filtrar por categoría o mostrar todos
-    .sort((a, b) => {
-      const aDistance = distances[a.id];
-      const bDistance = distances[b.id];
-      
-      if (aDistance && bDistance) {
-        return aDistance - bDistance; // Ordenar de menor a mayor distancia
-      } else if (aDistance) {
-        return -1; // Si solo a tiene distancia
-      } else if (bDistance) {
-        return 1; // Si solo b tiene distancia
-      }
-      return 0; // Mantener el orden original si no hay distancias
-    });
+ const filteredAndSortedBusinesses = [...businesses]
+  .filter(business => 
+    business.businessType && 
+    (Array.isArray(business.businessType) ? business.businessType.length > 0 : business.businessType.trim() !== '') &&
+    (category === 'All' || category === 'Todos los deportes' || business.businessType.includes(category))
+  )
+  .sort((a, b) => {
+    const aDistance = distances[a.id];
+    const bDistance = distances[b.id];
+    
+    if (aDistance && bDistance) {
+      return aDistance - bDistance;
+    } else if (aDistance) {
+      return -1;
+    } else if (bDistance) {
+      return 1;
+    }
+    return 0;
+  });
+
 
   return (
     <div className="business-list">

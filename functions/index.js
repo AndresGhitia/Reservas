@@ -41,11 +41,12 @@ exports.deleteUserAccount = onRequest((req, res) => {
       await ownerDocRef.update({
         address:"",
         businessType: "", // Poner en blanco
-        establishmentEmail: "", // Poner en blanco
+      //  establishmentEmail: "", // Poner en blanco
         establishmentName: "", // Poner en blanco
         expdate: "", // Poner en blanco
         ownerName: "", // Poner en blanco
         whatsapp: "", // Poner en blanco
+        backgroundImageUrl:"https://res.cloudinary.com/dbrz9aqlt/image/upload/v1728674945/qnx79wojyp0ypmlxofcf.jpg",
         status: "disabled", // Cambiar a "disabled"
         amenities:[],
         statusHistory: admin.firestore.FieldValue.arrayUnion({
