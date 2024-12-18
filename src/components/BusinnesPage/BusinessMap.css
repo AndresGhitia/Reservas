@@ -2,14 +2,9 @@
     display: flex;
     justify-content: center; 
     align-items: center;
-    margin: 20px auto; 
-    width: 100%; 
-    max-width: 600px; 
     height: auto; 
-    padding: 10px;
-    background-color: #ffffff; 
     border-radius: 8px; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    padding: 20px;
   }
   @media (max-width: 768px) {
     .map-container {

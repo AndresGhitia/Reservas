@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+// BusinessPage.jsx
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebase';
@@ -8,10 +9,9 @@ import BusinessMap from './BusinessMap';
 import SpaceLine from './SpaceLine';
 import Navbar from '../Navbar/Navbar';
 import './BusinessPage.css';
-import { assets } from '../../assets/assets';
-import BpHeader from './BpHeader'; 
+import BpHeader from './BpHeader';
 import BusinessAmenities from './BusinessAmenities';
-
+import './BusinessPage.css';
 
 function BusinessPage() {
   const { establishmentName } = useParams();
@@ -28,6 +28,8 @@ function BusinessPage() {
   const [cel, setCel] = useState(null);
   const [formattedAddress, setFormattedAddress] = useState('');
   const [expandedCards, setExpandedCards] = useState({});
+
+  const mapRef = useRef(null);
 
   useEffect(() => {
     const businessRef = collection(db, 'owners');
@@ -49,7 +51,7 @@ function BusinessPage() {
 
       if (foundBusiness) {
         setOwnerData(foundBusiness);
-        setOwnerId(foundBusiness.id); 
+        setOwnerId(foundBusiness.id);
         setCel(foundBusiness.whatsapp);
 
         const spacesRef = collection(db, 'owners', foundBusiness.id, 'spaces');
@@ -97,6 +99,12 @@ function BusinessPage() {
     }));
   };
 
+  const handleViewMap = () => {
+    if (mapRef.current) {
+      mapRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   if (loading) {
     return <div className="loading">Cargando...</div>;
   }
@@ -112,76 +120,94 @@ function BusinessPage() {
   const backgroundImageUrl = ownerData.backgroundImageUrl;
 
   return (
-    <div className="businesspage-container">
+    <>
       <Navbar />
+      <div className="businesspage-container">
+        <div className="business-leftcolumn">
+          <div className="business-container">
+            <BpHeader
+              decodedName={decodedName}
+              formattedAddress={formattedAddress}
+              ownerData={ownerData}
+            />
 
-        <BpHeader 
-        decodedName={decodedName}
-        formattedAddress={formattedAddress}
-        ownerData={ownerData}
-      />
+            <div
+              className="space-image"
+              style={{
+                backgroundImage: backgroundImageUrl
+                  ? `url(${backgroundImageUrl})`
+                  : `url(${businessPage})`,
+              }}
+            ></div>
 
-<div className="business-container" style={{ backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : `url(${businessPage})` }}>
-  <div className="spaces-container">
-    {spaces.map((space) => (
-      <SpaceLine 
-        key={space.id} 
-        space={space} 
-        handleViewAvailability={handleViewAvailability} 
-        isExpanded={expandedCards[space.id]} 
-        onToggleExpand={() => toggleCardExpansion(space.id)} 
-      />
-    ))}
-  </div>
+            <div className="space-header">
+              <h1>Horarios y Disponibilidad</h1>
+            </div>
+            <div className="spaces-container">
+              {spaces.map((space) => (
+                <SpaceLine
+                  key={space.id}
+                  space={space}
+                  handleViewAvailability={handleViewAvailability}
+                  isExpanded={expandedCards[space.id]}
+                  onToggleExpand={() => toggleCardExpansion(space.id)}
+                />
+              ))}
+            </div>
 
-  {selectedSpace && (
-    <div className="selected-space">
-      <CalendarUser
-        selectedSpace={selectedSpace}
-        calendarData={calendarData}
-        setCalendarData={setCalendarData}
-        onClose={handleCloseModal}
-        setSelectedDate={setSelectedDate}
-        disableBooking={false}
-        ownerId={ownerId}
-        cel={cel}
-        sport={selectedSpace.sport} 
-      />
-    </div>
-  )}
-
-{ownerData.whatsapp && (
-  <div className="businesspage-container">
-
-    {/* Contenedor del Mapa y Dirección */}
-    <div className="businessmap-container">
-      {ownerData.address && (
-        <div className="address-container">
-          <img src={assets.address_icon} alt="Address Icon" />
-          <a
-            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ownerData.address)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            UBICACION
-          </a>
+            {selectedSpace && (
+              <div className="selected-space">
+                <CalendarUser
+                  selectedSpace={selectedSpace}
+                  calendarData={calendarData}
+                  setCalendarData={setCalendarData}
+                  onClose={handleCloseModal}
+                  setSelectedDate={setSelectedDate}
+                  disableBooking={false}
+                  ownerId={ownerId}
+                  cel={cel}
+                  sport={selectedSpace.sport}
+                />
+              </div>
+            )}
+            <div className="businessmap-container" ref={mapRef}>
+              <div className="businessmap-header">
+                <h1>Ubicación</h1>
+              </div>
+              <div className="businessmap-element">
+                <BusinessMap address={ownerData.address} onAddressFormatted={setFormattedAddress} />
+              </div>
+            </div>
+          </div>
         </div>
-      )}
-      <BusinessMap 
-        address={ownerData.address} 
-        onAddressFormatted={setFormattedAddress} 
-      />
-    </div>
 
-    {/* Contenedor de Amenities */}
-    <BusinessAmenities amenities={ownerData.amenities} />
-
-  </div>
-)}
-
-</div>
-
-    </div>
+        <div className="business-rightcolumn">
+          <div className="amenities-container">
+            <div className="amenities-header">
+              <h1>Espacios</h1>
+            </div>
+            <div className="amenities-element">
+              <p>
+                {Array.isArray(ownerData.businessType) ? ownerData.businessType.join(', ') : ownerData.businessType || 'Sin rubro'}
+              </p>
+            </div>
+            <BusinessAmenities amenities={ownerData.amenities} />
+          </div>
+          <div className="address-container">
+            <div className="address-header">
+              <h1>Dirección</h1>
+            </div>
+            <div className="address-element">
+              <p>{formattedAddress}</p>
+              <button className="login-button-address" onClick={handleViewMap}>
+                VER MAPA
+              </button>
+              <button className="login-button-address">CONTACTANOS</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 

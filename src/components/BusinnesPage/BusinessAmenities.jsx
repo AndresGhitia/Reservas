@@ -4,19 +4,19 @@ import './BusinessAmenities.css';
 const BusinessAmenities = ({ amenities }) => {
   if (!amenities || amenities.length === 0) {
     return (
-      <div className="business-amenities">
-        <h3>Prestaciones del establecimiento</h3>
+      <div className='business-amenities' >
+        <h1>Prestaciones del establecimiento</h1>
         <p>No se han registrado prestaciones.</p>
       </div>
     );
   }
 
   return (
-    <div className="business-amenities">
-      <h3>Prestaciones del establecimiento</h3>
-      <ul className="amenities-list">
+    <div className='business-amenities'>
+      <h1>Instalaciones</h1>
+      <ul >
         {amenities.map((amenity, index) => (
-          <li key={index} className="amenity-item">
+          <li key={index}>
             {amenity}
           </li>
         ))}

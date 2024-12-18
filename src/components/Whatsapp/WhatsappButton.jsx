@@ -14,7 +14,6 @@
           {phoneNumber}
         </a>
       </div>
-    <p>Contactanos!</p> 
     </div>
     );
   };

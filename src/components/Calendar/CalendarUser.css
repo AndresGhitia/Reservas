@@ -1,7 +1,10 @@
+.calendar-modal{
+  background-color: #dc3545;
+}
+
 
 .calendar-content {
   background-color: whitesmoke;
-  width: 75%;
   margin: 0 auto;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

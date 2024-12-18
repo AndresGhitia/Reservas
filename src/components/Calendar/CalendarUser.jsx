@@ -7,6 +7,7 @@ import { es } from 'date-fns/locale';
 import './CalendarUser.css';
 import { format } from 'date-fns';
 
+
 function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelectedDate, onClose, disableBooking, ownerId, cel, sport }) {
 
   const [date, setDate] = useState(null);
@@ -187,86 +188,85 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
 
   return (
     <div className='calendar-modal'>
-      <h1>HOLA</h1>
-    <div className="calendar-content">
-      <div className="modal-header-calendar">
-        <p p className="login-header" >{selectedSpace?.name || "Espacio"}</p>
-        <p>Horarios del día {date ? formatDate(date) : ""}</p>
-        <span className="close" onClick={onClose}>&times;</span>
-      </div>
-
-      <div className="calendar-container">
-        <div className="date-container">
-          <DatePicker
-            selected={date}
-            onChange={(selectedDate) => setDate(selectedDate)}
-            dateFormat="dd - MMMM - yyyy"
-            className="datepicker-input"
-            isClearable
-            locale={es}
-            minDate={new Date()} // Deshabilita fechas anteriores a hoy
-            placeholderText="Selecciona una fecha"
-            onFocus={(e) => e.target.blur()} // Deshabilita entrada manual
-            onClick={(e) => e.preventDefault()} // Evita que se escriba con el teclado
-            onSelect={() => document.activeElement.blur()} // Cierra el teclado virtual en dispositivos táctiles
-            filterDate={(date) => !isDayClosed(date)} // Invertir la lógica aquí
-            inline
-          />
+      <div className="calendar-content">
+        <div className="modal-header-calendar">
+          <p p className="login-header" >{selectedSpace?.name || "Espacio"}</p>
+          <p>Horarios del día {date ? formatDate(date) : ""}</p>
+          <span className="close" onClick={onClose}>&times;</span>
         </div>
 
-        <div className="timeslot-container">
-          {timeSlots.map((slot, index) => {
-            // Verificar si el incremento de tiempo es de 30 minutos
-            const isHalfHourInterval = selectedSpace?.sport === "Paddle" ? true : false;
+        <div className="calendar-container">
+          <div className="date-container">
+            <DatePicker
+              selected={date}
+              onChange={(selectedDate) => setDate(selectedDate)}
+              dateFormat="dd - MMMM - yyyy"
+              className="datepicker-input"
+              isClearable
+              locale={es}
+              minDate={new Date()} // Deshabilita fechas anteriores a hoy
+              placeholderText="Selecciona una fecha"
+              onFocus={(e) => e.target.blur()} // Deshabilita entrada manual
+              onClick={(e) => e.preventDefault()} // Evita que se escriba con el teclado
+              onSelect={() => document.activeElement.blur()} // Cierra el teclado virtual en dispositivos táctiles
+              filterDate={(date) => !isDayClosed(date)} // Invertir la lógica aquí
+              inline
+            />
+          </div>
 
-            if (isHalfHourInterval) {
-              if (index % 2 !== 0) return null; // Saltar índices impares para agrupar en pares
+          <div className="timeslot-container">
+            {timeSlots.map((slot, index) => {
+              // Verificar si el incremento de tiempo es de 30 minutos
+              const isHalfHourInterval = selectedSpace?.sport === "Paddle" ? true : false;
 
-              const nextSlot = timeSlots[index + 1];
+              if (isHalfHourInterval) {
+                if (index % 2 !== 0) return null; // Saltar índices impares para agrupar en pares
 
-              return (
-                <div key={index} className="timeslot-pair timeslot-half-hour">
+                const nextSlot = timeSlots[index + 1];
 
+                return (
+                  <div key={index} className="timeslot-pair timeslot-half-hour">
+
+                    <button
+                      className={`timeslot-button half-hour ${slot.available ? 'available' : 'reserved'} ${disableBooking ? 'disabled-business' : ''}`}
+                      onClick={() => handleTimeslotClick(index)}
+                      disabled={disableBooking}
+                    >
+                      {slot.time} - {disableBooking ? (slot.available ? 'Disponible' : 'Ocupado') : (slot.available ? 'Reservar' : `Ocupado`)}
+                    </button>
+
+                    {nextSlot && (
+
+                      <button
+                        className={`timeslot-button half-hour ${nextSlot.available ? 'available' : 'reserved'} ${disableBooking ? 'disabled-business' : ''}`}
+                        onClick={() => handleTimeslotClick(index + 1)}
+                        disabled={disableBooking}
+                      >
+                        {nextSlot.time} - {disableBooking ? (nextSlot.available ? 'Disponible' : 'Ocupado') : (nextSlot.available ? 'Reservar' : `Ocupado`)}
+
+                      </button>
+                    )}
+                  </div>
+
+                );
+              } else {
+                // Mostrar individualmente para intervalos de 1 hora
+                return (
                   <button
-                    className={`timeslot-button half-hour ${slot.available ? 'available' : 'reserved'} ${disableBooking ? 'disabled-business' : ''}`}
+                    key={index}
+                    className={`timeslot-button one-hour ${slot.available ? 'available' : 'reserved'} ${disableBooking ? 'disabled-business' : ''}`}
                     onClick={() => handleTimeslotClick(index)}
                     disabled={disableBooking}
                   >
                     {slot.time} - {disableBooking ? (slot.available ? 'Disponible' : 'Ocupado') : (slot.available ? 'Reservar' : `Ocupado`)}
                   </button>
+                );
+              }
+            })}
+          </div>
 
-                  {nextSlot && (
-
-                    <button
-                      className={`timeslot-button half-hour ${nextSlot.available ? 'available' : 'reserved'} ${disableBooking ? 'disabled-business' : ''}`}
-                      onClick={() => handleTimeslotClick(index + 1)}
-                      disabled={disableBooking}
-                    >
-                      {nextSlot.time} - {disableBooking ? (nextSlot.available ? 'Disponible' : 'Ocupado') : (nextSlot.available ? 'Reservar' : `Ocupado`)}
-
-                    </button>
-                  )}
-                </div>
-
-              );
-            } else {
-              // Mostrar individualmente para intervalos de 1 hora
-              return (
-                <button
-                  key={index}
-                  className={`timeslot-button one-hour ${slot.available ? 'available' : 'reserved'} ${disableBooking ? 'disabled-business' : ''}`}
-                  onClick={() => handleTimeslotClick(index)}
-                  disabled={disableBooking}
-                >
-                  {slot.time} - {disableBooking ? (slot.available ? 'Disponible' : 'Ocupado') : (slot.available ? 'Reservar' : `Ocupado`)}
-                </button>
-              );
-            }
-          })}
         </div>
-
       </div>
-    </div>
     </div>
   );
 
