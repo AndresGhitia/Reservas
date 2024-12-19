@@ -10,6 +10,7 @@ const onDeleteAccount = async () => {
 
       // Deshabilitar la cuenta en el backend
       console.log("Deshabilitando la cuenta en el backend...");
+
       const response = await fetch("https://deleteuseraccount-a6vhaqpb7a-uc.a.run.app", {
         method: "POST",
         headers: {
@@ -19,6 +20,10 @@ const onDeleteAccount = async () => {
           idToken: await user.getIdToken(),
         }),
       });
+
+
+const responseData = await response.json(); // Parsear la respuesta
+console.log("Respuesta del backend:", responseData);
 
       if (!response.ok) {
         throw new Error("Error al deshabilitar la cuenta en el backend.");

@@ -1,6 +1,7 @@
 const { onRequest } = require("firebase-functions/v2/https");
 const admin = require("firebase-admin");
 const cors = require("cors")({ origin: true });
+const deleteCollection = require('./deleteCollection');
 
 if (!admin.apps.length) {
   admin.initializeApp();
@@ -9,53 +10,43 @@ if (!admin.apps.length) {
 exports.deleteUserAccount = onRequest((req, res) => {
   cors(req, res, async () => {
     try {
-      // Verifica el método de la solicitud
       if (req.method !== "POST") {
         return res.status(405).send({ error: "Método no permitido" });
       }
 
       const { idToken } = req.body;
-
-      // Verifica el token del usuario
       const decodedToken = await admin.auth().verifyIdToken(idToken);
       const ownerId = decodedToken.uid;
 
-      // Referencia al documento del usuario
       const ownerDocRef = admin.firestore().doc(`owners/${ownerId}`);
       const spacesCollectionRef = admin.firestore().collection(`owners/${ownerId}/spaces`);
 
+      console.log(`Obteniendo documentos de la colección spaces para ownerId: ${ownerId}`);
+
+      // Agregar log aquí para asegurar que la colección sea obtenida correctamente
       const spacesSnapshot = await spacesCollectionRef.get();
-      for (const spaceDoc of spacesSnapshot.docs) {
-        const schedulesCollectionRef = admin
-          .firestore()
-          .collection(`owners/${ownerId}/spaces/${spaceDoc.id}/schedules`);
+      console.log(`Se encontraron ${spacesSnapshot.size} documentos en spaces.`);
 
-        const schedulesSnapshot = await schedulesCollectionRef.get();
-        for (const scheduleDoc of schedulesSnapshot.docs) {
-          await scheduleDoc.ref.delete();
-        }
-        await spaceDoc.ref.delete();
-      }
+      console.log(`Eliminando documentos de la colección spaces para ownerId: ${ownerId}`);
+      await deleteCollection(spacesCollectionRef);
+      console.log(`Todos los documentos de spaces eliminados correctamente.`);
 
-      // Actualizar los datos del usuario en lugar de eliminar el documento
+      console.log(`Todos los documentos y subcolecciones eliminados correctamente para ownerId: ${ownerId}`);
+
       await ownerDocRef.update({
-        address:"",
-        businessType: "", // Poner en blanco
-      //  establishmentEmail: "", // Poner en blanco
-        establishmentName: "", // Poner en blanco
-        expdate: "", // Poner en blanco
-        ownerName: "", // Poner en blanco
-        whatsapp: "", // Poner en blanco
-        backgroundImageUrl:"https://res.cloudinary.com/dbrz9aqlt/image/upload/v1728674945/qnx79wojyp0ypmlxofcf.jpg",
-        status: "disabled", // Cambiar a "disabled"
-        amenities:[],
+        address: "",
+        businessType: "",
+        establishmentName: "",
+        expdate: "",
+        ownerName: "",
+        whatsapp: "",
+        backgroundImageUrl: "https://res.cloudinary.com/dbrz9aqlt/image/upload/v1728674945/qnx79wojyp0ypmlxofcf.jpg",
+        status: "disabled",
+        amenities: [],
         statusHistory: admin.firestore.FieldValue.arrayUnion({
-          disabled: new Date().toISOString(), // Agregar el timestamp de deshabilitación
+          disabled: new Date().toISOString(),
         }),
       });
-
-
-    //  await admin.auth().deleteUser(ownerId);
 
       return res.status(200).send({ message: "Cuenta deshabilitada y datos actualizados correctamente." });
     } catch (error) {

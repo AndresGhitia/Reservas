@@ -66,6 +66,7 @@ function Add({ setSpaces, setError, setLoading }) {
         value={newSpace.name}
         onChange={(e) => setNewSpace({ ...newSpace, name: e.target.value })}
         placeholder="Nombre del nuevo espacio"
+        maxLength={18} // Limita a 18 caracteres
       />
 
       <select

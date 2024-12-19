@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom'; 
 import { assets } from '../../src/assets/assets'; 
 import { auth, db } from '../firebase';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { onAuthStateChanged, signOut,EmailAuthProvider,reauthenticateWithCredential } from 'firebase/auth';
 import { doc, getDoc, collection,getDocs  } from 'firebase/firestore';
 import { resetInactivityTimer } from '../components/Navbar/authUtils'; 
 import onDeleteAccount from '../../functions/onDeleteAccount'
@@ -129,39 +129,43 @@ useEffect(() => {
   
     if (confirmation) {
       try {
+        // Verificar si el usuario está autenticado
+        const user = auth.currentUser;
+        console.log("Usuario actual:", user);
+        
+        if (!user || !user.email) {
+          throw new Error("No se pudo obtener el usuario actual. Por favor, inicia sesión nuevamente.");
+        }
+  
         // Solicitar la contraseña del usuario
         const password = prompt("Por favor, ingresa tu contraseña para confirmar:");
-  
         if (!password) {
           alert("La eliminación de la cuenta fue cancelada.");
           return;
         }
   
-        // Obtener el usuario actual
-        const user = auth.currentUser;
-  
-        if (!user || !user.email) {
-          throw new Error("No se pudo obtener el usuario actual.");
-        }
-  
-        // Crear las credenciales con email y contraseña
+        // Crear credenciales con email y contraseña
         const credential = EmailAuthProvider.credential(user.email, password);
   
         // Reautenticar al usuario
-        await reauthenticateWithCredential(user, credential);
+        await reauthenticateWithCredential(user, credential)
+          .then(() => console.log("Reautenticación exitosa"))
+          .catch((error) => {
+            console.error("Error de reautenticación:", error.message);
+            throw new Error("La contraseña es incorrecta. Inténtalo nuevamente.");
+          });
   
-        console.log("Usuario reautenticado correctamente.");
-  
-        // Llamar a tu lógica de eliminación (Cloud Function)
-        await onDeleteAccount(); // Asegúrate de importar tu función
+        // Eliminar la cuenta
+        console.log("Llamando a la lógica de eliminación...");
+        await onDeleteAccount(); // Implementa correctamente tu lógica de eliminación
         alert("Tu cuenta ha sido eliminada con éxito.");
   
         // Cerrar sesión y redirigir
         await signOut(auth);
         navigate("/"); // Redirigir al home
       } catch (error) {
-        console.error("Error al eliminar la cuenta:", error);
-        alert("Error al verificar la contraseña o eliminar la cuenta. Por favor, inténtalo de nuevo.");
+        console.error("Error al eliminar la cuenta:", error.message);
+        alert(error.message || "Ocurrió un error al eliminar la cuenta. Por favor, inténtalo de nuevo.");
       }
     }
   };

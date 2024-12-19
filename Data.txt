@@ -406,3 +406,6 @@ G#185 Se modifica el filtrado del componente BusinessList para que cuando se mon
 las cards de los usuarios dados de baja).
 
 A#186 Se da estilos a BusinessPage. Queda por optimizar el Header y seria util añadadir otros complejos cercanos al complejo actual.
+
+G#187 Se agrega una linea en el componente Add.jsx para limitar la cantidad de caracteres a 18 del input del titulo del espacio a agregar, con el fin de estandarizar
+el diseño de las card que se muestran en businessPage.
