@@ -65,7 +65,7 @@ const BusinessMap = ({ address, onAddressFormatted }) => {
         <GoogleMap
           center={mapLocation}
           zoom={15}
-          mapContainerStyle={{ width: '900px', height: '300px'}}
+          mapContainerStyle={{ width: '100%', height: '300px'}}
           options={{
             mapTypeControl: false, 
             streetViewControl: true,

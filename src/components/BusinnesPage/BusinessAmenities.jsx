@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaCheck } from 'react-icons/fa';
 import './BusinessAmenities.css';
 
 const BusinessAmenities = ({ amenities }) => {
@@ -14,13 +15,15 @@ const BusinessAmenities = ({ amenities }) => {
   return (
     <div className='business-amenities'>
       <h1>Instalaciones</h1>
-      <ul >
-        {amenities.map((amenity, index) => (
-          <li key={index}>
-            {amenity}
-          </li>
-        ))}
-      </ul>
+      <div className='business-amenities-info'>
+        <ul >
+          {amenities.map((amenity, index) => (
+            <li key={index}>
+              <FaCheck className="check-icon" />{amenity}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

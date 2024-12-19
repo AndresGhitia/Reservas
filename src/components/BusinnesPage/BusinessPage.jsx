@@ -1,4 +1,3 @@
-// BusinessPage.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { collection, onSnapshot } from 'firebase/firestore';
@@ -11,7 +10,7 @@ import Navbar from '../Navbar/Navbar';
 import './BusinessPage.css';
 import BpHeader from './BpHeader';
 import BusinessAmenities from './BusinessAmenities';
-import './BusinessPage.css';
+import WhatsappButton from '../Whatsapp/WhatsappButton';
 
 function BusinessPage() {
   const { establishmentName } = useParams();
@@ -25,9 +24,9 @@ function BusinessPage() {
   const [showModal, setShowModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [ownerId, setOwnerId] = useState(null);
-  const [cel, setCel] = useState(null);
   const [formattedAddress, setFormattedAddress] = useState('');
   const [expandedCards, setExpandedCards] = useState({});
+  const [showContactNumber, setShowContactNumber] = useState(false);
 
   const mapRef = useRef(null);
 
@@ -35,7 +34,7 @@ function BusinessPage() {
     const businessRef = collection(db, 'owners');
 
     const unsubscribeBusiness = onSnapshot(businessRef, (querySnapshot) => {
-      var foundBusiness = null;
+      let foundBusiness = null;
 
       querySnapshot.forEach((doc) => {
         const businessData = doc.data();
@@ -52,7 +51,6 @@ function BusinessPage() {
       if (foundBusiness) {
         setOwnerData(foundBusiness);
         setOwnerId(foundBusiness.id);
-        setCel(foundBusiness.whatsapp);
 
         const spacesRef = collection(db, 'owners', foundBusiness.id, 'spaces');
         const unsubscribeSpaces = onSnapshot(spacesRef, (spacesSnap) => {
@@ -70,6 +68,10 @@ function BusinessPage() {
 
     return () => unsubscribeBusiness();
   }, [decodedName]);
+
+  const handleContactClick = () => {
+    setShowContactNumber(true);
+  };
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -130,7 +132,6 @@ function BusinessPage() {
               formattedAddress={formattedAddress}
               ownerData={ownerData}
             />
-
             <div
               className="space-image"
               style={{
@@ -165,8 +166,6 @@ function BusinessPage() {
                   setSelectedDate={setSelectedDate}
                   disableBooking={false}
                   ownerId={ownerId}
-                  cel={cel}
-                  sport={selectedSpace.sport}
                 />
               </div>
             )}
@@ -176,6 +175,7 @@ function BusinessPage() {
               </div>
               <div className="businessmap-element">
                 <BusinessMap address={ownerData.address} onAddressFormatted={setFormattedAddress} />
+                <p>{formattedAddress}</p>
               </div>
             </div>
           </div>
@@ -188,7 +188,9 @@ function BusinessPage() {
             </div>
             <div className="amenities-element">
               <p>
-                {Array.isArray(ownerData.businessType) ? ownerData.businessType.join(', ') : ownerData.businessType || 'Sin rubro'}
+                {Array.isArray(ownerData.businessType)
+                  ? ownerData.businessType.join(', ')
+                  : ownerData.businessType || 'Sin rubro'}
               </p>
             </div>
             <BusinessAmenities amenities={ownerData.amenities} />
@@ -202,7 +204,13 @@ function BusinessPage() {
               <button className="login-button-address" onClick={handleViewMap}>
                 VER MAPA
               </button>
-              <button className="login-button-address">CONTACTANOS</button>
+              <button className="login-button-address" onClick={handleContactClick}>
+                {showContactNumber ? (
+                  <WhatsappButton phoneNumber={ownerData.whatsapp} />
+                ) : (
+                  'CONTACTANOS'
+                )}
+              </button>
             </div>
           </div>
         </div>
