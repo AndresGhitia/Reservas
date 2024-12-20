@@ -409,3 +409,6 @@ A#186 Se da estilos a BusinessPage. Queda por optimizar el Header y seria util a
 
 G#187 Se agrega una linea en el componente Add.jsx para limitar la cantidad de caracteres a 18 del input del titulo del espacio a agregar, con el fin de estandarizar
 el diseño de las card que se muestran en businessPage.
+
+G#187 Se añade a la funcion de borrar cuenta, mediante el componente auxiliar que interactura con index.js de firebase functions, el borrado de los spaces del 
+usuario.  

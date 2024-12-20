@@ -29,6 +29,8 @@ exports.deleteUserAccount = onRequest((req, res) => {
 
       console.log(`Eliminando documentos de la colección spaces para ownerId: ${ownerId}`);
       await deleteCollection(spacesCollectionRef);
+      console.log(`spacesCollectionRef: `+ JSON.stringify(spacesCollectionRef));
+
       console.log(`Todos los documentos de spaces eliminados correctamente.`);
 
       console.log(`Todos los documentos y subcolecciones eliminados correctamente para ownerId: ${ownerId}`);

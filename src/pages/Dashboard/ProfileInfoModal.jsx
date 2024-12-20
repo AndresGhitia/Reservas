@@ -2,6 +2,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ProfileInfoModal.css';
+// import { handleDeleteSpaces } from '../../utils/handleDeleteSpaces';
 
 function ProfileInfoModal({ userData, userCollection, numSpaces, onClose, onDeleteAccount }) {
   const navigate = useNavigate();
@@ -30,7 +31,10 @@ function ProfileInfoModal({ userData, userCollection, numSpaces, onClose, onDele
         ) : null}
 
         <div className="modal-buttons">
-          <button onClick={onClose}>Cerrar</button>
+          <button 
+          // onClick={handleDeleteSpaces}>
+          onClick={onClose}>
+          Cerrar</button>
           <button
           
             onClick={() => navigate(`/edit-data?email=${userEmail}`)}

@@ -1,4 +1,5 @@
 import { auth } from "../src/firebase";
+import { handleDeleteSpaces } from "./handleDeleteSpaces";
 
 const onDeleteAccount = async () => {
   try {
@@ -30,6 +31,10 @@ console.log("Respuesta del backend:", responseData);
       }
 
       alert("La cuenta ha sido deshabilitada con éxito.");
+
+      handleDeleteSpaces();
+      console.log('ejecutando handleDeleteSpaces')
+
     } else {
       alert("No hay un usuario autenticado.");
     }
