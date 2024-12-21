@@ -28,6 +28,7 @@ function BusinessPage() {
   const [formattedAddress, setFormattedAddress] = useState('');
   const [expandedCards, setExpandedCards] = useState({});
   const [showContactNumber, setShowContactNumber] = useState(false);
+  // const news = Array.isArray(ownerData.news) ? ownerData.news : [];
 
   const mapRef = useRef(null);
 
@@ -58,6 +59,9 @@ function BusinessPage() {
           const spacesList = spacesSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
           setSpaces(spacesList);
           setLoading(false);
+
+          console.log("ownerData.news:", news);
+
         });
 
         return () => unsubscribeSpaces();
@@ -195,7 +199,7 @@ function BusinessPage() {
               </p>
             </div>
             <BusinessAmenities amenities={ownerData.amenities} />
-            {/* <BPNews db={db} news={ownerData.news} /> */}
+            <BPNews db={db} news={ownerData?.news || []} userDocId={ownerId}/>
 
           </div>
           <div className="address-container">

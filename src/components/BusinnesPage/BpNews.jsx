@@ -7,23 +7,27 @@ const BPNews = ({ db, userDocId }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Cargar las noticias al montar el componente
   useEffect(() => {
     const fetchNews = async () => {
-      if (!userDocId) return;
+      if (!userDocId) {
+        setError("No se proporcionó el ID del usuario.");
+        setLoading(false);
+        return;
+      }
 
       const userDocRef = doc(db, "owners", userDocId);
       try {
         const docSnapshot = await getDoc(userDocRef);
         if (docSnapshot.exists()) {
           const data = docSnapshot.data();
-          if (data.news) {
+          if (data && data.news) {
             setNewsList(data.news);
-
-            console.log('noticias' +newsList)
+            console.log("Noticias cargadas:", data.news);
+          } else {
+            setError("No se encontraron noticias.");
           }
         } else {
-          setError("No se encontraron noticias.");
+          setError("No se encontró el documento del usuario.");
         }
       } catch (err) {
         console.error("Error al cargar las noticias:", err);
@@ -38,7 +42,7 @@ const BPNews = ({ db, userDocId }) => {
 
   return (
     <div className="bpnews-container">
-      <h2>Noticias</h2>
+      <h2>Novedades!</h2>
       {loading ? (
         <p>Cargando noticias...</p>
       ) : error ? (
@@ -47,11 +51,11 @@ const BPNews = ({ db, userDocId }) => {
         <p>No hay noticias disponibles.</p>
       ) : (
         <ul className="bpnews-list">
-          {newsList.map((news, index) => (
-            <li key={index} className="bpnews-item">
+          {newsList.map((news) => (
+            <li key={news.title} className="bpnews-item"> 
               <h3>{news.title}</h3>
               <p>{news.content}</p>
-              <span>{news.date}</span>
+              {/* <span>{news.date}</span> */}
             </li>
           ))}
         </ul>

@@ -415,3 +415,5 @@ usuario.
 
 G#189 Se crea el componente /Dashboard/News que permite al owner cargar, editar y eliminar noticias mediante la base de datos. La idea es que estas se muestren 
 en BusinessPage. 
+
+G#190 Se crea el componente /BusinessPage/BpNews mendiante el cual se muestran las novedades del complejo en BusinessPage 
