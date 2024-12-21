@@ -414,4 +414,4 @@ G#188 Se añade a la funcion de borrar cuenta, mediante el componente auxiliar q
 usuario.  
 
 G#189 Se crea el componente /Dashboard/News que permite al owner cargar, editar y eliminar noticias mediante la base de datos. La idea es que estas se muestren 
-en BusinessPage.
+en BusinessPage. 
