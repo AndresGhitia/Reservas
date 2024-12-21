@@ -1,0 +1,54 @@
+.news-container {
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .news-input,
+  .news-textarea {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+    font-size: 16px;
+  }
+  
+  .news-textarea {
+    height: 100px;
+  }
+  
+  .add-news-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .add-news-button:disabled {
+    background-color: #aaa;
+  }
+  
+  .news-list {
+    margin-top: 20px;
+  }
+  
+  .news-list ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .news-list li {
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .error-message {
+    color: red;
+    margin-bottom: 10px;
+  }
+  

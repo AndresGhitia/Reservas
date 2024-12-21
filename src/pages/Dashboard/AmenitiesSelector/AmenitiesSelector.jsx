@@ -101,26 +101,6 @@ const AmenitiesSelector = ({ db, userDocId, onUpdateAmenities }) => {
         </select>
       </div>
 
-      {/* Lista de todas las prestaciones */}
-      {/* <div className="all-amenities">
-        <h3>Todas las prestaciones</h3>
-        <ul className="amenities-list">
-          {amenities.map((amenity, index) => (
-            <li key={index} className="amenity-item">
-              <span>{amenity}</span>
-              {selectedAmenities.includes(amenity) && (
-                <button
-                  className="remove-button"
-                  onClick={() => handleRemoveAmenity(amenity)}
-                >
-                  ✖
-                </button>
-              )}
-            </li>
-          ))}
-        </ul>
-      </div> */}
-
       {/* Lista de prestaciones seleccionadas */}
       <div className="selected-amenities">
         <h3>Prestaciones de tu complejo</h3>

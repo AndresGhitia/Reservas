@@ -11,7 +11,7 @@
   import Sidebar from '../../components/Sidebar/Sidebar';
   import AmenitiesSelector from './AmenitiesSelector/AmenitiesSelector';
   import ShareQR from '../../components/ShareQR/ShareQR';
-
+  import News from './News/News';
 
   function Dashboard() {
     const { establishmentName } = useParams();
@@ -208,9 +208,11 @@
               {/* Componente AmenitiesSelector */}
               <AmenitiesSelector
   db={db}
-  userDocId={auth.currentUser?.uid}  // Use Firebase UID as userDocId
+  userDocId={auth.currentUser?.uid}  
   onUpdateAmenities={handleUpdateAmenities}
 />
+
+<News db={db} userDocId={auth.currentUser?.uid} />
 
 
           </div>

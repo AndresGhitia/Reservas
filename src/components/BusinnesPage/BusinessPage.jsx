@@ -11,6 +11,7 @@ import './BusinessPage.css';
 import BpHeader from './BpHeader';
 import BusinessAmenities from './BusinessAmenities';
 import WhatsappButton from '../Whatsapp/WhatsappButton';
+import BPNews from './BpNews';
 
 function BusinessPage() {
   const { establishmentName } = useParams();
@@ -194,6 +195,8 @@ function BusinessPage() {
               </p>
             </div>
             <BusinessAmenities amenities={ownerData.amenities} />
+            {/* <BPNews db={db} news={ownerData.news} /> */}
+
           </div>
           <div className="address-container">
             <div className="address-header">
