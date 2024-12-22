@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
-import "./BPNews.css"; 
+import "./BpNews.css"; 
 
 const BPNews = ({ db, userDocId }) => {
   const [newsList, setNewsList] = useState([]);

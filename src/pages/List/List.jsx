@@ -5,12 +5,12 @@ import CalendarOwner from '../../components/Calendar/CalendarOwner';
 import { handleReserveSlot, handleCancelReservation } from '../../utils/reservationHandlers';
 import { deleteSpace } from '../../utils/spaceHandlers';
 import { fetchOwnerDataAndSpaces } from '../../utils/fetchOwnerData';
-import EditSpace from './EditSpace'; 
+import EditSpace from './EditSpace';
 import './List.css';
 import { assets } from '../../assets/assets';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 
 
 function List() {
@@ -27,7 +27,7 @@ function List() {
   const [editedSpace, setEditedSpace] = useState(null);
   const navigate = useNavigate(); // Inicializa el hook useNavigate
   const dashboardUrl = '/dashboard'; // Define tu base URL para la navegación
-  
+
   useEffect(() => {
     const fetchData = async () => {
       await fetchOwnerDataAndSpaces(setOwnerData, setSpaces, setError, setLoading);
@@ -52,7 +52,7 @@ function List() {
       }
     } catch (error) {
       console.error("Error al guardar los cambios: ", error);
-      toast.error("Error al guardar los cambios"); 
+      toast.error("Error al guardar los cambios");
     }
   };
 
@@ -62,9 +62,9 @@ function List() {
       const result = await deleteSpace(user.uid, spaceId);
       if (result) {
         setSpaces((prevSpaces) => prevSpaces.filter((space) => space.id !== spaceId));
-        toast.success("Espacio eliminado exitosamente"); 
+        toast.success("Espacio eliminado exitosamente");
       } else {
-        toast.error("Error al eliminar el espacio"); 
+        toast.error("Error al eliminar el espacio");
       }
     }
   };
@@ -105,7 +105,9 @@ function List() {
 
   return (
     <div className="list add flex-col">
-      <p>Canchas de tu complejo</p>
+      <div className='list-table-header'>
+      <h1>Canchas de tu complejo</h1>
+      </div>
       <div className='list-table'>
         <div className='list-table-format title'>
           <b>Nombre</b>
@@ -134,9 +136,9 @@ function List() {
                 <p>{space.surface}</p>
                 <p>{space.players}</p>
                 <p>${space.rate}</p>
-                <p onClick={() => handleEditSpace(space)} style={{ cursor: 'pointer' }}><img src={assets.edit_icon}/></p>                
-                <p onClick={() => handleDeleteSpace(space.id)} style={{ cursor: 'pointer' }}><img src={assets.delete_icon}/></p>                
-                <p onClick={() =>handleViewAvailability(space)} style={{ cursor: 'pointer' }}><img src={assets.clock_icon}/></p> 
+                <p onClick={() => handleEditSpace(space)} style={{ cursor: 'pointer' }}><img src={assets.edit_icon} /></p>
+                <p onClick={() => handleDeleteSpace(space.id)} style={{ cursor: 'pointer' }}><img src={assets.delete_icon} /></p>
+                <p onClick={() => handleViewAvailability(space)} style={{ cursor: 'pointer' }}><img src={assets.clock_icon} /></p>
               </>
             )}
           </div>

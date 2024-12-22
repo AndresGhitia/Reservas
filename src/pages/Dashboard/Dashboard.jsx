@@ -1,256 +1,211 @@
-  import React, { useEffect, useState } from 'react';
-  import { Outlet, useParams } from 'react-router-dom';
-  import { doc, setDoc } from 'firebase/firestore';
-  import { db, auth } from '../../firebase';
-  import { onAuthStateChanged } from 'firebase/auth';
-  import { fetchOwnerDataAndSpaces } from '../../utils/fetchOwnerData';
-  import { uploadImageToCloudinary } from '../../utils/cloudinaryUpload';
-  import './Dashboard.css';
-  import CalendarOwner from '../../components/Calendar/CalendarOwner';
-  import Navbar from '../../components/Navbar/Navbar';
-  import Sidebar from '../../components/Sidebar/Sidebar';
-  import AmenitiesSelector from './AmenitiesSelector/AmenitiesSelector';
-  import ShareQR from '../../components/ShareQR/ShareQR';
-  import News from './News/News';
+import React, { useEffect, useState } from 'react';
+import { Outlet, useParams } from 'react-router-dom';
+import { doc, setDoc } from 'firebase/firestore';
+import { db, auth } from '../../firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { fetchOwnerDataAndSpaces } from '../../utils/fetchOwnerData';
+import { uploadImageToCloudinary } from '../../utils/cloudinaryUpload';
+import './Dashboard.css';
+import CalendarOwner from '../../components/Calendar/CalendarOwner';
+import Navbar from '../../components/Navbar/Navbar';
+import Sidebar from '../../components/Sidebar/Sidebar';
+import AmenitiesSelector from './AmenitiesSelector/AmenitiesSelector';
+import ShareQR from '../../components/ShareQR/ShareQR';
+import News from './News/News';
 
-  function Dashboard() {
-    const { establishmentName } = useParams();
-    const decodedName = decodeURIComponent(establishmentName).replace(/-/g, ' ');
-    const [ownerData, setOwnerData] = useState(null);
-    const [spaces, setSpaces] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [selectedSpace, setSelectedSpace] = useState(null);
-    const [calendarData, setCalendarData] = useState([]);
-    const [selectedDate, setSelectedDate] = useState(null);
-    const [showModal, setShowModal] = useState(false);
-    const [timeSlots, setTimeSlots] = useState([]);
-    const [imageUrl, setImageUrl] = useState("");
-    const [showQRModal, setShowQRModal] = useState(false);
-    const bookItUrl = import.meta.env.VITE_BOOKIT_URL;
-    const [amenities, setAmenities] = useState([]);
+function Dashboard() {
+  const { establishmentName } = useParams();
+  const decodedName = decodeURIComponent(establishmentName).replace(/-/g, ' ');
+  const [ownerData, setOwnerData] = useState(null);
+  const [spaces, setSpaces] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedSpace, setSelectedSpace] = useState(null);
+  const [calendarData, setCalendarData] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [timeSlots, setTimeSlots] = useState([]);
+  const [imageUrl, setImageUrl] = useState("");
+  const [showQRModal, setShowQRModal] = useState(false);
+  const bookItUrl = import.meta.env.VITE_BOOKIT_URL;
+  const [amenities, setAmenities] = useState([]);
 
-  //console.log("establishmentName:" + establishmentName);
-  //console.log("decodeName:" + decodedName);
-
-    useEffect(() => {
-      const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      //  console.log("Verificando autenticación...");
-        if (user) {
-      //    console.log("Usuario autenticado:", user);
-          try {
-            // Cargar datos del propietario y los espacios
-            await fetchOwnerDataAndSpaces(setOwnerData, setSpaces, setError, setLoading);
-          } catch (fetchError) {
-            console.error("Error al cargar los datos:", fetchError);
-            setError("Error al cargar los datos del propietario.");
-          }
-        } else {
-          console.log("Usuario no autenticado.");
-          setError("Usuario no autenticado.");
-          setLoading(false);
-        }
-      });
-
-      // Limpieza del observador al desmontar el componente
-      return () => unsubscribe();
-    }, []);
-
-    const handleCopy = () => {
-      const textToCopy = `${bookItUrl}/${encodeURIComponent(decodedName.replace(/ /g, '-'))}`;
-      
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        // Usa Clipboard API si está disponible
-        navigator.clipboard.writeText(textToCopy)
-          .then(() => alert("Dirección de tu negocio copiada en el portapapeles"))
-          .catch(err => console.error('Error al copiar el enlace: ', err));
-      } else {
-        // Alternativa con execCommand para entornos no compatibles con Clipboard API
-        const textArea = document.createElement("textarea");
-        textArea.value = textToCopy;
-        document.body.appendChild(textArea);
-        textArea.select();
-        
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
         try {
-          document.execCommand('copy');
-          alert("Dirección de tu negocio copiada en el portapapeles");
-        } catch (err) {
-          console.error('Error al copiar el enlace: ', err);
+          await fetchOwnerDataAndSpaces(setOwnerData, setSpaces, setError, setLoading);
+        } catch (fetchError) {
+          console.error("Error al cargar los datos:", fetchError);
+          setError("Error al cargar los datos del propietario.");
         }
-        
-        document.body.removeChild(textArea);
+      } else {
+        console.log("Usuario no autenticado.");
+        setError("Usuario no autenticado.");
+        setLoading(false);
       }
-    };
-    
-    
+    });
 
-    const handleCloseModal = () => {
-      setShowModal(false);
-      setSelectedSpace(null);
-      setCalendarData([]);
-      setSelectedDate(null);
-      setTimeSlots([]);
-    };
+    return () => unsubscribe();
+  }, []);
 
-    const handleUploadBackgroundImage = async (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-
+  const handleCopy = () => {
+    const textToCopy = `${bookItUrl}/${encodeURIComponent(decodedName.replace(/ /g, '-'))}`;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => alert("Dirección de tu negocio copiada en el portapapeles"))
+        .catch(err => console.error('Error al copiar el enlace: ', err));
+    } else {
+      const textArea = document.createElement("textarea");
+      textArea.value = textToCopy;
+      document.body.appendChild(textArea);
+      textArea.select();
       try {
-        const url = await uploadImageToCloudinary(file);
-        setImageUrl(url);
-        saveBackgroundImageUrl(url);
-      //  console.log("URL de la imagen subida:", url);
-      } catch (error) {
-        console.error("Error al subir la imagen a Cloudinary: ", error);
+        document.execCommand('copy');
+        alert("Dirección de tu negocio copiada en el portapapeles");
+      } catch (err) {
+        console.error('Error al copiar el enlace: ', err);
       }
-    };
-
-    const saveBackgroundImageUrl = async (url) => {
-      try {
-        const user = auth.currentUser;
-        const docRef = doc(db, 'owners', user.uid);
-        await setDoc(docRef, { backgroundImageUrl: url }, { merge: true });
-      } catch (error) {
-        console.error("Error al guardar la URL de la imagen: ", error);
-      }
-    };
-
-    const handleShowQRModal = () => {
-      setShowQRModal(true);
-    };
-
-    const handleCloseQRModal = () => {
-      setShowQRModal(false);
-    };
-
-    if (loading) {
-      return <div>Cargando...</div>;
+      document.body.removeChild(textArea);
     }
+  };
 
-    if (error) {
-      return <div>{error}</div>;
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedSpace(null);
+    setCalendarData([]);
+    setSelectedDate(null);
+    setTimeSlots([]);
+  };
+
+  const handleUploadBackgroundImage = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+      const url = await uploadImageToCloudinary(file);
+      setImageUrl(url);
+      saveBackgroundImageUrl(url);
+    } catch (error) {
+      console.error("Error al subir la imagen a Cloudinary: ", error);
     }
+  };
 
-    if (!ownerData) {
-      return <div>No se encontraron datos del propietario.</div>;
+  const saveBackgroundImageUrl = async (url) => {
+    try {
+      const user = auth.currentUser;
+      const docRef = doc(db, 'owners', user.uid);
+      await setDoc(docRef, { backgroundImageUrl: url }, { merge: true });
+    } catch (error) {
+      console.error("Error al guardar la URL de la imagen: ", error);
     }
+  };
 
-    const handleUpdateAmenities = (updatedAmenities) => {
-      setAmenities(updatedAmenities);
-      console.log('Prestaciones actualizadas:', updatedAmenities);
-    };
+  const handleShowQRModal = () => setShowQRModal(true);
+  const handleCloseQRModal = () => setShowQRModal(false);
 
-    return (
-      <div className="dashboard-container">
-        <Navbar />
-        <div className="owner-container">
-          <h1>Hola, {ownerData.ownerName}</h1>
-          <p>Bienvenido al panel de administración de {decodedName}</p>
-        </div>
-        <hr />
-        <Sidebar />
-        <div className='outlet-container'>
-          <Outlet />
-        </div>
+  const handleUpdateAmenities = (updatedAmenities) => {
+    setAmenities(updatedAmenities);
+    console.log('Prestaciones actualizadas:', updatedAmenities);
+  };
 
-        <div className='control-panel'>
+  if (loading) return <div>Cargando...</div>;
+  if (error) return <div>{error}</div>;
+  if (!ownerData) return <div>No se encontraron datos del propietario.</div>;
 
-          {showModal && (
-            <div className="modal">
-              <CalendarOwner
-                selectedSpace={selectedSpace}
-                calendarData={calendarData}
-                setCalendarData={setCalendarData}
-                setTimeSlots={setTimeSlots}
-                setSelectedDate={setSelectedDate}
-                onClose={handleCloseModal}
-                sport={selectedSpace?.sport} 
-              />
-              {selectedDate && (
-                <div className="time-slots">
-                  {timeSlots.map((slot, index) => (
-                    <div key={index} className="slot-item">
-                      {slot.time} - {slot.available ? (
-                        <button
-                          onClick={() => handleReserveSlot(index, selectedSpace, selectedDate, timeSlots, setTimeSlots)}
-                          className="reserve-button"
-                        >
-                          Reservar
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => handleCancelReservation(index, selectedSpace, selectedDate, timeSlots, setTimeSlots)}
-                          className="cancel-button"
-                        >
-                          Cancelar Reserva
-                        </button>
-                      )}
-                    </div>
-                  ))}
+  return (
+    <div className="dashboard-container">
+      <Navbar />
+      <div className="owner-container">
+        <h1>Hola, {ownerData.ownerName}</h1>
+        <p>Bienvenido al panel de administración de {decodedName}</p>
+      </div>
+      <hr />
+      <Sidebar />
+      <div className='outlet-container'>
+        <Outlet />
+      </div>
+      {showModal && (
+        <div className="modal">
+          <CalendarOwner
+            selectedSpace={selectedSpace}
+            calendarData={calendarData}
+            setCalendarData={setCalendarData}
+            setTimeSlots={setTimeSlots}
+            setSelectedDate={setSelectedDate}
+            onClose={handleCloseModal}
+            sport={selectedSpace?.sport}
+          />
+          {selectedDate && (
+            <div className="time-slots">
+              {timeSlots.map((slot, index) => (
+                <div key={index} className="slot-item">
+                  {slot.time} - {slot.available ? (
+                    <button
+                      onClick={() => handleReserveSlot(index, selectedSpace, selectedDate, timeSlots, setTimeSlots)}
+                      className="reserve-button"
+                    >
+                      Reservar
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => handleCancelReservation(index, selectedSpace, selectedDate, timeSlots, setTimeSlots)}
+                      className="cancel-button"
+                    >
+                      Cancelar Reserva
+                    </button>
+                  )}
                 </div>
-              )}
+              ))}
             </div>
           )}
-
-          <div className="action-container">
-
-          <div className='preferences-container'>
-            <div className="upload-background">
-              <h2>Cambiar imagen de fondo para la página del cliente</h2>
-              <input 
-                type="file"
-                accept="image/*" 
-                onChange={handleUploadBackgroundImage} />
-              {imageUrl && <img src={imageUrl} alt="Imagen de fondo" style={{ width: '80px', marginTop: '10px' }} />}
-            </div>
-
-              {/* Componente AmenitiesSelector */}
-              <AmenitiesSelector
-  db={db}
-  userDocId={auth.currentUser?.uid}  
-  onUpdateAmenities={handleUpdateAmenities}
-/>
-
-<News db={db} userDocId={auth.currentUser?.uid} />
-
-
-          </div>
-            <div className="share-Button-container">
-
-              <div className="share-Buttons">
-                <button onClick={handleCopy}>
-                  Compartir URL
-                </button>
-
-                <button onClick={handleShowQRModal} style={{ marginTop: '20px' }}>
-                  Compartir QR
-                </button>
-              </div>
-
-              <button
-
-                onClick={() => window.open(`${bookItUrl}/${establishmentName}`, '_blank')}
-                style={{ marginTop: '20px' }} >
-                Ir al sitio del negocio
-              </button>
-
-            </div>
-
-          </div>
-
         </div>
-
-        {showQRModal && (
-          <ShareQR
-            url={`${bookItUrl}/${encodeURIComponent(decodedName.replace(/ /g, '-'))}`}
-            businessName={decodedName}  
-            onClose={handleCloseQRModal}
-          />
-        )}
+      )}
+      <div className='businesspage-container'>
+        <div className="business-leftcolumn">
+          <div className='business-container'>
+            <AmenitiesSelector
+              db={db}
+              userDocId={auth.currentUser?.uid}
+              onUpdateAmenities={handleUpdateAmenities}
+            />
+            <News db={db} userDocId={auth.currentUser?.uid} />
+          </div>
+        </div>
         
+        <div className="business-rightcolumn">
+          <div className="upload-background">
+            <h2>Cambiar imagen de fondo para la página del cliente</h2>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleUploadBackgroundImage}
+            />
+            {imageUrl && <img src={imageUrl} alt="Imagen de fondo" style={{ width: '80px', marginTop: '10px' }} />}
+          </div>
+        </div>
       </div>
-    );
-  }
+      <div className="share-Button-container">
+        <div className="share-Buttons">
+          <button onClick={handleCopy}>Compartir URL</button>
+          <button onClick={handleShowQRModal} style={{ marginTop: '20px' }}>Compartir QR</button>
+        </div>
+        <button
+          onClick={() => window.open(`${bookItUrl}/${establishmentName}`, '_blank')}
+          style={{ marginTop: '20px' }}
+        >
+          Ir al sitio del negocio
+        </button>
+      </div>
+      {showQRModal && (
+        <ShareQR
+          url={`${bookItUrl}/${encodeURIComponent(decodedName.replace(/ /g, '-'))}`}
+          businessName={decodedName}
+          onClose={handleCloseQRModal}
+        />
+      )}
+    </div>
+  );
+}
 
-  export default Dashboard;
+export default Dashboard;

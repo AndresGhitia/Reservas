@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { doc, updateDoc, getDoc } from "firebase/firestore";
+import { FaCheck } from 'react-icons/fa';
 import "./AmenitiesSelector.css";
 
 const AmenitiesSelector = ({ db, userDocId, onUpdateAmenities }) => {
@@ -60,7 +61,7 @@ const AmenitiesSelector = ({ db, userDocId, onUpdateAmenities }) => {
         ? docSnapshot.data().amenities
         : [];
 
-        const updatedAmenities = selectedAmenities; // Sobrescribe estrictamente con las seleccionadas
+      const updatedAmenities = selectedAmenities; // Sobrescribe estrictamente con las seleccionadas
 
       await updateDoc(userDocRef, {
         amenities: updatedAmenities,
@@ -80,43 +81,19 @@ const AmenitiesSelector = ({ db, userDocId, onUpdateAmenities }) => {
   };
 
   return (
-    <div className="amenities-selector">
-      <h2>Seleccionar prestaciones</h2>
-
-      {/* Dropdown para seleccionar prestaciones */}
-      <div className="dropdown-container">
-        <select
-          onChange={(e) => handleSelectAmenity(e.target.value)}
-          className="amenity-dropdown"
-          value=""
-        >
-          <option value="" disabled>
-            Seleccione una prestación
-          </option>
-          {amenities.map((amenity, index) => (
-            <option key={index} value={amenity} disabled={selectedAmenities.includes(amenity)}>
-              {amenity}
-            </option>
-          ))}
-        </select>
+    <div className="amenities-selector-container">
+      <div className="amenities-selector-header">
+        <h1>Instalaciones del complejo</h1>
       </div>
-
-      {/* Lista de prestaciones seleccionadas */}
       <div className="selected-amenities">
-        <h3>Prestaciones de tu complejo</h3>
         {selectedAmenities.length === 0 ? (
           <p>No se han seleccionado prestaciones.</p>
         ) : (
           <ul className="selected-amenities-list">
             {selectedAmenities.map((amenity, index) => (
               <li key={index} className="selected-amenity-item">
-                {amenity}
-                <button
-                  className="remove-button"
-                  onClick={() => handleRemoveAmenity(amenity)}
-                >
-                  ✖
-                </button>
+                <FaCheck className="check-icon" />{amenity}
+                <button className="delete-amenities-button" onClick={() => handleRemoveAmenity(amenity)}> X </button>
               </li>
             ))}
           </ul>
@@ -124,13 +101,19 @@ const AmenitiesSelector = ({ db, userDocId, onUpdateAmenities }) => {
       </div>
 
       {error && <p className="error-message">{error}</p>}
-      <button
-        className="update-button"
-        onClick={handleUpdateAmenities}
-        disabled={loading}
-      >
-        {loading ? "Actualizando..." : "Actualizar prestaciones"}
-      </button>
+      <div className="amenities-selector-buttons">
+        <select className="amenity-dropdown" onChange={(e) => handleSelectAmenity(e.target.value)} value="" >
+          <option value="" disabled> AGREGAR INSTALACION</option>
+          {amenities.map((amenity, index) => (
+            <option key={index} value={amenity} disabled={selectedAmenities.includes(amenity)}>
+              {amenity}
+            </option>
+          ))}
+        </select>
+        <button className="update-button" onClick={handleUpdateAmenities} disabled={loading} >
+          {loading ? "ACTUALIZANDO..." : "ACTUALIZAR INSTALCIONES"}
+        </button>
+      </div>
     </div>
   );
 };

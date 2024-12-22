@@ -1,15 +1,24 @@
-/* .add{
-  width: 70%;
-  margin-left: max(5vw,25px);
-  margin-top: 50px;
-  color: #6d6d6d;
-  font-size: 16px;
-} */
+
 
 .flex-col{
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  margin-bottom: 40px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 0px 0px 5px 5px;
+}
+
+.list-table-header{
+  background-color: #ececee;
+  padding: 12px;
+  border-radius: 5px 5px 0px 0px;
+}
+
+.list-table-header h1{
+  font-size: 25px;
+  letter-spacing: 2px;
+  font-weight: 600;
+  text-align: center;
 }
 
 .list-table-format{
@@ -18,14 +27,35 @@
   align-items: center;
   gap: 50px;
   padding: 20px 15px;
-  border: 1px solid #cacaca;
-  font-size: 20px;
+  border: 1px solid #2f285a;
+  font-size: 15px;
   text-align: center;
 }
 
 .list-table-format.title{
-  background-color: #f9f9f9;
+  background-color: #2f285a;
 }
+
+.list-table-format.title b{
+  text-transform: uppercase;
+  color: #fff;
+  text-align: center;
+}
+
+.add-space-button{
+  background-color: #2f285a;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  width: 30%;
+}
+
 
 /* .list-table-format img{
   width: 70px;

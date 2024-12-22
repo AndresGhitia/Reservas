@@ -19,7 +19,7 @@ function Add({ setSpaces, setError, setLoading }) {
     openTime: '',
     closeTime: '',
     walls: '',
-    closedDays: [], 
+    closedDays: [],
   });
 
   const [uniqueError, setUniqueError] = useState(null);
@@ -43,7 +43,7 @@ function Add({ setSpaces, setError, setLoading }) {
         : [day], // Si `closedDays` no es un array, inicializa con el día seleccionado
     }));
   };
- 
+
   const handleOpenTimeChange = (e) => {
     setNewSpace((prevState) => ({
       ...prevState,
@@ -96,7 +96,7 @@ function Add({ setSpaces, setError, setLoading }) {
       <select
         value={newSpace.surface}
         onChange={(e) => setNewSpace({ ...newSpace, surface: e.target.value })}
-        disabled={!newSpace.sport} 
+        disabled={!newSpace.sport}
       >
         <option value="">Seleccionar superficie</option>
         <option value="Piso">Piso</option>
@@ -130,10 +130,10 @@ function Add({ setSpaces, setError, setLoading }) {
         value={newSpace.rate}
         onChange={(e) => setNewSpace({ ...newSpace, rate: e.target.value })}
         placeholder="Tarifa"
-        disabled={!newSpace.players} 
+        disabled={!newSpace.players}
       />
 
-<TimeSelection
+      <TimeSelection
         openTime={newSpace.openTime}
         closeTime={newSpace.closeTime}
         onOpenTimeChange={handleOpenTimeChange}
