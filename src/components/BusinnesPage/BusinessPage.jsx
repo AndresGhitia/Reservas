@@ -28,7 +28,6 @@ function BusinessPage() {
   const [formattedAddress, setFormattedAddress] = useState('');
   const [expandedCards, setExpandedCards] = useState({});
   const [showContactNumber, setShowContactNumber] = useState(false);
-  // const news = Array.isArray(ownerData.news) ? ownerData.news : [];
 
   const mapRef = useRef(null);
 
@@ -60,7 +59,6 @@ function BusinessPage() {
           setSpaces(spacesList);
           setLoading(false);
 
-          console.log("ownerData.news:", news);
 
         });
 
