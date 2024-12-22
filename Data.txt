@@ -417,3 +417,5 @@ G#189 Se crea el componente /Dashboard/News que permite al owner cargar, editar 
 en BusinessPage. 
 
 G#190 Se crea el componente /BusinessPage/BpNews mendiante el cual se muestran las novedades del complejo en BusinessPage 
+
+A#191 Se añade estilos al Dashboard ( Mis Espacios ). Restan los otros componentes y terminar de pulir estilos.

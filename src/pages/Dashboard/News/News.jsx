@@ -96,70 +96,75 @@ const News = ({ db, userDocId }) => {
     setTitle(newsToEdit.title);
     setContent(newsToEdit.content);
     setEditingIndex(index);
+
+    const addContainer = document.querySelector(".news-add-container");
+    if (addContainer) {
+      addContainer.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
-    <div className="news-container">
-      <h2>{editingIndex !== null ? "Editar Noticia" : "Agregar Noticia"}</h2>
+    <div className="news-page">
+      {/* Contenedor para "Agregar Noticias" */}
+      <div className="news-add-container">
+        <div className="news-add-header">
+          <h1>{editingIndex !== null ? "Editar Noticia" : "Agregar Noticia"}</h1>
+        </div>
+        <div className="news-elements">
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Título de la noticia"
+            className="news-input"
+          />
+          <textarea
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            placeholder="Desarrollo de la publicación"
+            className="news-textarea"
+          />
+          {error && <p className="error-message">{error}</p>}
+          <button className="add-news-button" onClick={handleAddNews} disabled={loading}>
+            {loading
+              ? "GUARDANDO..."
+              : editingIndex !== null
+                ? "ACTUALIZAR NOTICIA"
+                : "AGREGAR NOTICIA"}
+          </button>
+        </div>
+      </div>
 
-      {/* Campo para el título */}
-      <input
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="Título de la noticia"
-        className="news-input"
-      />
-
-      {/* Campo para el contenido */}
-      <textarea
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        placeholder="Desarrollo de la publicación"
-        className="news-textarea"
-      />
-
-      {error && <p className="error-message">{error}</p>}
-
-      {/* Botón para agregar o actualizar noticia */}
-      <button
-        className="add-news-button"
-        onClick={handleAddNews}
-        disabled={loading}
-      >
-        {loading ? "Guardando..." : editingIndex !== null ? "Actualizar Noticia" : "Agregar Noticia"}
-      </button>
-
-      {/* Mostrar lista de noticias */}
-      <div className="news-list">
-        <h3>Noticias</h3>
-        {newsList.length === 0 ? (
-          <p>No hay noticias agregadas.</p>
-        ) : (
-          <ul>
-            {newsList.map((news, index) => (
-              <li key={index}>
-                <strong>{news.title}</strong>
-                <p>{news.content}</p>
-                <span>{news.date}</span>
-                <button
-                  className="edit-news-button"
-                  onClick={() => handleEditNews(index)}
-                >
-                  Editar
-                </button>
-                <button
-                  className="delete-news-button"
-                  onClick={() => handleDeleteNews(index)}
-                >
-                  Borrar
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
+      <div className="news-list-container">
+        <div className="news-list-header">
+          <h1>Novedades</h1>
+        </div>
+        <div className="news-list">
+          {newsList.length === 0 ? (
+            <p>No hay noticias agregadas.</p>
+          ) : (
+            <ul>
+              {newsList.map((news, index) => (
+                <li key={index}>
+                  <h3>{news.title}</h3>
+                  <span>{news.content}</span>
+                  <span>{news.date}</span>
+                  <div className="news-buttons">
+                    <button className="edit-news-button" onClick={() => handleEditNews(index)}>
+                      Editar
+                    </button>
+                    <button className="delete-news-button" onClick={() => handleDeleteNews(index)}>
+                      Borrar
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
     </div>
+
   );
 };
 

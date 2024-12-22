@@ -197,9 +197,11 @@ function BusinessPage() {
               </p>
             </div>
             <BusinessAmenities amenities={ownerData.amenities} />
-            <BPNews db={db} news={ownerData?.news || []} userDocId={ownerId}/>
-
           </div>
+          
+          <BPNews db={db} news={ownerData?.news || []} userDocId={ownerId} />
+
+
           <div className="address-container">
             <div className="address-header">
               <h1>Dirección</h1>

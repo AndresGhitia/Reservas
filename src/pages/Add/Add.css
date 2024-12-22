@@ -1,8 +1,7 @@
 .add-container {
   display: grid;
-  /* border: solid 2px green; */
-  grid-template-columns: 1fr 1fr; /* Dos columnas de igual ancho */
-  gap: 20px; /* Espacio entre columnas */
+  grid-template-columns: 1fr 1fr; 
+  gap: 20px; 
   width: 50%;
   margin: 20px auto;
   padding: 20px;

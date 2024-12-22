@@ -1,15 +1,16 @@
-/*Dashboard styles*/
-
 .dashboard-container {
-  background-color: #f7feff;
-  display: flex; 
+  background-color: white;
+  display: flex;
   flex-direction: column;
-  min-height: 100vh; /***** Ocupa al menos el 100% de la altura de la pantalla, pero permite crecer */
-  box-sizing: border-box; /***** Asegura que el padding esté incluido en la altura */
+  min-height: 100vh;
+  /***** Ocupa al menos el 100% de la altura de la pantalla, pero permite crecer */
+  box-sizing: border-box;
+  /***** Asegura que el padding esté incluido en la altura */
 }
+
 .owner-container {
   background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)),
-  url('https://t4.ftcdn.net/jpg/03/18/48/95/360_F_318489561_qpVjxV7GEF4btKaiD4OWe78vX737Jnzz.jpg');
+    url('https://t4.ftcdn.net/jpg/03/18/48/95/360_F_318489561_qpVjxV7GEF4btKaiD4OWe78vX737Jnzz.jpg');
   color: white;
   display: flex;
   flex-direction: column;
@@ -17,45 +18,51 @@
   padding: 20px;
   border-radius: 12px;
 }
+
 .owner-container h1 {
   font-size: 3em;
   border-radius: 16px;
   padding-bottom: 10px;
 }
+
 .owner-container p {
   font-size: 20px;
   border-radius: 16px;
 }
-.outlet-container{
-  display: flex;
+
+.outlet-container {
   width: 100%;
-  justify-content: center; 
-  align-items: center; 
+  padding: 0px 15px;
 }
+
 .spaces-container h2 {
   color: #2980b9;
   font-size: 28px;
 }
-.action-container{
+
+.action-container {
   display: flex;
   flex-direction: column;
   align-self: center;
   align-items: center;
 }
+
 .share-Button-container {
   align-self: center;
   margin-top: 25px;
 }
+
 .share-Buttons {
   display: flex;
   flex-direction: row;
-  align-self: center  ;
-  align-items: center ;
-  justify-content: center ;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
   min-width: 240px;
-  gap:3px;
+  gap: 3px;
 }
-.action-container button{
+
+.action-container button {
   width: 100%;
   padding: 3px;
   height: 40px;
@@ -66,21 +73,25 @@
   font-size: 16px;
   border-radius: 6px;
   cursor: pointer;
-  margin-top: 20px; 
+  margin-top: 20px;
 }
+
 .action-container button:hover {
   background-color: rgb(204, 149, 9);
-  transform: scale(1.01); 
+  transform: scale(1.01);
 }
+
 .spaces-Button-container button:hover {
-  background-color: #08945e; 
-  transform: scale(1.05); 
+  background-color: #08945e;
+  transform: scale(1.05);
 }
+
 .error-message {
   color: red;
   font-weight: bold;
   margin-top: 10px;
 }
+
 /* .error {
   border: 1px solid red;
 } */
@@ -89,7 +100,8 @@ ul {
   list-style-type: none;
   padding: 0;
 }
-ul li button {
+
+/* ul li button {
   background-color: #27ae60; 
   color: white;
   border: none;
@@ -102,7 +114,7 @@ ul li button {
 ul li button:hover {
   background-color: #2ecc71;
   transform: scale(1.05);
-}
+} */
 button[style*="background-color: #dc143c"] {
   background-color: #c9a7a3;
   color: white;
@@ -110,9 +122,11 @@ button[style*="background-color: #dc143c"] {
   padding: 15px 25px;
   cursor: pointer;
 }
+
 button[style*="background-color: #dc143c"]:hover {
   background-color: #c0392b;
 }
+
 .close-button {
   background-color: #e74c3c;
   color: white;
@@ -121,9 +135,11 @@ button[style*="background-color: #dc143c"]:hover {
   border-radius: 12px;
   cursor: pointer;
 }
+
 .close-button:hover {
   background-color: #c0392b;
 }
+
 .time-slots {
   margin-top: 25px;
   background-color: #f9fafc;
@@ -131,6 +147,7 @@ button[style*="background-color: #dc143c"]:hover {
   padding: 20px;
   border-radius: 12px;
 }
+
 .slot-item {
   background-color: #d6eaf8;
   padding: 18px;
@@ -141,10 +158,12 @@ button[style*="background-color: #dc143c"]:hover {
   align-items: center;
   transition: transform 0.3s ease;
 }
+
 .slot-item:hover {
   transform: translateY(-6px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
 }
+
 .reserve-button,
 .cancel-button {
   padding: 14px 20px;
@@ -156,66 +175,80 @@ button[style*="background-color: #dc143c"]:hover {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+
 .reserve-button:hover,
 .cancel-button:hover {
-    background-color: goldenrod;
+  background-color: goldenrod;
 }
-.control-panel{
- display: flex;
- justify-content: center;
+
+
+/* -------------------------------------------------------- */
+
+.control-panel-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
+
 .upload-background {
   margin-top: 40px;
   text-align: center;
-  background-color: #f9f9f9; 
+  background-color: #f9f9f9;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  max-width: 600px; 
-  margin: 0 auto; 
+  max-width: 600px;
+  margin: 0 auto;
 }
+
 .upload-background h2 {
   font-size: 1em;
   color: #333;
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
   font-weight: 600;
 }
+
 .upload-background input[type="file"] {
   padding: 10px;
-  border: 1px solid #ccc; 
+  border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #fff;
   font-size: 1em;
-  cursor: pointer; 
+  cursor: pointer;
 }
+
 .upload-background img {
-  width: 80px; 
+  width: 80px;
   margin-top: 10px;
   border-radius: 5px;
-  border: 1px solid #ddd; 
+  border: 1px solid #ddd;
 }
+
 .upload-background img:hover {
-  transform: scale(1.05); 
+  transform: scale(1.05);
   transition: transform 0.2s ease-in-out;
 }
+
 .modal-buttons {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
 }
-.preferences-container{
+
+.preferences-container {
   display: flex;
   flex-direction: row;
-} 
+}
+
 @media (max-width: 768px) {
   .owner-container {
     display: flex;
     flex-direction: column;
     text-align: center;
     padding: 20px;
-    border: 1px solid rgb(169, 169, 169); 
+    border: 1px solid rgb(169, 169, 169);
     border-radius: 12px;
   }
+
   .outlet-container {
     width: 100%;
     justify-content: center;
@@ -224,25 +257,28 @@ button[style*="background-color: #dc143c"]:hover {
     margin: 0;
     box-sizing: border-box;
   }
+
   .upload-background {
     text-align: center;
-    background-color: #f9f9f9; 
+    background-color: #f9f9f9;
     padding: 20px;
-    border-radius: 8px; 
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     max-width: 380px;
     margin: 0 auto;
   }
+
   .upload-background input[type="file"] {
     padding: 10px;
-    border: 1px solid #ccc; 
+    border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #fff;
     font-size: 1em;
     max-width: 320px;
-    cursor: pointer; 
+    cursor: pointer;
   }
-  .action-container button{
+
+  .action-container button {
     width: 100%;
     padding: 3px;
     height: 40px;
@@ -254,21 +290,23 @@ button[style*="background-color: #dc143c"]:hover {
     border-radius: 6px;
     cursor: pointer;
   }
+
   .share-Buttons {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 10px; 
+    gap: 10px;
   }
+
   .share-Buttons button {
-    padding: 4px 4px; 
+    padding: 4px 4px;
     font-size: 14px;
     border-radius: 6px;
     display: flex;
     align-items: center;
     height: 40px;
     min-width: 100px;
-    margin-top: 18px; 
+    margin-top: 18px;
   }
 }

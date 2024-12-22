@@ -11,15 +11,26 @@
 .sidebar-option{
     display: flex;
     align-items: center;
-    gap: 12px;
-    border: 1px solid rgb(169, 169, 169);
+    background-color: #2f285a;
+    color: white;
     padding: 10px;
-    border-radius: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
     cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
 }
-.sidebar-option.active{
-    background-color: goldenrod;
+
+.sidebar-option.active{    
+  color: #56e07b;
 }
+
+.sidebar-option p{
+  padding-left: 10px;
+}
+
 @media (max-width: 900px) {
     .sidebar {
       /* border: 1px solid rgb(169, 169, 169);  */

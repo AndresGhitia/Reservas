@@ -1,0 +1,85 @@
+.modal-editspace {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-dialog-editspace {
+    max-width: 500px;
+    width: 100%;
+}
+
+.modal-content-form-editspace {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header-editspace {
+    background-color: #56e07b;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header-editspace p {
+    color: #2f285a;
+    text-align: center;
+    padding-left: 24px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.modal-body-editspace{
+    background-color: #FFFFFF;
+    padding: 10px 24px;
+}
+
+.editspace-buttons{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 15px;
+}
+
+.save-editspace-button {
+    background-color: #2f285a;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+    font-weight: bold;
+}
+
+.cancel-editspace-button {
+    background-color: #2f285a;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+    font-weight: bold;
+}
+
+.save-editspace-button:hover{
+    color: #56e07b;
+}
+
+.cancel-editspace-button:hover{
+    color: #56e07b;
+
+}

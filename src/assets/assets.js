@@ -13,6 +13,9 @@ import address_icon from './address_icon.png'
 import call_icon from './call_icon.png'
 import eyeclose_icon from './eyeclose_icon.png'
 import eyeopen_icon from './eyeopen_icon.png'
+import booking_icon_white from './booking_icon_white.png'
+import add_icon_white from './add_icon_white.png'
+import home_icon_white from './home_icon_white.png'
 
 
 import All from './search_icon.png'
@@ -56,7 +59,10 @@ export const assets = {
     address_icon,
     call_icon,
     eyeclose_icon,
-    eyeopen_icon
+    eyeopen_icon,
+    booking_icon_white,
+    add_icon_white,
+    home_icon_white
 
 }
 
