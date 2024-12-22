@@ -4,7 +4,7 @@ import { FaCheck } from 'react-icons/fa';
 import "./AmenitiesSelector.css";
 
 const AmenitiesSelector = ({ db, userDocId, onUpdateAmenities }) => {
-  const [amenities] = useState(["wifi", "vestuarios", "duchas", "parrilla", "gimnasio"]);
+  const [amenities] = useState(['wifi', 'duchas', 'vestuarios', 'parrilla', 'pileta', 'gimnasio', 'juegos', 'eventos', 'clases', 'estacionamiento']);
   const [selectedAmenities, setSelectedAmenities] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
