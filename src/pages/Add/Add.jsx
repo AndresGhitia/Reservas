@@ -61,78 +61,80 @@ function Add({ setSpaces, setError, setLoading }) {
 
   return (
     <div className='add-container'>
-      <input
-        type="text"
-        value={newSpace.name}
-        onChange={(e) => setNewSpace({ ...newSpace, name: e.target.value })}
-        placeholder="Nombre del nuevo espacio"
-        maxLength={18} // Limita a 18 caracteres
-      />
+      <div className="form-group">
+        <input
+          type="text"
+          value={newSpace.name}
+          onChange={(e) => setNewSpace({ ...newSpace, name: e.target.value })}
+          placeholder="Nombre del nuevo espacio"
+          maxLength={18} // Limita a 18 caracteres
+        />
 
-      <select
-        value={newSpace.sport}
-        onChange={(e) => setNewSpace({ ...newSpace, sport: e.target.value })}
-        disabled={!newSpace.name}
-      >
-        <option value="">Seleccionar deporte</option>
-        <option value="Football">Football</option>
-        <option value="Paddle">Paddle</option>
-        <option value="Tenis">Tenis</option>
-        <option value="Volley">Volley</option>
-        <option value="Hockey">Hockey</option>
-      </select>
-
-      {newSpace.sport === 'Paddle' && (
         <select
-          value={newSpace.walls}
-          onChange={(e) => setNewSpace({ ...newSpace, walls: e.target.value })}
+          value={newSpace.sport}
+          onChange={(e) => setNewSpace({ ...newSpace, sport: e.target.value })}
+          disabled={!newSpace.name}
         >
-          <option value="">Seleccionar tipo de paredes</option>
-          <option value="Pared">Pared</option>
-          <option value="Blindex">Blindex</option>
+          <option value="">Seleccionar deporte</option>
+          <option value="Football">Football</option>
+          <option value="Paddle">Paddle</option>
+          <option value="Tenis">Tenis</option>
+          <option value="Volley">Volley</option>
+          <option value="Hockey">Hockey</option>
         </select>
-      )}
 
-      <select
-        value={newSpace.surface}
-        onChange={(e) => setNewSpace({ ...newSpace, surface: e.target.value })}
-        disabled={!newSpace.sport}
-      >
-        <option value="">Seleccionar superficie</option>
-        <option value="Piso">Piso</option>
-        <option value="Césped Natural">Césped Natural</option>
-        <option value="Césped Sintético">Césped Sintético</option>
-        <option value="Polvo de ladrillo">Polvo de Ladrillo</option>
-        <option value="Arena">Arena</option>
-      </select>
+        {newSpace.sport === 'Paddle' && (
+          <select
+            value={newSpace.walls}
+            onChange={(e) => setNewSpace({ ...newSpace, walls: e.target.value })}
+          >
+            <option value="">Seleccionar tipo de paredes</option>
+            <option value="Pared">Pared</option>
+            <option value="Blindex">Blindex</option>
+          </select>
+        )}
 
-      <select
-        value={newSpace.techo}
-        onChange={(e) => setNewSpace({ ...newSpace, techo: e.target.value })}
-        disabled={!newSpace.surface}
-      >
-        <option value="">Tipo de espacio</option>
-        <option value="Techada">Techada</option>
-        <option value="Aire libre">Aire libre</option>
-      </select>
+        <select
+          value={newSpace.surface}
+          onChange={(e) => setNewSpace({ ...newSpace, surface: e.target.value })}
+          disabled={!newSpace.sport}
+        >
+          <option value="">Seleccionar superficie</option>
+          <option value="Piso">Piso</option>
+          <option value="Césped Natural">Césped Natural</option>
+          <option value="Césped Sintético">Césped Sintético</option>
+          <option value="Polvo de ladrillo">Polvo de Ladrillo</option>
+          <option value="Arena">Arena</option>
+        </select>
 
-      <input
-        type="number"
-        value={newSpace.players}
-        onChange={(e) => setNewSpace({ ...newSpace, players: e.target.value })}
-        placeholder="Cantidad de jugadores"
-        disabled={!newSpace.techo}
-      />
+        <select
+          value={newSpace.techo}
+          onChange={(e) => setNewSpace({ ...newSpace, techo: e.target.value })}
+          disabled={!newSpace.surface}
+        >
+          <option value="">Tipo de espacio</option>
+          <option value="Techada">Techada</option>
+          <option value="Aire libre">Aire libre</option>
+        </select>
 
-      <input
-        type="number"
-        step="100"
-        value={newSpace.rate}
-        onChange={(e) => setNewSpace({ ...newSpace, rate: e.target.value })}
-        placeholder="Tarifa"
-        disabled={!newSpace.players}
-      />
+        <input
+          type="number"
+          value={newSpace.players}
+          onChange={(e) => setNewSpace({ ...newSpace, players: e.target.value })}
+          placeholder="Cantidad de jugadores"
+          disabled={!newSpace.techo}
+        />
 
+        <input
+          type="number"
+          step="100"
+          value={newSpace.rate}
+          onChange={(e) => setNewSpace({ ...newSpace, rate: e.target.value })}
+          placeholder="Tarifa"
+          disabled={!newSpace.players}
+        />
+      </div>
+      
       <TimeSelection
         openTime={newSpace.openTime}
         closeTime={newSpace.closeTime}
@@ -141,8 +143,8 @@ function Add({ setSpaces, setError, setLoading }) {
       />
 
 
-      <ClosedDays closedDays={newSpace.closedDays} onToggleDay={handleClosedDayToggle} />
 
+      <ClosedDays closedDays={newSpace.closedDays} onToggleDay={handleClosedDayToggle} />
 
 
 

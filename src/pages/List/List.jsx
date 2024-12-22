@@ -104,7 +104,7 @@ function List() {
   }
 
   return (
-    <div className="list add flex-col">
+    <div className="flex-col">
       <div className='list-table-header'>
       <h1>Canchas de tu complejo</h1>
       </div>

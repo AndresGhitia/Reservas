@@ -1,55 +1,13 @@
 .add-container {
   display: grid;
   grid-template-columns: 1fr 1fr; 
-  gap: 20px; 
-  width: 50%;
+  gap: 20px; /* Espacio entre columnas */
   margin: 20px auto;
   padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  font-family: Arial, sans-serif;
-}
-.add-container input {
-  padding: 4px; /* Aumenta el padding para que se vea más amplio */
-  width: 100%; /* Ajusta el ancho según tu preferencia */
-  font-size: 14px; /* Tamaño de texto más grande para mejor legibilidad */
-  border: 1px solid #4a90e2; 
-  border-radius: 4px; 
-  /* outline: none;  */
-  transition: all 0.3s ease; /* Transición suave al interactuar */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-height: 30px;
+  border-radius: 0px 0px 5px 5px;
 }
 
-.add-container input:focus {
-  border-color: #2980b9; /* Cambia el color del borde al hacer clic */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Sombra más intensa en focus */
-}
-
-.add-container input::placeholder {
-  color: #999; /* Cambia el color del placeholder */
-  font-style: italic; /* Da un estilo diferente al placeholder */
-}
-
-.add-container select {
-  padding: 4px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  font-size: 14px; /* Tamaño de texto más grande para mejor legibilidad */
-  border: 1px solid #4a90e2; 
-  border-radius: 4px; 
-  transition: all 0.3s ease; /* Transición suave al interactuar */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-.add-container select:focus {
-  border-color: #2980b9; /* Cambia el color del borde al hacer clic */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Sombra más intensa en focus */
-}
-
-.add-container select::placeholder {
-  color: #999; /* Cambia el color del placeholder */
-  font-style: italic; /* Da un estilo diferente al placeholder */
-}
 .add-button {
   display: flex;
   justify-content: center;

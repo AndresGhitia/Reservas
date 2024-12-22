@@ -172,39 +172,47 @@ function Dashboard() {
             <News db={db} userDocId={auth.currentUser?.uid} />
           </div>
         </div>
-        
+
         <div className="business-rightcolumn">
           <div className="upload-background">
-            <h2>Cambiar imagen de fondo para la página del cliente</h2>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleUploadBackgroundImage}
-            />
-            {imageUrl && <img src={imageUrl} alt="Imagen de fondo" style={{ width: '80px', marginTop: '10px' }} />}
+            <div className="upload-background-header">
+              <h1>Imagen del Complejo</h1>
+            </div>
+            <div className="upload-background-elements">
+              <label htmlFor="file-upload" className="upload-background-file">
+                Seleccionar archivo
+              </label>
+              <input
+                id="file-upload"
+                type="file"
+                accept="image/*"
+                onChange={handleUploadBackgroundImage}
+                style={{ display: "none" }}
+              />
+              {imageUrl && <img src={imageUrl} alt="Imagen de fondo" />}
+            </div>
           </div>
+          <div className="share-button-container">
+            <div className='share-button-header'>
+              <h1>Compartir Info</h1>
+            </div>
+            <div className="share-buttons">
+              <button className='share-button-url' onClick={handleCopy}>Compartir URL</button>
+              <button className='share-button-qr' onClick={handleShowQRModal}>Compartir QR</button>
+              <button className="share-button-web" onClick={() => window.open(`${bookItUrl}/${establishmentName}`, '_blank')}> Ir al sitio del negocio </button>
+            </div>
+          </div>
+          {showQRModal && (
+            <ShareQR
+              url={`${bookItUrl}/${encodeURIComponent(decodedName.replace(/ /g, '-'))}`}
+              businessName={decodedName}
+              onClose={handleCloseQRModal}
+            />
+          )}
         </div>
       </div>
-      <div className="share-Button-container">
-        <div className="share-Buttons">
-          <button onClick={handleCopy}>Compartir URL</button>
-          <button onClick={handleShowQRModal} style={{ marginTop: '20px' }}>Compartir QR</button>
-        </div>
-        <button
-          onClick={() => window.open(`${bookItUrl}/${establishmentName}`, '_blank')}
-          style={{ marginTop: '20px' }}
-        >
-          Ir al sitio del negocio
-        </button>
-      </div>
-      {showQRModal && (
-        <ShareQR
-          url={`${bookItUrl}/${encodeURIComponent(decodedName.replace(/ /g, '-'))}`}
-          businessName={decodedName}
-          onClose={handleCloseQRModal}
-        />
-      )}
     </div>
+
   );
 }
 
