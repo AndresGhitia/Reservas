@@ -421,3 +421,5 @@ G#190 Se crea el componente /BusinessPage/BpNews mendiante el cual se muestran l
 A#191 Se añade estilos al Dashboard ( Mis Espacios ). Restan los otros componentes y terminar de pulir estilos.
 
 A#192 Trabajamos sobre los estilos de los amenities de businessPage.
+
+A#193 Se añade estilos al Dashboard ( Agregar Espacio ). Restan los otros componentes y terminar de pulir estilos.

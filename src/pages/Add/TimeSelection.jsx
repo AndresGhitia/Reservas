@@ -1,4 +1,5 @@
 import React from 'react';
+import './TimeSelection.css'
 
 const TimeSelection = ({ openTime, closeTime, onOpenTimeChange, onCloseTimeChange }) => {
   // Generar opciones de hora de 00:00 a 23:00
@@ -9,6 +10,8 @@ const TimeSelection = ({ openTime, closeTime, onOpenTimeChange, onCloseTimeChang
     })];
 
   return (
+    <div className='time-container'>
+      <p>Selecciona las horas de apertura/cierre</p>
     <div className='time-selection'>
       <div className='opening-time'>
         <label>Apertura</label>
@@ -35,6 +38,7 @@ const TimeSelection = ({ openTime, closeTime, onOpenTimeChange, onCloseTimeChang
           ))}
         </select>
       </div>
+    </div>
     </div>
   );
 };

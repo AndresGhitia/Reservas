@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaWifi, FaShower, FaRestroom, FaUtensils, FaDumbbell, FaGamepad, FaCalendarAlt, FaChalkboardTeacher, FaParking } from "react-icons/fa";
+import { FaWifi, FaShower, FaRestroom, FaUtensils, FaDumbbell, FaGamepad, FaCalendarAlt, FaChalkboardTeacher, FaParking, FaQuestionCircle } from "react-icons/fa";
 import { MdPool } from "react-icons/md"; 
 import './BusinessAmenities.css';
 
@@ -14,7 +14,8 @@ const iconMap = {
   juegos: <FaGamepad size={32} />,
   eventos: <FaCalendarAlt size={32} />,
   clases: <FaChalkboardTeacher size={32} />,
-  estacionamiento: <FaParking size={32} />
+  estacionamiento: <FaParking size={32} />,
+  preguntas: <FaQuestionCircle size={32} />
 };
 
 
@@ -37,7 +38,7 @@ const BusinessAmenities = ({ amenities }) => {
         <div className='business-amenities-info'>  
           {amenities.map((amenity, index) => (
             <li key={index}>
-            {iconMap[amenity.toLowerCase()] || <FaQuestionCircle size={32} />} {/* Ícono por defecto */}
+            {iconMap[amenity.toLowerCase()] || <FaQuestionCircle size={32} />} 
             <span className="amenity-text">{amenity}</span>
           </li>
           ))}

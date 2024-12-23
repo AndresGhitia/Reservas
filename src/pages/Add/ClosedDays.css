@@ -1,25 +1,51 @@
-/* src/components/ClosedDays.css */
+.closedays-container p{
+  text-align: center;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
 .days-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Ajusta para hacer que se distribuyan automáticamente */
+  grid-template-columns: repeat(2, 1fr);
   gap: 10px;
-  padding: 10px;
-  width: 100%; /* Asegura que el contenedor use todo el ancho disponible */
+  margin-top: 15px;
 }
 
 .day-item {
   display: flex;
-  justify-content: center;
   align-items: center;
-  background-color: #f0f0f0;
+  justify-content: center;
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  border: 2px solid #d1d1d1;
+  border-radius: 8px;
+  background-color: #fff;
   color: #333;
-  height: 40px;
-  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+  transition: all 0.3s ease;
+}
+
+.day-item:hover {
+  background-color: #d6f5df;
+  border-color: #56e07b;
 }
 
 .day-item.selected {
-  background-color: #7c1908;
-  color: white;
+  background-color: #56e07b;
+  color: #fff;
+  border-color: #56e07b;
+}
+
+.day-item.selected:hover {
+  background-color: #45b868; 
+  border-color: #45b868;
+}
+
+
+@media (max-width: 768px) {
+  .days-grid {
+    grid-template-columns: 1fr; 
+  }
 }

@@ -1,54 +1,93 @@
 .add-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr; 
-  gap: 20px; /* Espacio entre columnas */
-  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 0px 0px 5px 5px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 40px;
 }
+
+.add-container-header{
+  background-color: #ececee;
+  padding: 12px;
+  border-radius: 5px 5px 0px 0px;
+}
+
+.add-container-header h1{
+  font-size: 25px;
+  letter-spacing: 2px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.add-element {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.add-element input,
+.add-element select {
+  width: 100%;
+  padding: 10px;
+  padding-right: 40px;
+  font-size: 16px;
+  border: 1px solid #d6d5d5;
+  border-radius: .25rem;
+  margin-top: 20px;
+  background-color: #fff;
+  color: #373737;
+}
+
+.add-element input:focus,
+.add-element select:focus {
+  border-color: #56e07b;
+  outline: none;
+}
+
+.time-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Dos columnas iguales */
+  gap: 20px; /* Espaciado entre las columnas */
+  margin-top: 20px;
+}
+
+.time-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Espaciado entre los elementos de cada columna */
+}
+
 
 .add-button {
   display: flex;
   justify-content: center;
-  margin-top: auto; 
-  margin-bottom: 3px;
 }
+
 .add-button button {
-  width: 80%;
-  padding: 3px;
-  height: 40px;
-  color: #ffffff;
-  background-color: #4a90e2;
-  transition: background-color 0.3s, transform 0.2s ease;
-  transform: translateY(-2px);
+  background-color: #2f285a;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
   font-size: 16px;
-  border-radius: 6px;
   cursor: pointer;
-}
-.time-selection {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  padding: 6px;
-  border: 0.1px solid #cac8c8; /* Define el grosor, estilo y color del borde */
-  border-radius: 5px; /* (Opcional) Añade bordes redondeados */
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
-.time-selection label{
-  display: flex;
-  align-items: center; /* Centra verticalmente */
-  justify-content: center; /* Centra horizontalmente si es necesario */
-  font-size: 20px;
+.add-button button:hover {
+  color: #56e07b;
 }
 
-.time-selection select {
-  width: auto; /* Ajusta el tamaño al contenido */
-  text-align: center; /* Alinea el texto del contenido en el medio */
-  margin: 0 auto; /* Centra el selector dentro del contenedor */
-  padding: 5px; /* Espaciado interno para mayor claridad */
-  font-size: 16px; /* Ajusta el tamaño del texto si es necesario */
+.error-message {
+  color: red;
+  font-size: 14px;
+  text-align: center;
 }
+
 
 .opening-time,
 .close-time {
@@ -64,7 +103,7 @@
 
 .opening-time select,
 .close-time select {
-  margin-top: 0; /* Elimina cualquier espacio adicional entre la etiqueta y el selector */
+  margin-top: 0; /* Elimina espacio adicional entre etiqueta y selector */
 }
 
 .error-message {
@@ -72,7 +111,6 @@
   font-size: 14px;
   margin-top: 5px;
 }
-
 
 p.error-message {
   color: #dc3545;
@@ -89,38 +127,25 @@ p.error-message {
 
 /* Añadir media queries para dispositivos móviles */
 @media (max-width: 768px) {
-  div {
-
-    padding: 5px;
-  }
   .add-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Dos columnas de igual ancho */
-    gap: 10px; /* Espacio entre columnas */
+    grid-template-columns: 1fr; /* Cambia a una columna en pantallas pequeñas */
+    gap: 10px;
     width: 98%;
     margin: 10px auto;
-    padding: 20px;
+    padding: 10px;
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
   }
-  .add-container input {
-    width: 100%;
-    padding: 4px;
-  }
+
+  .add-container input,
   .add-container select {
+    width: 100%;
     padding: 4px;
-    width: 100%;
-    min-width: 72px;
-
-
   }
-  .opening-time select{
+
+  .opening-time select,
+  .close-time select {
     width: 100%;
-  }
-  .close-time select{
-    width: 100%;
-    min-width: 72px;
   }
 }

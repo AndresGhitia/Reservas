@@ -60,8 +60,12 @@ function Add({ setSpaces, setError, setLoading }) {
   };
 
   return (
-    <div className='add-container'>
-      <div className="form-group">
+    <div>
+      <div className='add-container-header'>
+        <h1>Agregar Espacio</h1>
+      </div>
+      <div className='add-container'>
+      <div className="add-element">
         <input
           type="text"
           value={newSpace.name}
@@ -134,27 +138,29 @@ function Add({ setSpaces, setError, setLoading }) {
           disabled={!newSpace.players}
         />
       </div>
-      
-      <TimeSelection
-        openTime={newSpace.openTime}
-        closeTime={newSpace.closeTime}
-        onOpenTimeChange={handleOpenTimeChange}
-        onCloseTimeChange={handleCloseTimeChange}
-      />
 
-
-
-      <ClosedDays closedDays={newSpace.closedDays} onToggleDay={handleClosedDayToggle} />
-
+      <div className="time-columns">
+        <div className="time-column">
+          <TimeSelection
+            openTime={newSpace.openTime}
+            closeTime={newSpace.closeTime}
+            onOpenTimeChange={handleOpenTimeChange}
+            onCloseTimeChange={handleCloseTimeChange}
+          />
+        </div>
+        <div className="time-column">
+          <ClosedDays closedDays={newSpace.closedDays} onToggleDay={handleClosedDayToggle} />
+        </div>
+      </div>
 
 
       <div className='add-button'>
         <button onClick={handleAddSpaceClick}> Agregar (+) </button>
       </div>
-
       {uniqueError && <p className="error-message">{uniqueError}</p>}
 
       <ToastContainer />
+      </div>
     </div>
   );
 }

@@ -1,0 +1,67 @@
+.time-container{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 40px;
+    border-radius: 0px 0px 5px 5px;
+}
+
+.time-container p {
+    text-align: center;
+    justify-content: center;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.time-selection {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 0.5px solid #d1d1d1;
+}
+
+.time-selection label {
+    text-align: center;
+    display: block;
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.time-selection select {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    background-color: #ffffff;
+    /* Fondo blanco */
+    border: none;
+    border-radius: 4px;
+    /* Bordes ligeramente redondeados */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    /* Sombra ligera */
+    font-size: 1rem;
+    color: #333;
+    cursor: pointer;
+}
+
+.time-selection select:hover {
+    border: 0.5px solid #56e07b;
+    /* Fondo más claro al pasar el cursor */
+}
+
+.time-selection select:disabled {
+    background-color: #087df1;
+    color: #6c757d;
+    cursor: not-allowed;
+}
+
+.time-selection .opening-time,
+.time-selection .close-time {
+    flex: 1;
+}
+
+.time-selection .opening-time select,
+.time-selection .close-time select {
+    margin-top: 0.5rem;
+}
