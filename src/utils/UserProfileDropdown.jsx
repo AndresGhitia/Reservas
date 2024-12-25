@@ -188,15 +188,15 @@ useEffect(() => {
       </div>
       <ul className="nav-profile-dropdown">
         <li onClick={handleAccountClick}>
-          <img src={assets.booking_icon} alt="Reservas icon" />Mi cuenta
+          <img src={assets.booking_icon_white} alt="Reservas icon" />Mi cuenta
         </li>
         <hr />
-        <li onClick={() => handleSignOut(false)}><img src={assets.logout_icon} alt="Logout icon" />Logout</li>
+        <li onClick={() => handleSignOut(false)}><img src={assets.logout_icon_white} alt="Logout icon" />Logout</li>
         <hr />
         {/* Mostrar la opción de Dashboard o Home solo si pertenece a la colección 'owners' */}
         {userCollection === 'owners' && (
           <li onClick={handleNavigate}>
-            <img src={assets.profile_icon} alt="Navigation icon" />
+            <img src={assets.profile_icon_white} alt="Navigation icon" />
             {locationUrl.pathname === '/' ? 'Dashboard' : 'Home'}
           </li>
         )}

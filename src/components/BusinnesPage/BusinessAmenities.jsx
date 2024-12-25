@@ -32,7 +32,6 @@ const BusinessAmenities = ({ amenities }) => {
 
   return (
     <div className='business-amenities'>
-      <h1>Instalaciones</h1>
       <div className='business-amenities-info'>
         <ul className="amenities-list">
         <div className='business-amenities-info'>  

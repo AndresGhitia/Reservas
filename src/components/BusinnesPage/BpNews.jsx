@@ -42,7 +42,6 @@ const BPNews = ({ db, userDocId }) => {
 
   return (
     <div className="bpnews-container">
-      <h2>Novedades!</h2>
       {loading ? (
         <p>Cargando noticias...</p>
       ) : error ? (

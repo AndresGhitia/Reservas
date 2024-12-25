@@ -187,7 +187,7 @@ function BusinessPage() {
         <div className="business-rightcolumn">
           <div className="amenities-container">
             <div className="amenities-header">
-              <h1>Espacios</h1>
+              <h1>Deportes</h1>
             </div>
             <div className="amenities-element">
               <p>
@@ -196,10 +196,22 @@ function BusinessPage() {
                   : ownerData.businessType || 'Sin rubro'}
               </p>
             </div>
+          </div>
+
+          <div className='facilities-container'>
+            <div className='facilities-header'>
+              <h1>Instalaciones</h1>
+            </div>
             <BusinessAmenities amenities={ownerData.amenities} />
           </div>
-          
-          <BPNews db={db} news={ownerData?.news || []} userDocId={ownerId} />
+
+
+          <div className="news-container">
+            <div className='news-header'>
+              <h1>Novedades</h1>
+            </div>
+            <BPNews db={db} news={ownerData?.news || []} userDocId={ownerId} />
+          </div>
 
 
           <div className="address-container">
