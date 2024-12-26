@@ -16,6 +16,9 @@ import eyeopen_icon from './eyeopen_icon.png'
 import booking_icon_white from './booking_icon_white.png'
 import add_icon_white from './add_icon_white.png'
 import home_icon_white from './home_icon_white.png'
+import logout_icon_white from './logout_icon_white.png'
+import profile_icon_white from './profile_icon_white.png'
+
 
 
 import All from './search_icon.png'
@@ -62,7 +65,9 @@ export const assets = {
     eyeopen_icon,
     booking_icon_white,
     add_icon_white,
-    home_icon_white
+    home_icon_white,
+    logout_icon_white,
+    profile_icon_white
 
 }
 
