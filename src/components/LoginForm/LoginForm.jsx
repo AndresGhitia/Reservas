@@ -43,7 +43,7 @@ function LoginForm({ onClose }) {
       }
 
       setUserEmail(user.email);
-      console.log("Email del usuario:", user.email); // Aquí es donde se asigna correctamente
+      console.log("Email del usuario:", user.email); 
   
       console.log("Buscando usuario en Firestore con UID:", user.uid);
   

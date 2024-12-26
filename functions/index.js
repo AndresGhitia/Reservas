@@ -2,6 +2,7 @@ const { onRequest } = require("firebase-functions/v2/https");
 const admin = require("firebase-admin");
 const cors = require("cors")({ origin: true });
 const deleteCollection = require('./deleteCollection');
+// const { default: News } = require("../src/pages/Dashboard/News/News");
 
 if (!admin.apps.length) {
   admin.initializeApp();
@@ -45,6 +46,7 @@ exports.deleteUserAccount = onRequest((req, res) => {
         backgroundImageUrl: "https://res.cloudinary.com/dbrz9aqlt/image/upload/v1728674945/qnx79wojyp0ypmlxofcf.jpg",
         status: "disabled",
         amenities: [],
+        news: [],
         statusHistory: admin.firestore.FieldValue.arrayUnion({
           disabled: new Date().toISOString(),
         }),
