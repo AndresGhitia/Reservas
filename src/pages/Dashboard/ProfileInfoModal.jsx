@@ -10,40 +10,36 @@ function ProfileInfoModal({ userData, userCollection, numSpaces, onClose, onDele
   const userEmail = userData?.establishmentEmail;
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <h2>Mi cuenta</h2>
-        {userCollection === 'users' ? (
-          <div>
-            <h3>Información del Usuario</h3>
-            <p>Nombre: {userData?.firstName} {userData?.lastName}</p>
-            <p>Email: {userData?.email}</p>
+    <div className="profile-modal">
+      <div className='profile-dialog'>
+        <div className='profile-content-form'>
+          <div className='profile-header'>
+            <p>Mi cuenta</p>
+            <span className="close" onClick={onClose}>&times;</span>
           </div>
-        ) : userCollection === 'owners' ? (
-          <div>
-            <h3>Información del Propietario</h3>
-            <p>Tipo de cuenta: Administrador (Owner)</p>
-            <p>Establecimiento: {userData?.establishmentName}</p>
-            <p>Dirección: {userData?.address}</p>
-            <p>Número de espacios activos: {numSpaces}</p> 
-            <p>Número de contacto: {userData?.whatsapp}</p>
-          </div>
-        ) : null}
+          <div className="profile-body">
+            {userCollection === 'users' ? (
+              <div>
+                <h1>Información del Usuario</h1>
+                <p>Nombre: {userData?.firstName} {userData?.lastName}</p>
+                <p>Email: {userData?.email}</p>
+              </div>
+            ) : userCollection === 'owners' ? (
+              <div>
+                <h1>Información del Propietario</h1>
+                <p>Tipo de cuenta: Administrador (Owner)</p>
+                <p>Establecimiento: {userData?.establishmentName}</p>
+                <p>Dirección: {userData?.address}</p>
+                <p>Número de espacios activos: {numSpaces}</p>
+                <p>Número de contacto: {userData?.whatsapp}</p>
+              </div>
+            ) : null}
 
-        <div className="modal-buttons">
-          <button 
-          // onClick={handleDeleteSpaces}>
-          onClick={onClose}>
-          Cerrar</button>
-          <button
-          
-            onClick={() => navigate(`/edit-data?email=${userEmail}`)}
-            className="edit-button"
-             >
-            Editar datos 
-            </button>
-          
-          <button onClick={onDeleteAccount} className="delete-button">Borrar cuenta</button>
+            <div className="profile-buttons">
+              <button className="edit-button" onClick={() => navigate(`/edit-data?email=${userEmail}`)}>Editar datos </button>
+              <button className="delete-button" onClick={onDeleteAccount} >Borrar cuenta</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

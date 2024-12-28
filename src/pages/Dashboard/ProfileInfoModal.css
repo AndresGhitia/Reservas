@@ -1,41 +1,91 @@
-/* Estilo para el overlay que oscurece y desenfoca el fondo */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);  /* Fondo oscuro */
-    backdrop-filter: blur(5px);  /* Desenfoque */
-    z-index: 999;  /* Asegúrate de que esté por encima de otros elementos */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  /* Estilo para el modal */
-  .modal-content {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    width: 80%;
+.profile-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-dialog{
     max-width: 500px;
-    z-index: 1000;  /* Asegúrate de que el modal esté encima del overlay */
-  }
-  
-  /* Opcional: Estilo de fondo para el contenido de la página mientras se muestra el modal */
-  body.modal-open {
-    overflow: hidden;  /* Deshabilitar el desplazamiento del fondo */
-  }
-  
-  
-  /* button {
-    padding: 10px;
-    margin-top: 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  } */
-  
+    width: 100%;
+}
+
+.profile-content-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-header{
+  background-color: #56e07b;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile-header p{
+  color: #2f285a;
+  text-align: center;
+  padding-left: 24px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.profile-header span{
+  background-color: #2f285a;
+  width: 50px; 
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center ;
+}
+
+.profile-body{
+  background-color: #FFFFFF;
+  padding: 10px 24px;
+}
+.profile-body h1{
+  font-size: 30px;
+}
+
+.profile-body p{
+  padding: 5px;
+  font-size: 20px;
+}
+
+/* Opcional: Estilo de fondo para el contenido de la página mientras se muestra el modal */
+body.modal-open {
+  overflow: hidden;
+}
+
+.profile-buttons{
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 15px;
+}
+
+.edit-button, .delete-button{
+  background-color: #2f285a;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.edit-button:hover, .delete-button:hover{
+  color: #56e07b;
+}

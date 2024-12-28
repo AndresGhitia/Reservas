@@ -427,3 +427,5 @@ A#193 Se añade estilos al Dashboard ( Agregar Espacio ). Restan los otros compo
 A#194 Se modifica los estilos del Navbar para estar alineada con la paleta de colores de la pagina.
 
 G#195 Se añade al formulario RecoverForm la funcionalidad para recuperar los datos del usuario "users". 
+
+A#196 Se añade estilos al EditData, ProfileInfoModal
