@@ -13,6 +13,7 @@ import {
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useJsApiLoader } from '@react-google-maps/api';
 import styles from './RecoverForm.module.css';
 
 const RecoverForm = () => {
@@ -31,12 +32,25 @@ const RecoverForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [businessType, setBusinessType] = useState([]);
+  const [addressSuggestions, setAddressSuggestions] = useState([]);
   const navigate = useNavigate();
+  const autocompleteServiceRef = useRef(null);
+  const availableBusinessTypes = ['Football', 'Paddle', 'Tennis', 'Hockey', 'Volleyball', 'Handball'];
+  const Maps_ApiKey = import.meta.env.VITE_MAPS_APIKEY;
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: Maps_ApiKey,
+    libraries: ['places'],
+  });
+
+  useEffect(() => {
+    if (isLoaded && !autocompleteServiceRef.current) {
+      autocompleteServiceRef.current = new window.google.maps.places.AutocompleteService();
+    }
+  }, [isLoaded]);
 
   useEffect(() => {
     const checkEmail = async () => {
       try {
-        // Verificar si el correo pertenece a "users"
         const userQuery = query(collection(db, 'users'), where('email', '==', email));
         const userSnapshot = await getDocs(userQuery);
 
@@ -45,7 +59,6 @@ const RecoverForm = () => {
           return;
         }
 
-        // Verificar si el correo pertenece a "owners"
         const ownerQuery = query(collection(db, 'owners'), where('establishmentEmail', '==', email));
         const ownerSnapshot = await getDocs(ownerQuery);
 
@@ -70,6 +83,23 @@ const RecoverForm = () => {
       ...prev,
       [name]: value,
     }));
+
+    if (name === 'address' && autocompleteServiceRef.current) {
+      autocompleteServiceRef.current.getPlacePredictions(
+        { input: value },
+        (predictions) => {
+          setAddressSuggestions(predictions || []);
+        }
+      );
+    }
+  };
+
+  const handleBusinessTypeChange = (type) => {
+    setBusinessType((prev) =>
+      prev.includes(type)
+        ? prev.filter((t) => t !== type)
+        : [...prev, type]
+    );
   };
 
   const handleSubmit = async (e) => {
@@ -78,7 +108,6 @@ const RecoverForm = () => {
     setLoading(true);
     try {
       if (isUser) {
-        // Actualizar datos para "users"
         const userQuery = query(collection(db, 'users'), where('email', '==', email));
         const userSnapshot = await getDocs(userQuery);
         const userId = userSnapshot.docs[0].id;
@@ -89,10 +118,8 @@ const RecoverForm = () => {
           lastName: formData.lastName || '',
           status: 'enabled',
           statusHistory: arrayUnion(`enabled: ${new Date().toISOString()}`),
-
         });
       } else {
-        // Actualizar datos para "owners"
         const ownerQuery = query(collection(db, 'owners'), where('establishmentEmail', '==', email));
         const ownerSnapshot = await getDocs(ownerQuery);
         const ownerId = ownerSnapshot.docs[0].id;
@@ -110,7 +137,6 @@ const RecoverForm = () => {
         });
       }
 
-      // Enviar correo de restablecimiento
       await sendPasswordResetEmail(auth, email);
       alert('Datos actualizados correctamente. Revisa tu correo para restablecer tu contraseña.');
       navigate('/');
@@ -126,63 +152,68 @@ const RecoverForm = () => {
       <h2 className={styles.title}>Recuperar cuenta</h2>
       {error && <p className={styles.error}>{error}</p>}
       <form onSubmit={handleSubmit} className={styles.form}>
-      <div className={styles.field}>
-          <label className={styles.label}>Nombre</label>
+        <div className={styles.field}>
+          <label className={styles.label}>Nombre del Propietario</label>
           <input
             type="text"
-            name="firstName"
-            value={formData.firstName}
+            name="ownerName"
+            value={formData.ownerName}
             onChange={handleChange}
             className={styles.input}
-            required
           />
         </div>
         <div className={styles.field}>
-          <label className={styles.label}>Apellido</label>
+          <label className={styles.label}>Nombre del Establecimiento</label>
           <input
             type="text"
-            name="lastName"
-            value={formData.lastName}
+            name="establishmentName"
+            value={formData.establishmentName}
             onChange={handleChange}
             className={styles.input}
-            required
           />
         </div>
-
-        {!isUser && (
-          <>
-            <div className={styles.field}>
-              <label className={styles.label}>Nombre del Establecimiento</label>
-              <input
-                type="text"
-                name="establishmentName"
-                value={formData.establishmentName}
-                onChange={handleChange}
-                className={styles.input}
-              />
+        <div className={styles.field}>
+          <label className={styles.label}>Dirección</label>
+          <input
+            type="text"
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            className={styles.input}
+          />
+          {addressSuggestions.map((suggestion) => (
+            <div
+              key={suggestion.place_id}
+              className={styles.suggestion}
+              onClick={() => setFormData({ ...formData, address: suggestion.description })}
+            >
+              {suggestion.description}
             </div>
-            <div className={styles.field}>
-              <label className={styles.label}>Dirección</label>
+          ))}
+        </div>
+        <div className={styles.field}>
+          <label className={styles.label}>Tipo de Negocio</label>
+          {availableBusinessTypes.map((type) => (
+            <div key={type} className={styles.checkboxContainer}>
               <input
-                type="text"
-                name="address"
-                value={formData.address}
-                onChange={handleChange}
-                className={styles.input}
+                type="checkbox"
+                checked={businessType.includes(type)}
+                onChange={() => handleBusinessTypeChange(type)}
               />
+              {type}
             </div>
-            <div className={styles.field}>
-              <label className={styles.label}>Número de WhatsApp</label>
-              <input
-                type="text"
-                name="whatsapp"
-                value={formData.whatsapp}
-                onChange={handleChange}
-                className={styles.input}
-              />
-            </div>
-          </>
-        )}
+          ))}
+        </div>
+        <div className={styles.field}>
+          <label className={styles.label}>WhatsApp</label>
+          <input
+            type="text"
+            name="whatsapp"
+            value={formData.whatsapp}
+            onChange={handleChange}
+            className={styles.input}
+          />
+        </div>
         <button type="submit" disabled={loading} className={styles.button}>
           {loading ? 'Cargando...' : 'Enviar'}
         </button>
@@ -192,3 +223,4 @@ const RecoverForm = () => {
 };
 
 export default RecoverForm;
+

@@ -433,3 +433,6 @@ A#196 Se añade estilos al EditData, ProfileInfoModal
 G#197 Modificamos index.js (firebase functios) que se encarga del borrado de datos por parte de los usuarios de manera segura. 
 Ahora ademas de usuarios owners, tambien borra los datos de los usuarios users. De esta manera el flujo de inhabilitado/habilitacion
 de las cuentas por parte de los usuarios quedaria listo en terminos de funcionalidad.
+
+G#198 Se agregan campos que faltaban al formulario RecoverForm (address y BussinesType), probamos la seleccion de deporte mediante 
+checkbox, parece ser mas intuitivo y sensillo.
