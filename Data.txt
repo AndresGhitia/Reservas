@@ -429,3 +429,7 @@ A#194 Se modifica los estilos del Navbar para estar alineada con la paleta de co
 G#195 Se añade al formulario RecoverForm la funcionalidad para recuperar los datos del usuario "users". 
 
 A#196 Se añade estilos al EditData, ProfileInfoModal
+
+G#197 Modificamos index.js (firebase functios) que se encarga del borrado de datos por parte de los usuarios de manera segura. 
+Ahora ademas de usuarios owners, tambien borra los datos de los usuarios users. De esta manera el flujo de inhabilitado/habilitacion
+de las cuentas por parte de los usuarios quedaria listo en terminos de funcionalidad.

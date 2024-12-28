@@ -30,7 +30,7 @@ function LoginForm({ onClose }) {
 
   const handleLogin = async (values, { setSubmitting }) => {
     try {
-      console.log("Iniciando sesión con email:", values.email);
+      // console.log("Iniciando sesión con email:", values.email);
   
       const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
       const user = userCredential.user;
@@ -43,18 +43,18 @@ function LoginForm({ onClose }) {
       }
 
       setUserEmail(user.email);
-      console.log("Email del usuario:", user.email); 
+      // console.log("Email del usuario:", user.email); 
   
-      console.log("Buscando usuario en Firestore con UID:", user.uid);
+      // console.log("Buscando usuario en Firestore con UID:", user.uid);
   
       var userDoc = await getDoc(doc(db, 'owners', user.uid));
       if (!userDoc.exists()) {
-        console.log("Usuario no encontrado en 'owners'. Buscando en 'users'...");
+        // console.log("Usuario no encontrado en 'owners'. Buscando en 'users'...");
         userDoc = await getDoc(doc(db, 'users', user.uid));
       }
   
       if (!userDoc.exists()) {
-        console.log("Usuario no encontrado en Firestore.");
+        // console.log("Usuario no encontrado en Firestore.");
         setError("Usuario no encontrado, por favor verifica tus credenciales.");
         await signOut(auth);
         setSubmitting(false);
@@ -62,7 +62,7 @@ function LoginForm({ onClose }) {
       }
   
       const userData = userDoc.data();
-      console.log("Datos del usuario:", userData);
+      // console.log("Datos del usuario:", userData);
 
   
       if (userData.status === "disabled") {
@@ -78,7 +78,7 @@ function LoginForm({ onClose }) {
   
       if (today > expdate) {
         setError("Tu cuenta ha vencido. Por favor, contacta a soporte para renovarla.");
-        console.log("Usuario vencido.");
+        // console.log("Usuario vencido.");
         setIsSubscriptionModalOpen(true); 
         await signOut(auth);
         return;
@@ -86,6 +86,7 @@ function LoginForm({ onClose }) {
   
       onClose();
       setTimeout(() => {
+        
         const dashboardUrl = `/dashboard/${encodeURIComponent(userData.establishmentName.replace(/\s+/g, '-'))}`;
         navigate(dashboardUrl + '/list');
       }, 100);
@@ -102,7 +103,7 @@ function LoginForm({ onClose }) {
   };
 
   const handleAccountRecovery = () => {
-    console.log("Recuperación de cuenta solicitada para:", userEmail);
+    // console.log("Recuperación de cuenta solicitada para:", userEmail);
     alert("Se ha solicitado la recuperación de tu cuenta. Nuestro equipo se pondrá en contacto contigo pronto.");
     setIsDisabledUser(false); // Ocultar el botón tras solicitar recuperación
   };
@@ -114,7 +115,7 @@ function LoginForm({ onClose }) {
   const handleRenewSubscription = async () => { 
     //   console.log('Renovando suscripción...');
     
-    console.log('enviando a la preference el mail: '+ userEmail)
+    // console.log('enviando a la preference el mail: '+ userEmail)
 
        const preference = await handleIntegrationMP(userEmail);
    

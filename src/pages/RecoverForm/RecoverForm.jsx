@@ -27,7 +27,7 @@ const RecoverForm = () => {
     businessType: '',
     whatsapp: '',
   });
-  const [isUser, setIsUser] = useState(false); // Nuevo estado
+  const [isUser, setIsUser] = useState(false); 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [businessType, setBusinessType] = useState([]);
