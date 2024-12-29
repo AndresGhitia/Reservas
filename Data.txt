@@ -436,3 +436,6 @@ de las cuentas por parte de los usuarios quedaria listo en terminos de funcional
 
 G#198 Se agregan campos que faltaban al formulario RecoverForm (address y BussinesType), probamos la seleccion de deporte mediante 
 checkbox, parece ser mas intuitivo y sensillo.
+
+G#199 Creamos la nueva App de firebase (clubweb) que reemplaza a book-it!. Migramos todas las funcionalidades, solo nos retaria vincular 
+index de firebase functions a clubweb para que el usuario pueda manejar el borrado de datos mediante firebase.

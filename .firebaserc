@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "book-it-7350b"
-  }
+    "default": "book-it-7350b",
+    "club-web": "clubweb-portal"
+  },
+  "targets": {},
+  "etags": {}
 }
