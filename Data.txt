@@ -439,3 +439,6 @@ checkbox, parece ser mas intuitivo y sensillo.
 
 G#199 Creamos la nueva App de firebase (clubweb) que reemplaza a book-it!. Migramos todas las funcionalidades, solo nos retaria vincular 
 index de firebase functions a clubweb para que el usuario pueda manejar el borrado de datos mediante firebase.
+
+G#200 se vincula index a clubweb de firebase, de este manera ya quedaria lista la migracion a clubweb desde el back y front-end.
+Los usuarios pueden crear, editar, borrar y reestablecer sus cuentas.

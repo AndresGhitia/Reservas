@@ -8,6 +8,7 @@ if (!admin.apps.length) {
 }
 
 exports.deleteUserAccount = onRequest((req, res) => {
+  console.log("La función deleteUserAccount ha sido invocada");
   cors(req, res, async () => {
     try {
       // Verificar método HTTP

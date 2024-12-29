@@ -17,7 +17,8 @@
 
         // Deshabilitar la cuenta en el backend
         console.log("Enviando solicitud para deshabilitar la cuenta al backend...");
-        const response = await fetch("https://deleteuseraccount-a6vhaqpb7a-uc.a.run.app", {
+        
+        const response = await fetch("https://deleteuseraccount-q3ajc6y2yq-uc.a.run.app", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
