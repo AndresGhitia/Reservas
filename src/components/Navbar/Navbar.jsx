@@ -81,7 +81,7 @@ function Navbar() {
     <>
       <div className='navbar'>
         <div className='navbar-title'>
-          <h3>BOOK-IT</h3>
+          <h3>CLubWeb!</h3>
         </div>
         <div className='navbar-right'>
           <div className='navbar-search-icon'>

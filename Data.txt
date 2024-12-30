@@ -442,3 +442,5 @@ index de firebase functions a clubweb para que el usuario pueda manejar el borra
 
 G#200 se vincula index a clubweb de firebase, de este manera ya quedaria lista la migracion a clubweb desde el back y front-end.
 Los usuarios pueden crear, editar, borrar y reestablecer sus cuentas.
+
+G#201 se ajusta el formulario para recuperar cuenta de user RecoverForm.jsx (ahora solo solicita nombre y apellido del usuario).

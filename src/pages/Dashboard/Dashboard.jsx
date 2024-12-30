@@ -40,6 +40,7 @@ function Dashboard() {
           setError("Error al cargar los datos del propietario.");
         }
       } else {
+         
         console.log("Usuario no autenticado.");
         setError("Usuario no autenticado.");
         setLoading(false);
