@@ -444,3 +444,6 @@ G#200 se vincula index a clubweb de firebase, de este manera ya quedaria lista l
 Los usuarios pueden crear, editar, borrar y reestablecer sus cuentas.
 
 G#201 se ajusta el formulario para recuperar cuenta de user RecoverForm.jsx (ahora solo solicita nombre y apellido del usuario).
+
+G#202 Resolvemos un problema que habia con la navegacion del Dashboard, cuando el usuario se deslogueaba desde otra pestaña, el dashboard
+se ponia en blanco con la leyenda "usuario no autenticado", eso era inutil, por lo que lo cambiamos por una navegacion autamatica el Home.

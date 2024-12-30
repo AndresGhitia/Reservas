@@ -3,6 +3,7 @@ import { Outlet, useParams } from 'react-router-dom';
 import { doc, setDoc } from 'firebase/firestore';
 import { db, auth } from '../../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 import { fetchOwnerDataAndSpaces } from '../../utils/fetchOwnerData';
 import { uploadImageToCloudinary } from '../../utils/cloudinaryUpload';
 import './Dashboard.css';
@@ -29,6 +30,7 @@ function Dashboard() {
   const [showQRModal, setShowQRModal] = useState(false);
   const bookItUrl = import.meta.env.VITE_BOOKIT_URL;
   const [amenities, setAmenities] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -40,7 +42,7 @@ function Dashboard() {
           setError("Error al cargar los datos del propietario.");
         }
       } else {
-         
+        navigate("/"); // Redirigir al home
         console.log("Usuario no autenticado.");
         setError("Usuario no autenticado.");
         setLoading(false);
