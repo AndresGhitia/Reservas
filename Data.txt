@@ -449,3 +449,5 @@ G#202 Resolvemos un problema que habia con la navegacion del Dashboard, cuando e
 se ponia en blanco con la leyenda "usuario no autenticado", eso era inutil, por lo que lo cambiamos por una navegacion autamatica el Home.
 
 G#203 Ajustes sobre el componente EditData, se establecen los intpu para users y owners.
+
+G#204 Resolvemos conflictos serios en RecoverForm, ya estaria funcionando como corresponde.

@@ -22,13 +22,31 @@ const RecoverForm = () => {
   const email = queryParams.get('email'); 
   const [message, setMessage] = useState("");
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    ownerName: '',
+    establishmentName: '',
+    address: '',
+    businessType: '',
+    whatsapp: '',
   });
   const [isUser, setIsUser] = useState(false); 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [businessType, setBusinessType] = useState([]);
+  const [addressSuggestions, setAddressSuggestions] = useState([]);
   const navigate = useNavigate();
+  const autocompleteServiceRef = useRef(null);
+  const availableBusinessTypes = ['Football', 'Paddle', 'Tennis', 'Hockey', 'Volleyball', 'Handball'];
+  const Maps_ApiKey = import.meta.env.VITE_MAPS_APIKEY;
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: Maps_ApiKey,
+    libraries: ['places'],
+  });
+
+  useEffect(() => {
+    if (isLoaded && !autocompleteServiceRef.current) {
+      autocompleteServiceRef.current = new window.google.maps.places.AutocompleteService();
+    }
+  }, [isLoaded]);
 
   useEffect(() => {
     const checkEmail = async () => {
@@ -65,6 +83,23 @@ const RecoverForm = () => {
       ...prev,
       [name]: value,
     }));
+
+    if (name === 'address' && autocompleteServiceRef.current) {
+      autocompleteServiceRef.current.getPlacePredictions(
+        { input: value },
+        (predictions) => {
+          setAddressSuggestions(predictions || []);
+        }
+      );
+    }
+  };
+
+  const handleBusinessTypeChange = (type) => {
+    setBusinessType((prev) =>
+      prev.includes(type)
+        ? prev.filter((t) => t !== type)
+        : [...prev, type]
+    );
   };
 
   const handleSubmit = async (e) => {
@@ -94,7 +129,7 @@ const RecoverForm = () => {
           ownerName: formData.ownerName || '',
           establishmentName: formData.establishmentName || '',
           address: formData.address || '',
-          businessType: formData.businessType || [],
+          businessType: businessType,
           whatsapp: formData.whatsapp || '',
           status: 'enabled',
           expdate: serverTimestamp(),
@@ -115,9 +150,10 @@ const RecoverForm = () => {
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Recuperar cuenta</h2>
-      {error && <p className={styles.error}>{error}</p>}
+      {error && <p className={styles.error}>{error}</p>} {/* Muestra el error si existe */}
       <form onSubmit={handleSubmit} className={styles.form}>
         {isUser ? (
+          // Solo mostrar Nombre y Apellido si isUser es true
           <>
             <div className={styles.field}>
               <label className={styles.label}>Nombre</label>
@@ -141,6 +177,7 @@ const RecoverForm = () => {
             </div>
           </>
         ) : (
+          // Mostrar los demás campos si isUser es false
           <>
             <div className={styles.field}>
               <label className={styles.label}>Nombre del Propietario</label>
@@ -162,6 +199,48 @@ const RecoverForm = () => {
                 className={styles.input}
               />
             </div>
+            <div className={styles.field}>
+              <label className={styles.label}>Dirección</label>
+              <input
+                type="text"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                className={styles.input}
+              />
+              {addressSuggestions.map((suggestion) => (
+                <div
+                  key={suggestion.place_id}
+                  className={styles.suggestion}
+                  onClick={() => setFormData({ ...formData, address: suggestion.description })}
+                >
+                  {suggestion.description}
+                </div>
+              ))}
+            </div>
+            <div className={styles.field}>
+              <label className={styles.label}>Tipo de Negocio</label>
+              {availableBusinessTypes.map((type) => (
+                <div key={type} className={styles.checkboxContainer}>
+                  <input
+                    type="checkbox"
+                    checked={businessType.includes(type)}
+                    onChange={() => handleBusinessTypeChange(type)}
+                  />
+                  {type}
+                </div>
+              ))}
+            </div>
+            <div className={styles.field}>
+              <label className={styles.label}>WhatsApp</label>
+              <input
+                type="text"
+                name="whatsapp"
+                value={formData.whatsapp}
+                onChange={handleChange}
+                className={styles.input}
+              />
+            </div>
           </>
         )}
         <button type="submit" disabled={loading} className={styles.button}>
@@ -170,6 +249,9 @@ const RecoverForm = () => {
       </form>
     </div>
   );
+  
+  
 };
 
 export default RecoverForm;
+
