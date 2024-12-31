@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { db } from '../../firebase';
-import { collection, query, where, getDocs, doc, updateDoc, } from 'firebase/firestore';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { collection, query, where, getDocs, doc, updateDoc } from 'firebase/firestore';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useJsApiLoader } from '@react-google-maps/api';
-import './EditData.css'
-import styles from '../RecoverForm/RecoverForm.module.css';
-
+import './EditData.css';
 
 const EditData = () => {
   const location = useLocation();
@@ -14,26 +12,27 @@ const EditData = () => {
   const [message, setMessage] = useState("");
   const [formData, setFormData] = useState({
     address: '',
-    businessType: '',
+    businessType: [],
     establishmentName: '',
     ownerName: '',
     whatsapp: '',
+    firstName: '',
+    lastName: '',
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [predictions, setPredictions] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const autocompleteServiceRef = useRef(null);
-  const availableBusinessTypes = ['Football', 'Paddle', 'Tenis', 'Hockey', 'Volley', 'Handball'];
+  const availableBusinessTypes = ['Football', 'Paddle', 'Tennis', 'Hockey', 'Volley', 'Handball'];
   const [businessType, setBusinessType] = useState([]);
+  const [isOwner, setIsOwner] = useState(false); // Estado para saber si es un owner o un user
   const navigate = useNavigate();
   const Maps_ApiKey = import.meta.env.VITE_MAPS_APIKEY;
-  const [userData, setUserData] = useState('')
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: Maps_ApiKey,
     libraries: ['places'],
   });
-
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -43,29 +42,53 @@ const EditData = () => {
       }
 
       try {
-        const q = query(collection(db, 'owners'), where('establishmentEmail', '==', email));
-        const querySnapshot = await getDocs(q);
+        // Verificar en la colección 'owners'
+        const ownerQuery = query(collection(db, 'owners'), where('establishmentEmail', '==', email));
+        const ownerSnapshot = await getDocs(ownerQuery);
 
-        if (querySnapshot.empty) {
-          setError("No se encontraron datos para el email proporcionado.");
+        if (!ownerSnapshot.empty) {
+          const userData = ownerSnapshot.docs[0].data();
+          console.log('Datos del propietario:', userData);
+
+          // Si pertenece a 'owners', cargar todos los campos de negocio
+          setFormData({
+            address: userData.address || '',
+            businessType: userData.businessType || [],
+            establishmentName: userData.establishmentName || '',
+            ownerName: userData.ownerName || '',
+            whatsapp: userData.whatsapp || '',
+          });
+
+          setInputValue(userData.address || '');
+          setBusinessType(userData.businessType || []);
+          setIsOwner(true); // Marcamos que es un propietario
           return;
         }
 
-        const userData = querySnapshot.docs[0].data();
-        console.log('address: ' + userData.address);
+        // Verificar en la colección 'users' si no pertenece a 'owners'
+        const userQuery = query(collection(db, 'users'), where('email', '==', email));
+        const userSnapshot = await getDocs(userQuery);
 
-        // Actualiza tanto formData como businessType
-        setFormData({
-          address: userData.address || '',
-          businessType: userData.businessType || [], // Esto se asegura de no romper si no hay deportes.
-          establishmentName: userData.establishmentName || '',
-          ownerName: userData.ownerName || '',
-          whatsapp: userData.whatsapp || '',
-        });
+        if (!userSnapshot.empty) {
+          const userData = userSnapshot.docs[0].data();
+          console.log('Datos del usuario:', userData);
 
-        setInputValue(userData.address || '');
-        // Actualiza directamente el estado de businessType
-        setBusinessType(userData.businessType || []);
+          // Si pertenece a 'users', cargar solo los campos de nombre y apellido
+          setFormData({
+            address: '',
+            businessType: '',
+            establishmentName: '',
+            ownerName: '',
+            whatsapp: '',
+            firstName: userData.firstName || '',
+            lastName: userData.lastName || '',
+          });
+
+          setIsOwner(false); // Marcamos que es un usuario
+          return;
+        }
+
+        setError("No se encontraron datos para el email proporcionado.");
       } catch (error) {
         console.error("Error al obtener datos del usuario:", error);
         setError("Hubo un error al cargar los datos.");
@@ -73,10 +96,7 @@ const EditData = () => {
     };
 
     fetchUserData();
-  }, [email]); // Ejecutar cuando cambie el email
-
-
-
+  }, [email]);
 
   useEffect(() => {
     if (isLoaded && !autocompleteServiceRef.current) {
@@ -116,10 +136,7 @@ const EditData = () => {
     if (selectedType && !businessType.includes(selectedType)) {
       const updatedBusinessType = [...businessType, selectedType];
 
-      // Actualizar el estado de businessType
       setBusinessType(updatedBusinessType);
-
-      // Sincronizar con formData
       setFormData((prev) => ({
         ...prev,
         businessType: updatedBusinessType,
@@ -130,16 +147,12 @@ const EditData = () => {
   const removeBusinessType = (type) => {
     const updatedBusinessType = businessType.filter((item) => item !== type);
 
-    // Actualizar el estado de businessType
     setBusinessType(updatedBusinessType);
-
-    // Sincronizar con formData
     setFormData((prev) => ({
       ...prev,
       businessType: updatedBusinessType,
     }));
   };
-
 
   const handleWhatsAppChange = (e) => {
     const value = e.target.value;
@@ -164,126 +177,144 @@ const EditData = () => {
     }));
   };
 
-  const handleEditData = async (e) => {
-    //  e.preventDefault();
-    console.log("Iniciando proceso de restablecimiento de contraseña...");
-    console.log("Email ingresado:", email);
-
-    try {
-      // await sendPasswordResetEmail(auth, email);
-      // console.log("Correo de restablecimiento enviado exitosamente.");
-      // setMessage("Se ha enviado un enlace para restablecer tu contraseña. Revisa tu bandeja de entrada,  Asegúrese de revisar su carpeta de correo no deseado o spam si no ha recibido nuestro correo electrónico.");
-      // setError(""); // Limpia cualquier mensaje de error
-    } catch (error) {
-      console.error("Error al enviar el correo de restablecimiento:", error);
-      setMessage(""); // Limpia cualquier mensaje previo de éxito
-      // setError("No se pudo enviar el correo. Verifica el email ingresado.");
-    }
-  };
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log("Formulario enviado. Verificando email...");
-    console.log("Email recibido desde query param:", email); // Log del email recibido
-
+  
     if (!email) {
       setError('El correo electrónico no está disponible.');
-      console.error("Error: El correo electrónico no está disponible.");
       return;
     }
-
-    // Verificar si hay al menos un deporte seleccionado
-    if (businessType.length === 0) {
-      setError("Debes seleccionar al menos un deporte.");
-      console.error("Error: Debes seleccionar al menos un deporte.");
+  
+    // Verificar si el correo electrónico pertenece a la colección 'owners'
+    const ownerQuery = query(collection(db, 'owners'), where('establishmentEmail', '==', email));
+    const ownerSnapshot = await getDocs(ownerQuery);
+  
+    // Verificar si el correo electrónico pertenece a la colección 'users'
+    const userQuery = query(collection(db, 'users'), where('email', '==', email));
+    const userSnapshot = await getDocs(userQuery);
+  
+    if (ownerSnapshot.empty && userSnapshot.empty) {
+      setError('No se encontró un documento con ese correo electrónico.');
       return;
     }
-
+  
     setLoading(true);
-
+  
     try {
-      const q = query(collection(db, 'owners'), where('establishmentEmail', '==', email));
-      const querySnapshot = await getDocs(q);
-
-      if (querySnapshot.empty) {
-        throw new Error('No se encontró un documento con ese correo electrónico.');
+      if (!ownerSnapshot.empty) {
+        // El correo electrónico pertenece a la colección 'owners'
+        const ownerDocId = ownerSnapshot.docs[0].id;
+        const ownerDocRef = doc(db, 'owners', ownerDocId);
+  
+        // Actualizar todos los campos
+        await updateDoc(ownerDocRef, {
+          address: formData.address || '',
+          businessType: formData.businessType || [],
+          establishmentName: formData.establishmentName || '',
+          ownerName: formData.ownerName || '',
+          whatsapp: formData.whatsapp || '',
+        });
+      } else if (!userSnapshot.empty) {
+        // El correo electrónico pertenece a la colección 'users'
+        const userDocId = userSnapshot.docs[0].id;
+        const userDocRef = doc(db, 'users', userDocId);
+  
+        // Actualizar solo 'nombre' y 'apellido'
+        await updateDoc(userDocRef, {
+          firstName: formData.firstName || '',
+          lastName: formData.lastName || '',
+        });
       }
-
-      const docId = querySnapshot.docs[0].id;
-      const userDocRef = doc(db, 'owners', docId);
-
-      await updateDoc(userDocRef, {
-        address: formData.address || '',
-        businessType: businessType,
-        establishmentName: formData.establishmentName || '',
-        ownerName: formData.ownerName || '',
-        whatsapp: formData.whatsapp || '',
-      });
-
-
+  
       setLoading(false);
       alert('Datos actualizados correctamente.');
-
-      handleEditData(email);
-
-      // const dashboardUrl = `/dashboard/${encodeURIComponent(userData.establishmentName.replace(/\s+/g, '-'))}`;
-      // navigate(dashboardUrl + '/list');
-
-      // console.log('DashboardURL: '+ dashboardUrl)
-
     } catch (err) {
       setLoading(false);
-      console.error("Error al actualizar los datos:", err);
       setError(err.message || 'Hubo un error al actualizar los datos.');
     }
   };
 
-
   return (
-    <div className='editdata-container' >
-      <div>
-      <h2 >Actualiza los datos de tu cuenta</h2>
-      </div>
+    <div className="editdata-container">
+      <h2>Actualiza los datos de tu cuenta</h2>
       {error && <p>{error}</p>}
       <form onSubmit={handleSubmit}>
-        <div>
-          <div className='form-group-data'>
-            <label >Dirección</label>
-            <input
-              type="text"
-              placeholder="Buscar dirección..."
-              value={inputValue}
-              onChange={handleInputChange}
-              required
-            />
-            {predictions.length > 0 && (
+        {/* Campos para 'users' */}
+        {!isOwner && (
+          <>
+            <div className="form-group-data">
+              <label>Nombre</label>
+              <input
+                type="text"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
+                required={formData.firstName !== ''}
+              />
+            </div>
+            <div className="form-group-data">
+              <label>Apellido</label>
+              <input
+                type="text"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                required={formData.lastName !== ''}
+              />
+            </div>
+          </>
+        )}
+
+        {/* Campos para 'owners' */}
+        {isOwner && (
+          <>
+            <div className="form-group-data">
+              <label>Nombre del Establecimiento</label>
+              <input
+                type="text"
+                name="establishmentName"
+                value={formData.establishmentName}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-group-data">
+              <label>Nombre del Propietario</label>
+              <input
+                type="text"
+                name="ownerName"
+                value={formData.ownerName}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-group-data">
+              <label>Dirección</label>
+              <input
+                type="text"
+                value={inputValue}
+                onChange={handleInputChange}
+                onBlur={handleInputChange}
+                required
+              />
               <ul>
                 {predictions.map((prediction) => (
-                  <li
-                    key={prediction.place_id}
-                    onClick={() => handlePredictionClick(prediction)}
-                  >
+                  <li key={prediction.place_id} onClick={() => handlePredictionClick(prediction)}>
                     {prediction.description}
                   </li>
                 ))}
               </ul>
-            )}
-          </div>
-        </div>
-        <div className='form-group-data'  >
-          <label >Número de WhatsApp</label>
-          <input
-            type="text"
-            name="whatsapp"
-            placeholder="+54 11..."
-            value={formData.whatsapp}
-            onChange={handleWhatsAppChange}
-            required
-          />
-        </div>
-        <div className="form-group-data">
+            </div>
+            <div className="form-group-data">
+              <label>WhatsApp</label>
+              <input
+                type="text"
+                name="whatsapp"
+                value={formData.whatsapp}
+                onChange={handleWhatsAppChange}
+              />
+            </div>
+            <div className="form-group-data">
           <label> Selecciona un deporte</label>
           <select onChange={handleBusinessTypeChange}>
             <option value="">Selecciona un deporte</option>
@@ -301,28 +332,10 @@ const EditData = () => {
             ))}
           </div>
         </div>
+          </>
+        )}
 
-        <div className='form-group-data'>
-          <label>Nombre del Establecimiento</label>
-          <input
-            type="text"
-            name="establishmentName"
-            value={formData.establishmentName}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className='form-group-data'>
-          <label>Nombre del Propietario</label>
-          <input
-            type="text"
-            name="ownerName"
-            value={formData.ownerName}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className='editdata-buttons'> 
+<div className='editdata-buttons'> 
           <button className='editdata-button' type="submit" disabled={loading}> {loading ? 'Cargando...' : 'Enviar'} </button>
           <button className='editdata-button' href="/" > Descartar cambios y cerrar </button>
         </div>
@@ -332,4 +345,3 @@ const EditData = () => {
 };
 
 export default EditData;
-

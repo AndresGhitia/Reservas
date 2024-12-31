@@ -7,7 +7,7 @@ import './ProfileInfoModal.css';
 function ProfileInfoModal({ userData, userCollection, numSpaces, onClose, onDeleteAccount }) {
   const navigate = useNavigate();
 
-  const userEmail = userData?.establishmentEmail;
+  const userEmail = userData?.establishmentEmail || userData?.email;
 
   return (
     <div className="profile-modal">
