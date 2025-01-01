@@ -243,9 +243,13 @@ const RecoverForm = () => {
             </div>
           </>
         )}
-        <button type="submit" disabled={loading} className={styles.button}>
+        <button type="submit" disabled={loading} className='editdata-button'>
           {loading ? 'Cargando...' : 'Enviar'}
         </button>
+
+        <button className='editdata-button' href="/"   onClick={() => navigate("/")} >
+         Salir
+        </button> 
       </form>
     </div>
   );

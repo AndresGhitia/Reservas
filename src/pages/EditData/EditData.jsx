@@ -337,7 +337,7 @@ const EditData = () => {
 
 <div className='editdata-buttons'> 
           <button className='editdata-button' type="submit" disabled={loading}> {loading ? 'Cargando...' : 'Enviar'} </button>
-          <button className='editdata-button' href="/" > Descartar cambios y cerrar </button>
+           <button className='editdata-button' href="/"   onClick={() => navigate("/")} > Descartar cambios</button> 
         </div>
       </form>
     </div>
