@@ -14,6 +14,7 @@ import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useJsApiLoader } from '@react-google-maps/api';
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import styles from './RecoverForm.module.css';
 
 const RecoverForm = () => {
@@ -34,6 +35,7 @@ const RecoverForm = () => {
   const [businessType, setBusinessType] = useState([]);
   const [addressSuggestions, setAddressSuggestions] = useState([]);
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
   const autocompleteServiceRef = useRef(null);
   const availableBusinessTypes = ['Football', 'Paddle', 'Tennis', 'Hockey', 'Volleyball', 'Handball'];
   const Maps_ApiKey = import.meta.env.VITE_MAPS_APIKEY;
@@ -50,32 +52,35 @@ const RecoverForm = () => {
 
   useEffect(() => {
     const checkEmail = async () => {
+      setIsLoading(true); // Indica que está cargando
       try {
         const userQuery = query(collection(db, 'users'), where('email', '==', email));
         const userSnapshot = await getDocs(userQuery);
-
+  
         if (!userSnapshot.empty) {
           setIsUser(true);
-          return;
+        } else {
+          const ownerQuery = query(collection(db, 'owners'), where('establishmentEmail', '==', email));
+          const ownerSnapshot = await getDocs(ownerQuery);
+  
+          if (ownerSnapshot.empty) {
+            throw new Error('El correo electrónico no está registrado.');
+          }
+  
+          setIsUser(false);
         }
-
-        const ownerQuery = query(collection(db, 'owners'), where('establishmentEmail', '==', email));
-        const ownerSnapshot = await getDocs(ownerQuery);
-
-        if (ownerSnapshot.empty) {
-          throw new Error('El correo electrónico no está registrado.');
-        }
-
-        setIsUser(false);
       } catch (err) {
         setError(err.message || 'Error al verificar el correo electrónico.');
+      } finally {
+        setIsLoading(false); // Finaliza la carga
       }
     };
-
+  
     if (email) {
       checkEmail();
     }
   }, [email]);
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -147,10 +152,26 @@ const RecoverForm = () => {
     }
   };
 
+
+  if (error) {
+    return <p>Error: {error}</p>; // Mostrar error si ocurre
+  }
+
+  if (isLoading) {    return (
+      <div>
+        <LoadingSpinner />
+      </div>
+    );
+  }
+  
+  
   return (
+    
     <div className={styles.container}>
+      
       <h2 className={styles.title}>Recuperar cuenta</h2>
       {error && <p className={styles.error}>{error}</p>} {/* Muestra el error si existe */}
+      
       <form onSubmit={handleSubmit} className={styles.form}>
         {isUser ? (
           // Solo mostrar Nombre y Apellido si isUser es true

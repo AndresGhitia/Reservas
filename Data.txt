@@ -454,3 +454,6 @@ G#204 Resolvemos conflictos serios en RecoverForm, ya estaria funcionando como c
 
 G#205 Se agregan los botones en EditForm y RecoverForm con el fin de poder salir del formulario y descartar los cambios.
 Ademas se borra el compoennte RecoverAccountModal que estaba demas.
+
+G#206 Creamos el componente LoadingSpinner con el fin de reemplazar la leyenda "cargando" durante el proceso de renderizado de los 
+componentes.

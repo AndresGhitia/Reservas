@@ -1,0 +1,56 @@
+/* Contenedor para centrar */
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Altura completa de la pantalla */
+    width: 100vw; /* Ancho completo de la pantalla */
+    background-color: #f0f0f0; /* Color de fondo */
+    position: fixed; /* Fijo en pantalla */
+    top: 0;
+    left: 0;
+    z-index: 9999; /* Por encima de otros elementos */
+  }
+  
+  /* Animación de pelota giratoria */
+  .soccer-ball {
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, white 60%, black 61%, black 63%, white 64%);
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: spin 1s linear infinite; /* Animación */
+  }
+  
+  /* Patrón hexagonal para simular una pelota de fútbol */
+  .soccer-ball::before,
+  .soccer-ball::after {
+    content: "";
+    position: absolute;
+    background: black;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    width: 30px;
+    height: 30px;
+  }
+  
+  .soccer-ball::before {
+    top: 10px;
+    left: 10px;
+  }
+  
+  .soccer-ball::after {
+    bottom: 10px;
+    right: 10px;
+  }
+  
+  /* Animación de rotación */
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  

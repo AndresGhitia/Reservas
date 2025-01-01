@@ -6,13 +6,15 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { fetchOwnerDataAndSpaces } from '../../utils/fetchOwnerData';
 import { uploadImageToCloudinary } from '../../utils/cloudinaryUpload';
-import './Dashboard.css';
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import CalendarOwner from '../../components/Calendar/CalendarOwner';
 import Navbar from '../../components/Navbar/Navbar';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import AmenitiesSelector from './AmenitiesSelector/AmenitiesSelector';
 import ShareQR from '../../components/ShareQR/ShareQR';
 import News from './News/News';
+import './Dashboard.css';
+
 
 function Dashboard() {
   const { establishmentName } = useParams();
@@ -38,6 +40,7 @@ function Dashboard() {
         try {
           await fetchOwnerDataAndSpaces(setOwnerData, setSpaces, setError, setLoading);
         } catch (fetchError) {
+          setIsLoading(false)
           console.error("Error al cargar los datos:", fetchError);
           setError("Error al cargar los datos del propietario.");
         }
@@ -45,7 +48,7 @@ function Dashboard() {
         navigate("/"); // Redirigir al home
         console.log("Usuario no autenticado.");
         setError("Usuario no autenticado.");
-        setLoading(false);
+        setIsLoading(false)
       }
     });
 
@@ -112,8 +115,13 @@ function Dashboard() {
     console.log('Prestaciones actualizadas:', updatedAmenities);
   };
 
-  if (loading) return <div>Cargando...</div>;
-  if (error) return <div>{error}</div>;
+  if (loading) {    return (
+    <div>
+      <LoadingSpinner />
+    </div>
+  );
+  
+}  if (error) return <div>{error}</div>;
   if (!ownerData) return <div>No se encontraron datos del propietario.</div>;
 
   return (

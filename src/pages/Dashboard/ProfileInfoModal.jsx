@@ -2,7 +2,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ProfileInfoModal.css';
-// import { handleDeleteSpaces } from '../../utils/handleDeleteSpaces';
 
 function ProfileInfoModal({ userData, userCollection, numSpaces, onClose, onDeleteAccount }) {
   const navigate = useNavigate();

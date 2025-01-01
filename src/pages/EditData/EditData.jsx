@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { db } from '../../firebase';
 import { collection, query, where, getDocs, doc, updateDoc } from 'firebase/firestore';
 import { useLocation, useNavigate } from 'react-router-dom';
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import { useJsApiLoader } from '@react-google-maps/api';
 import './EditData.css';
 
@@ -26,6 +27,7 @@ const EditData = () => {
   const autocompleteServiceRef = useRef(null);
   const availableBusinessTypes = ['Football', 'Paddle', 'Tennis', 'Hockey', 'Volley', 'Handball'];
   const [businessType, setBusinessType] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [isOwner, setIsOwner] = useState(false); // Estado para saber si es un owner o un user
   const navigate = useNavigate();
   const Maps_ApiKey = import.meta.env.VITE_MAPS_APIKEY;
@@ -42,6 +44,8 @@ const EditData = () => {
       }
 
       try {
+        setIsLoading(true); // Indica que está cargando
+
         // Verificar en la colección 'owners'
         const ownerQuery = query(collection(db, 'owners'), where('establishmentEmail', '==', email));
         const ownerSnapshot = await getDocs(ownerQuery);
@@ -62,6 +66,8 @@ const EditData = () => {
           setInputValue(userData.address || '');
           setBusinessType(userData.businessType || []);
           setIsOwner(true); // Marcamos que es un propietario
+          setIsLoading(false);  // Finaliza la carga después de obtener los datos del usuario
+
           return;
         }
 
@@ -84,11 +90,15 @@ const EditData = () => {
             lastName: userData.lastName || '',
           });
 
+          setIsLoading(false); // Finaliza la carga
+
           setIsOwner(false); // Marcamos que es un usuario
           return;
         }
 
         setError("No se encontraron datos para el email proporcionado.");
+        setIsLoading(false);  // Finaliza la carga después de obtener los datos del usuario
+
       } catch (error) {
         console.error("Error al obtener datos del usuario:", error);
         setError("Hubo un error al cargar los datos.");
@@ -233,6 +243,15 @@ const EditData = () => {
       setError(err.message || 'Hubo un error al actualizar los datos.');
     }
   };
+
+  
+  if (isLoading) {    return (
+    <div>
+      <LoadingSpinner />
+    </div>
+  );
+}
+
 
   return (
     <div className="editdata-container">

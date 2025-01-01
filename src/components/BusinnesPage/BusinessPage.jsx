@@ -7,11 +7,13 @@ import CalendarUser from '../Calendar/CalendarUser';
 import BusinessMap from './BusinessMap';
 import SpaceLine from './SpaceLine';
 import Navbar from '../Navbar/Navbar';
-import './BusinessPage.css';
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import BpHeader from './BpHeader';
 import BusinessAmenities from './BusinessAmenities';
 import WhatsappButton from '../Whatsapp/WhatsappButton';
 import BPNews from './BpNews';
+import './BusinessPage.css';
+
 
 function BusinessPage() {
   const { establishmentName } = useParams();
@@ -110,9 +112,12 @@ function BusinessPage() {
     }
   };
 
-  if (loading) {
-    return <div className="loading">Cargando...</div>;
-  }
+ 
+  if (loading) {    return (
+    <div>
+      <LoadingSpinner />
+    </div>
+  )}
 
   if (error) {
     return <div className="error">{error}</div>;
