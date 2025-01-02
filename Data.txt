@@ -457,3 +457,5 @@ Ademas se borra el compoennte RecoverAccountModal que estaba demas.
 
 G#206 Creamos el componente LoadingSpinner con el fin de reemplazar la leyenda "cargando" durante el proceso de renderizado de los 
 componentes.
+
+A#207 Se modifica el estilo del LoadingSpinner para que tenga los colores de la web. Ademas se añade estilos al BuySuscription

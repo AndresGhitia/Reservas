@@ -1,40 +1,82 @@
-/* /components/BuySubscription/BuySubscription.css */
-/* .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  } */
-  
-  /* .modal-content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    text-align: center;
-  }
-   */
-  .renew-button {
-    margin-top: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  
-  .close-button {
-    margin-top: 10px;
-    background-color: #f44336;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  
+.modal-subscription {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-subscription-dialog {
+  max-width: 500px;
+  width: 100%;
+}
+
+.modal-subscription-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.subscription-header {
+  background-color: #56e07b;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.subscription-header p {
+  color: #2f285a;
+  text-align: center;
+  padding-left: 24px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.subscription-header span {
+  background-color: #2f285a;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.subscription-body {
+  background-color: #FFFFFF;
+  padding: 10px 24px;
+}
+
+.subscription-body p {
+  padding: 5px;
+  font-size: 20px;
+}
+
+.subscription-buttons{
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 15px;
+}
+
+.renew-button {
+  background-color: #2f285a;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.renew-button:hover{
+  color: #56e07b;
+}
