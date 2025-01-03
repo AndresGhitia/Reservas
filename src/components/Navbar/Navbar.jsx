@@ -81,11 +81,9 @@ function Navbar() {
     <>
       <div className='navbar'>
         <div className='navbar-title'>
-          <h3>CLubWeb!</h3>
+          <h3>ClubWeb!</h3>
         </div>
         <div className='navbar-right'>
-          <div className='navbar-search-icon'>
-          </div>
           {!user ? (
             <span onClick={() => setShowLogin(true)}>INICIAR SESION</span>
           ) : (
@@ -99,7 +97,6 @@ function Navbar() {
         </div>
       </div>
 
-      {/* Modales fuera del contenedor navbar */}
       {showLogin && <LoginForm onClose={() => setShowLogin(false)} />}
       {showWarningModal && (
         <WarningModal

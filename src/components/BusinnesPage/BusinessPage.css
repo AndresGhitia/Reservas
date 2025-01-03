@@ -160,34 +160,61 @@
 }
 
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .businesspage-container {
+    display: flex;
     flex-direction: column;
   }
 
-  .business-leftcolum,
+  .business-leftcolumn,
   .business-rightcolumn {
-    flex: none;
     width: 100%;
     padding: 10px;
+  }
+
+  .space-image {
+    height: 250px;
   }
 
   .spaces-container {
     flex-direction: column;
     gap: 10px;
+    padding: 10px;
   }
 
   .businessmap-container {
-    height: 250px;
+    height: 300px;
+    margin-top: 10px;
   }
 
+  .businessmap-header h1,
+  .space-header h1,
+  .amenities-header h1,
+  .news-header h1,
+  .facilities-header h1,
+  .address-header h1 {
+    font-size: 20px;
+  }
+
+  .amenities-element,
+  .address-element p,
+  .businessmap-element p {
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  .login-button-address {
+    font-size: 15px;
+    padding: 10px;
+    margin: 15px 0;
+  }
+
+  /* Ajustes adicionales */
   .address-container a {
-    font-size: 1.2rem;
+    font-size: 16px;
+  }
+
+  .address-header::before {
+    font-size: 14px;
   }
 }
-
-/* Comentarios de estilos no utilizados */
-/* .loading: No se encuentra en el código HTML */
-/* .error: No se encuentra en el código HTML */
-/* .no-data: No se encuentra en el código HTML */

@@ -204,12 +204,12 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
               className="datepicker-input"
               isClearable
               locale={es}
-              minDate={new Date()} // Deshabilita fechas anteriores a hoy
+              minDate={new Date()} 
               placeholderText="Selecciona una fecha"
-              onFocus={(e) => e.target.blur()} // Deshabilita entrada manual
-              onClick={(e) => e.preventDefault()} // Evita que se escriba con el teclado
-              onSelect={() => document.activeElement.blur()} // Cierra el teclado virtual en dispositivos táctiles
-              filterDate={(date) => !isDayClosed(date)} // Invertir la lógica aquí
+              onFocus={(e) => e.target.blur()} 
+              onClick={(e) => e.preventDefault()} 
+              onSelect={() => document.activeElement.blur()} 
+              filterDate={(date) => !isDayClosed(date)} 
               inline
             />
           </div>

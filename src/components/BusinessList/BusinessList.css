@@ -1,10 +1,8 @@
 .business-list {
   display: flex;
   flex-wrap: wrap;
-  /* Permite que las tarjetas se envuelvan en filas */
   gap: 20px;
   justify-content: center;
-  /* Centra las tarjetas horizontalmente */
   margin: 20px;
 }
 
@@ -57,11 +55,8 @@
 
 .business-image {
   width: 100%;
-  /* O el tamaño fijo que desees, por ejemplo, 250px */
   height: 150px;
-  /* Fija la altura que desees, ajusta según el diseño */
   object-fit: cover;
-  /* Mantiene la proporción de la imagen recortando si es necesario */
   border-radius: 8px;
 }
 
@@ -72,7 +67,6 @@
 
 .business-address {
   font-size: 0.8rem;
-  /* Tamaño más pequeño para la dirección */
   color: #888;
   display: flex;
   align-items: center;
@@ -107,7 +101,6 @@
 
 .business-card p:first-of-type {
   font-size: 1.2rem;
-  /* Tamaño más pequeño para el rubro */
   color: #0a0101;
 }
 
@@ -133,8 +126,7 @@
   .business-list {
     gap: 12px;
     justify-content: center;
-    /* Centra las tarjetas horizontalmente */
-    margin: 0px;
+    margin: 20px;
   }
 
 }

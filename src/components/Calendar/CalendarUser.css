@@ -1,5 +1,5 @@
-.calendar-modal{
-  background-color: #dc3545;
+.calendar-modal {
+  background-color: #fff;
 }
 
 
@@ -8,7 +8,6 @@
   margin: 0 auto;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  /* border: solid 3px red; */
 }
 
 .modal-header-calendar {
@@ -19,7 +18,7 @@
   align-items: center;
 }
 
-.modal-header-calendar p{
+.modal-header-calendar p {
   color: #2f285a;
   text-align: center;
   padding-left: 24px;
@@ -188,41 +187,108 @@
 }
 
 @media (max-width: 768px) {
-  .calendar-content {
-    background-color: whitesmoke;
-    border-radius: 10px;
-    text-align: center;
-    padding: 0px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    margin: 0 auto;
-  }
 
-  .react-datepicker__navigation {
-    border-left-color: #007bff;
-    /* Cambia el color de la flecha */
-    margin-right: 30px;
-    /* Ajuste de margen si es necesario */
-    margin-top: 24px;
-  }
-
-  .calendar-content {
+  /* Ajustes generales */
+  .calendar-modal {
     width: 100%;
-    /* Ancho completo en pantallas pequeñas */
+    height: auto;
     padding: 10px;
   }
 
-  .timeslot-button {
-    font-size: 12px;
-    /* Tamaño de texto ajustado para dispositivos móviles */
-    padding: 8px;
-    /* Botones más compactos */
+  .calendar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
   }
 
-  /* Flexibilidad para que los pares de botones en intervalos de media hora también se ajusten */
-  .timeslot-pair {
+  .calendar-content {
+    width: 90%;
+    margin: 0 auto;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+
+  .modal-header-calendar {
+    height: auto;
     flex-direction: column;
-    gap: 5px;
-    /* Espaciado más pequeño en pantallas pequeñas */
+    padding: 10px;
+    text-align: center;
+  }
+
+  .modal-header-calendar p {
+    font-size: 16px;
+    padding: 5px 0;
+  }
+
+  .modal-header-calendar span {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+
+  .close {
+    font-size: 20px;
+    padding: 0 15px;
+  }
+
+  .calendar-header h1 {
+    font-size: 1.5rem;
+    margin: 10px 0;
+  }
+
+  .modal-close-button p {
+    font-size: 0.9rem;
+  }
+
+  .react-datepicker {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .react-datepicker__current-month {
+    font-size: 18px;
+  }
+
+  .react-datepicker__header {
+    padding: 10px 0;
+  }
+
+  .react-datepicker__day,
+  .react-datepicker__day-name {
+    font-size: 18px;
+    margin: 5px;
+    width: 25px;
+  }
+
+  .react-datepicker__month {
+    font-size: 18px;
+    padding: 5px;
+  }
+
+  .datepicker-input {
+    width: 100%;
+    font-size: 1rem;
+    padding: 8px;
+  }
+
+  .timeslot-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column; /* Los botones se apilan en vertical */
+    margin-top: 20px; /* Espaciado entre calendario y horarios */
+  }
+
+  .timeslot-button {
+    margin-bottom: 10px; /* Espaciado entre botones */
+    width: 100%; /* Botones ocupan el ancho completo */
+  }
+
+  .timeslot-button.available,
+  .timeslot-button.reserved,
+  .timeslot-button.disabled-business {
+    width: 100%;
   }
 }

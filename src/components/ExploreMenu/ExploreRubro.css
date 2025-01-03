@@ -12,7 +12,6 @@
     letter-spacing: 3px;
     color: #f2f2f2;
     background-color: #2f285a;
-
 }
 
 .explore-rubro-list {
@@ -26,41 +25,43 @@
     cursor: pointer;
 }
 
-
- .explore-rubro-list-item .active {
+.explore-rubro-list-item .active {
     border-radius: 50%;
-    background-color:#56e07b;
+    background-color: #56e07b;
     transition: 0.1s;
 }
 
-/* Adaptación para móviles: cambiar de columnas a filas */
 @media (max-width: 768px) {
     .explore-rubro-list {
-        display: grid; /* Cambiar a grid layout */
+        display: grid;
         align-items: center;
         margin: 0px;
         margin-top: 12px;
         justify-content: space-between;
-        grid-template-columns: repeat(3, 1fr); /* Dos columnas de igual tamaño */
-        grid-gap: 0px; /* Espacio entre los elementos */
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 0px;
         padding: 0px 10px;
+    }
+
+    .explore-rubro h3{
+        font-size: 20px;
     }
 
     .explore-rubro-list-item {
         text-align: center;
     }
 
-    /* Ajustes adicionales para los ítems */
     .explore-rubro-list-item img {
-        width: 80%; /* Ajustar el tamaño de los íconos en móviles */
+        width: 50%;
     }
 
     .explore-rubro-list-item p {
-        font-size: 14px; /* Reducir ligeramente el tamaño del texto en móviles */
+        font-size: 14px;
     }
+
     .explore-rubro-list-item .active {
-        border-radius: 25%;
-        background-color: goldenrod;
+        border-radius: 50%;
+        background-color: #56e07b;
         transition: 0.5s;
     }
 }

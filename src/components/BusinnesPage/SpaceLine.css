@@ -6,7 +6,6 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   width: 300px;
-  /* Fija el ancho de las tarjetas */
   text-align: center;
   padding: 0px 20px 20px 20px;
   transition: transform 0.3s;
@@ -35,12 +34,6 @@
   gap: 10px;
   margin: 15px;
 }
-
-/* .sport-icon p {
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: #333;
-} */
 
 .spaceinfo{
   margin-top: 10px;
@@ -191,7 +184,6 @@
 
   .spaceline-card .spaceline-button:hover,
   .spaceline-card .details-toggle-button:hover {
-    background-color: #4a90e2;
     transform: translateY(0px);
   }
 

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { collection, getDocs } from 'firebase/firestore'; 
-import { db } from '../../firebase'; 
-import businessPage from '../../assets/businessPage.jpeg'; 
-import './BusinessList.css'; 
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../../firebase';
+import businessPage from '../../assets/businessPage.jpeg';
+import './BusinessList.css';
 import '../Whatsapp/Whatsapp.css';
 
 const BusinessList = ({ category, userLocation }) => {
@@ -68,9 +68,9 @@ const BusinessList = ({ category, userLocation }) => {
           try {
             const businessLocation = await geocodeAddress(business.address);
             const distance = calculateDistance(
-              userLocation.latitude, 
-              userLocation.longitude, 
-              businessLocation.lat, 
+              userLocation.latitude,
+              userLocation.longitude,
+              businessLocation.lat,
               businessLocation.lng
             );
             newDistances[business.id] = distance.toFixed(2);
@@ -79,7 +79,7 @@ const BusinessList = ({ category, userLocation }) => {
           }
         }
       });
-      
+
       Promise.all(promises).then(() => {
         setDistances(newDistances); // Actualizar distancias cuando todas hayan sido calculadas
       });
@@ -87,49 +87,45 @@ const BusinessList = ({ category, userLocation }) => {
   }, [userLocation, businesses]);
 
   // Filtrar por rubro seleccionado o mostrar todos los negocios si se elige "Todos los deportes"
- const filteredAndSortedBusinesses = [...businesses]
-  .filter(business => 
-    business.businessType && 
-    (Array.isArray(business.businessType) ? business.businessType.length > 0 : business.businessType.trim() !== '') &&
-    (category === 'All' || category === 'Todos los deportes' || business.businessType.includes(category))
-  )
-  .sort((a, b) => {
-    const aDistance = distances[a.id];
-    const bDistance = distances[b.id];
-    
-    if (aDistance && bDistance) {
-      return aDistance - bDistance;
-    } else if (aDistance) {
-      return -1;
-    } else if (bDistance) {
-      return 1;
-    }
-    return 0;
-  });
+  const filteredAndSortedBusinesses = [...businesses]
+    .filter(business =>
+      business.businessType &&
+      (Array.isArray(business.businessType) ? business.businessType.length > 0 : business.businessType.trim() !== '') &&
+      (category === 'All' || category === 'Todos los deportes' || business.businessType.includes(category))
+    )
+    .sort((a, b) => {
+      const aDistance = distances[a.id];
+      const bDistance = distances[b.id];
+
+      if (aDistance && bDistance) {
+        return aDistance - bDistance;
+      } else if (aDistance) {
+        return -1;
+      } else if (bDistance) {
+        return 1;
+      }
+      return 0;
+    });
 
 
   return (
     <div className="business-list">
       {filteredAndSortedBusinesses.map((business) => (
         <div key={business.id} className="business-card">
-          <img className="business-image" src={business.backgroundImageUrl || businessPage} alt={`${business.establishmentName} banner`}/>
+          <img className="business-image" src={business.backgroundImageUrl || businessPage} alt={`${business.establishmentName} banner`} />
           <h3>{business.establishmentName}</h3>
           <hr />
           <p>{Array.isArray(business.businessType) ? business.businessType.join(', ') : business.businessType || 'Sin rubro'}</p>
-          
+
           {business.address && (
-            <p className="business-address">
-              <i className="fas fa-map-marker-alt"></i> {business.address}
-            </p>
+            <p className="business-address"> <i className="fas fa-map-marker-alt"></i> {business.address}</p>
           )}
 
           {userLocation && business.address && distances[business.id] && (
-            <p>
-              Distancia: {distances[business.id]} km
-            </p>
+            <p>Distancia: {distances[business.id]} km</p>
           )}
 
-          <button  className="login-button-card" onClick={() => window.open(`/${business.establishmentName.replace(/\s+/g, '-')}`, '_blank')}>
+          <button className="login-button-card" onClick={() => window.open(`/${business.establishmentName.replace(/\s+/g, '-')}`, '_blank')}>
             VER DISPONIBILIDAD
           </button>
         </div>

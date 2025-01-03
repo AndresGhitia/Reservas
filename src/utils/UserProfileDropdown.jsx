@@ -5,7 +5,8 @@ import { assets } from '../../src/assets/assets';
 import { auth, db } from '../firebase';
 import { onAuthStateChanged, signOut,EmailAuthProvider,reauthenticateWithCredential } from 'firebase/auth';
 import { doc, getDoc, collection,getDocs  } from 'firebase/firestore';
-import { resetInactivityTimer } from '../components/Navbar/authUtils'; 
+import { resetInactivityTimer } from '../components/Navbar/authUtils';
+import './UserProfileDropdown.css' 
 import onDeleteAccount from '../../functions/onDeleteAccount'
 import ProfileInfoModal from '../pages/Dashboard/ProfileInfoModal';  
 
@@ -184,7 +185,7 @@ useEffect(() => {
     <div className='navbar-profile'>
       <div className='navbar-profile-user'>
         <span>{`Hola, ${userData?.firstName || userData?.ownerName || user.email}`}</span>
-        <img src={assets.profile_icon} alt="profile icon" /> 
+        <img src={assets.user_icon_white} alt="profile icon" /> 
       </div>
       <ul className="nav-profile-dropdown">
         <li onClick={handleAccountClick}>
@@ -193,7 +194,6 @@ useEffect(() => {
         <hr />
         <li onClick={() => handleSignOut(false)}><img src={assets.logout_icon_white} alt="Logout icon" />Logout</li>
         <hr />
-        {/* Mostrar la opción de Dashboard o Home solo si pertenece a la colección 'owners' */}
         {userCollection === 'owners' && (
           <li onClick={handleNavigate}>
             <img src={assets.profile_icon_white} alt="Navigation icon" />

@@ -18,6 +18,8 @@ import add_icon_white from './add_icon_white.png'
 import home_icon_white from './home_icon_white.png'
 import logout_icon_white from './logout_icon_white.png'
 import profile_icon_white from './profile_icon_white.png'
+import user_icon_white from './user_icon_white.png'
+
 
 
 
@@ -67,7 +69,8 @@ export const assets = {
     add_icon_white,
     home_icon_white,
     logout_icon_white,
-    profile_icon_white
+    profile_icon_white,
+    user_icon_white
 
 }
 
