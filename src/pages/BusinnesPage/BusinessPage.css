@@ -1,0 +1,193 @@
+/* Estilos generales */
+.businesspage-container {
+  display: grid;
+  grid-template-columns: 8fr 4fr;
+}
+
+.business-leftcolumn {
+  padding: 0px 15px;
+}
+
+.business-rightcolumn {
+  padding: 0px 15px;
+}
+
+.space-image {
+  width: 100%;
+  height: 450px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.businessmap-header {
+  background-color: #ececee;
+  padding: 12px;
+  border-radius: 5px 5px 0px 0px;
+}
+
+.businessmap-container {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 0px 0px 5px 5px;
+  margin-top: 20px;
+}
+
+.businessmap-header h1 {
+  font-size: 25px;
+  letter-spacing: 2px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Contenedores internos */
+.business-container {
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 1000px;
+  padding-bottom: 10px;
+}
+
+.spaces-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 0px 0px 5px 5px;
+}
+
+.space-header {
+  background-color: #ececee;
+  padding: 12px;
+  border-radius: 5px 5px 0px 0px;
+}
+
+.space-header h1 {
+  font-size: 25px;
+  letter-spacing: 2px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.amenities-container, .news-container, .facilities-container {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 0px 0px 5px 5px;
+  margin-top: 20px;
+}
+
+.amenities-header, .news-header, .facilities-header {
+  background-color: #ececee;
+  padding: 12px;
+  border-radius: 5px 5px 0px 0px;
+}
+
+.amenities-header h1 , .news-header h1, .facilities-header h1 {
+  font-size: 25px;
+  letter-spacing: 2px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.amenities-element {
+  display: flex;
+  padding: 15px;
+  text-align: left;
+  font-size: 20px;
+  color: #333; 
+}
+
+
+.address-container {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 0px 0px 5px 5px;
+  margin-top: 20px;
+}
+
+.address-header {
+  background-color: #ececee;
+  padding: 12px;
+  border-radius: 5px 5px 0px 0px;
+}
+
+.address-header h1{
+  font-size: 25px;
+  letter-spacing: 2px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.address-header::before {
+  font-size: 18px;
+}
+
+.address-element {
+  padding: 15px;
+  text-align: left;
+  font-size: 20px;
+  color: #333; /* Texto oscuro */
+  line-height: 1.5;
+}
+
+.address-element p {
+  margin: 10px
+}
+
+.login-button-address {
+  display: block; /* Botones en columna */
+  width: 100%;
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 5px;
+  border: 1px solid #333;
+  background-color: #2f285a;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.login-button-address:hover {
+  color: #56e07b;
+}
+
+.businessmap-element p{
+  padding-left: 15px;
+  font-size: 20px;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .businesspage-container {
+    flex-direction: column;
+  }
+
+  .business-leftcolum,
+  .business-rightcolumn {
+    flex: none;
+    width: 100%;
+    padding: 10px;
+  }
+
+  .spaces-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .businessmap-container {
+    height: 250px;
+  }
+
+  .address-container a {
+    font-size: 1.2rem;
+  }
+}
+
+/* Comentarios de estilos no utilizados */
+/* .loading: No se encuentra en el código HTML */
+/* .error: No se encuentra en el código HTML */
+/* .no-data: No se encuentra en el código HTML */

@@ -22,7 +22,7 @@ const BPNews = ({ db, userDocId }) => {
           const data = docSnapshot.data();
           if (data && data.news) {
             setNewsList(data.news);
-            // console.log("Noticias cargadas:", data.news);
+             // console.log("Noticias cargadas:", data.news);
           } else {
             setError("No se encontraron noticias.");
           }

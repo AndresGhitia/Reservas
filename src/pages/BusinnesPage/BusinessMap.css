@@ -1,0 +1,25 @@
+.map-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    height: auto; 
+    border-radius: 8px; 
+    padding: 20px;
+  }
+  @media (max-width: 768px) {
+    .map-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    /* border: solid 1px black; */
+    margin: 0px; 
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    /* border-radius: 8px; */
+
+
+
+      }
+  }

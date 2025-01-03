@@ -461,3 +461,6 @@ componentes.
 A#207 Se modifica el estilo del LoadingSpinner para que tenga los colores de la web. Ademas se añade estilos al BuySubscription
 
 A#208 Se comiemza a dar estilos responsive al Home y BusinnssPage. Queda encarar el Dashboard que es mas complejo.
+
+G#209 Se resuelve un conflicto con el valor "cel" del componente CalendarUser, por algun motivo llegaba como undefined, por lo que 
+se opta por obtenerlo en el componente mismo. 

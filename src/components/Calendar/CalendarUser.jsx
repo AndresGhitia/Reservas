@@ -8,11 +8,36 @@ import './CalendarUser.css';
 import { format } from 'date-fns';
 
 
-function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelectedDate, onClose, disableBooking, ownerId, cel, sport }) {
+function CalendarUser({ selectedSpace, calendarData , setSelectedDate, onClose, disableBooking, ownerId }) {
 
+  const [whatsapp, setWhatsapp] = useState(null); // Estado para almacenar el whatsapp del propietario
   const [date, setDate] = useState(null);
   const [timeSlots, setLocalTimeSlots] = useState([]);
   const [closedDays, setClosedDays] = useState([]);
+
+
+  useEffect(() => {
+    const fetchOwnerData = async () => {
+      try {
+        const ownerRef = doc(db, 'owners', ownerId); // Suponiendo que "owners" es la colección donde tienes la información
+        const ownerSnap = await getDoc(ownerRef);
+
+        if (ownerSnap.exists()) {
+          const ownerData = ownerSnap.data();
+          setWhatsapp(ownerData.whatsapp); // Guardamos el whatsapp del propietario
+          // console.log('**** : '+ whatsapp)
+        } else {
+          console.error('No se encontraron datos del propietario.');
+        }
+      } catch (error) {
+        console.error("Error al obtener los datos del propietario: ", error);
+      }
+    };
+
+    if (ownerId) {
+      fetchOwnerData();
+    }
+  }, [ownerId]); // Dependemos de `ownerId` para obtener los datos correctos
 
   useEffect(() => {
     if (selectedSpace && date) {
@@ -32,7 +57,7 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
             } else {
               const spaceRef = doc(db, 'owners', ownerId, 'spaces', selectedSpace.id);
               const spaceSnap = await getDoc(spaceRef);
-
+              
               if (spaceSnap.exists()) {
                 const { openTime, closeTime } = spaceSnap.data();
                 const timeslots = generateTimeSlots(openTime, closeTime);
@@ -53,6 +78,8 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
     }
   }, [date, selectedSpace, calendarData, ownerId]);
 
+
+
   const fetchClosedDays = async () => {
     if (selectedSpace && ownerId) {
       try {
@@ -64,7 +91,7 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
           const spaceData = spaceSnap.data();
           const { closedDays } = spaceData;
 
-          console.log("Array 'closedDays' desde Firestore:", closedDays); // Log para verificar el array
+          // console.log("Array 'closedDays' desde Firestore:", closedDays); // Log para verificar el array
 
           // Verifica si closedDays tiene valores y actualiza el estado si es necesario
           if (Array.isArray(closedDays) && closedDays.length > 0) {
@@ -82,7 +109,7 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
   };
 
   useEffect(() => {
-    console.log('Array closedDays:', closedDays); // Confirma los valores en closedDays
+  //  console.log('Array closedDays:', closedDays); // Confirma los valores en closedDays
   }, [closedDays]);
 
 
@@ -151,7 +178,9 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
         const message = encodeURIComponent(
           `Hola, estoy interesado en reservar el espacio ${selectedSpace.name} para el horario ${selectedSlot.time}.`
         );
-        const whatsappLink = `https://wa.me/${cel}?text=${message}`;
+
+        // console.log('***cel: '+cel)
+        const whatsappLink = `https://wa.me/${whatsapp}?text=${message}`;
         window.open(whatsappLink, '_blank');
       }
     } else {
@@ -159,21 +188,23 @@ function CalendarUser({ selectedSpace, calendarData, setCalendarData, setSelecte
     }
   };
 
-  const saveNotificationRequest = async (time, whatsappNumber, spaceId, ownerId, spaceName) => {
-    try {
-      const notificationId = `${whatsappNumber}_${time}`;
-      const notificationRef = doc(db, 'owners', ownerId, 'spaces', spaceId, 'notifications', notificationId);
 
-      await setDoc(notificationRef, {
-        time,
-        whatsapp: whatsappNumber,
-        spaceName,
-        notified: false
-      });
-    } catch (error) {
-      console.error("Error al guardar la solicitud de notificación: ", error);
-    }
-  };
+// ** FRAGMENTO DE CODIGO DESTINADO AL ENVIO DE NOTIFICACIONES VIA WHATSAPP
+//  const saveNotificationRequest = async (time, whatsappNumber, spaceId, ownerId, spaceName) => {
+//     try {
+//       const notificationId = `${whatsappNumber}_${time}`;
+//       const notificationRef = doc(db, 'owners', ownerId, 'spaces', spaceId, 'notifications', notificationId);
+
+//       await setDoc(notificationRef, {
+//         time,
+//         whatsapp: whatsappNumber,
+//         spaceName,
+//         notified: false
+//       });
+//     } catch (error) {
+//       console.error("Error al guardar la solicitud de notificación: ", error);
+//     }
+//   };
 
   useEffect(() => {
     if (date) {

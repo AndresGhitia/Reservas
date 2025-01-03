@@ -1,0 +1,39 @@
+/* Estilos generales para pantallas grandes */
+.business-header {
+    display: flex;
+    align-items: center;
+    height: 150px;
+}
+  
+  .business-header-info {
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+  }
+  
+  .business-header-info h1 {
+    font-size: 40px;
+  }
+  
+  /* Estilos para dispositivos móviles */
+  @media (max-width: 768px) {
+        .business-header {
+            height: 28vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding-left: 0; /* Elimina el padding-left para centrar contenido */
+        }
+      
+        .business-header-info h1 {
+            font-size: 2.5rem; /* Ajusta el tamaño de fuente para pantallas móviles */
+            padding: 0px 0;
+        }
+      
+        .business-header-info p {
+            font-size: 1.2rem;
+            padding: 0px 0;
+        }
+    }
+  
