@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup  } from 'firebase/auth';
 import { auth, db } from '../../firebase';
 import './LoginForm.css';
 import RegisterForm from '../RegisterForm/RegisterForm';
@@ -96,6 +96,37 @@ function LoginForm({ onClose }) {
       setSubmitting(false);
     }
   };
+
+    // Inicio de sesión con Google
+    const handleGoogleLogin = async () => {
+      const provider = new GoogleAuthProvider();
+    
+      try {
+        console.log('Abriendo popup para autenticación con Google...'); // LOG
+        
+        // Crear popup manualmente para verificar si se bloquea
+        const popupWindow = window.open('', '_blank', 'width=500,height=600');
+        if (!popupWindow || popupWindow.closed || typeof popupWindow.closed === 'undefined') {
+          console.error('El navegador bloqueó el popup.'); // LOG
+          setError("El navegador bloqueó el popup. Habilita las ventanas emergentes.");
+          return;
+        }
+        popupWindow.close();
+    
+        // Inicia el proceso de autenticación
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        console.log('Usuario autenticado:', user); // LOG
+    
+        // Procesar el inicio de sesión...
+      } catch (error) {
+        console.error('Error en el inicio de sesión con Google:', error); // LOG
+        setError(error.message || "Error al iniciar sesión con Google. Intenta de nuevo.");
+      }
+    };
+    
+    
+  
 
   const openRecoverScreen = () => {
     navigate(`/recover?email=${userEmail}`);
@@ -199,6 +230,9 @@ function LoginForm({ onClose }) {
                     </Form>
                   )}
                 </Formik>
+                <button className="google-login-button" onClick={handleGoogleLogin}>
+                  Iniciar sesión con Google
+                </button>
               </div>
             </div>
           </div>

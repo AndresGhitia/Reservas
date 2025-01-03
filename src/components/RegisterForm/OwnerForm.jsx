@@ -85,8 +85,8 @@ const OwnerForm = ({
     const value = e.target.value;
 
     // Evitar que el usuario elimine el prefijo
-    if (!value.startsWith('+54 11')) {
-      setWhatsapp('+54 11' + value.replace('+54 11', '')); // Asegúrate de que el prefijo esté siempre presente
+    if (!value.startsWith(' 11')) {
+      setWhatsapp(' 11' + value.replace(' 11', '')); // Asegúrate de que el prefijo esté siempre presente
     } else {
       setWhatsapp(value);
     }

@@ -84,11 +84,22 @@ const RecoverForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
+  
+    if (name === 'whatsapp') {
+      // Eliminar cualquier cosa que no sea un número (incluyendo espacios)
+      const cleanedValue = value.replace(/\D/g, ''); // Solo dejar números
+      setFormData((prev) => ({
+        ...prev,
+        [name]: cleanedValue,
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  
+    // Autocompletar la dirección de la misma forma que lo hacías antes
     if (name === 'address' && autocompleteServiceRef.current) {
       autocompleteServiceRef.current.getPlacePredictions(
         { input: value },
@@ -98,6 +109,7 @@ const RecoverForm = () => {
       );
     }
   };
+  
 
   const handleBusinessTypeChange = (type) => {
     setBusinessType((prev) =>
@@ -135,7 +147,7 @@ const RecoverForm = () => {
           establishmentName: formData.establishmentName || '',
           address: formData.address || '',
           businessType: businessType,
-          whatsapp: formData.whatsapp || '',
+          whatsapp: formData.whatsapp ? '11' + formData.whatsapp : '',  // Solo agregar '11' si hay un valor en formData.whatsapp
           status: 'enabled',
           expdate: serverTimestamp(),
           statusHistory: arrayUnion(`enabled: ${new Date().toISOString()}`),
@@ -151,6 +163,8 @@ const RecoverForm = () => {
       setLoading(false);
     }
   };
+
+  
 
 
   if (error) {
@@ -253,15 +267,19 @@ const RecoverForm = () => {
               ))}
             </div>
             <div className={styles.field}>
-              <label className={styles.label}>WhatsApp</label>
-              <input
-                type="text"
-                name="whatsapp"
-                value={formData.whatsapp}
-                onChange={handleChange}
-                className={styles.input}
-              />
-            </div>
+  <label className={styles.label}>WhatsApp</label>
+  <div className={styles.whatsappInputContainer}>
+    <span className={styles.prefix}>11</span>
+    <input
+      type="text"
+      name="whatsapp"
+      value={formData.whatsapp}
+      onChange={(e) => handleChange(e)}
+      className={styles.input}
+      placeholder="Número de WhatsApp"
+    />
+  </div>
+</div>
           </>
         )}
         <button type="submit" disabled={loading} className='editdata-button'>

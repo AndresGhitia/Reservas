@@ -72,20 +72,9 @@
   .suggestionItem:hover {
     background: #f0f0f0;
   }
-  
-  .button {
-    /* background-color: #6200ea;
-    color: #fff;
-    padding: 0.8rem 1.5rem;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease; */
-  }
-  
-  .button:hover {
-    /* background-color: #4500b5; */
+  .whatsappInputContainer {
+    display: flex;
+    align-items: center;
   }
   
   .link {

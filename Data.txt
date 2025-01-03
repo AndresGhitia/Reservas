@@ -464,3 +464,5 @@ A#208 Se comiemza a dar estilos responsive al Home y BusinnssPage. Queda encarar
 
 G#209 Se resuelve un conflicto con el valor "cel" del componente CalendarUser, por algun motivo llegaba como undefined, por lo que 
 se opta por obtenerlo en el componente mismo. 
+
+G#210 Se agrega google como proovedor de inicio de sesion, hay que testear que funcione correctamente.

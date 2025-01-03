@@ -166,10 +166,10 @@ const EditData = () => {
 
   const handleWhatsAppChange = (e) => {
     const value = e.target.value;
-    if (!value.startsWith('+54 11')) {
+    if (!value.startsWith('11')) {
       setFormData((prev) => ({
         ...prev,
-        whatsapp: '+54 11' + value.replace('+54 11', ''),
+        whatsapp: '11' + value.replace('11', ''),
       }));
     } else {
       setFormData((prev) => ({
