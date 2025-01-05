@@ -471,3 +471,6 @@ A#211 Se agrega estilos al boton de google como proovedor de inicio de sesion.
 
 G#212 Se crea componente AccountTypeModal, mediante el cual se guia al usuario en la creacion de cuenta, haciendole la consulta 
 respecto al tipo de cuenta que quiere crear User / Owner.
+
+A#213 Se ajusta el estilo del CalendarUser para que este se muestre como un popup en la pantalla de BusinessPage y sea mas sencillo
+para el usuario encontrar los horarios.

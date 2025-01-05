@@ -35,11 +35,9 @@ const App = () => {
         <Route path="/:establishmentName" element={<BusinessPage />} />
 
         {/* Nuevas rutas */}
-        <Route path="/password-reset" element={<PasswordReset />} />
-        
+        <Route path="/password-reset" element={<PasswordReset />} />   
         <Route path="/recover" element={<RecoverForm />} />
         <Route path="/edit-data" element={<EditData />} />
-
         <Route path="/success" element={<Success />} /> 
         <Route path="/failure" element={<Failure />} /> 
       </Routes>

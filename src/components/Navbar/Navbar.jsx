@@ -90,7 +90,7 @@ function Navbar() {
     <>
       <div className='navbar'>
         <div className='navbar-title'>
-          <h3>ClubWeb!</h3>
+          <a href="/">ClubWeb</a>
         </div>
         <div className='navbar-right'>
           {!user ? (
@@ -120,7 +120,6 @@ function Navbar() {
           open={showAccountTypeModal}
           onClose={() => setShowAccountTypeModal(false)} // Cierra el modal
           onSelectAccountType={handleAccountTypeSelect}
-
           setShowRegister={setShowRegister} // Pasa la función para manejar el registro
         />
       )}

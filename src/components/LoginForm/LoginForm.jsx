@@ -175,16 +175,16 @@ function LoginForm({ onClose }) {
               <div className='modal-body'>
                 <section className='modal-login'>
                   <h3 onClick={onClose}>LOG IN</h3>
-                  <p>No tienes cuenta? 
-  <span 
-    className="join-now" 
-    onClick={() => {
-      onClose(); // Cierra el LoginForm
-    }}
-  >
-    CREAR CUENTA
-  </span>
-</p>
+                  <p>No tienes cuenta?
+                    <span
+                      className="join-now"
+                      onClick={() => {
+                        onClose(); // Cierra el LoginForm
+                      }}
+                    >
+                      CREAR CUENTA
+                    </span>
+                  </p>
 
                 </section>
 

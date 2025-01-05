@@ -6,7 +6,7 @@
     background-color: #2f285a;
 }
 
-.navbar-title h3 {
+.navbar-title a {
     font-size: 40px;
     font-weight: 700;
     letter-spacing: 2px;
