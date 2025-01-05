@@ -6,7 +6,7 @@
     import UserForm from './UserForm';
     import './RegisterForm.css';
 
-    function RegisterForm({ onClose, isRecoveringAccount, disabledEmail  }) {
+    function RegisterForm({ onClose, isRecoveringAccount, disabledEmail , accountType: initialAccountType }) {
       const [email, setEmail] = useState('');
       const [password, setPassword] = useState('');
       const [firstName, setFirstName] = useState('');
@@ -17,7 +17,7 @@
       const [address, setAddress] = useState('');
       const [error, setError] = useState('');
       const [showPassword, setShowPassword] = useState(false);
-      const [accountType, setAccountType] = useState('user');
+      const [accountType, setAccountType] = useState(initialAccountType || 'user');
       const [whatsapp, setWhatsapp] = useState('');
       const availableBusinessTypes = ['Football', 'Paddle', 'Tenis', 'Hockey', 'Volley', 'Handball'];
 

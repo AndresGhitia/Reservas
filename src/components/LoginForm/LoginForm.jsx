@@ -3,6 +3,7 @@ import { signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopu
 import { auth, db } from '../../firebase';
 import './LoginForm.css';
 import RegisterForm from '../RegisterForm/RegisterForm';
+import AccountTypeModal from '../AccountTypeModal/AccountTypeModal';
 import { useNavigate } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { assets } from '../../assets/assets';
@@ -125,9 +126,6 @@ function LoginForm({ onClose }) {
     }
   };
 
-
-
-
   const openRecoverScreen = () => {
     navigate(`/recover?email=${userEmail}`);
     // setShowRecoverScreen(true); // Mostrar la pantalla de recuperación
@@ -177,7 +175,17 @@ function LoginForm({ onClose }) {
               <div className='modal-body'>
                 <section className='modal-login'>
                   <h3 onClick={onClose}>LOG IN</h3>
-                  <p>No tienes cuenta? <span className="join-now" onClick={() => setShowRegister(true)}>CREAR CUENTA</span></p>
+                  <p>No tienes cuenta? 
+  <span 
+    className="join-now" 
+    onClick={() => {
+      onClose(); // Cierra el LoginForm
+    }}
+  >
+    CREAR CUENTA
+  </span>
+</p>
+
                 </section>
 
                 {error && <p className="error">{error}</p>}

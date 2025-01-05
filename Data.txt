@@ -468,3 +468,6 @@ se opta por obtenerlo en el componente mismo.
 G#210 Se agrega google como proovedor de inicio de sesion, hay que testear que funcione correctamente.
 
 A#211 Se agrega estilos al boton de google como proovedor de inicio de sesion.
+
+G#212 Se crea componente AccountTypeModal, mediante el cual se guia al usuario en la creacion de cuenta, haciendole la consulta 
+respecto al tipo de cuenta que quiere crear User / Owner.
