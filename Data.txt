@@ -477,3 +477,5 @@ para el usuario encontrar los horarios.
 
 G#214 Trabajamos sobre el flujo e interaccion de los componentes Logim, RegisterForm, AccountTypeModal y el componente padre NavBar.
 apertura y cierre de modales segun accion del usuario.
+
+G#215 Agregamos listado de beneficios en opciones de crear cuenta (AccountTypeModal)
