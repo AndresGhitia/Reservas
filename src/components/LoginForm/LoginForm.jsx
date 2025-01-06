@@ -18,7 +18,7 @@ const validationSchema = Yup.object({
   password: Yup.string().required('Por favor, introduzca una contraseña'),
 });
 
-function LoginForm({ onClose }) {
+function LoginForm({ onClose, setShowAccountTypeModal  }) {
   const [error, setError] = useState('');
   const [showRegister, setShowRegister] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -29,7 +29,7 @@ function LoginForm({ onClose }) {
 
   const navigate = useNavigate();
 
-  const handleLogin = async (values, { setSubmitting }) => {
+  const handleLogin = async (values, { setSubmitting } ) => {
     try {
       // console.log("Iniciando sesión con email:", values.email);
 
@@ -139,6 +139,7 @@ function LoginForm({ onClose }) {
 
   const handleModalClose = () => {
     setIsSubscriptionModalOpen(false);
+
   };
 
   const handleRenewSubscription = async () => {
@@ -169,17 +170,22 @@ function LoginForm({ onClose }) {
           <div className="modal-dialog">
             <div className="modal-content-form">
               <div className='modal-header'>
-                <p className="login-header">Bienvenido a Book-It</p>
-                <span className="close" onClick={onClose}>&times;</span>
+                <p className="login-header">Bienvenido a Clubweb</p>
+                <span className="close"
+                      onClick={onClose}>&times;
+                </span>
               </div>
               <div className='modal-body'>
+               
                 <section className='modal-login'>
                   <h3 onClick={onClose}>LOG IN</h3>
                   <p>No tienes cuenta?
                     <span
                       className="join-now"
                       onClick={() => {
-                        onClose(); // Cierra el LoginForm
+                        onClose(); 
+                        setShowAccountTypeModal(true); 
+
                       }}
                     >
                       CREAR CUENTA

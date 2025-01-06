@@ -474,3 +474,6 @@ respecto al tipo de cuenta que quiere crear User / Owner.
 
 A#213 Se ajusta el estilo del CalendarUser para que este se muestre como un popup en la pantalla de BusinessPage y sea mas sencillo
 para el usuario encontrar los horarios.
+
+G#214 Trabajamos sobre el flujo e interaccion de los componentes Logim, RegisterForm, AccountTypeModal y el componente padre NavBar.
+apertura y cierre de modales segun accion del usuario.

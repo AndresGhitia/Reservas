@@ -86,6 +86,23 @@ function Navbar() {
     setShowRegister(true); // Abrimos el formulario de registro
   };
 
+  const handleCloseLoginForm = () => {
+    setShowLogin(false); // Cerramos el LoginForm
+    setShowAccountTypeModal(false); // Cerramos el AccountTypeModal
+  };
+
+   const handleCloseAccountTypeModal = () => {
+    if (!showLogin) {
+      setShowAccountTypeModal(false); // Solo cierra el AccountTypeModal si el LoginForm no está abierto
+    }
+  }
+
+  const handleSwitchToLogin = () => {
+    setShowRegister(false); // Cierra registro
+    setShowAccountTypeModal(false); // Cierra tipo de cuenta
+    setShowLogin(true); // Abre login
+  };
+
   return (
     <>
       <div className='navbar'>
@@ -108,19 +125,19 @@ function Navbar() {
 
       {showLogin && (
         <LoginForm
-          onClose={() => {
-            setShowLogin(false); // Cierra el LoginForm
-            setShowAccountTypeModal(true); // Abre el modal de tipo de cuenta
-          }}
+        onClose={handleCloseLoginForm}
+        setShowAccountTypeModal={setShowAccountTypeModal}
         />
       )}
 
       {showAccountTypeModal && (
         <AccountTypeModal
           open={showAccountTypeModal}
-          onClose={() => setShowAccountTypeModal(false)} // Cierra el modal
+          onClose={handleCloseAccountTypeModal} // Cierra solo el AccountTypeModal
           onSelectAccountType={handleAccountTypeSelect}
           setShowRegister={setShowRegister} // Pasa la función para manejar el registro
+          onSwitchToLogin={handleSwitchToLogin}
+
         />
       )}
 
@@ -128,9 +145,12 @@ function Navbar() {
         <RegisterForm
           onClose={() => {
             setShowRegister(false); // Cierra el formulario de registro
-            setShowAccountTypeModal(true); // Reabre el modal de tipo de cuenta si es necesario
+            setShowAccountTypeModal(false); // Reabre el modal de tipo de cuenta si es necesario
+
           }}
           accountType={accountType} // Pasamos el tipo de cuenta al formulario
+          onSwitchToLogin={handleSwitchToLogin}
+
 
         />
       )}

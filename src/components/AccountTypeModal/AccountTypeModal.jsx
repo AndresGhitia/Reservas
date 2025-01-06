@@ -2,9 +2,11 @@ import React from 'react';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import CloseIcon from '@mui/icons-material/Close';
 
-const AccountTypeModal = ({ open, onClose, onSelectAccountType, setShowRegister }) => {
+const AccountTypeModal = ({ open, onClose, onSelectAccountType, setShowRegister, onSwitchToLogin }) => {
 
   const handleSelectAccountType = (type) => {
     onSelectAccountType(type);
@@ -27,6 +29,20 @@ const AccountTypeModal = ({ open, onClose, onSelectAccountType, setShowRegister 
           borderRadius: 2,
         }}
       >
+
+           {/* Botón de cierre en la esquina superior derecha */}
+           <IconButton
+          onClick={onClose}
+          sx={{
+            position: 'absolute',
+            top: 8,
+            right: 8,
+            color: 'grey.500',
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+
         <Typography variant="h6" component="h2" gutterBottom>
           ¿Qué tipo de cuenta deseas crear?
         </Typography>
@@ -46,6 +62,7 @@ const AccountTypeModal = ({ open, onClose, onSelectAccountType, setShowRegister 
           >
             Cuenta Negocio
           </Button>
+          
         </Box>
       </Box>
     </Modal>

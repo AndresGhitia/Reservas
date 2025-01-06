@@ -40,7 +40,7 @@ function Dashboard() {
         try {
           await fetchOwnerDataAndSpaces(setOwnerData, setSpaces, setError, setLoading);
         } catch (fetchError) {
-          setIsLoading(false)
+          setLoading(false)
           console.error("Error al cargar los datos:", fetchError);
           setError("Error al cargar los datos del propietario.");
         }
@@ -48,7 +48,7 @@ function Dashboard() {
         navigate("/"); // Redirigir al home
         console.log("Usuario no autenticado.");
         setError("Usuario no autenticado.");
-        setIsLoading(false)
+        setLoading(false)
       }
     });
 

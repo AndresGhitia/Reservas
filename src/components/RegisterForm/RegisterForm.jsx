@@ -6,7 +6,7 @@
     import UserForm from './UserForm';
     import './RegisterForm.css';
 
-    function RegisterForm({ onClose, isRecoveringAccount, disabledEmail , accountType: initialAccountType }) {
+    function RegisterForm({ onClose, isRecoveringAccount, disabledEmail , accountType: initialAccountType, onSwitchToLogin }) {
       const [email, setEmail] = useState('');
       const [password, setPassword] = useState('');
       const [firstName, setFirstName] = useState('');
@@ -121,8 +121,6 @@
         }
       };
       
-      
-
       const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
       };
@@ -132,13 +130,22 @@
           <div className="modal-dialog">
             <div className="modal-content-form">
               <div className='modal-header'>
-                <p className="login-header">Bienvenido a Book-It</p>
+                <p className="login-header">Bienvenido a Clubweb</p>
                 <span className="close" onClick={onClose}>&times;</span>
               </div>
               <div className='modal-body'>
                 <section className='modal-login'>
                   <h3>{isRecoveringAccount ? 'RECUPERA TU CUENTA': 'CREAR UNA CUENTA'  }</h3>
-                  <p>Tienes cuenta? <span className="join-now" onClick={onClose}>LOG IN</span></p>
+                  <p>
+  Tienes cuenta? 
+  <span className="join-now" onClick={() => {
+    onClose(); // Cierra el modal de registro
+    onSwitchToLogin(); // Abre el LoginForm
+  }}>
+    LOG IN
+  </span>
+</p>
+
                 </section>
               <div className="tabs">
                 <button className={`tab ${accountType === 'user' ? 'active' : ''}`} onClick={() => setAccountType('user')}> CUENTA USUARIO</button>
