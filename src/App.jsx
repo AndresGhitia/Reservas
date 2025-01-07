@@ -12,6 +12,7 @@ import Failure from "./pages/PaymentStates/Failure";
 import PasswordReset from "./components/PasswordReset/PasswordReset";
 import RecoverForm from "./pages/RecoverForm/RecoverForm";   
 import EditData from './pages/EditData/EditData';
+import PrivacyPolicy from "./pages/PrivacyPolicy/PrivacyPolicy";
 
 const App = () => {
   const location = useLocation();
@@ -40,6 +41,9 @@ const App = () => {
         <Route path="/edit-data" element={<EditData />} />
         <Route path="/success" element={<Success />} /> 
         <Route path="/failure" element={<Failure />} /> 
+
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+
       </Routes>
     </div>
   );

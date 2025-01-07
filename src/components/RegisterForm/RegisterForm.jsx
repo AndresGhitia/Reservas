@@ -20,6 +20,7 @@
       const [accountType, setAccountType] = useState(initialAccountType || 'user');
       const [whatsapp, setWhatsapp] = useState('');
       const availableBusinessTypes = ['Football', 'Paddle', 'Tenis', 'Hockey', 'Volley', 'Handball'];
+      const [isPrivacyAccepted, setIsPrivacyAccepted] = useState(false); // Nuevo estado
 
       // console.log("Valor de disabledEmail en RegisterForm:", disabledEmail);
       const handleSubmit = async (e) => {
@@ -27,6 +28,10 @@
           console.log("Recuperando cuenta para el email:", disabledEmail);
         } else {
           e.preventDefault();
+          if (!isPrivacyAccepted) {
+            setError("Debes aceptar la política de privacidad para registrarte.");
+            return;
+          }
           try {
             // Verificar si el correo está en la colección de usuarios deshabilitados
             const disabledUsersRef = doc(db, 'disabled', 'disabled-users');
@@ -202,7 +207,29 @@
                   </span>
                 </div>
 
-                <button type="submit" className="login-button">  {isRecoveringAccount ? "RECUPERAR CUENTA" : "REGISTRARSE"}
+  {/* Casilla de aceptación de política de privacidad */}
+  <div className="form-group privacy-checkbox">
+  <label htmlFor="accept-privacy-policy" className="checkbox-label">
+    <input
+      type="checkbox"
+      id="accept-privacy-policy"
+      checked={isPrivacyAccepted}
+      onChange={(e) => setIsPrivacyAccepted(e.target.checked)}
+    />
+    <span>
+      Acepto la{" "}
+      <a href="/privacy-policy" target="_blank" rel="noopener noreferrer">
+        política de privacidad
+      </a>.
+    </span>
+  </label>
+</div>
+
+
+                <button type="submit"
+                        className={`login-button ${!isPrivacyAccepted ? 'disabled' : ''}`}
+                        disabled={!isPrivacyAccepted} > 
+                  {isRecoveringAccount ? "RECUPERAR CUENTA" : "REGISTRARSE"}
                 </button>
               </form>
               </div>

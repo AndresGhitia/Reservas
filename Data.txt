@@ -479,3 +479,6 @@ G#214 Trabajamos sobre el flujo e interaccion de los componentes Logim, Register
 apertura y cierre de modales segun accion del usuario.
 
 G#215 Agregamos listado de beneficios en opciones de crear cuenta (AccountTypeModal)
+
+G#216 Creamos el componente PrivacyPolicy mendiante el cual el usuario acepta nuestra politica de uso de datos y esas cosas para poder
+crear su cuenta. Hay que desarrollar el contenido ya que es provisorio.

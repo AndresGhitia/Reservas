@@ -1,0 +1,80 @@
+/* Estilos generales de la página */
+.privacy-policy {
+    max-width: 800px; /* Limita el ancho para mejorar la lectura */
+    margin: 0 auto; /* Centra el contenido en la pantalla */
+    padding: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.8;
+    background-color: #f9f9f9; /* Color de fondo suave */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  }
+  
+  /* Título principal */
+  .privacy-policy h1 {
+    font-size: 2.2rem;
+    color: #333; /* Color oscuro para el título */
+    margin-bottom: 15px;
+    text-align: center;
+    border-bottom: 2px solid #007bff; /* Línea debajo del título */
+    padding-bottom: 10px;
+  }
+  
+  /* Subtítulos */
+  .privacy-policy h2 {
+    font-size: 1.7rem;
+    color: #007bff; /* Azul para los subtítulos */
+    margin-top: 30px;
+    margin-bottom: 10px;
+  }
+  
+  /* Párrafos */
+  .privacy-policy p {
+    color: #555; /* Color de texto más suave */
+    margin-bottom: 20px;
+    font-size: 1rem;
+    text-align: justify; /* Justificado para mejorar la legibilidad */
+  }
+  
+  /* Listas */
+  .privacy-policy ul {
+    padding-left: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .privacy-policy ul li {
+    color: #555;
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+  
+  /* Negrita en ciertas partes del texto */
+  .privacy-policy strong {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Enlaces */
+  .privacy-policy a {
+    color: #007bff;
+    text-decoration: none; /* Quitar subrayado del enlace */
+    font-weight: bold;
+  }
+  
+  .privacy-policy a:hover {
+    text-decoration: underline; /* Subrayado solo al pasar el mouse */
+    color: #0056b3;
+  }
+  
+  /* Agregar espaciado a la parte inferior */
+  .privacy-policy p:last-child {
+    margin-bottom: 0;
+  }
+  
+  /* Fecha de actualización */
+  .privacy-policy p:last-of-type {
+    font-size: 0.9rem;
+    text-align: center;
+    color: #888;
+  }
+  

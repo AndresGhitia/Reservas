@@ -238,9 +238,12 @@ function LoginForm({ onClose, setShowAccountTypeModal  }) {
                         <span onClick={() => navigate("/password-reset")}>¿Olvidaste tu contraseña?</span>
                       </p>
 
-                      <button type="submit" className="login-button" disabled={isSubmitting}>
-                        LOG IN TO BOOK-IT
+                      <button type="submit"
+                              className="login-button" 
+                               disabled={isSubmitting}>
+                        LOG IN TO CLUBWEB
                       </button>
+                      
                       <div className='modal-divider'>
                         <hr />
                         <span>OR</span>
