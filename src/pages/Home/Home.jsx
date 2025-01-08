@@ -3,7 +3,7 @@ import './Home.css';
 import Header from '../../components/Header/Header';
 import ExploreRubro from '../../components/ExploreMenu/ExploreRubro';
 import BusinessList from '../../components/BusinessList/BusinessList';
-import Location from '../../components/Location/Location';
+import HomeFilter from '../../components/HomeFilter/HomeFilter';
 
 const Home = () => {
   const [category, setCategory] = useState("All");
@@ -37,7 +37,7 @@ const Home = () => {
       <Header />
       {error && <p className="error-message">{error}</p>}
       
-       <Location userLocation={userLocation}
+       <HomeFilter userLocation={userLocation}
                  setUserLocation={setUserLocation} 
                  businessListRef={businessListRef} // Pasa la referencia
 />

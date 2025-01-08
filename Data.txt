@@ -487,3 +487,5 @@ G#217 Implemento a modo de prueba boton "buscar canchas" en el componente Locati
 un atajo hacia el listado de complejos.
 
 G#218 Estilos del boton de prueba "buscar canchas".
+
+G#219 Al testo del boton "buscar canchas" se le agrega el icono "ubicacion actual"
