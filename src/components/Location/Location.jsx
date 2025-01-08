@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Autocomplete } from '@react-google-maps/api';
 import './Location.css';
-import { FaMapMarkerAlt } from 'react-icons/fa'; // Importamos el icono de FontAwesome
 
-const Location = ({ userLocation, setUserLocation }) => {
+const Location = ({ userLocation, setUserLocation , cardContainerRef,businessListRef  }) => {
   const [manualLocation, setManualLocation] = useState('');
   const [error, setError] = useState(null);
   const autocompleteRef = useRef(null);
@@ -53,6 +52,10 @@ const Location = ({ userLocation, setUserLocation }) => {
       const lng = place.geometry.location.lng();
       setUserLocation({ latitude: lat, longitude: lng });
       setManualLocation(place.formatted_address);
+      // Desplazar hacia las tarjetas
+      if (cardContainerRef.current) {
+        cardContainerRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
       setError(null);
     } else {
       setError("No se pudo obtener la ubicación seleccionada");
@@ -60,16 +63,14 @@ const Location = ({ userLocation, setUserLocation }) => {
   };
 
   return (
-    <div className='location-background'>
+    <div className="location-background">
       <div className="location-container">
         <div className="location-header-title">
-        {/* <FaMapMarkerAlt className="location-icon" /> */}
-          <h3> INGRESA TU UBICACION </h3>
+          <h3>INGRESA TU UBICACION</h3>
         </div>
-        <div className='location-header-subtitle'>
+        <div className="location-header-subtitle">
           <p>Encuentra canchas cercanas a ti dentro de Argentina</p>
         </div>
-        {/* <p>{manualLocation ? manualLocation : 'Ubicación no disponible'}</p> */}
         <div className="location-input-container">
           <Autocomplete
             onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
@@ -85,8 +86,21 @@ const Location = ({ userLocation, setUserLocation }) => {
           </Autocomplete>
         </div>
         {error && <p className="error-message">{error}</p>}
+       
+      <div className='search-button-container'>
+        <button
+          className="search-button"
+          onClick={() => {
+            if (businessListRef.current) {
+              businessListRef.current.scrollIntoView({ behavior: 'smooth' });
+            }
+          }}
+          
+        >
+       <span className="icon">&#9917; </span> buscar canchas!       </button>
       </div>
     </div>
+  </div> 
   );
 };
 

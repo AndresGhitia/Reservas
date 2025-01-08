@@ -12,7 +12,7 @@ export const handleIntegrationMP = async (email) => {
         },
         items: [
             {
-                title: "Book It",
+                title: "ClubWeb",
                 description: "Acceso mensual",
                 picture_url: "https://example.com/image.jpg",
                 category_id: "Suscripcion",

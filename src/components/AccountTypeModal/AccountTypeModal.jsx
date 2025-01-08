@@ -60,7 +60,7 @@ const AccountTypeModal = ({ open, onClose, onSelectAccountType, setShowRegister 
           Selecciona el tipo de cuenta
         </Typography>
         <Typography variant="body1" color="text.secondary" mb={3}>
-          Elige el tipo de cuenta que mejor se adapte a tus necesidades.
+          ¿Queres reservar canchas o queres administrar tu complejo?
         </Typography>
 
         {/* Opciones */}

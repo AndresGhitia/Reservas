@@ -10,7 +10,7 @@ const Failure = () => {
     <div>
       <h1>Pago Fallido</h1>
       <p>El pago no se pudo completar. Por favor, inténtalo nuevamente o contacta con soporte.</p>
-      <button onClick={() => navigate('/')}>Volver a Book It!</button>
+      <button onClick={() => navigate('/')}>Volver a ClubWeb</button>
     </div>
   );
 };

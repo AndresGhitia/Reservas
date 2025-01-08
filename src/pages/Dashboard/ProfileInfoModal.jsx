@@ -1,11 +1,12 @@
 // src/components/ProfileInfoModal.jsx
-import React from 'react';
+import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import './ProfileInfoModal.css';
 
 function ProfileInfoModal({ userData, userCollection, numSpaces, onClose, onDeleteAccount }) {
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(false);
   const userEmail = userData?.establishmentEmail || userData?.email;
 
   return (
@@ -36,7 +37,13 @@ function ProfileInfoModal({ userData, userCollection, numSpaces, onClose, onDele
 
             <div className="profile-buttons">
               <button className="edit-button" onClick={() => navigate(`/edit-data?email=${userEmail}`)}>Editar datos </button>
-              <button className="delete-button" onClick={onDeleteAccount} >Borrar cuenta</button>
+             
+              {/* Si está cargando, mostramos el spinner en lugar del botón */}
+              {loading ? (
+                <Loading /> // El spinner se muestra mientras se está procesando la eliminación
+              ) : (
+                <button className="delete-button" onClick={onDeleteAccount}>Borrar cuenta</button>
+              )}
             </div>
           </div>
         </div>

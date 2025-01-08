@@ -63,7 +63,7 @@
       }
     } catch (error) {
       console.error("Error al procesar la solicitud completa:", error);
-      alert("Hubo un error al intentar deshabilitar la cuenta. Por favor, inténtalo de nuevo.");
+      // alert("Hubo un error al intentar deshabilitar la cuenta. Por favor, inténtalo de nuevo.");
     }
   };
 

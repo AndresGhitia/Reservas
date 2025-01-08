@@ -4,10 +4,9 @@
   background-position: center;
   background-repeat: no-repeat;
   height: 70vh;
-  
   display: flex;
-  justify-content: center;  /* Centra horizontalmente */
-  align-items: center;      /* Centra verticalmente */
+  justify-content: center;  
+  align-items: center;     
 }
 
 .location-container {
@@ -17,7 +16,7 @@
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;  /* Esto asegura que se ajuste al tamaño del contenedor padre */
+  width: 100%;  
 }
 
 .location-header-title {
@@ -78,6 +77,35 @@
   margin-top: 10px;
   text-align: center;
 }
+.search-button-container {
+  align-items: center;
+}
+.search-button {
+  background-color: #28a745; /* Verde llamativo */
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 8px 18px;
+  border: none;
+  margin-top: 12px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra para un efecto elevado */
+  cursor: pointer;
+  transition: all 0.3s ease; /* Animación para suavizar los cambios */
+}
+
+.search-button:hover {
+  background-color: #218838; /* Color más oscuro al pasar el cursor */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3); /* Sombra más intensa */
+  transform: translateY(-3px); /* Efecto de elevación */
+}
+
+.search-button:active {
+  background-color: #1e7e34; /* Color más oscuro al hacer clic */
+  transform: translateY(2px); /* Efecto de "presionado" */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra reducida */
+}
+
 
 @media (max-width: 768px) {
   .location-container {

@@ -159,7 +159,7 @@ useEffect(() => {
         // Eliminar la cuenta
         console.log("Llamando a la lógica de eliminación...");
         await onDeleteAccount(); // Implementa correctamente tu lógica de eliminación
-        alert("Tu cuenta ha sido eliminada con éxito.");
+        // alert("Tu cuenta ha sido eliminada con éxito.");
   
         // Cerrar sesión y redirigir
         await signOut(auth);
