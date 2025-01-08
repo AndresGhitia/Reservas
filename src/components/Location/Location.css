@@ -78,27 +78,53 @@
   text-align: center;
 }
 .search-button-container {
-  align-items: center;
+  display: flex;
+  justify-content: center; /* Centrar el botón horizontalmente */
+  margin-top: 20px;
 }
+
+/* Botón */
 .search-button {
-  background-color: #28a745; /* Verde llamativo */
+  background-color: #2f285a; 
   color: white;
   font-size: 18px;
   font-weight: bold;
-  padding: 8px 18px;
+  padding: 6px 16px;
   border: none;
-  margin-top: 12px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra para un efecto elevado */
+  border-radius: 8px; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
   cursor: pointer;
-  transition: all 0.3s ease; /* Animación para suavizar los cambios */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease; 
 }
 
 .search-button:hover {
-  background-color: #218838; /* Color más oscuro al pasar el cursor */
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3); /* Sombra más intensa */
-  transform: translateY(-3px); /* Efecto de elevación */
+  background-color: #5145a4; 
 }
+
+
+.icon {
+  font-size: 24px; 
+  margin-right: 8px; 
+  transition: transform 1.5s ease;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Girar el ícono al pasar el cursor */
+.search-button:hover .icon {
+  animation: spin 1.8s linear infinite; 
+}
+
 
 .search-button:active {
   background-color: #1e7e34; /* Color más oscuro al hacer clic */

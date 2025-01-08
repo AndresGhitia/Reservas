@@ -485,3 +485,5 @@ crear su cuenta. Hay que desarrollar el contenido ya que es provisorio.
 
 G#217 Implemento a modo de prueba boton "buscar canchas" en el componente Location, el mismo aparece ni bien se abre Home y brinda al usuario
 un atajo hacia el listado de complejos.
+
+G#218 Estilos del boton de prueba "buscar canchas".
