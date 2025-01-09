@@ -498,3 +498,5 @@ Ademas se agrega el boton "Crea tu CulbWeb!".
 
 G#222 Se agrega al filtro principal iconos de deportes, para esto se crea un componete llamado RubroIconsGrid, hermano de ExploreRubro. Hay q ver bien los 
 estilos que son medio un caos
+
+A#223 Se modifica el estilo del RubroIconGrid para que sea mas funcional.

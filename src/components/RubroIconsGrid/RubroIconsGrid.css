@@ -1,38 +1,28 @@
-.rubro-icons-grid {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .rubro-icons-grid-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin: 20px 0;
-  }
-  
-  .rubro-icons-grid-item {
-    text-align: center;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  
-  .rubro-icons-grid-item img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    transition: transform 0.3s, border 0.3s;
-  }
-  
-  .rubro-icons-grid-item img.active {
-    border: 1px solid #000000;
-    background-color: #56e07b; 
-    transform: scale(1.2);
-  }
-  
-  
-  .rubro-icons-grid-item p {
-    margin-top: 10px;
-    font-size: 14px;
-  }
-  
+.rubro-select__control {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0.5rem;
+}
+
+.rubro-select__menu {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  z-index: 10;
+}
+
+.rubro-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.rubro-option-image {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+

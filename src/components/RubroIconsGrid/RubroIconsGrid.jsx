@@ -1,31 +1,35 @@
 import React from 'react';
+import Select from 'react-select';
 import { rubro_list } from '../../assets/assets';
 import './RubroIconsGrid.css';
 
 const RubroIconsGrid = ({ category, setCategory }) => {
+  const options = [
+    { value: 'All', label: 'Todos' },
+    ...rubro_list.map((item) => ({
+      value: item.rubro_name,
+      label: (
+        <div className="rubro-option">
+          <img src={item.rubro_image} alt={item.rubro_name} className="rubro-option-image" />
+          <span>{item.rubro_name}</span>
+        </div>
+      ),
+    })),
+  ];
+
+  const handleChange = (selectedOption) => {
+    setCategory(selectedOption.value);
+  };
+
   return (
-    <div className="rubro-icons-grid">
+    <div className="rubro-select-container">
       <h3>Selecciona deporte</h3>
-      <div className="rubro-icons-grid-container">
-        {rubro_list.map((item, index) => (
-         <div 
-         key={index} 
-         className="rubro-icons-grid-item"
-         onClick={() => {
-           console.log("Seleccionado:", item.rubro_name);
-           setCategory(prev => prev === item.rubro_name ? "All" : item.rubro_name);
-         }}
-       >
-         <img 
-           className={category === item.rubro_name ? "active" : ""} 
-           src={item.rubro_image} 
-           alt={item.rubro_name} 
-         />
-         <p>{item.rubro_name}</p>
-       </div>
-       
-        ))}
-      </div>
+      <Select
+        options={options}
+        value={options.find((option) => option.value === category)}
+        onChange={handleChange}
+        classNamePrefix="rubro-select"
+      />
     </div>
   );
 };
