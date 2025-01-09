@@ -13,7 +13,7 @@
 
 .overlay-content {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-wrap: nowrap;
   align-items: flex-end;
 }
@@ -195,19 +195,13 @@
   /* Asegura que se ajuste al contenedor */
 }
 
-/* Estilo del botón del ícono */
 .location-icon-button {
-  /* Color de fondo del botón */
   border: none;
   color: white;
-  /* Color del ícono */
   padding: 0.5rem;
-  /* Espaciado interno */
   font-size: 1.2rem;
-  /* Tamaño del ícono */
   cursor: pointer;
   border-top-left-radius: 4px;
-  /* Esquinas redondeadas izquierdas */
   border-bottom-left-radius: 4px;
   display: flex;
   justify-content: center;

@@ -33,12 +33,17 @@ const Home = () => {
       <Header />
       {error && <p className="error-message">{error}</p>}
       
-       <HomeFilter userLocation={userLocation}
-                 setUserLocation={setUserLocation} 
-                 businessListRef={businessListRef} // Pasa la referencia
+<HomeFilter
+  userLocation={userLocation}
+  setUserLocation={setUserLocation}
+  businessListRef={businessListRef}
+  category={category}
+  setCategory={setCategory}
 />
+
       
-      <ExploreRubro category={category} setCategory={setCategory} />
+      <ExploreRubro category={category} 
+                    setCategory={setCategory} />
 
       <div ref={businessListRef}>
         <BusinessList category={category} userLocation={userLocation} />

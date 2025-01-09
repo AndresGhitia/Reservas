@@ -495,3 +495,6 @@ A#220 Se modifican los estilos del Home y se añade el logo al Navbar
 G#221 Se modifica el componente UserProfileDropdown, se pasa a un estilo generico con un menu desplegable que incluye opciones como "registrarse", login y 
 crea tu clubweb, cada opcion direcciona a un componente especifico.
 Ademas se agrega el boton "Crea tu CulbWeb!". 
+
+G#222 Se agrega al filtro principal iconos de deportes, para esto se crea un componete llamado RubroIconsGrid, hermano de ExploreRubro. Hay q ver bien los 
+estilos que son medio un caos
