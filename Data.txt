@@ -489,3 +489,5 @@ un atajo hacia el listado de complejos.
 G#218 Estilos del boton de prueba "buscar canchas".
 
 G#219 Al testo del boton "buscar canchas" se le agrega el icono "ubicacion actual"
+
+A#220 Se modifican los estilos del Home y se añade el logo al Navbar

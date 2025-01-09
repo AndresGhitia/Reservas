@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Autocomplete } from '@react-google-maps/api';
 import './HomeFilter.css';
+import Navbar from '../Navbar/Navbar';
 
 const HomeFilter = ({ userLocation, setUserLocation, cardContainerRef, businessListRef }) => {
   const [manualLocation, setManualLocation] = useState('');
@@ -92,6 +93,12 @@ const HomeFilter = ({ userLocation, setUserLocation, cardContainerRef, businessL
 
   return (
     <div className="location-background">
+      <div className='overlay-content'>
+        <div className='overlay-text'>
+          <h1>Reserva tu cancha ahora mismo</h1>
+          <p>Encontra las canchas mas cercanas en tu ciudad, reserva y juga.</p>
+        </div>
+      </div>
       <div className="location-container">
         <div className="location-header-title">
           <h3>Busca cancha ahora</h3>

@@ -91,7 +91,7 @@ function Navbar() {
     setShowAccountTypeModal(false); // Cerramos el AccountTypeModal
   };
 
-   const handleCloseAccountTypeModal = () => {
+  const handleCloseAccountTypeModal = () => {
     if (!showLogin) {
       setShowAccountTypeModal(false); // Solo cierra el AccountTypeModal si el LoginForm no está abierto
     }
@@ -107,7 +107,9 @@ function Navbar() {
     <>
       <div className='navbar'>
         <div className='navbar-title'>
-          <a href="/">ClubWeb</a>
+          <a href="/">
+            <img src={assets.clubweb_logo} alt="ClubWeb Logo" />
+          </a>
         </div>
         <div className='navbar-right'>
           {!user ? (
@@ -125,8 +127,8 @@ function Navbar() {
 
       {showLogin && (
         <LoginForm
-        onClose={handleCloseLoginForm}
-        setShowAccountTypeModal={setShowAccountTypeModal}
+          onClose={handleCloseLoginForm}
+          setShowAccountTypeModal={setShowAccountTypeModal}
         />
       )}
 

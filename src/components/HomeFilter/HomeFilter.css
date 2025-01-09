@@ -1,22 +1,47 @@
 .location-background {
-  background: url(https://image.slidesdocs.com/responsive-images/background/football-player-illustration-color-advertising-powerpoint-background_a455daa2b5__960_540.jpg);
+  background:
+    linear-gradient(to right, rgba(255, 255, 255, 1) 30%, rgba(255, 255, 255, 0) 90%),
+    url('https://image.slidesdocs.com/responsive-images/background/football-player-illustration-color-advertising-powerpoint-background_a455daa2b5__960_540.jpg');
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
   height: 70vh;
   display: flex;
-  justify-content: center;  
-  align-items: center;     
+  align-items: center;
+  padding: 20px;
+  /* Espaciado interno */
+}
+
+.overlay-content {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+}
+
+.overlay-text {
+  margin-left: 40px;
+  margin-bottom: 40px;
+}
+
+.overlay-text h1 {
+  font-size: 60px;
+  color: #56e07b;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+}
+
+.overlay-text p {
+  font-size: 24px;
+  margin: 0;
 }
 
 .location-container {
-  margin: 20px auto;
-  padding: 20px;
-  max-width: 400px;
-  background-color: #f9f9f9;
+  background-color: rgba(255, 255, 255, 0.9);
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;  
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  width: 100%;
+  margin: 10px;
 }
 
 .location-header-title {
@@ -38,9 +63,10 @@
 
 .location-icon {
   padding-right: 10px;
-  color:  #2f285a;
+  color: #2f285a;
   font-size: 2.25rem;
 }
+
 .input-with-icon {
   display: flex;
   align-items: center;
@@ -48,7 +74,8 @@
 
 .input-with-icon input {
   flex: 1;
-  padding-right: 40px; /* Espacio para el botón */
+  padding-right: 40px;
+  /* Espacio para el botón */
 }
 
 .location-icon-button {
@@ -73,7 +100,6 @@
 }
 
 .location-input-container {
-  display: flex;
   align-items: center;
   position: relative;
   margin-top: 15px;
@@ -81,7 +107,8 @@
 
 .location-container input {
   width: 100%;
-  width: 350px; /* Establecer un ancho máximo para evitar que sea demasiado grande */
+  width: 350px;
+  /* Establecer un ancho máximo para evitar que sea demasiado grande */
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 6px;
@@ -101,36 +128,39 @@
   margin-top: 10px;
   text-align: center;
 }
+
 .search-button-container {
   display: flex;
-  justify-content: center; /* Centrar el botón horizontalmente */
+  justify-content: center;
+  /* Centrar el botón horizontalmente */
   margin-top: 20px;
 }
 
 /* Botón */
 .search-button {
-  background-color: #2f285a; 
+  background-color: #2f285a;
   color: white;
+  text-transform: uppercase;
   font-size: 18px;
   font-weight: bold;
   padding: 6px 16px;
   border: none;
-  border-radius: 8px; 
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: background-color 0.3s ease; 
+  transition: background-color 0.3s ease;
 }
 
 .search-button:hover {
-  background-color: #5145a4; 
+  background-color: #56e07b;
 }
 
 .icon {
-  font-size: 24px; 
-  margin-right: 8px; 
+  font-size: 24px;
+  margin-right: 8px;
   transition: transform 1.5s ease;
 }
 
@@ -138,37 +168,46 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
 
 .search-button:hover .icon {
-  animation: spin 2.8s linear infinite; 
+  animation: spin 2.8s linear infinite;
 }
 
 .search-button:active {
-  background-color: #1e7e34; /* Color más oscuro al hacer clic */
-  transform: translateY(2px); /* Efecto de "presionado" */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra reducida */
+  background-color: #1e7e34;
+  /* Color más oscuro al hacer clic */
+  transform: translateY(2px);
+  /* Efecto de "presionado" */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  /* Sombra reducida */
 }
 
 /* Contenedor del input y del icono */
 .input-with-icon {
   display: flex;
   align-items: center;
-  width: 100%; /* Asegura que se ajuste al contenedor */
+  width: 100%;
+  /* Asegura que se ajuste al contenedor */
 }
 
 /* Estilo del botón del ícono */
 .location-icon-button {
-  background-color: #4caf50; /* Color de fondo del botón */
+  /* Color de fondo del botón */
   border: none;
-  color: white; /* Color del ícono */
-  padding: 0.5rem; /* Espaciado interno */
-  font-size: 1.2rem; /* Tamaño del ícono */
+  color: white;
+  /* Color del ícono */
+  padding: 0.5rem;
+  /* Espaciado interno */
+  font-size: 1.2rem;
+  /* Tamaño del ícono */
   cursor: pointer;
-  border-top-left-radius: 4px; /* Esquinas redondeadas izquierdas */
+  border-top-left-radius: 4px;
+  /* Esquinas redondeadas izquierdas */
   border-bottom-left-radius: 4px;
   display: flex;
   justify-content: center;
@@ -177,19 +216,18 @@
 
 /* Estilo del input */
 .input-with-icon input {
-  flex: 1; /* Para que el input ocupe el espacio restante */
-  padding: 0.5rem;
+  flex: 1;
   font-size: 1rem;
   border: 1px solid #ccc;
-  border-left: none; /* Elimina el borde izquierdo para que no duplique el borde con el botón */
-  border-top-right-radius: 4px; /* Esquinas redondeadas derechas */
+  border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
 }
 
 /* Clase de highlight para el input */
 .input-with-icon input.highlight {
   animation: highlight-animation 1s ease-out;
-  border: 2px solid #4caf50; /* Borde verde durante el highlight */
+  border: 2px solid #4caf50;
+  /* Borde verde durante el highlight */
 }
 
 /* Definición de la animación highlight */
@@ -197,14 +235,16 @@
   0% {
     background-color: #e8f5e9;
   }
+
   50% {
     background-color: #c8e6c9;
   }
+
   100% {
     background-color: white;
   }
 }
-  
+
 
 
 
@@ -218,17 +258,20 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
+
   .location-header-title h3 {
     font-size: 1.45rem;
     margin-left: 5px;
     color: 56e07b;
   }
+
   .location-input-container {
     display: flex;
     align-items: center;
     position: relative;
-    margin-top: 0px;  
+    margin-top: 0px;
   }
+
   .location-container input {
     width: 100%;
     padding: 12px;

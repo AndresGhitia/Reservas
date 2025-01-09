@@ -19,7 +19,7 @@ import home_icon_white from './home_icon_white.png'
 import logout_icon_white from './logout_icon_white.png'
 import profile_icon_white from './profile_icon_white.png'
 import user_icon_white from './user_icon_white.png'
-
+import clubweb_logo from './clubweb_logo.png'
 
 
 
@@ -70,7 +70,8 @@ export const assets = {
     home_icon_white,
     logout_icon_white,
     profile_icon_white,
-    user_icon_white
+    user_icon_white,
+    clubweb_logo
 
 }
 

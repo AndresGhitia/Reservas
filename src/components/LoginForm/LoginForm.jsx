@@ -18,7 +18,7 @@ const validationSchema = Yup.object({
   password: Yup.string().required('Por favor, introduzca una contraseña'),
 });
 
-function LoginForm({ onClose, setShowAccountTypeModal  }) {
+function LoginForm({ onClose, setShowAccountTypeModal }) {
   const [error, setError] = useState('');
   const [showRegister, setShowRegister] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -29,7 +29,7 @@ function LoginForm({ onClose, setShowAccountTypeModal  }) {
 
   const navigate = useNavigate();
 
-  const handleLogin = async (values, { setSubmitting } ) => {
+  const handleLogin = async (values, { setSubmitting }) => {
     try {
       // console.log("Iniciando sesión con email:", values.email);
 
@@ -172,19 +172,19 @@ function LoginForm({ onClose, setShowAccountTypeModal  }) {
               <div className='modal-header'>
                 <p className="login-header">Bienvenido a Clubweb</p>
                 <span className="close"
-                      onClick={onClose}>&times;
+                  onClick={onClose}>&times;
                 </span>
               </div>
               <div className='modal-body'>
-               
+
                 <section className='modal-login'>
                   <h3 onClick={onClose}>LOG IN</h3>
                   <p>No tienes cuenta?
                     <span
                       className="join-now"
                       onClick={() => {
-                        onClose(); 
-                        setShowAccountTypeModal(true); 
+                        onClose();
+                        setShowAccountTypeModal(true);
 
                       }}
                     >
@@ -239,11 +239,11 @@ function LoginForm({ onClose, setShowAccountTypeModal  }) {
                       </p>
 
                       <button type="submit"
-                              className="login-button" 
-                               disabled={isSubmitting}>
+                        className="login-button"
+                        disabled={isSubmitting}>
                         LOG IN TO CLUBWEB
                       </button>
-                      
+
                       <div className='modal-divider'>
                         <hr />
                         <span>OR</span>
