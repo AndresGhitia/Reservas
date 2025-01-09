@@ -7,12 +7,11 @@ import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
 
-const AccountTypeModal = ({ open, onClose, onSelectAccountType, setShowRegister }) => {
-
+const AccountTypeModal = ({ open, onClose, onSelectAccountType, setShowRegister, focusOnOwner  }) => {
   const handleSelectAccountType = (type) => {
     onSelectAccountType(type);
-    setShowRegister(true); 
-    onClose(); 
+    setShowRegister(true);
+    onClose();
   };
 
   const userBenefits = [
@@ -57,99 +56,148 @@ const AccountTypeModal = ({ open, onClose, onSelectAccountType, setShowRegister 
 
         {/* Título */}
         <Typography variant="h5" component="h2" fontWeight="bold" gutterBottom>
-          Selecciona el tipo de cuenta
+          {focusOnOwner ? "Beneficios para administradores" : "Selecciona el tipo de cuenta"}
         </Typography>
-        <Typography variant="body1" color="text.secondary" mb={3}>
-          ¿Queres reservar canchas o queres administrar tu complejo?
-        </Typography>
+        {!focusOnOwner && (
+          <Typography variant="body1" color="text.secondary" mb={3}>
+            ¿Queres reservar canchas o queres administrar tu complejo?
+          </Typography>
+        )}
 
         {/* Opciones */}
         <Box display="flex" justifyContent="space-between" mt={2}>
-          {/* Opción Usuario */}
-          <Box
-            sx={{
-              width: '45%',
-              p: 2,
-              border: '1px solid #e0e0e0',
-              borderRadius: 2,
-              boxShadow: 3,
-              transition: 'all 0.3s ease-in-out',
-              '&:hover': {
-                transform: 'scale(1.05)',
-                boxShadow: 6,
-              },
-            }}
-          >
-            <Typography variant="h6" fontWeight="bold" color="primary" mb={2} textAlign="center">
-              Cuenta Usuario
-            </Typography>
-            <Box>
-              {userBenefits.map((benefit, index) => (
-                <Typography
-                  key={index}
-                  variant="body2"
-                  display="flex"
-                  alignItems="center"
-                  gutterBottom
-                >
-                  <CheckIcon color="success" sx={{ mr: 1 }} />
-                  {benefit}
-                </Typography>
-              ))}
-            </Box>
-            <Button
-              variant="contained"
-              color="primary"
-              fullWidth
-              sx={{ mt: 2, borderRadius: 2 }}
-              onClick={() => handleSelectAccountType('user')}
+          {/* Mostrar solo OwnerBenefits si focusOnOwner está activo */}
+          {focusOnOwner ? (
+            <Box
+              sx={{
+                width: '100%',
+                p: 2,
+                border: '1px solid #e0e0e0',
+                borderRadius: 2,
+                boxShadow: 3,
+                transition: 'all 0.3s ease-in-out',
+                '&:hover': {
+                  transform: 'scale(1.05)',
+                  boxShadow: 6,
+                },
+              }}
             >
-              Seleccionar
-            </Button>
-          </Box>
+              <Typography variant="h6" fontWeight="bold" color="secondary" mb={2} textAlign="center">
+                Cuenta Negocio
+              </Typography>
+              <Box>
+                {ownerBenefits.map((benefit, index) => (
+                  <Typography
+                    key={index}
+                    variant="body2"
+                    display="flex"
+                    alignItems="center"
+                    gutterBottom
+                  >
+                    <CheckIcon color="success" sx={{ mr: 1 }} />
+                    {benefit}
+                  </Typography>
+                ))}
+              </Box>
+              <Button
+                variant="contained"
+                color="secondary"
+                fullWidth
+                sx={{ mt: 2, borderRadius: 2 }}
+                onClick={() => handleSelectAccountType('owner')}
+              >
+                Seleccionar
+              </Button>
+            </Box>
+          ) : (
+            <>
+              {/* Opción Usuario */}
+              <Box
+                sx={{
+                  width: '45%',
+                  p: 2,
+                  border: '1px solid #e0e0e0',
+                  borderRadius: 2,
+                  boxShadow: 3,
+                  transition: 'all 0.3s ease-in-out',
+                  '&:hover': {
+                    transform: 'scale(1.05)',
+                    boxShadow: 6,
+                  },
+                }}
+              >
+                <Typography variant="h6" fontWeight="bold" color="primary" mb={2} textAlign="center">
+                  Cuenta Usuario
+                </Typography>
+                <Box>
+                  {userBenefits.map((benefit, index) => (
+                    <Typography
+                      key={index}
+                      variant="body2"
+                      display="flex"
+                      alignItems="center"
+                      gutterBottom
+                    >
+                      <CheckIcon color="success" sx={{ mr: 1 }} />
+                      {benefit}
+                    </Typography>
+                  ))}
+                </Box>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  sx={{ mt: 2, borderRadius: 2 }}
+                  onClick={() => handleSelectAccountType('user')}
+                >
+                  Seleccionar
+                </Button>
+              </Box>
 
-          {/* Opción Negocio */}
-          <Box
-            sx={{
-              width: '45%',
-              p: 2,
-              border: '1px solid #e0e0e0',
-              borderRadius: 2,
-              boxShadow: 3,
-              transition: 'all 0.3s ease-in-out',
-              '&:hover': {
-                transform: 'scale(1.05)',
-                boxShadow: 6,
-              },
-            }}
-          >
-            <Typography variant="h6" fontWeight="bold" color="secondary" mb={2} textAlign="center">
-              Cuenta Negocio
-            </Typography>
-            <Box>
-              {ownerBenefits.map((benefit, index) => (
-                <Typography
-                  key={index}
-                  variant="body2"
-                  display="flex"
-                  alignItems="center"
-                  gutterBottom
-                >
-                  <CheckIcon color="success" sx={{ mr: 1 }} />
-                  {benefit}
+              {/* Opción Negocio */}
+              <Box
+                sx={{
+                  width: '45%',
+                  p: 2,
+                  border: '1px solid #e0e0e0',
+                  borderRadius: 2,
+                  boxShadow: 3,
+                  transition: 'all 0.3s ease-in-out',
+                  '&:hover': {
+                    transform: 'scale(1.05)',
+                    boxShadow: 6,
+                  },
+                }}
+              >
+                <Typography variant="h6" fontWeight="bold" color="secondary" mb={2} textAlign="center">
+                  Cuenta Negocio
                 </Typography>
-              ))}
-            </Box>
-            <Button
-              variant="contained"
-              color="secondary"
-              fullWidth
-              sx={{ mt: 2, borderRadius: 2 }}
-              onClick={() => handleSelectAccountType('owner')}
-            >
-              Seleccionar
-            </Button>
-          </Box>
+                <Box>
+                  {ownerBenefits.map((benefit, index) => (
+                    <Typography
+                      key={index}
+                      variant="body2"
+                      display="flex"
+                      alignItems="center"
+                      gutterBottom
+                    >
+                      <CheckIcon color="success" sx={{ mr: 1 }} />
+                      {benefit}
+                    </Typography>
+                  ))}
+                </Box>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  fullWidth
+                  sx={{ mt: 2, borderRadius: 2 }}
+                  onClick={() => handleSelectAccountType('owner')}
+                >
+                  Seleccionar
+                </Button>
+              </Box>
+            </>
+          )}
         </Box>
       </Box>
     </Modal>

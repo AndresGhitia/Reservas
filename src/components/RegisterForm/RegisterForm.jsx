@@ -64,8 +64,6 @@
                 }
 
             }
-
-
       
             // Crear cuenta de usuario
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -99,7 +97,8 @@
                 status: "enabled", // Estado inicial por separado
                 statusHistory: [statusHistoryEntry] // Historial inicial
               });
-            } else if (accountType === 'owner') {
+            }
+             else if (accountType === 'owner') {
               await setDoc(doc(db, 'owners', user.uid), {
                 establishmentName,
                 ownerName,

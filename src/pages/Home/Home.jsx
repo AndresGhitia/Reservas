@@ -12,11 +12,7 @@ const Home = () => {
 
   const businessListRef = useRef(null);
 
-  const handleScrollToBusinessList = () => {
-    if (businessListRef.current) {
-      businessListRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  
 
   useEffect(() => {
     if (navigator.geolocation) {

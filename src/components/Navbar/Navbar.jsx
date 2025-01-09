@@ -11,7 +11,9 @@ import { doc, getDoc } from 'firebase/firestore';
 import { WarningModal, SessionClosedModal } from './CloseSessionModals.jsx';
 import { resetInactivityTimer } from './authUtils.js';
 import UserProfileDropdown from '../../utils/UserProfileDropdown';
-import { useLocation } from 'react-router-dom'; // Importar useLocation
+import { useLocation } from 'react-router-dom';
+import UserIconDropdown from '../UserIconDropdown/UserIconDropdown.jsx';
+import CreateClubWebButton from '../CreateClubWebButton/CreateClubWebButton.jsx';
 
 function Navbar() {
   const [showLogin, setShowLogin] = useState(false);
@@ -21,11 +23,11 @@ function Navbar() {
   const [showSessionClosedModal, setShowSessionClosedModal] = useState(false);
   const [countdown, setCountdown] = useState(30);
   const navigate = useNavigate();
-  const location = useLocation();  // Obtener la ubicación actual
+  const location = useLocation();  
   const [showAccountTypeModal, setShowAccountTypeModal] = useState(false);
-  const [showRegister, setShowRegister] = useState(false); // Manejo del registro
-  const [accountType, setAccountType] = useState('user'); // Por defecto, usuario
-
+  const [showRegister, setShowRegister] = useState(false); 
+  const [accountType, setAccountType] = useState('user');
+  const [focusOnOwner, setFocusOnOwner] = useState(false);
   const isDashboard = location.pathname === '/dashboard';
 
   useEffect(() => {
@@ -113,7 +115,22 @@ function Navbar() {
         </div>
         <div className='navbar-right'>
           {!user ? (
-            <span onClick={() => setShowLogin(true)}>INICIAR SESION</span>
+            <div className="navbar-right">
+  
+  <CreateClubWebButton
+   setShowAccountTypeModal={setShowAccountTypeModal}
+   setFocusOnOwner={setFocusOnOwner} 
+  />
+
+  <UserIconDropdown
+    user={user}
+    userData={userData}
+    handleSignOut={handleSignOut}
+    setShowLogin={setShowLogin}
+    setShowAccountTypeModal={setShowAccountTypeModal}
+    setFocusOnOwner={setFocusOnOwner}
+  /> 
+    </div>
           ) : (
             <UserProfileDropdown
               userData={userData}
@@ -139,7 +156,7 @@ function Navbar() {
           onSelectAccountType={handleAccountTypeSelect}
           setShowRegister={setShowRegister} // Pasa la función para manejar el registro
           onSwitchToLogin={handleSwitchToLogin}
-
+          focusOnOwner={focusOnOwner}
         />
       )}
 
