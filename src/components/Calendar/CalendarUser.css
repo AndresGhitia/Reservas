@@ -9,7 +9,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 9999;
 }
 
 
@@ -193,10 +193,7 @@
   background-color: grey;
   cursor: not-allowed;
 }
-.swal2-custom-popup {
-  z-index: 2000 !important; /* Asegúrate de que este z-index sea más alto que cualquier modal actual */
-}
- 
+
 @media (max-width: 768px) {
 
   /* Ajustes generales */
