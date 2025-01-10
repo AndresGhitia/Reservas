@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Autocomplete } from '@react-google-maps/api';
 import './HomeFilter.css';
-import RubroIconsGrid from '../RubroIconsGrid/RubroIconsGrid';
+import SportFilter from '../SportFilter/SportFilter';
 
 const HomeFilter = ({ userLocation, setUserLocation, cardContainerRef, businessListRef, category, setCategory }) => {
   const [manualLocation, setManualLocation] = useState('');
@@ -106,7 +106,7 @@ const HomeFilter = ({ userLocation, setUserLocation, cardContainerRef, businessL
           <div className="location-header-title">
             <h3>Busca cancha ahora</h3>
           </div>
-          <RubroIconsGrid setCategory={setCategory}
+          <SportFilter setCategory={setCategory}
             category={category} />
           <div className="location-header-subtitle">
             <p>Ingresa la dirección o zona</p>

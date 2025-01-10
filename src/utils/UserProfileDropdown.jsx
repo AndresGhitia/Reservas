@@ -142,52 +142,72 @@ function UserProfileDropdown() {
   };
 
   const handleDeleteAccount = async () => {
-    const confirmation = window.confirm(
-      '¿Estás seguro de que deseas borrar tu cuenta? Se borrarán todos tus datos, incluyendo información de tu complejo y reservas.'
-    );
-
-    if (confirmation) {
-      try {
-        // Verificar si el usuario está autenticado
-        const user = auth.currentUser;
-        console.log("Usuario actual:", user);
-
-        if (!user || !user.email) {
-          throw new Error("No se pudo obtener el usuario actual. Por favor, inicia sesión nuevamente.");
-        }
-
-        // Solicitar la contraseña del usuario
-        const password = prompt("Por favor, ingresa tu contraseña para confirmar:");
-        if (!password) {
-          alert("La eliminación de la cuenta fue cancelada.");
-          return;
-        }
-
-        // Crear credenciales con email y contraseña
-        const credential = EmailAuthProvider.credential(user.email, password);
-
-        // Reautenticar al usuario
-        await reauthenticateWithCredential(user, credential)
-          .then(() => console.log("Reautenticación exitosa"))
-          .catch((error) => {
-            console.error("Error de reautenticación:", error.message);
-            throw new Error("La contraseña es incorrecta. Inténtalo nuevamente.");
-          });
-
-        // Eliminar la cuenta
-        console.log("Llamando a la lógica de eliminación...");
-        await onDeleteAccount(); // Implementa correctamente tu lógica de eliminación
-        // alert("Tu cuenta ha sido eliminada con éxito.");
-
-        // Cerrar sesión y redirigir
-        await signOut(auth);
-        navigate("/"); // Redirigir al home
-      } catch (error) {
-        console.error("Error al eliminar la cuenta:", error.message);
-        alert(error.message || "Ocurrió un error al eliminar la cuenta. Por favor, inténtalo de nuevo.");
+    try {
+      // Mostrar confirmación con Swal
+      const confirmation = await Swal.fire({
+        title: '¿Estás seguro de que deseas borrar tu cuenta?',
+        text: 'Se borrarán todos tus datos, incluyendo información de tu complejo y reservas.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, borrar cuenta',
+        cancelButtonText: 'Cancelar',
+      });
+  
+      if (!confirmation.isConfirmed) {
+        return; // El usuario canceló la operación
       }
+  
+      // Solicitar contraseña con Swal
+      const { value: password } = await Swal.fire({
+        title: 'Confirma tu contraseña',
+        input: 'password',
+        inputPlaceholder: 'Ingresa tu contraseña',
+        inputAttributes: {
+          autocapitalize: 'off',
+          autocorrect: 'off',
+        },
+        showCancelButton: true,
+        confirmButtonText: 'Confirmar',
+        cancelButtonText: 'Cancelar',
+      });
+  
+      if (!password) {
+        Swal.fire('Cancelado', 'La eliminación de la cuenta fue cancelada.', 'info');
+        return;
+      }
+  
+      // Verificar si el usuario está autenticado
+      const user = auth.currentUser;
+      if (!user || !user.email) {
+        throw new Error('No se pudo obtener el usuario actual. Por favor, inicia sesión nuevamente.');
+      }
+  
+      // Crear credenciales con email y contraseña
+      const credential = EmailAuthProvider.credential(user.email, password);
+  
+      // Reautenticar al usuario
+      await reauthenticateWithCredential(user, credential)
+        .then(() => console.log('Reautenticación exitosa'))
+        .catch((error) => {
+          console.error('Error de reautenticación:', error.message);
+          throw new Error('La contraseña es incorrecta. Inténtalo nuevamente.');
+        });
+  
+      // Eliminar la cuenta
+      await onDeleteAccount(); // Implementa correctamente tu lógica de eliminación
+      Swal.fire('¡Cuenta eliminada!', 'Tu cuenta ha sido eliminada con éxito.', 'success');
+  
+      // Cerrar sesión y redirigir
+      await signOut(auth);
+      navigate('/'); // Redirigir al home
+    } catch (error) {
+      console.error('Error al eliminar la cuenta:', error.message);
+      Swal.fire('Error', error.message || 'Ocurrió un error al eliminar la cuenta. Por favor, inténtalo de nuevo.', 'error');
     }
   };
+  
 
 
   if (!user) {

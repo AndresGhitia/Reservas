@@ -15,6 +15,7 @@ import { auth } from "../../firebase";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useJsApiLoader } from '@react-google-maps/api';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
+import Swal from 'sweetalert2';
 import styles from './RecoverForm.module.css';
 
 const RecoverForm = () => {
@@ -121,7 +122,7 @@ const RecoverForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     setLoading(true);
     try {
       if (isUser) {
@@ -129,7 +130,7 @@ const RecoverForm = () => {
         const userSnapshot = await getDocs(userQuery);
         const userId = userSnapshot.docs[0].id;
         const userRef = doc(db, 'users', userId);
-
+  
         await updateDoc(userRef, {
           firstName: formData.firstName || '',
           lastName: formData.lastName || '',
@@ -141,7 +142,7 @@ const RecoverForm = () => {
         const ownerSnapshot = await getDocs(ownerQuery);
         const ownerId = ownerSnapshot.docs[0].id;
         const ownerRef = doc(db, 'owners', ownerId);
-
+  
         await updateDoc(ownerRef, {
           ownerName: formData.ownerName || '',
           establishmentName: formData.establishmentName || '',
@@ -153,17 +154,32 @@ const RecoverForm = () => {
           statusHistory: arrayUnion(`enabled: ${new Date().toISOString()}`),
         });
       }
-
+  
       await sendPasswordResetEmail(auth, email);
-      alert('Datos actualizados correctamente. Revisa tu correo para restablecer tu contraseña.');
-      navigate('/');
+  
+      // Usar SweetAlert2 para mostrar el mensaje de éxito
+      Swal.fire({
+        title: '¡Éxito!',
+        text: 'Datos actualizados correctamente. Revisa tu correo para restablecer tu contraseña.',
+        icon: 'success',
+        confirmButtonText: 'Aceptar',
+      }).then(() => {
+        navigate('/'); // Navegar al home después de cerrar la alerta
+      });
     } catch (err) {
+      // Usar SweetAlert2 para mostrar el error
+      Swal.fire({
+        title: 'Error',
+        text: err.message || 'Error al actualizar los datos.',
+        icon: 'error',
+        confirmButtonText: 'Cerrar',
+      });
       setError(err.message || 'Error al actualizar los datos.');
     } finally {
       setLoading(false);
     }
   };
-
+  
   
 
 

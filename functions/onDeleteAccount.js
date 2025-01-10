@@ -39,7 +39,7 @@
         }
 
         console.log("Cuenta deshabilitada en el backend con éxito.");
-        alert("La cuenta ha sido deshabilitada con éxito.");
+        // alert("La cuenta ha sido deshabilitada con éxito.");
 
         // Validar si el usuario pertenece a la colección 'owners'
         console.log("Verificando si el usuario pertenece a la colección 'owners'...");

@@ -1,9 +1,9 @@
 import React from 'react';
 import Select from 'react-select';
 import { rubro_list } from '../../assets/assets';
-import './RubroIconsGrid.css';
+import './SportFilter.css';
 
-const RubroIconsGrid = ({ category, setCategory }) => {
+const SportFilter = ({ category, setCategory }) => {
   const options = [
     { value: 'All', label: 'Todos' },
     ...rubro_list.map((item) => ({
@@ -34,4 +34,4 @@ const RubroIconsGrid = ({ category, setCategory }) => {
   );
 };
 
-export default RubroIconsGrid;
+export default SportFilter;

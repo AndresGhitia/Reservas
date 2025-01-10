@@ -4,6 +4,7 @@ import { collection, query, where, getDocs, doc, updateDoc } from 'firebase/fire
 import { useLocation, useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import { useJsApiLoader } from '@react-google-maps/api';
+import Swal from 'sweetalert2';
 import './EditData.css';
 
 const EditData = () => {
@@ -237,10 +238,27 @@ const EditData = () => {
       }
   
       setLoading(false);
-      alert('Datos actualizados correctamente.');
+  
+      // Usar SweetAlert2 para mostrar éxito y navegar al Home
+      Swal.fire({
+        title: '¡Éxito!',
+        text: 'Datos actualizados correctamente.',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+      }).then(() => {
+        navigate('/'); // Navegar al Home después de cerrar el modal
+      });
     } catch (err) {
       setLoading(false);
       setError(err.message || 'Hubo un error al actualizar los datos.');
+  
+      // Usar SweetAlert2 para mostrar error
+      Swal.fire({
+        title: 'Error',
+        text: err.message || 'Hubo un error al actualizar los datos.',
+        icon: 'error',
+        confirmButtonText: 'Cerrar',
+      });
     }
   };
 

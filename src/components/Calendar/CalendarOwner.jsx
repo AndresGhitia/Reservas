@@ -3,8 +3,9 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db, auth } from '../../firebase';
-import { format } from 'date-fns';  // Importa 'format' desde 'date-fns'
-import { es } from 'date-fns/locale';  // Importa el locale en español
+import { format } from 'date-fns';  
+import { es } from 'date-fns/locale';  
+import Swal from 'sweetalert2';
 import './CalendarOwner.css';
 
 function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSelectedDate, onClose, disableBooking, addTimeSlots, sport }) {
@@ -21,7 +22,7 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
       
           if (spaceSnap.exists()) {
             const { closedDays: fetchedClosedDays } = spaceSnap.data();
-            console.log("closedDays desde Firestore:", fetchedClosedDays); // Para ver los días en Firestore
+            // console.log("closedDays desde Firestore:", fetchedClosedDays); // Para ver los días en Firestore
             
             // Aquí no necesitamos convertir a Date, solo usamos los nombres de los días
             setClosedDays(fetchedClosedDays);
@@ -44,7 +45,7 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
   }, [closedDays]);
   
   useEffect(() => {
-    console.log("Días cerrados:", closedDays); // Asegúrate de que sean ['lunes', 'martes'] u otro formato correcto
+    // console.log("Días cerrados:", closedDays); // Asegúrate de que sean ['lunes', 'martes'] u otro formato correcto
   }, [closedDays]);
     
   useEffect(() => {
@@ -112,35 +113,63 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
     return timeSlots;
   };
 
-  const askUserDetails = () => {
-    const name = prompt("Reserva a nombre de:");
-    const whatsapp = prompt("Número de WhatsApp:");
+  const askUserDetails = async () => {
+    const { value: name } = await Swal.fire({
+      title: 'Reserva a nombre de:',
+      input: 'text',
+      inputPlaceholder: 'Ingresa tu nombre',
+      showCancelButton: true,
+      confirmButtonText: 'Aceptar',
+      cancelButtonText: 'Cancelar',
+      target: document.querySelector('.Calendar-modal'), // Apunta al modal
+      customClass: {
+        popup: 'swal2-zindex' 
+      }
+    });
+  
+    if (!name) return null;
+  
+    const { value: whatsapp } = await Swal.fire({
+      title: 'Número de WhatsApp:',
+      input: 'text',
+      inputPlaceholder: 'Ingresa tu número de WhatsApp',
+      showCancelButton: true,
+      confirmButtonText: 'Aceptar',
+      cancelButtonText: 'Cancelar',
+      target: document.querySelector('.Calendar-modal'), // Apunta al modal
+      customClass: {
+        popup: 'swal2-zindex' 
+      }
+    });
+  
+    if (!whatsapp) return null;
+  
     return { name, whatsapp };
   };
+  
 
   const handleTimeslotClick = async (slotIndex) => {
     if (!date || !selectedSpace || disableBooking) return;
-
+  
     const formattedDate = date.toISOString().split('T')[0];
     const calendarRef = doc(db, 'owners', auth.currentUser.uid, 'spaces', selectedSpace.id, 'calendar', formattedDate);
-
+  
     const selectedSlot = timeSlots[slotIndex];
-
+  
     if (selectedSlot.available) {
-      const { name, whatsapp } = askUserDetails();
-
-      if (!name || !whatsapp) {
-        alert('Se necesitan nombre y número de WhatsApp para realizar una reserva.');
-        return;
-      }
-
+      const userDetails = await askUserDetails();
+  
+      if (!userDetails) return;
+  
+      const { name, whatsapp } = userDetails;
+  
       const updatedTimeSlots = timeSlots.map((slot, index) => {
         if (index === slotIndex) {
           return { ...slot, available: false, name, whatsapp };
         }
         return slot;
       });
-
+  
       try {
         await setDoc(calendarRef, { date: formattedDate, timeslots: updatedTimeSlots });
         setLocalTimeSlots(updatedTimeSlots);
@@ -148,16 +177,26 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
         console.error('Error al actualizar los horarios:', error);
       }
     } else {
-      const confirmRelease = window.confirm(`Deseas liberar el horario ${selectedSlot.time} reservado para ${selectedSlot.name}?`);
-
-      if (confirmRelease) {
+      const confirmRelease = await Swal.fire({
+        title: `¿Deseas liberar el horario ${selectedSlot.time} reservado para ${selectedSlot.name}?`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, liberar',
+        cancelButtonText: 'Cancelar',
+        target: document.querySelector('.Calendar-modal'), // Apunta al modal
+        customClass: {
+          popup: 'swal2-zindex' 
+        }
+      });
+  
+      if (confirmRelease.isConfirmed) {
         const updatedTimeSlots = timeSlots.map((slot, index) => {
           if (index === slotIndex) {
             return { ...slot, available: true, name: null, whatsapp: null };
           }
           return slot;
         });
-
+  
         try {
           await setDoc(calendarRef, { date: formattedDate, timeslots: updatedTimeSlots });
           setLocalTimeSlots(updatedTimeSlots);
@@ -167,6 +206,7 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
       }
     }
   };
+  
 
   useEffect(() => {
     if (date) {

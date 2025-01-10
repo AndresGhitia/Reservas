@@ -132,9 +132,8 @@ function LoginForm({ onClose, setShowAccountTypeModal }) {
   };
 
   const handleAccountRecovery = () => {
-    // console.log("Recuperación de cuenta solicitada para:", userEmail);
     alert("Se ha solicitado la recuperación de tu cuenta. Nuestro equipo se pondrá en contacto contigo pronto.");
-    setIsDisabledUser(false); // Ocultar el botón tras solicitar recuperación
+    setIsDisabledUser(false); 
   };
 
   const handleModalClose = () => {

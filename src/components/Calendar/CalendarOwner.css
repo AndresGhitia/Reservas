@@ -4,11 +4,11 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro/borroso, sin margen gris */
+    background-color: rgba(0, 0, 0, 0.5); 
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Asegura que esté al frente */
+    z-index: 1000; 
   }
 .calendar-header h3 {
   font-size: 1.8rem;
@@ -19,7 +19,7 @@
   color: #666;
   margin: 0;
 }
-/* Botón de cierre del modal */
+
 .modal-close-button {
   cursor: pointer;
   font-size: 1.5rem;
@@ -32,22 +32,19 @@
   color: #ff4d4d;
 }
 
-/* Contenedor principal del calendario */
 .calendar-container-Owner {
   display: flex;
   width: 100%;
   flex-direction: column;
   align-items: center;
-  overflow-y: auto; /* Habilita el desplazamiento vertical */
-  max-height: 100vh; /* Limita la altura para mantener el desplazamiento */
+  overflow-y: auto; 
+  max-height: 100vh; 
 
 }
-/* Contenedor de la fecha */
 .date-container-Owner {
   margin-bottom: 25px;
 }
 
-/* Estilos para el selector de fechas */
 .react-calendar {
   width: 100%;
   max-width: 100%;
@@ -59,23 +56,21 @@
 
 .timeslot-container-Owner {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 columnas de igual ancho */
-  gap: 10px; /* Espacio entre los botones */
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 10px; 
   width: 100%;
   padding: 20px;
   box-sizing: border-box;
 }
 
 
-/* Estilos generales para los botones de horarios */
 .timeslot-pair {
   display: flex;
-  gap: 1px; /* Espacio entre botones en el par */
+  gap: 1px; 
 }
 
 .timeslot-button {
-  flex: 1;
-  margin: 0 px; /* Eliminar cualquier margen para que no haya separación */
+  flex: 1;/* Eliminar cualquier margen para que no haya separación */
   padding: 15px;
   border-radius: 5px;
   color: white;
@@ -84,43 +79,27 @@
   transition: opacity 0.3s ease;
 }
 
-/* Estilos para intervalos de 30 minutos */
 .timeslot-button.half-hour {
   background-color: #2f285a;
   font-size: 14px;
   padding: 10px;
 }
-
-/* Estilos para intervalos de 1 hora */
-.timeslot-button.one-hour {
-
-}
-
-/* Botones disponibles */
-/* .timeslot-button.available {
-  background-color: #2f285a;
-} */
-
-/* Botones reservados */
 .timeslot-button.reserved {
   background-color: #c80a0a;
   cursor: not-allowed;
-  opacity: 0.7; /* Opacidad reducida para indicar que está reservado */
+  opacity: 0.7; /
 }
 
-/* Efecto hover */
 .timeslot-button:hover {
   opacity: 0.85;
   color: #56e07b;
 }
 
-/* Estilo para botones deshabilitados en modo negocio */
 .timeslot-button.disabled-business {
-  background-color: #10a818; /* Gris para deshabilitados */
+  background-color: #10a818;
   cursor: not-allowed;
 }
 
-/* Fondo de la ventana modal */
 .Calendar-modal::before {
   content: '';
   position: fixed;
@@ -132,7 +111,6 @@
   z-index: -1;
 }
 
-/* Encabezado del calendario */
 .calendar-header h3 {
   margin: 0;
   font-size: 18px;
@@ -143,8 +121,10 @@
   font-size: 14px;
   color: #666;
 }
-
-/* Contenedor de la fecha */
+.swal2-zindex {
+  position: fixed !important; /* Asegura que no dependa del contexto del DOM */
+  z-index: 1060 !important;
+}
 
   @media (max-width: 768px) {
     .Calendar-modal {
@@ -153,13 +133,13 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro/borroso, sin margen gris */
+      background-color: rgba(0, 0, 0, 0.5); 
       display: flex;
       justify-content: center;
       align-items: center;
 
     }
-    /* Encabezado del calendario */
+   
 .calendar-header h3 {
   margin: 0;
   margin-top: 30px;
@@ -175,43 +155,38 @@
 .react-datepicker__month{
   display: flex;
   flex-wrap: wrap;
-  /* border:solid 3px red; */
 }
     .date-container-Owner {
      display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Ajuste automático de columnas */
-  gap: 10px; /* Espacio entre botones */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+  gap: 10px; 
   width: 100%;
-  padding: 20px; /* Espaciado alrededor del contenedor */
+  padding: 20px; 
   box-sizing: border-box;
-  /* border: solid 3px, red; */
+  
 
     }
     .calendar-container-Owner {
-      max-height: 70vh; /* Ajusta la altura visible en pantallas pequeñas */
-      overflow-y: scroll; /* Fuerza el desplazamiento en móviles */
-      -webkit-overflow-scrolling: touch; /* Mejora la experiencia de desplazamiento en iOS */
+      max-height: 70vh;
+      overflow-y: scroll; 
+      -webkit-overflow-scrolling: touch;
     }
     
-
-    /* Ajustar el tamaño de los botones de horarios */
     .timeslot-container-Owner {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); /* Ajuste automático de columnas */
-      gap: 10px; /* Espacio entre botones */
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); 
+      gap: 10px; 
       width: 100%;
-      padding: 20px; /* Espaciado alrededor del contenedor */
+      padding: 20px; 
       box-sizing: border-box;
-      /* border: solid 3px, red; */
-
     }
 
     .timeslot-button {
-      padding: 10px; /* Reducir el padding para botones más pequeños */
-      font-size: 14px; /* Reducir el tamaño de la fuente */
+      padding: 10px; 
+      font-size: 14px; 
     }
 
     .timeslot-button.one-hour {
-      min-width: 150px; /* Ajustar el ancho mínimo de los botones de una hora */
+      min-width: 150px; 
     }
   }

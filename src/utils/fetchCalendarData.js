@@ -1,4 +1,3 @@
-// utils/fetchCalendarData.js
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 
@@ -10,7 +9,7 @@ export const fetchCalendarData = async (ownerId, spaceId) => {
 
         querySnapshot.forEach((doc) => {
             const data = doc.data();
-            calendarData[data.date] = data.slots; // Suponiendo que la estructura es { date, slots }
+            calendarData[data.date] = data.slots; 
         });
 
         return calendarData;
