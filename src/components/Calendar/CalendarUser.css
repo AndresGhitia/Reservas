@@ -157,14 +157,12 @@
 
 .timeslot-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  /* Ajuste automático de columnas */
+  grid-template-columns: repeat(3, 1fr); /* Siempre tres columnas */
   gap: 10px;
-  /* Espacio entre botones */
   width: 100%;
   padding: 20px;
-  /* Espaciado alrededor del contenedor */
-  box-sizing: border-box;
+  box-sizing: border-box;  
+  
 }
 
 .timeslot-button {
