@@ -49,36 +49,30 @@
     transition: opacity 0.3s ease, background-color 0.3s ease;
   }
   
-  /* Efecto de hover cuando el botón está habilitado */
   .login-button:hover {
     background-color: #5145a4;
   }
   
-  /* Botón deshabilitado */
   .login-button.disabled {
-    opacity: 0.5; /* Transparencia para indicar que está deshabilitado */
-    cursor: not-allowed; /* Cambia el cursor para mayor claridad */
-    pointer-events: none; /* Evita cualquier interacción */
+    opacity: 0.5;
+    cursor: not-allowed; 
+    pointer-events: none; 
   }
- /* Contenedor general */
-/* Contenedor general */
 .privacy-checkbox {
     display: flex;
-    align-items: center; /* Alinea verticalmente el checkbox y el texto */
+    align-items: center;
     margin-top: 10px;
-    justify-content: flex-start; /* Alinea todo el contenido hacia la izquierda */
+    justify-content: flex-start;
   }
-  
-  /* Etiqueta del checkbox */
+
   .checkbox-label {
     display: flex;
     align-items: center;
     font-size: 14px; 
-    gap: 8px; /* Espacio entre el checkbox y el texto */
-    cursor: pointer; /* Cambia el cursor al pasar por encima de la etiqueta */
+    gap: 8px; 
+    cursor: pointer; 
   }
   
-  /* Checkbox */
   .checkbox-label input[type="checkbox"] {
     margin: 0; /* Elimina márgenes por defecto */
     width: 16px; /* Tamaño del checkbox */
@@ -86,14 +80,17 @@
     cursor: pointer;
   }
   
-  /* Enlace */
   .privacy-checkbox a {
-    color: #007bff; /* Azul típico de los links */
-    text-decoration: underline; /* Subrayado para el enlace */
+    color: #007bff; 
+    text-decoration: underline;
     cursor: pointer;
   }
   
   .privacy-checkbox a:hover {
-    color: #0056b3; /* Azul más oscuro al pasar el mouse */
+    color: #0056b3; 
   }
+  .swal2-custom-popup {
+    z-index: 2000 !important; 
+  }
+
   

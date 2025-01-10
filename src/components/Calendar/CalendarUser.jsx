@@ -4,6 +4,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { es } from 'date-fns/locale';
+import Swal from 'sweetalert2';
 import './CalendarUser.css';
 import { format } from 'date-fns';
 
@@ -118,23 +119,13 @@ function CalendarUser({ selectedSpace, calendarData , setSelectedDate, onClose, 
   }, [selectedSpace, ownerId]);
 
   const isDayClosed = useMemo(() => (date) => {
-    // Obtén el nombre del día en español (asegurándonos de que esté limpio)
     const dayName = format(date, 'EEEE', { locale: es }).trim();
-    // console.log('Nombre del día obtenido:', dayName); // Verifica el valor de dayName
-
-    // Verifica los días cerrados que se han pasado como prop
-    //  console.log('Array closedDays:', closedDays);
-
-    // Comparar el nombre del día con los días cerrados
     const isClosed = closedDays.some(closedDay => {
       const normalizedClosedDay = closedDay.trim().toLowerCase();
       const normalizedDayName = dayName.toLowerCase();
-      //   console.log(`Comparando: "${normalizedClosedDay}" con "${normalizedDayName}"`);
       return normalizedClosedDay === normalizedDayName;
     });
 
-    // Mostrar el resultado de la comparación para depuración
-    //   console.log('¿Está cerrado este día?', isClosed);
     return isClosed;
   }, [closedDays]);
 
@@ -148,7 +139,6 @@ function CalendarUser({ selectedSpace, calendarData , setSelectedDate, onClose, 
     const incrementMinute = selectedSpace.sport === "Paddle" ? 30 : 60;
     var isOvernight = closeHour < openHour || (closeHour === openHour && closeMinute < openMinute);
 
-    // Bucle para generar los horarios, considerando el cruce de medianoche
     while (true) {
       const time = `${String(openHour).padStart(2, '0')}:${String(openMinute).padStart(2, '0')}`;
       timeSlots.push({ time, available: true, name: null, whatsapp: null });
@@ -159,35 +149,51 @@ function CalendarUser({ selectedSpace, calendarData , setSelectedDate, onClose, 
         openMinute -= 60;
         openHour = (openHour + 1) % 24; // manejar las 24 horas
       }
-
-      // Lógica de parada al alcanzar el `closeTime`, incluso si es después de la medianoche
       if (!isOvernight && openHour === closeHour && openMinute >= closeMinute) break;
       if (isOvernight && openHour === closeHour && openMinute >= closeMinute) break;
     }
-
     return timeSlots;
   };
 
   const handleTimeslotClick = async (slotIndex) => {
     const selectedSlot = timeSlots[slotIndex];
+  
     if (selectedSlot.available) {
-      const confirmation = window.confirm(
-        `¿Deseas consultar por el horario seleccionado (${selectedSlot.time}) para el espacio ${selectedSpace.name}?`
-      );
-      if (confirmation) {
+      // Modal de confirmación con SweetAlert2
+      const result = await Swal.fire({
+        title: 'Confirmar reserva',
+        text: `¿Deseas consultar por el horario seleccionado (${selectedSlot.time}) para el espacio ${selectedSpace.name}?`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, consultar',
+        cancelButtonText: 'Cancelar',
+      });
+  
+      if (result.isConfirmed) {
         const message = encodeURIComponent(
           `Hola, estoy interesado en reservar el espacio ${selectedSpace.name} para el horario ${selectedSlot.time}.`
         );
-
-        // console.log('***cel: '+cel)
+  
         const whatsappLink = `https://wa.me/${whatsapp}?text=${message}`;
         window.open(whatsappLink, '_blank');
       }
     } else {
-      alert("Este horario está reservado.");
+      // Modal de alerta con SweetAlert2
+      Swal.fire({
+        title: 'Horario reservado',
+        text: 'Este horario está reservado. Selecciona otro horario!',
+        icon: 'error',
+        confirmButtonText: 'Entendido',
+        target: document.querySelector('.Calendar-modal'), // Apunta correctamente al modal padre
+        customClass: {
+          popup: 'swal2-zindex' // Clase CSS con z-index adecuado
+        }
+      });
+      
+      
+      
     }
   };
-
 
 // ** FRAGMENTO DE CODIGO DESTINADO AL ENVIO DE NOTIFICACIONES VIA WHATSAPP
 //  const saveNotificationRequest = async (time, whatsappNumber, spaceId, ownerId, spaceName) => {

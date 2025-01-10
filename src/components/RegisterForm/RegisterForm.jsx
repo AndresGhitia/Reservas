@@ -4,6 +4,7 @@
     import { doc, setDoc, Timestamp, query, collection, where, getDocs, getDoc } from 'firebase/firestore';
     import OwnerForm from './OwnerForm';
     import UserForm from './UserForm';
+    import Swal from 'sweetalert2';
     import './RegisterForm.css';
 
     function RegisterForm({ onClose, isRecoveringAccount, disabledEmail , accountType: initialAccountType, onSwitchToLogin }) {
@@ -20,12 +21,11 @@
       const [accountType, setAccountType] = useState(initialAccountType || 'user');
       const [whatsapp, setWhatsapp] = useState('');
       const availableBusinessTypes = ['Football', 'Paddle', 'Tenis', 'Hockey', 'Volley', 'Handball'];
-      const [isPrivacyAccepted, setIsPrivacyAccepted] = useState(false); // Nuevo estado
+      const [isPrivacyAccepted, setIsPrivacyAccepted] = useState(false); 
 
-      // console.log("Valor de disabledEmail en RegisterForm:", disabledEmail);
       const handleSubmit = async (e) => {
         if (isRecoveringAccount) {
-          console.log("Recuperando cuenta para el email:", disabledEmail);
+          // console.log("Recuperando cuenta para el email:", disabledEmail);
         } else {
           e.preventDefault();
           if (!isPrivacyAccepted) {
@@ -37,14 +37,24 @@
             const disabledUsersRef = doc(db, 'disabled', 'disabled-users');
             const disabledSnapshot = await getDoc(disabledUsersRef);
       
-            if (disabledSnapshot.exists()) {
-              const disabledData = disabledSnapshot.data();
-              if (disabledData[email]) { // Si el correo está en disabled-users
-                setError(`El correo "${email}" está deshabilitado. 
-                   Para recuperar tu cuenta, ingresa con tu mail y contraseña y sigue los pasos.`);
-                return; // Detener el flujo si el correo está deshabilitado
-              }
-            }
+            // if (disabledSnapshot.exists()) {
+            //   const disabledData = disabledSnapshot.data();
+            //   if (disabledData[email]) { 
+                
+            //     setError(`El correo "${email}" está deshabilitado. 
+            //        Para recuperar tu cuenta, ingresa con tu mail y contraseña y sigue los pasos.`);
+            //        Swal.fire({
+            //         icon: 'error',
+            //         title: 'Correo deshabilitado',
+            //         text: `El correo "${email}" está deshabilitado. Para recuperar tu cuenta, ingresa con tu mail y contraseña y sigue los pasos.`,
+            //         target: document.querySelector('.modal'), 
+            //         customClass: {
+            //           popup: 'swal2-zindex' 
+            //         }
+            //       });
+            //     return; // Detener el flujo si el correo está deshabilitado
+            //   }
+            // }
       
             // Verificar si ya existe un negocio registrado con el mismo nombre
             if (accountType === 'owner') {
@@ -53,6 +63,16 @@
               const querySnapshot = await getDocs(q);
            
               if (!querySnapshot.empty) {
+             
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Nombre duplicado',
+                  text: `Ya existe un negocio registrado con el nombre "${establishmentName}". Por favor, elige otro nombre.`,
+                  target: document.querySelector('.modal'), 
+                           customClass: {
+                             popup: 'swal2-zindex' 
+                           }
+                });
                 setError(`Ya existe un negocio registrado con el nombre "${establishmentName}". Por favor, elige otro nombre.`);
                 return;
               }
@@ -115,12 +135,32 @@
               });
             }
       
-            // Confirmación de éxito
-            alert("Usuario registrado con éxito. Por favor, revisa tu correo electrónico para verificar tu cuenta.");
-            onClose();
+            Swal.fire({
+              icon: 'success',
+              title: 'Registro exitoso',
+              text: 'Usuario registrado con éxito. Por favor, revisa tu correo electrónico para verificar tu cuenta.',
+              target: document.querySelector('.modal'), 
+              customClass: {
+                popup: 'swal2-zindex' 
+              }
+            }).then((result) => {
+              if (result.isConfirmed) {
+                onClose();
+              }
+            });
+            
           } catch (error) {
             console.error("Firebase Error:", error);
             setError("Error al registrar el usuario: " + error.message);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error de registro',
+              text: `Error al registrar el usuario: ${error.message}`,
+              target: document.querySelector('.modal'), 
+              customClass: {
+                popup: 'swal2-zindex' 
+              }
+            });
           }
         }
       };
