@@ -11,6 +11,15 @@
   /* Espaciado interno */
 }
 
+.left-column-background,
+.right-column-background {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
 .overlay-content {
   display: flex;
   flex-direction: row;
@@ -243,35 +252,37 @@
 
 
 @media (max-width: 768px) {
-  .location-container {
-    margin: 20px auto;
-    padding-left: 10px;
-    max-width: 324px;
-    max-height: 350px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  .location-background {
+    flex-direction: column; /* Cambia a diseño en columna */
+    height: auto; /* Permite que la altura se ajuste al contenido */
   }
 
-  .location-header-title h3 {
-    font-size: 1.45rem;
-    margin-left: 5px;
-    color: 56e07b;
+  .left-column-background,
+  .right-column-background {
+    width: 100%; /* Cada columna ocupa todo el ancho */
+    padding: 10px; /* Reduce el padding */
   }
 
-  .location-input-container {
-    display: flex;
-    align-items: center;
-    position: relative;
-    margin-top: 0px;
+  .overlay-content {
+    margin-bottom: 20px; /* Añade espacio entre las columnas */
   }
 
-  .location-container input {
+  .input-with-icon {
+    flex-direction: column; /* Alinea input y botón en columna */
+    align-items: stretch; /* Asegúrate de que ocupen todo el ancho */
+  }
+
+  .input-with-icon input {
+    margin-bottom: 10px; /* Espaciado entre el input y el botón */
+  }
+
+  .search-button-container {
     width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 1rem;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+  }
+
+  .search-button {
+    width: 100%; /* Botón ocupa todo el ancho */
+    font-size: 14px;
   }
 }

@@ -3,7 +3,7 @@ import { Autocomplete } from '@react-google-maps/api';
 import './HomeFilter.css';
 import RubroIconsGrid from '../RubroIconsGrid/RubroIconsGrid';
 
-const HomeFilter = ({ userLocation, setUserLocation, cardContainerRef, businessListRef , category, setCategory }) => {
+const HomeFilter = ({ userLocation, setUserLocation, cardContainerRef, businessListRef, category, setCategory }) => {
   const [manualLocation, setManualLocation] = useState('');
   const [error, setError] = useState(null);
   const [highlightInput, setHighlightInput] = useState(false);
@@ -93,56 +93,59 @@ const HomeFilter = ({ userLocation, setUserLocation, cardContainerRef, businessL
 
   return (
     <div className="location-background">
-      <div className='overlay-content'>
-        <div className='overlay-text'>
-          <h1>Reserva tu cancha ahora mismo</h1>
-          <p>Encontra las canchas mas cercanas en tu ciudad, reserva y juga.</p>
+      <div className='left-column-background'>
+        <div className='overlay-content'>
+          <div className='overlay-text'>
+            <h1>Reserva tu cancha ahora mismo</h1>
+            <p>Encontra las canchas mas cercanas en tu ciudad, reserva y juga.</p>
+          </div>
         </div>
       </div>
-      <div className="location-container">
-        <div className="location-header-title">
-          <h3>Busca cancha ahora</h3>
-        </div>
-        <RubroIconsGrid setCategory={setCategory}
-                        category={category} />
-        <div className="location-header-subtitle">
-          <p>Ingresa la dirección o zona</p>
-        </div>
-        <div className="location-input-container">
-          <Autocomplete
-            onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
-            onPlaceChanged={handlePlaceChanged}
-          >
-            <div className="input-with-icon">
-              <button
-                className="location-icon-button"
-                onClick={handleUseCurrentLocation}
-                aria-label="Usar mi ubicación actual"
-              >
-                📍
-              </button>
-              <input
-                type="text"
-                placeholder="Introduce tu ubicación"
-                value={manualLocation}
-                onChange={(e) => setManualLocation(e.target.value)}
-                className={highlightInput ? 'highlight' : ''}
-              />
-            </div>
-          </Autocomplete>
-        </div>
-        {error && <p className="error-message">{error}</p>}
-        <div className="search-button-container">
-          <button
-            className="search-button"
-            onClick={() => {
-              if (businessListRef?.current) {
-                businessListRef.current.scrollIntoView({ behavior: 'smooth' });
-              }
-            }}
-          >
-            <span className="icon">&#9917; </span> Ver canchas!
-          </button>
+      <div className='right-column-background'>
+        <div className="location-container">
+          <div className="location-header-title">
+            <h3>Busca cancha ahora</h3>
+          </div>
+          <RubroIconsGrid setCategory={setCategory}
+            category={category} />
+          <div className="location-header-subtitle">
+            <p>Ingresa la dirección o zona</p>
+          </div>
+          <div className="location-input-container">
+            <Autocomplete
+              onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
+              onPlaceChanged={handlePlaceChanged}
+            >
+              <div className="input-with-icon">
+                <button className="location-icon-button"
+                  onClick={handleUseCurrentLocation}
+                  aria-label="Usar mi ubicación actual"
+                >
+                  📍
+                </button>
+                <input
+                  type="text"
+                  placeholder="Introduce tu ubicación"
+                  value={manualLocation}
+                  onChange={(e) => setManualLocation(e.target.value)}
+                  className={highlightInput ? 'highlight' : ''}
+                />
+              </div>
+            </Autocomplete>
+          </div>
+          {error && <p className="error-message">{error}</p>}
+          <div className="search-button-container">
+            <button
+              className="search-button"
+              onClick={() => {
+                if (businessListRef?.current) {
+                  businessListRef.current.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+            >
+              <span className="icon">&#9917; </span> Ver canchas!
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -1,14 +1,15 @@
 // src/components/UserProfileDropdown.jsx
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom'; 
-import { assets } from '../../src/assets/assets'; 
+import { useNavigate, useLocation } from 'react-router-dom';
+import { assets } from '../../src/assets/assets';
 import { auth, db } from '../firebase';
-import { onAuthStateChanged, signOut,EmailAuthProvider,reauthenticateWithCredential } from 'firebase/auth';
-import { doc, getDoc, collection,getDocs  } from 'firebase/firestore';
+import { onAuthStateChanged, signOut, EmailAuthProvider, reauthenticateWithCredential } from 'firebase/auth';
+import { doc, getDoc, collection, getDocs } from 'firebase/firestore';
 import { resetInactivityTimer } from '../components/Navbar/authUtils';
-import './UserProfileDropdown.css' 
+import './UserProfileDropdown.css'
 import onDeleteAccount from '../../functions/onDeleteAccount'
-import ProfileInfoModal from '../pages/Dashboard/ProfileInfoModal';  
+import ProfileInfoModal from '../pages/Dashboard/ProfileInfoModal';
+import Swal from 'sweetalert2';
 
 function UserProfileDropdown() {
   const [user, setUser] = useState(null);
@@ -22,45 +23,45 @@ function UserProfileDropdown() {
   const navigate = useNavigate();
   const locationUrl = useLocation(); // Obtener la ruta actual
 
-useEffect(() => {
-  const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-    setUser(currentUser);
-    if (currentUser) {
-      // Comprobar si es un usuario
-      const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
-      if (userDoc.exists()) {
-        setUserData(userDoc.data());
-        setUserCollection('users'); // Identificar que es de la colección 'users'
-      } else {
-        // Comprobar si es un propietario
-        const ownerDoc = await getDoc(doc(db, 'owners', currentUser.uid));
-        if (ownerDoc.exists()) {
-          setUserData(ownerDoc.data());
-          setUserCollection('owners'); // Identificar que es de la colección 'owners'
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      setUser(currentUser);
+      if (currentUser) {
+        // Comprobar si es un usuario
+        const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+        if (userDoc.exists()) {
+          setUserData(userDoc.data());
+          setUserCollection('users'); // Identificar que es de la colección 'users'
+        } else {
+          // Comprobar si es un propietario
+          const ownerDoc = await getDoc(doc(db, 'owners', currentUser.uid));
+          if (ownerDoc.exists()) {
+            setUserData(ownerDoc.data());
+            setUserCollection('owners'); // Identificar que es de la colección 'owners'
 
-          // Obtener el número de espacios activos (número de documentos en la subcolección 'spaces')
-          const spacesRef = collection(db, 'owners', currentUser.uid, 'spaces');
-          const spacesSnapshot = await getDocs(spacesRef);
-          
-          // Verificar si la subcolección existe y tiene documentos
-          if (spacesSnapshot.empty) {
-        //    console.log("No hay espacios disponibles");
-            setNumSpaces(0);
-          } else {
-            setNumSpaces(spacesSnapshot.size); // Contar los espacios activos
-        //    console.log("Numero de espacios: "+ numSpaces);
+            // Obtener el número de espacios activos (número de documentos en la subcolección 'spaces')
+            const spacesRef = collection(db, 'owners', currentUser.uid, 'spaces');
+            const spacesSnapshot = await getDocs(spacesRef);
 
+            // Verificar si la subcolección existe y tiene documentos
+            if (spacesSnapshot.empty) {
+              //    console.log("No hay espacios disponibles");
+              setNumSpaces(0);
+            } else {
+              setNumSpaces(spacesSnapshot.size); // Contar los espacios activos
+              //    console.log("Numero de espacios: "+ numSpaces);
+
+            }
           }
         }
+      } else {
+        setUserData(null);
+        setUserCollection(null); // Resetear el estado de la colección si no hay usuario
       }
-    } else {
-      setUserData(null);
-      setUserCollection(null); // Resetear el estado de la colección si no hay usuario
-    }
-  });
+    });
 
-  return () => unsubscribe();
-}, []);
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     if (user) {
@@ -78,14 +79,30 @@ useEffect(() => {
 
   // Cierre de sesión
   const handleSignOut = (isAutomatic = false) => {
-    if (!isAutomatic && !window.confirm("¿Estás seguro que quieres cerrar sesión?")) {
-      return;
+    if (!isAutomatic) {
+      Swal.fire({
+        title: '¿Deseas cerrar sesión?',
+        imageUrl: assets.clubweb_logo,
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, cerrar sesión',
+        cancelButtonText: 'Cancelar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          proceedSignOut(isAutomatic);
+        }
+      });
+    } else {
+      proceedSignOut(isAutomatic);
     }
+  };
+
+  const proceedSignOut = (isAutomatic) => {
     signOut(auth)
       .then(() => {
         setUser(null);
         setUserData(null);
-     //   console.log('URL: ' + locationUrl.pathname)
         if (locationUrl.pathname.includes('/dashboard')) {
           navigate('/');
         }
@@ -94,9 +111,10 @@ useEffect(() => {
         }
       })
       .catch((error) => {
-        console.error("Error al cerrar sesión: ", error);
+        console.error('Error al cerrar sesión: ', error);
       });
   };
+
 
   // Navegación al dashboard del dueño o Home
   const handleNavigate = () => {
@@ -127,27 +145,27 @@ useEffect(() => {
     const confirmation = window.confirm(
       '¿Estás seguro de que deseas borrar tu cuenta? Se borrarán todos tus datos, incluyendo información de tu complejo y reservas.'
     );
-  
+
     if (confirmation) {
       try {
         // Verificar si el usuario está autenticado
         const user = auth.currentUser;
         console.log("Usuario actual:", user);
-        
+
         if (!user || !user.email) {
           throw new Error("No se pudo obtener el usuario actual. Por favor, inicia sesión nuevamente.");
         }
-  
+
         // Solicitar la contraseña del usuario
         const password = prompt("Por favor, ingresa tu contraseña para confirmar:");
         if (!password) {
           alert("La eliminación de la cuenta fue cancelada.");
           return;
         }
-  
+
         // Crear credenciales con email y contraseña
         const credential = EmailAuthProvider.credential(user.email, password);
-  
+
         // Reautenticar al usuario
         await reauthenticateWithCredential(user, credential)
           .then(() => console.log("Reautenticación exitosa"))
@@ -155,12 +173,12 @@ useEffect(() => {
             console.error("Error de reautenticación:", error.message);
             throw new Error("La contraseña es incorrecta. Inténtalo nuevamente.");
           });
-  
+
         // Eliminar la cuenta
         console.log("Llamando a la lógica de eliminación...");
         await onDeleteAccount(); // Implementa correctamente tu lógica de eliminación
         // alert("Tu cuenta ha sido eliminada con éxito.");
-  
+
         // Cerrar sesión y redirigir
         await signOut(auth);
         navigate("/"); // Redirigir al home
@@ -170,7 +188,7 @@ useEffect(() => {
       }
     }
   };
-  
+
 
   if (!user) {
     // Si el usuario no está autenticado, mostrar la opción de iniciar sesión
@@ -185,7 +203,7 @@ useEffect(() => {
     <div className='navbar-profile'>
       <div className='navbar-profile-user'>
         <span>{`Hola, ${userData?.firstName || userData?.ownerName || user.email}`}</span>
-        <img src={assets.user_icon_white} alt="profile icon" /> 
+        <img src={assets.user_icon_white} alt="profile icon" />
       </div>
       <ul className="nav-profile-dropdown">
         <li onClick={handleAccountClick}>
@@ -214,10 +232,10 @@ useEffect(() => {
 
       {/* Aquí llamamos al componente ProfileInfoModal */}
       {showAccountModal && (
-        <ProfileInfoModal 
-          userData={userData} 
-          userCollection={userCollection} 
-          onClose={() => setShowAccountModal(false)} 
+        <ProfileInfoModal
+          userData={userData}
+          userCollection={userCollection}
+          onClose={() => setShowAccountModal(false)}
           numSpaces={numSpaces} // Pasar número de espacios activos
           onDeleteAccount={handleDeleteAccount}
         />
