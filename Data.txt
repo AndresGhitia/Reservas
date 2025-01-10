@@ -504,3 +504,6 @@ A#223 Se modifica el estilo del RubroIconGrid para que sea mas funcional.
 G#224 Se modifica el titulo de RubroIconGrid por "SportFilter" ya que es mas adecuado a su funcion. Se empiezan a Reemplazar los Aler por los SweetAlert2 (Edit, borrar,
 CalendarOwner).
 Se resuelve posicion de SWA2 respecto al Modal (se tiene que apuntar a la clase del modal, desde los parametros de cada SWA2)
+
+G#225 Se implementan los SWA2 en reemplazo de Alert en algunos componentes (RegisterForm, CalendarOwner, CalendarUser, etc) Queda seguir con los reemplazos 
+y corroborar que todo funciona como corresponde.
