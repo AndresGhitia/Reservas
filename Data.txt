@@ -509,3 +509,5 @@ G#225 Se implementan los SWA2 en reemplazo de Alert en algunos componentes (Regi
 y corroborar que todo funciona como corresponde.
 
 A#265 Se verifica que los SWA2 se muestren delante de los modales.
+
+G#266 Seguimos trabajando en el reemplazo de los Alert por SWA2, se trabajo con los componentes LoginForm, AmenitiesSelector, News, EditData, RecoverForm.

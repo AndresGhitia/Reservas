@@ -12,6 +12,7 @@ import BuySubscription from '../BuySuscription/BuySubscription';
 import { handleIntegrationMP } from '../../../MP/preference';
 import RecoverForm from '../../pages/RecoverForm/RecoverForm';  // Importamos RecoverForm
 import * as Yup from 'yup';
+import Swal from 'sweetalert2';
 
 const validationSchema = Yup.object({
   email: Yup.string().email('Email inválido').required('Por favor, introduce una dirección de correo electrónico válida'),
@@ -37,7 +38,18 @@ function LoginForm({ onClose, setShowAccountTypeModal }) {
       const user = userCredential.user;
 
       if (!user.emailVerified) {
-        setError("Tu correo electrónico no ha sido verificado. Por favor, revisa tu correo y sigue las instrucciones para verificarlo.");
+       
+        Swal.fire({
+          title: 'Verifica tu correo!',
+          text: 'Tu correo electrónico no ha sido verificado. Por favor, revisa tu correo y sigue las instrucciones para verificarlo.',
+          icon: 'info',
+          confirmButtonText: 'Entendido',
+          target: document.querySelector('.modal'), 
+          customClass: {
+            popup: 'swal2-zindex' 
+          }
+        });
+        // setError("Tu correo electrónico no ha sido verificado. Por favor, revisa tu correo y sigue las instrucciones para verificarlo.");
         await signOut(auth);
         setSubmitting(false);
         return;
@@ -56,7 +68,17 @@ function LoginForm({ onClose, setShowAccountTypeModal }) {
 
       if (!userDoc.exists()) {
         // console.log("Usuario no encontrado en Firestore.");
-        setError("Usuario no encontrado, por favor verifica tus credenciales.");
+        Swal.fire({
+          title: 'Verifica tu correo!',
+          text: 'Usuario no encontrado, por favor verifica el mail ingresado.',
+          icon: 'info',
+          confirmButtonText: 'Entendido',
+          target: document.querySelector('.modal'), 
+          customClass: {
+            popup: 'swal2-zindex' 
+          }
+        });
+        // setError("Usuario no encontrado, por favor verifica tus credenciales.");
         await signOut(auth);
         setSubmitting(false);
         return;
@@ -64,11 +86,32 @@ function LoginForm({ onClose, setShowAccountTypeModal }) {
 
       const userData = userDoc.data();
       // console.log("Datos del usuario:", userData);
+      setUserEmail(user.email);
 
 
       if (userData.status === "disabled") {
-        setError("Tu cuenta ha sido deshabilitada. Contacta al soporte para más información.");
-        setIsDisabledUser(true); // Activar la bandera para mostrar el botón de recuperar cuenta
+        setUserEmail(user.email);
+
+        Swal.fire({
+          title: 'Cuenta deshabilitada',
+          text: 'Tu cuenta se encuentra deshabilitada. Contacta al soporte para más información.',
+          icon: 'info',
+          confirmButtonText: 'Recuperar cuenta',
+          target: document.querySelector('.modal'),
+          customClass: {
+            popup: 'swal2-zindex',
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            setUserEmail(user.email);
+            setTimeout(() => {
+              console.log('**', user.email); // Ahora tendrá el valor actualizado
+              openRecoverScreen(user.email);
+            }, 0);
+          }
+        });  
+        // setError("Tu cuenta ha sido deshabilitada. Contacta al soporte para más información.");
+        // setIsDisabledUser(true);
         await signOut(auth);
         setSubmitting(false);
         return;
@@ -93,7 +136,18 @@ function LoginForm({ onClose, setShowAccountTypeModal }) {
       }, 100);
     } catch (error) {
       console.error("Error de inicio de sesión:", error);
-      setError("Usuario o contraseña incorrectos, revísalos y vuelve a ingresarlos por favor.");
+   
+      Swal.fire({
+        title: 'Usuario o contraseña incorrectos',
+        text: 'Revísalos y vuelve a ingresarlos por favor.',
+        icon: 'info',
+        confirmButtonText: 'Entendido',
+        target: document.querySelector('.modal'), 
+        customClass: {
+          popup: 'swal2-zindex' 
+        }
+      });
+      // setError("Usuario o contraseña incorrectos, revísalos y vuelve a ingresarlos por favor.");
       setSubmitting(false);
     }
   };
@@ -122,11 +176,23 @@ function LoginForm({ onClose, setShowAccountTypeModal }) {
       // Procesar el inicio de sesión...
     } catch (error) {
       console.error('Error en el inicio de sesión con Google:', error); // LOG
-      setError(error.message || "Error al iniciar sesión con Google. Intenta de nuevo.");
+      Swal.fire({
+        title: 'Error',
+        text: 'Error al iniciar sesión con Google. Intenta de nuevo.',
+        icon: 'info',
+        confirmButtonText: 'Entendido',
+        target: document.querySelector('.modal'), 
+        customClass: {
+          popup: 'swal2-zindex' 
+        }
+      });
+      // setError(error.message || "Error al iniciar sesión con Google. Intenta de nuevo.");
     }
   };
 
-  const openRecoverScreen = () => {
+  const openRecoverScreen = (userEmail) => {
+    // console.log('Navigating to recover screen with email:', userEmail);
+
     navigate(`/recover?email=${userEmail}`);
     // setShowRecoverScreen(true); // Mostrar la pantalla de recuperación
   };

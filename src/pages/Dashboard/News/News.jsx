@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { doc, updateDoc, getDoc } from "firebase/firestore";
+import Swal from "sweetalert2";
 import "./News.css"; // Archivo CSS para los estilos
 
 const News = ({ db, userDocId }) => {
@@ -61,7 +62,15 @@ const News = ({ db, userDocId }) => {
       setContent("");
       setEditingIndex(null);
       setError("");
-      alert("Noticia guardada correctamente.");
+      
+      Swal.fire({
+        title: 'Noticia guardada correctamente.',
+        text: '',
+        icon: 'success',
+        confirmButtonText: 'Entendido',
+      });
+
+      // alert("Noticia guardada correctamente.");
     } catch (err) {
       console.error("Error al guardar la noticia:", err);
       setError("Hubo un error al guardar la noticia.");
@@ -69,23 +78,43 @@ const News = ({ db, userDocId }) => {
     setLoading(false);
   };
 
-  // Eliminar noticia
   const handleDeleteNews = async (index) => {
-    const confirmDelete = window.confirm("¿Deseas borrar esta publicación?");
-    if (!confirmDelete) return;
-
+    const result = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "Esta acción eliminará la publicación de forma permanente.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, borrar",
+      cancelButtonText: "Cancelar",
+    });
+  
+    if (!result.isConfirmed) return;
+  
     setLoading(true);
     try {
       const userDocRef = doc(db, "owners", userDocId);
       const updatedNewsList = newsList.filter((_, i) => i !== index);
-
+  
       await updateDoc(userDocRef, { news: updatedNewsList }); // Actualizar en Firestore
-
+  
       setNewsList(updatedNewsList);
-      alert("Noticia eliminada correctamente.");
+      await Swal.fire({
+        title: "Eliminado",
+        text: "La noticia se ha eliminado correctamente.",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+      });
     } catch (err) {
       console.error("Error al eliminar la noticia:", err);
       setError("Hubo un error al eliminar la noticia.");
+      await Swal.fire({
+        title: "Error",
+        text: "No se pudo eliminar la noticia. Intenta nuevamente.",
+        icon: "error",
+        confirmButtonText: "Aceptar",
+      });
     }
     setLoading(false);
   };

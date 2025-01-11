@@ -19,11 +19,11 @@ export const fetchOwnerDataAndSpaces = async (setOwnerData, setSpaces, setError,
        // console.log("Espacios encontrados:", spacesList);
         setSpaces(spacesList);
       } else {
-        console.log("No se encontraron datos del propietario.");
+        // console.log("No se encontraron datos del propietario.");
         setError("No se encontraron datos del propietario.");
       }
     } else {
-      console.log("Usuario no autenticado.");
+      // console.log("Usuario no autenticado.");
       setError("Usuario no autenticado.");
     }
   } catch (error) {

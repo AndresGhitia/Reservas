@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { FaCheck } from 'react-icons/fa';
+import Swal from "sweetalert2";
 import "./AmenitiesSelector.css";
 
 const AmenitiesSelector = ({ db, userDocId, onUpdateAmenities }) => {
@@ -68,13 +69,30 @@ const AmenitiesSelector = ({ db, userDocId, onUpdateAmenities }) => {
       });
 
       setLoading(false);
-      alert("Prestaciones actualizadas correctamente.");
+
+      Swal.fire({
+        title: 'Prestaciones actualizadas correctamente.',
+        text: '',
+        icon: 'success',
+        confirmButtonText: 'Entendido',
+        // target: document.querySelector('.modal'), 
+        customClass: {
+          popup: 'swal2-zindex' 
+        }
+      });
+      // alert("Prestaciones actualizadas correctamente.");
       setError("");
       if (onUpdateAmenities) {
         onUpdateAmenities(updatedAmenities);
       }
     } catch (err) {
-      console.error("Error al actualizar las prestaciones:", err);
+        Swal.fire({
+          title: 'Error',
+          text: 'Hubo un error al actualizar las prestaciones.',
+          icon: 'error',
+          confirmButtonText: 'Entendido',
+        });
+      // console.error("Error al actualizar las prestaciones:", err);
       setError("Hubo un error al actualizar las prestaciones.");
       setLoading(false);
     }

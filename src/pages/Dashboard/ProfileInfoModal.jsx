@@ -1,7 +1,6 @@
 // src/components/ProfileInfoModal.jsx
 import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import './ProfileInfoModal.css';
 
 function ProfileInfoModal({ userData, userCollection, numSpaces, onClose, onDeleteAccount }) {

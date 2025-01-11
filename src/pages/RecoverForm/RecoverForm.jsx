@@ -200,11 +200,10 @@ const RecoverForm = () => {
     <div className={styles.container}>
       
       <h2 className={styles.title}>Recuperar cuenta</h2>
-      {error && <p className={styles.error}>{error}</p>} {/* Muestra el error si existe */}
+      {error && <p className={styles.error}>{error}</p>} 
       
       <form onSubmit={handleSubmit} className={styles.form}>
         {isUser ? (
-          // Solo mostrar Nombre y Apellido si isUser es true
           <>
             <div className={styles.field}>
               <label className={styles.label}>Nombre</label>
