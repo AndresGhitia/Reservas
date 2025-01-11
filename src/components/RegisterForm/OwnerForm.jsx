@@ -96,13 +96,23 @@ const OwnerForm = ({
     <div className="owner-form">
       <div className="left-column">
         <div className="form-group">
-          <input
-            type="text"
-            placeholder="Nombre del Establecimiento"
-            value={establishmentName}
-            onChange={(e) => setEstablishmentName(e.target.value)}
-            required
-          />
+        <input
+  type="text"
+  placeholder="Nombre del Establecimiento"
+  value={establishmentName}
+  onChange={(e) => {
+    const inputValue = e.target.value;
+
+    // Remover "/" y evitar más de un espacio consecutivo
+    const sanitizedValue = inputValue
+      .replace(/\//g, "") // Eliminar "/"
+      .replace(/\s{2,}/g, " "); // Reemplazar múltiples espacios consecutivos con uno solo
+
+    setEstablishmentName(sanitizedValue);
+  }}
+  required
+/>
+
         </div>
 
         <div className="form-group">

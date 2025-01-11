@@ -166,28 +166,39 @@ const EditData = () => {
   };
 
   const handleWhatsAppChange = (e) => {
-    const value = e.target.value;
-    if (!value.startsWith('11')) {
-      setFormData((prev) => ({
-        ...prev,
-        whatsapp: '11' + value.replace('11', ''),
-      }));
-    } else {
-      setFormData((prev) => ({
-        ...prev,
-        whatsapp: value,
-      }));
-    }
+    const rawValue = e.target.value;
+  
+    // Sanitizar el valor: eliminar espacios y caracteres no numéricos
+    const sanitizedValue = rawValue.replace(/\D/g, "").replace(/\s/g, "");
+  
+    // Limitar a 8 caracteres y verificar si comienza con "11"
+    const whatsappValue = sanitizedValue.startsWith("11")
+      ? sanitizedValue.slice(0, 10) // "11" + 8 caracteres
+      : "11" + sanitizedValue.slice(0, 8); // Agregar "11" al inicio si no está presente
+  
+    setFormData((prev) => ({
+      ...prev,
+      whatsapp: whatsappValue,
+    }));
   };
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+  
+    // Validación específica para "establishmentName"
+    const sanitizedValue =
+      name === "establishmentName"
+        ? value.replace(/\//g, "").replace(/\s{2,}/g, " ") // Eliminar "/" y múltiples espacios consecutivos
+        : value;
+  
+    // Actualizar el estado
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: sanitizedValue,
     }));
   };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
   
@@ -308,12 +319,13 @@ const EditData = () => {
             <div className="form-group-data">
               <label>Nombre del Establecimiento</label>
               <input
-                type="text"
-                name="establishmentName"
-                value={formData.establishmentName}
-                onChange={handleChange}
-                required
-              />
+  type="text"
+  name="establishmentName"
+  value={formData.establishmentName}
+  onChange={handleChange}
+  required
+/>
+
             </div>
             <div className="form-group-data">
               <label>Nombre del Propietario</label>
