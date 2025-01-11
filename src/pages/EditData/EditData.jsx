@@ -186,11 +186,10 @@ const EditData = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
   
-    // Validación específica para "establishmentName"
-    const sanitizedValue =
-      name === "establishmentName"
-        ? value.replace(/\//g, "").replace(/\s{2,}/g, " ") // Eliminar "/" y múltiples espacios consecutivos
-        : value;
+    // Permitir solo letras y un único espacio entre palabras
+    const sanitizedValue = value
+      .replace(/[^a-zA-Z\s]/g, "") // Eliminar todo lo que no sea letras o espacios
+      .replace(/\s{2,}/g, " ");   // Reemplazar múltiples espacios consecutivos con un único espacio
   
     // Actualizar el estado
     setFormData((prev) => ({
@@ -198,6 +197,7 @@ const EditData = () => {
       [name]: sanitizedValue,
     }));
   };
+  
   
   const handleSubmit = async (e) => {
     e.preventDefault();

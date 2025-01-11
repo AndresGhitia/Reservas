@@ -82,15 +82,19 @@ const OwnerForm = ({
   };
 
   const handleWhatsAppChange = (e) => {
-    const value = e.target.value;
-
-    // Evitar que el usuario elimine el prefijo
-    if (!value.startsWith(' 11')) {
-      setWhatsapp(' 11' + value.replace(' 11', '')); // Asegúrate de que el prefijo esté siempre presente
-    } else {
-      setWhatsapp(value);
-    }
+    const rawValue = e.target.value;
+  
+    // Eliminar caracteres no numéricos y espacios
+    const sanitizedValue = rawValue.replace(/\D/g, "");
+  
+    // Asegurar el prefijo "11" y limitar a 8 caracteres adicionales
+    const whatsappValue = sanitizedValue.startsWith("11")
+      ? sanitizedValue.slice(0, 10) // "11" + 8 caracteres
+      : "11" + sanitizedValue.slice(0, 8); // Agregar "11" si no está presente
+  
+    setWhatsapp(whatsappValue);
   };
+  
 
   return (
     <div className="owner-form">
@@ -103,15 +107,16 @@ const OwnerForm = ({
   onChange={(e) => {
     const inputValue = e.target.value;
 
-    // Remover "/" y evitar más de un espacio consecutivo
+    // Permitir solo letras y un único espacio entre palabras
     const sanitizedValue = inputValue
-      .replace(/\//g, "") // Eliminar "/"
-      .replace(/\s{2,}/g, " "); // Reemplazar múltiples espacios consecutivos con uno solo
+      .replace(/[^a-zA-Z\s]/g, "") // Eliminar todo lo que no sea letras o espacios
+      .replace(/\s{2,}/g, " ");   // Reemplazar múltiples espacios consecutivos con uno solo
 
     setEstablishmentName(sanitizedValue);
   }}
   required
 />
+
 
         </div>
 

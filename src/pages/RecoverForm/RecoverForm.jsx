@@ -89,9 +89,22 @@ const RecoverForm = () => {
     if (name === 'whatsapp') {
       // Eliminar cualquier cosa que no sea un número (incluyendo espacios)
       const cleanedValue = value.replace(/\D/g, ''); // Solo dejar números
+      // Limitar el valor a 8 caracteres
+      const limitedValue = cleanedValue.slice(0, 8); 
+  
       setFormData((prev) => ({
         ...prev,
-        [name]: cleanedValue,
+        [name]: limitedValue,
+      }));
+    } else if (name === 'establishmentName') {
+      // Eliminar caracteres no alfanuméricos (excepto los espacios)
+      const sanitizedValue = value
+        .replace(/[^a-zA-Z0-9 ]/g, '') // Eliminar caracteres no alfanuméricos
+        .replace(/\s{2,}/g, ' ') // Reemplazar múltiples espacios consecutivos por un solo espacio
+  
+      setFormData((prev) => ({
+        ...prev,
+        [name]: sanitizedValue,
       }));
     } else {
       setFormData((prev) => ({
