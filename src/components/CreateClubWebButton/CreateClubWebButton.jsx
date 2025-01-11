@@ -11,8 +11,10 @@ function CreateClubWebButton({ setShowAccountTypeModal, setFocusOnOwner }) {
         setShowAccountTypeModal(true);
       }}
     >
-      <span className="create-clubweb-text">Crea tu ClubWeb</span>
-      <FaMousePointer className="create-clubweb-icon" size={16} />
+      <div className='create-clubweb'>
+        <span className="create-clubweb-text">Crea tu ClubWeb</span>
+        {/* <FaMousePointer className="create-clubweb-icon" size={16} /> */}
+      </div>
     </div>
   );
 }

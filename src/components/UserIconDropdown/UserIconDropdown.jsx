@@ -27,26 +27,27 @@ function UserIconDropdown({ user, userData, handleSignOut, setShowLogin, setShow
               <div
                 className="menu-item"
                 onClick={() => {
-                    setFocusOnOwner(false); // Indica que no es para administrador
-                    setShowAccountTypeModal(true); // Abre el modal
-                  }}
+                  setFocusOnOwner(false); // Indica que no es para administrador
+                  setShowAccountTypeModal(true); // Abre el modal
+                }}
               >
                 Registrarse
               </div>
-
+              <hr />
               <div className="menu-item" onClick={() => setShowLogin(true)}>
                 Iniciar sesión
               </div>
-
+              <hr />
               <div
                 className="menu-item"
                 onClick={() => {
-                    setFocusOnOwner(true); // Indica que no es para administrador
-                    setShowAccountTypeModal(true); // Abre el modal
-                  }}
+                  setFocusOnOwner(true); // Indica que no es para administrador
+                  setShowAccountTypeModal(true); // Abre el modal
+                }}
               >
                 Crea tu Clubweb
               </div>
+              <hr />
             </>
           ) : (
             <>

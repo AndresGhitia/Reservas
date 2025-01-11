@@ -1,65 +1,70 @@
 .user-icon-dropdown {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .user-icon-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #ffffff; 
-    border: 1px solid #dddddd; 
-    border-radius: 30px; 
-    padding: 5px 15px;
-    cursor: pointer;
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); 
-    gap: 10px; 
-  }
-  
-  .user-icon-wrapper:hover {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15); 
-    transform: scale(1.05); 
-  }
-  
-  .menu-icon {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  
-  .menu-line {
-    width: 18px; /* Ancho de las líneas */
-    height: 2px; /* Grosor de las líneas */
-    background-color: #717171; /* Gris oscuro para las líneas */
-    border-radius: 1px; /* Bordes redondeados */
-  }
-  
-  .user-icon {
-    color: #717171; /* Gris oscuro para el ícono */
-  }
-  
-  .dropdown-menu {
-    position: absolute;
-    top: 50px;
-    right: 0;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    z-index: 1000;
-    min-width: 160px;
-  }
-  
-  .menu-item {
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    font-size: 14px;
-  }
-  
-  .menu-item:hover {
-    background: #f7f7f7;
-  }
-  
+  position: relative;
+  display: inline-block;
+}
+
+.user-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border-radius: 30px;
+  padding: 5px 15px;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  gap: 10px;
+}
+
+
+.user-icon-wrapper:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.menu-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+
+.menu-line {
+  width: 18px;
+  /* Ancho de las líneas */
+  height: 2px;
+  /* Grosor de las líneas */
+  background-color: #56e07b;
+  /* Gris oscuro para las líneas */
+  border-radius: 1px;
+  /* Bordes redondeados */
+}
+
+.user-icon {
+  color: #56e07b;
+}
+
+
+.dropdown-menu {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 1000;
+  min-width: 160px;
+  text-transform: uppercase;
+}
+
+.menu-item {
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-size: 14px;
+}
+
+.menu-item:hover {
+  color: #56e07b;
+}
