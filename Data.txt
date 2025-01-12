@@ -515,3 +515,5 @@ G#266 Seguimos trabajando en el reemplazo de los Alert por SWA2, se trabajo con 
 G#267 Se hacen mejoras en los campos del componente EditData con el fin de restingir los caracteres admitidos de los valores EstablishmentName, Whatsapp, y Nombre
 
 G#268 Se restringe aun mas los input de EstablishmentName, ahora solo permite Letras y elimina espacios consecutivos. Esto nos ahorra errores al generar la URL del complejo.
+
+G#269 Implementamos SWA2 en el compoennte spaceHandler.js
