@@ -520,3 +520,5 @@ G#269 Implementamos SWA2 en el compoennte spaceHandler.js
 
 G#270 Se agrega a la pestaña "Reservas" del Dashboard, la pagina de contabilidad del complejo, donde se detallara rendimiento en $$ y ocupacion de cada cancha, y en vista general
 rendimiento del complejo y estadisticas.
+
+G#271 Se agregan Charts (graficos) para mostrar de manera visual y a priori rendimiento de las canchas en comparacion.

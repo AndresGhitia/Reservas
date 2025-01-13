@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { db, auth } from '../../firebase';
 import { doc, getDoc, collection, getDocs } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
-import SpaceDetailsModal from './SpaceDetailsModal'; // Importar el modal
-import { groupBy } from 'lodash'; // Importar lodash para agrupación
-import { getWeek } from 'date-fns';
+import SpaceDetailsModal from './SpaceDetailsModal';
+import { getWeek, format } from 'date-fns';
 import ComplexRevenueSummary from './ComplexRevenueSummary';
 
 const BookingPage = () => {
@@ -49,7 +48,7 @@ const BookingPage = () => {
             calendarSnap.docs.forEach((calendarDoc) => {
               const { timeslots, date } = calendarDoc.data();
               const dayKey = date.split('T')[0]; // Obtener el día en formato YYYY-MM-DD
-              const weekKey = getWeek(date); // Función para obtener la semana del año
+              const weekKey = getWeek(new Date(date)); // Función para obtener la semana del año
               const monthKey = date.split('-').slice(0, 2).join('-'); // Obtener el mes en formato YYYY-MM
 
               // Contar los timeslots ocupados
@@ -102,63 +101,59 @@ const BookingPage = () => {
     return <div>{error}</div>;
   }
 
+  const todayDate = format(new Date(), 'yyyy-MM-dd'); // Obtener la fecha actual en formato YYYY-MM-DD
+
   return (
     <div>
       <div>
         <h2>Rendimiento de tu complejo</h2>
-      
       </div>
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', justifyContent: 'center' }}>
-      {spaces.length > 0 ? (
-        spaces.map((space) => (
-          <div
-            key={space.id}
-            style={{
-              border: '1px solid #ccc',
-              borderRadius: '8px',
-              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-              padding: '16px',
-              width: '300px',
-              textAlign: 'center',
-              backgroundColor: '#fff',
-            }}
-          >
-            <h3>{space.name}</h3>
-           
-            <p>
-              <strong>Horas reservadas:</strong> {space.occupiedCount} hours
-            </p>
-            <button
-              onClick={() => handleOpenModal(space)}
+        {spaces.length > 0 ? (
+          spaces.map((space) => (
+            <div
+              key={space.id}
               style={{
-                backgroundColor: '#007BFF',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '4px',
-                padding: '10px 16px',
-                cursor: 'pointer',
+                border: '1px solid #ccc',
+                borderRadius: '8px',
+                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                padding: '16px',
+                width: '300px',
+                textAlign: 'center',
+                backgroundColor: '#fff',
               }}
             >
-              Ver detalles
-            </button>
-          </div>
-        ))
-      ) : (
-        <p>No hay espacios disponibles.</p>
-      )}
-    </div>
+              <h3>{space.name}</h3>
+              <p>
+                <strong>Reservas de hoy:</strong>{' '}
+                {space.reservationsByDay[todayDate] || 0} {/* Mostrar reservas del día actual */}
+              </p>
+              <button
+                onClick={() => handleOpenModal(space)}
+                style={{
+                  backgroundColor: '#007BFF',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '4px',
+                  padding: '10px 16px',
+                  cursor: 'pointer',
+                }}
+              >
+                Ver detalles
+              </button>
+            </div>
+          ))
+        ) : (
+          <p>No hay espacios disponibles.</p>
+        )}
+      </div>
 
-      <SpaceDetailsModal 
-        open={openModal} 
-        onClose={handleCloseModal} 
-        space={selectedSpace} 
-      />
+      <SpaceDetailsModal open={openModal} onClose={handleCloseModal} space={selectedSpace} />
+
       <ComplexRevenueSummary spaces={spaces} />
-
     </div>
   );
 };
 
 export default BookingPage;
-

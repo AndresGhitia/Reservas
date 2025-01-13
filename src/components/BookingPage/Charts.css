@@ -1,0 +1,24 @@
+
+.charts-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Distribución uniforme */
+    gap: 20px; /* Espacio entre elementos */
+    margin-top: 20px; /* Espaciado superior */
+    padding:50px;
+    margin-right: 50px;
+    margin-left: 50px;
+
+  }
+  
+  .chart-item {
+    width: 300px;
+    height: 300px;
+    text-align: center;
+  }
+  
+  .chart-item h4 {
+    margin-bottom: 10px; /* Espacio entre el título y el gráfico */
+    font-size: 1.2rem; /* Ajuste de tamaño de fuente */
+  }
+  

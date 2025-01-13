@@ -1,5 +1,6 @@
 import React from 'react';
 import { getWeek, getMonth, getYear } from 'date-fns';
+import Charts from './Charts'
 
 const ComplexRevenueSummary = ({ spaces }) => {
   const calculateRevenue = () => {
@@ -83,6 +84,8 @@ const ComplexRevenueSummary = ({ spaces }) => {
           <p>{formatHours(totals.year)}</p>
         </div>
       </div>
+      <Charts spaces={spaces} />
+
     </div>
   );
 };
