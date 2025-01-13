@@ -517,3 +517,6 @@ G#267 Se hacen mejoras en los campos del componente EditData con el fin de resti
 G#268 Se restringe aun mas los input de EstablishmentName, ahora solo permite Letras y elimina espacios consecutivos. Esto nos ahorra errores al generar la URL del complejo.
 
 G#269 Implementamos SWA2 en el compoennte spaceHandler.js
+
+G#270 Se agrega a la pestaña "Reservas" del Dashboard, la pagina de contabilidad del complejo, donde se detallara rendimiento en $$ y ocupacion de cada cancha, y en vista general
+rendimiento del complejo y estadisticas.

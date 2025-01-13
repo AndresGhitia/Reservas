@@ -1,0 +1,59 @@
+/* Estilos para el modal */
+.modal-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: 2px solid #000;
+    box-shadow: 24px;
+    padding: 20px;
+    max-height: 80vh; /* Limitar la altura máxima del modal */
+    overflow-y: auto; /* Hacer el modal scrolleable si el contenido excede la altura */
+  }
+  
+  /* Estilo para el contenedor de ganancias */
+  .earnings-container {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilo para las reservas */
+  h4 {
+    margin-top: 20px;
+    font-weight: bold;
+  }
+  
+  button {
+    margin-top: 20px;
+  }
+  .reservation-table {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .table-header, .table-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+  }
+  
+  .table-header {
+    background-color: #f0f0f0;
+    font-weight: bold;
+  }
+  
+  .table-row:nth-child(even) {
+    background-color: #fafafa;
+  }
+  
+  .table-cell {
+    flex: 1;
+    text-align: center;
+  }
+    

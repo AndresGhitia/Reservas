@@ -13,6 +13,7 @@ import PasswordReset from "./components/PasswordReset/PasswordReset";
 import RecoverForm from "./pages/RecoverForm/RecoverForm";   
 import EditData from './pages/EditData/EditData';
 import PrivacyPolicy from "./pages/PrivacyPolicy/PrivacyPolicy";
+import BookingPage from "./components/BookingPage/BookingPage";
 
 const App = () => {
   const location = useLocation();
@@ -31,6 +32,7 @@ const App = () => {
         <Route path="/dashboard/:establishmentName" element={<Dashboard />}>
           <Route path="add" element={<Add />} />  
           <Route path="list" element={<List />} /> 
+          <Route path="booking" element={<BookingPage />} />
         </Route>
 
         <Route path="/:establishmentName" element={<BusinessPage />} />

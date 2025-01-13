@@ -22,9 +22,7 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
       
           if (spaceSnap.exists()) {
             const { closedDays: fetchedClosedDays } = spaceSnap.data();
-            // console.log("closedDays desde Firestore:", fetchedClosedDays); // Para ver los días en Firestore
             
-            // Aquí no necesitamos convertir a Date, solo usamos los nombres de los días
             setClosedDays(fetchedClosedDays);
           }
         } catch (error) {
