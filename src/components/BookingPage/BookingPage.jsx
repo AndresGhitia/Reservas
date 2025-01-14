@@ -125,10 +125,12 @@ const BookingPage = () => {
               }}
             >
               <h3>{space.name}</h3>
-              <p>
+              
+              {/* <p>
                 <strong>Reservas de hoy:</strong>{' '}
-                {space.reservationsByDay[todayDate] || 0} {/* Mostrar reservas del día actual */}
-              </p>
+                {space.reservationsByDay[todayDate] || 0}
+              </p> */}
+
               <button
                 onClick={() => handleOpenModal(space)}
                 style={{
