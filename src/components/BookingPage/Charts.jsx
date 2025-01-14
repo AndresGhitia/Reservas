@@ -1,8 +1,8 @@
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { getWeek, getMonth, getYear } from 'date-fns';
-import './Charts.css'; // Importamos el CSS
+import { isSameDay,isSameWeek,isSameMonth, isSameYear  } from 'date-fns';
+import './Charts.css';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -15,39 +15,58 @@ const Charts = ({ spaces }) => {
       month: {},
       year: {},
     };
-
+  
+    // console.log("Calculando ingresos por períodos...");
+    // console.log("Fecha de hoy:", today.toDateString());
+  
     spaces.forEach((space) => {
       const isPaddle = space.sport === 'Paddle';
-
+  
+      if (!space.reservationsByDay || Object.keys(space.reservationsByDay).length === 0) {
+        // console.log(`Sin reservas para el espacio "${space.name}".`);
+        return;
+      }
+  
+      // console.log(`Espacio: ${space.name}, Deporte: ${space.sport}`);
+  
       Object.entries(space.reservationsByDay).forEach(([date, count]) => {
-        const reservationDate = new Date(date);
+        const reservationDate = new Date(`${date}T00:00:00`); // Asegura que la hora sea la misma
+  
+        if (isNaN(reservationDate)) {
+          // console.warn(`Fecha inválida encontrada: ${date}`);
+          return;
+        }
+  
         const adjustedCount = isPaddle ? count / 2 : count;
-
+  
+        // console.log(`Fecha original: ${date}, Fecha convertida: ${reservationDate.toString()}, Reservas: ${count}, Ajustado: ${adjustedCount}`);
+  
         // Ingresos por día
-        if (reservationDate.toDateString() === today.toDateString()) {
+        if (isSameDay(reservationDate, today)) {
           periods.day[space.name] = (periods.day[space.name] || 0) + adjustedCount;
         }
-
+  
         // Ingresos por semana
-        if (getWeek(reservationDate) === getWeek(today)) {
+        if (isSameWeek(reservationDate, today)) {
           periods.week[space.name] = (periods.week[space.name] || 0) + adjustedCount;
         }
-
+  
         // Ingresos por mes
-        if (getMonth(reservationDate) === getMonth(today)) {
+        if (isSameMonth(reservationDate, today)) {
           periods.month[space.name] = (periods.month[space.name] || 0) + adjustedCount;
         }
-
+  
         // Ingresos por año
-        if (getYear(reservationDate) === getYear(today)) {
+        if (isSameYear(reservationDate, today)) {
           periods.year[space.name] = (periods.year[space.name] || 0) + adjustedCount;
         }
       });
     });
-
+  
+    // console.log('Resultados finales por período:', periods);
     return periods;
   };
-
+  
   const revenueByPeriod = calculateRevenueByPeriod();
 
   const prepareChartData = (data) => {
@@ -79,8 +98,10 @@ const Charts = ({ spaces }) => {
   };
 
   return (
-    <div>
-      {/* <h3>Gráficos de Ingresos por Periodo</h3> */}
+    <div className='charts-page-container'>
+    
+    <h1>Graficos de ocupacion</h1>
+
       <div className="charts-container">
         {['day', 'week', 'month', 'year'].map((period) => (
           <div key={period} className="chart-item">
@@ -93,10 +114,14 @@ const Charts = ({ spaces }) => {
                 ? 'Este Mes'
                 : 'Este Año'}
             </h4>
-            <Pie
-              data={prepareChartData(revenueByPeriod[period])}
-              options={chartOptions}
-            />
+            {Object.keys(revenueByPeriod[period]).length > 0 ? (
+              <Pie
+                data={prepareChartData(revenueByPeriod[period])}
+                options={chartOptions}
+              />
+            ) : (
+              <p>No hay datos disponibles</p>
+            )}
           </div>
         ))}
       </div>
@@ -105,4 +130,3 @@ const Charts = ({ spaces }) => {
 };
 
 export default Charts;
-

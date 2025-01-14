@@ -1,8 +1,9 @@
 import React from 'react';
-import { getWeek, getMonth, getYear } from 'date-fns';
+import { getWeek, getMonth, getYear, isSameDay,isSameWeek,isSameMonth, isSameYear  } from 'date-fns';
 import Charts from './Charts'
 
 const ComplexRevenueSummary = ({ spaces }) => {
+
   const calculateRevenue = () => {
     const today = new Date();
     const totals = {
@@ -11,33 +12,40 @@ const ComplexRevenueSummary = ({ spaces }) => {
       month: 0,
       year: 0,
     };
-
+  
     spaces.forEach((space) => {
       const isPaddle = space.sport === 'Paddle'; // Verificar si es cancha de Paddle
-
+  
       // Recorrer las reservas por cada espacio y calcular el total
       Object.entries(space.reservationsByDay).forEach(([date, count]) => {
         const reservationDate = new Date(date);
+  
+        if (isNaN(reservationDate)) {
+          console.warn(`La fecha "${date}" no es válida y no se incluirá.`);
+          return;
+        }
+  
         const adjustedCount = isPaddle ? count / 2 : count; // Fraccionar si es Paddle
-
-        if (reservationDate.toDateString() === today.toDateString()) {
+  
+        // Calcular totales
+        if (isSameDay(reservationDate, today)) {
           totals.today += adjustedCount;
         }
-
+  
         if (getWeek(reservationDate) === getWeek(today)) {
           totals.week += adjustedCount;
         }
-
+  
         if (getMonth(reservationDate) === getMonth(today)) {
           totals.month += adjustedCount;
         }
-
+  
         if (getYear(reservationDate) === getYear(today)) {
           totals.year += adjustedCount;
         }
       });
     });
-
+  
     return totals;
   };
 
@@ -59,7 +67,7 @@ const ComplexRevenueSummary = ({ spaces }) => {
         backgroundColor: '#f9f9f9',
       }}
     >
-      <h3>Resumen Total</h3>
+      {/* <h3>Resumen Total</h3> */}
       <div
         style={{
           display: 'flex',
@@ -67,22 +75,6 @@ const ComplexRevenueSummary = ({ spaces }) => {
           gap: '10px',
         }}
       >
-        <div style={{ flex: 1, textAlign: 'center' }}>
-          <h4>Hoy:</h4>
-          <p>{formatHours(totals.today)}</p>
-        </div>
-        <div style={{ flex: 1, textAlign: 'center' }}>
-          <h4>Esta Semana:</h4>
-          <p>{formatHours(totals.week)}</p>
-        </div>
-        <div style={{ flex: 1, textAlign: 'center' }}>
-          <h4>Este Mes:</h4>
-          <p>{formatHours(totals.month)}</p>
-        </div>
-        <div style={{ flex: 1, textAlign: 'center' }}>
-          <h4>Este Año:</h4>
-          <p>{formatHours(totals.year)}</p>
-        </div>
       </div>
       <Charts spaces={spaces} />
 
