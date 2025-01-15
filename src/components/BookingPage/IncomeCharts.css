@@ -1,0 +1,62 @@
+/* General styles for the page container */
+.income-charts-page-container {
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+    background-color: #f9f9f9;
+    color: #333;
+    text-align: center;
+  }
+  
+  .income-charts-page-container h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #007BFF;
+  }
+  
+  .income-charts-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .income-chart-item {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 420px;
+    text-align: center;
+  }
+  
+  .income-chart-item h4 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #495057;
+  }
+  
+  /* Placeholder for empty data */
+  .income-chart-item p {
+    font-size: 1rem;
+    color: #6c757d;
+  }
+  
+  /* Styling for the chart */
+  .income-chart-item canvas {
+    margin-top: 10px;
+  }
+  
+  /* Media query for responsiveness */
+  @media (max-width: 768px) {
+    .income-charts-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .income-chart-item {
+      width: 100%;
+      max-width: 90%;
+    }
+  }
+  

@@ -526,3 +526,5 @@ G#271 Se agregan Charts (graficos) para mostrar de manera visual y a priori rend
 G#272 Trabajo sobre graficos e indicadores, se depuran errores de contador de horas y se elimina info redundante.
 
 G#273 Trabajo sobre graficos e indicadores, se agregan indicador de horas y pocentaje a cada porcion.
+
+G#274 Nuevo componente IncomeCharts.jsx graficos que muestran rendimientos de entrada de dinero.

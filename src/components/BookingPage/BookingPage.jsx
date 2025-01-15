@@ -4,7 +4,7 @@ import { doc, getDoc, collection, getDocs } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import SpaceDetailsModal from './SpaceDetailsModal';
 import { getWeek, format } from 'date-fns';
-import ComplexRevenueSummary from './ComplexRevenueSummary';
+import Charts from './ChartsComponent';
 
 const BookingPage = () => {
   const [spaces, setSpaces] = useState([]);
@@ -153,7 +153,7 @@ const BookingPage = () => {
 
       <SpaceDetailsModal open={openModal} onClose={handleCloseModal} space={selectedSpace} />
 
-      <ComplexRevenueSummary spaces={spaces} />
+      <Charts spaces={spaces} />
     </div>
   );
 };

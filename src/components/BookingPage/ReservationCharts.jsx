@@ -2,11 +2,11 @@ import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { isSameDay, isSameWeek, isSameMonth, isSameYear } from 'date-fns';
-import './Charts.css';
+import './ReservationCharts.css';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const Charts = ({ spaces }) => {
+const ReservationCharts = ({ spaces }) => {
   const calculateRevenueByPeriod = () => {
     const today = new Date();
     const periods = {
@@ -61,9 +61,9 @@ const Charts = ({ spaces }) => {
 
   const prepareChartData = (data) => {
     const labels = Object.keys(data); // Nombres de las canchas
-    const values = Object.values(data); // Ingresos de las canchas
+    const values = Object.values(data);
     const colors = labels.map(
-      (_, i) => `hsl(${(i * 360) / labels.length}, 70%, 50%)` // Colores dinámicos
+      (_, i) => `hsl(${(i * 360) / labels.length}, 60%, 50%)` // Colores dinámicos
     );
 
     return {
@@ -86,19 +86,19 @@ const Charts = ({ spaces }) => {
       },
       tooltip: {
         callbacks: {
-          // Personalizamos el formato del tooltip
+         
           label: function(tooltipItem) {
-            const value = tooltipItem.raw; // Valor de la porción (reservas en esta porción)
-            const total = tooltipItem.chart.data.datasets[0].data.reduce((a, b) => a + b, 0); // Total de todos los valores
-            const percentage = ((value / total) * 100).toFixed(2); // Calculamos el porcentaje
+            const value = tooltipItem.raw; 
+            const total = tooltipItem.chart.data.datasets[0].data.reduce((a, b) => a + b, 0); 
+            const percentage = ((value / total) * 100).toFixed(2); 
   
-            // Calculamos las horas de la porción específica
-            const adjustedValue = value; // Este valor ya corresponde a la porción específica
-            const totalHours = adjustedValue.toFixed(2); // Convertimos a horas decimales
-            const totalMinutes = Math.round((totalHours - Math.floor(totalHours)) * 60); // Parte decimal convertida a minutos
-            const formattedHours = `${Math.floor(totalHours)}:${totalMinutes.toString().padStart(2, '0')}`; // Formato HH:MM
+         
+            const adjustedValue = value; 
+            const totalHours = adjustedValue.toFixed(2); 
+            const totalMinutes = Math.round((totalHours - Math.floor(totalHours)) * 60); 
+            const formattedHours = `${Math.floor(totalHours)}:${totalMinutes.toString().padStart(2, '0')}`;
   
-            return `${formattedHours} (${percentage}%)`; // Mostramos las horas de la porción y el porcentaje
+            return `${formattedHours} (${percentage}%)`; 
           },
         },
       },
@@ -149,4 +149,4 @@ const Charts = ({ spaces }) => {
   );
 };
 
-export default Charts;
+export default ReservationCharts;
