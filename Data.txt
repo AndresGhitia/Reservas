@@ -530,3 +530,6 @@ G#273 Trabajo sobre graficos e indicadores, se agregan indicador de horas y poce
 G#274 Nuevo componente IncomeCharts.jsx graficos que muestran rendimientos de entrada de dinero.
 
 G#275 Ajusando y corrigiendo calculos diarios, mensajes de graficos y detalles de cada cancha.
+
+G#276 Se centraliza la logica de calculo de los dos Charts.jsx en un archivo ChartsFuncion.js para optimizar y unificar criterios.
+se mejora visual de grafico Income.
