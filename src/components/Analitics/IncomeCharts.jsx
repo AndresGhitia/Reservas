@@ -87,7 +87,7 @@ const IncomeCharts = ({ spaces }) => {
               {period === 'day'
                 ? 'Hoy'
                 : period === 'week'
-                ? 'Esta Semana'
+                ? 'Ultimos 7 dias'
                 : period === 'month'
                 ? 'Este Mes'
                 : 'Este Año'}

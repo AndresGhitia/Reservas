@@ -151,10 +151,8 @@ const SpaceDetailsModal = ({ open, onClose, space }) => {
           Rendimiento de la Cancha: {space.name}
         </Typography>
 
-        {/* Mostrar máximo 5 reservas por día del mes actual con scroll */}
         {renderDailyReservations(space.reservationsByDay)}
 
-        {/* Mostrar reservas por mes */}
         {renderMonthlyReservations(space.reservationsByMonth)}
 
         <Button onClick={onClose} variant="contained" color="primary" sx={{ marginTop: 2 }}>
