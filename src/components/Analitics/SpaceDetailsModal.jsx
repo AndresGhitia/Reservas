@@ -26,7 +26,7 @@ const SpaceDetailsModal = ({ open, onClose, space }) => {
 
   const renderMonthlyReservations = (reservations) => {
     const currentYear = new Date().getFullYear();
-
+  
     const formattedReservations = Object.entries(reservations)
       .filter(([monthKey, value]) => value > 0) // Ignorar valores no positivos
       .reduce((acc, [monthKey, value]) => {
@@ -37,15 +37,15 @@ const SpaceDetailsModal = ({ open, onClose, space }) => {
           const monthName = date.toLocaleString('es-ES', { month: 'long' }).toUpperCase();
           const adjustedHours = isPaddle ? value / 2 : value; // Ajustar horas si es Paddle
           const earnings = adjustedHours * space.rate; // Calcular ganancia
-
+  
           acc[monthName] = { hours: adjustedHours, earnings };
         }
         return acc;
       }, {});
-
+  
     return (
       <div style={{ marginBottom: '16px' }}>
-        <h4>Reservas por mes</h4>
+        <h4>Reservas por mes {currentYear}</h4>
         <div className="reservation-table">
           <div className="table-header">
             <div className="table-cell">Fecha</div>
@@ -73,64 +73,64 @@ const SpaceDetailsModal = ({ open, onClose, space }) => {
       </div>
     );
   };
+  
 
   const renderDailyReservations = (reservations) => {
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth() + 1; // Mes actual (1-12)
     const currentYear = currentDate.getFullYear(); // Año actual
-
+    const monthName = currentDate.toLocaleString('es-ES', { month: 'long' }); // Nombre del mes en español
+  
     // Filtrar reservas del mes y año actual
     const filteredReservations = Object.entries(reservations)
-        .filter(([key, value]) => {
-            if (value <= 0) return false; // Ignorar reservas no positivas
-
-            // Analizar manualmente la fecha para evitar problemas con el constructor Date
-            const [year, month, day] = key.split('-').map(Number);
-
-            // Debugging: Verificar fechas procesadas
-            console.log('Procesando fecha:', { key, year, month, day, value });
-
-            return (
-                month === currentMonth && // Asegurar que el mes coincide
-                year === currentYear // Asegurar que el año coincide
-            );
-        })
-        .sort(([dateA], [dateB]) => new Date(dateA) - new Date(dateB)); // Ordenar por fecha ascendente
-
+      .filter(([key, value]) => {
+        if (value <= 0) return false; // Ignorar reservas no positivas
+  
+        const [year, month] = key.split('-').map(Number);
+        return month === currentMonth && year === currentYear;
+      })
+      .sort(([dateA], [dateB]) => new Date(dateA) - new Date(dateB)); // Ordenar por fecha ascendente
+  
     return (
-        <div style={{ marginBottom: '16px' }}>
-            <h4>Reservas por día</h4>
-            <div className="reservation-table">
-                <div className="table-header">
-                    <div className="table-cell">Fecha</div>
-                    <div className="table-cell">Reservas</div>
-                    <div className="table-cell">Ganancia</div>
+      <div style={{ marginBottom: '16px' }}>
+        {/* Encabezado dinámico con el mes actual */}
+        <h4>Reservas por día ({monthName.charAt(0).toUpperCase() + monthName.slice(1)})</h4>
+        <div className="reservation-table">
+          <div className="table-header">
+            <div className="table-cell">Fecha</div>
+            <div className="table-cell">Reservas</div>
+            <div className="table-cell">Ganancia</div>
+          </div>
+          <div
+            style={{
+              maxHeight: '200px',
+              overflowY: 'auto',
+              border: '1px solid #ddd',
+            }}
+          >
+            {filteredReservations.map(([key, value]) => {
+              const adjustedHours = isPaddle ? value / 2 : value; // Ajuste para Paddle
+              const earnings = adjustedHours * space.rate; // Ganancias calculadas
+  
+              // Formatear la fecha al estilo "día-mes"
+              const [, month, day] = key.split('-').map(Number);
+  
+              return (
+                <div key={key} className="table-row">
+                  <div className="table-cell">{`${day}-${month}`}</div>
+                  <div className="table-cell">
+                    {adjustedHours} {adjustedHours === 1 ? 'Hora' : 'Horas'}
+                  </div>
+                  <div className="table-cell">{formatCurrency(earnings)}</div>
                 </div>
-                <div
-                    style={{
-                        maxHeight: '200px',
-                        overflowY: 'auto',
-                        border: '1px solid #ddd',
-                    }}
-                >
-                    {filteredReservations.map(([key, value]) => {
-                        const adjustedHours = isPaddle ? value / 2 : value; // Ajuste para Paddle
-                        const earnings = adjustedHours * space.rate; // Ganancias calculadas
-                        return (
-                            <div key={key} className="table-row">
-                                <div className="table-cell">{key}</div>
-                                <div className="table-cell">
-                                    {adjustedHours} {adjustedHours === 1 ? 'Hora' : 'Horas'}
-                                </div>
-                                <div className="table-cell">{formatCurrency(earnings)}</div>
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
+              );
+            })}
+          </div>
         </div>
+      </div>
     );
-};
+  };
+  
   
   // Depuración: Comparar reservas diarias y mensuales
   const dailyTotal = sumDailyReservations(space.reservationsByDay);

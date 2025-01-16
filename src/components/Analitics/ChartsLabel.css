@@ -1,0 +1,18 @@
+.legend-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    gap: 10px;
+  }
+  
+  .legend-item {
+    padding: 5px 10px;
+    border-radius: 4px;
+    background: #f3f3f3;
+    transition: all 0.3s;
+  }
+  
+  .legend-item:hover {
+    opacity: 0.8;
+  }
+  

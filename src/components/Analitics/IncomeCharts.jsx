@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, Tooltip, Legend, CategoryScale, LinearScale, BarElement } from 'chart.js';
 import { calculateByPeriod, calculateEarnings } from './ChartsFunction';
@@ -45,7 +45,7 @@ const IncomeCharts = ({ spaces }) => {
       x: {
         title: {
           display: true,
-          text: 'Canchas',
+          text: '',
         },
         ticks: {
           callback: function (value, index, values) {
@@ -77,10 +77,10 @@ const IncomeCharts = ({ spaces }) => {
   };
 
   return (
-    <div className='charts-page-container'>
+    <div className='income-charts-page-container'>
       <h1>Gráficos de Ingresos</h1>
 
-      <div className="charts-container">
+      <div className="income-charts-container">
         {['day', 'week', 'month', 'year'].map((period) => (
           <div key={period} className="chart-item">
             <h4>

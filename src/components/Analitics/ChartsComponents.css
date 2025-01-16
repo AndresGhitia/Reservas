@@ -1,0 +1,51 @@
+.charts-page-container {
+  margin-top: 20px;
+  padding: 16px;
+}
+
+.chart-group {
+  margin-bottom: 30px;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.chart-group h3 {
+  text-align: center;
+  margin-bottom: 16px;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.chart-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  font-size: 1.2rem;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.chart-toggle:hover {
+  color: #007bff;
+}
+
+.chart-toggle i {
+  margin-right: 5px;
+  font-size: 1.4rem;
+}
+
+.chart-content {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+}

@@ -533,3 +533,5 @@ G#275 Ajusando y corrigiendo calculos diarios, mensajes de graficos y detalles d
 
 G#276 Se centraliza la logica de calculo de los dos Charts.jsx en un archivo ChartsFuncion.js para optimizar y unificar criterios.
 se mejora visual de grafico Income.
+
+G#277 Se realizan ajustes en el componente SpaceDetailsModal de formato de fechas e indicadores. Se revisan los estilos de los graficos.

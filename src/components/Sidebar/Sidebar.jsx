@@ -17,7 +17,7 @@ function Sidebar() {
           <img src={assets.home_icon_white} alt="" />
           <p>Mis Espacios</p>
         </NavLink>
-        <NavLink to={`/dashboard/${establishmentName}/booking`} className="sidebar-option"> 
+        <NavLink to={`/dashboard/${establishmentName}/analytics`} className="sidebar-option"> 
           <img src={assets.booking_icon_white} alt="" />
           <p>Reservas</p>
         </NavLink>

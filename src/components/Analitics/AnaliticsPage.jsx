@@ -4,9 +4,9 @@ import { doc, getDoc, collection, getDocs } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import SpaceDetailsModal from './SpaceDetailsModal';
 import { getWeek, format } from 'date-fns';
-import Charts from './ChartsComponent';
+import ChartsComponent from './ChartsComponent';
 
-const BookingPage = () => {
+const AnalyticsPage = () => {
   const [spaces, setSpaces] = useState([]);
   const [ownerData, setOwnerData] = useState(null);
   const [error, setError] = useState(null);
@@ -153,9 +153,9 @@ const BookingPage = () => {
 
       <SpaceDetailsModal open={openModal} onClose={handleCloseModal} space={selectedSpace} />
 
-      <Charts spaces={spaces} />
+      <ChartsComponent spaces={spaces} />
     </div>
   );
 };
 
-export default BookingPage;
+export default AnalyticsPage;

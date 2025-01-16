@@ -1,6 +1,10 @@
 
 .charts-page-container h1{
-margin-top: 40px
+  font-size: 2rem;
+    margin-bottom: 20px;
+    color: #007BFF;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
 }
 .charts-container {
     display: flex;
