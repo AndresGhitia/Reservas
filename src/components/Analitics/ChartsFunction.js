@@ -72,3 +72,47 @@ export const formatHours = (decimalHours) => {
   const minutes = Math.round((decimalHours - hours) * 60);
   return `${hours}:${minutes.toString().padStart(2, '0')}HS`;
 };
+
+// Función para calcular ingresos de los últimos 12 meses
+export const calculateLast12Months = (spaces, calculateValue) => {
+  const today = new Date();
+  const monthsData = Array.from({ length: 12 }, (_, i) => {
+    const date = new Date(today.getFullYear(), today.getMonth() - i, 1);
+    return {
+      month: date.getMonth(),
+      year: date.getFullYear(),
+      total: 0,
+    };
+  }).reverse(); // Ordenar de más antiguo a más reciente
+
+  if (!spaces || !Array.isArray(spaces) || spaces.length === 0) {
+    return monthsData.map(({ total }) => total);
+  }
+
+  spaces.forEach((space) => {
+    if (!space.reservationsByDay || Object.keys(space.reservationsByDay).length === 0) {
+      return;
+    }
+
+    Object.entries(space.reservationsByDay).forEach(([date, count]) => {
+      const reservationDate = new Date(`${date}T00:00:00`);
+
+      if (isNaN(reservationDate)) {
+        return;
+      }
+
+      const value = calculateValue(space, count);
+
+      monthsData.forEach((monthData) => {
+        if (
+          reservationDate.getFullYear() === monthData.year &&
+          reservationDate.getMonth() === monthData.month
+        ) {
+          monthData.total += value;
+        }
+      });
+    });
+  });
+
+  return monthsData.map(({ total }) => total);
+};
