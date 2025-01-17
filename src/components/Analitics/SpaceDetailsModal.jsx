@@ -45,7 +45,7 @@ const SpaceDetailsModal = ({ open, onClose, space }) => {
   
     return (
       <div style={{ marginBottom: '16px' }}>
-        <h4>Reservas por mes {currentYear}</h4>
+        <h4>Reservas del año {currentYear}</h4>
         <div className="reservation-table">
           <div className="table-header">
             <div className="table-cell">Fecha</div>

@@ -539,3 +539,5 @@ G#277 Se realizan ajustes en el componente SpaceDetailsModal de formato de fecha
 G#278 Se crea e implementa componente ProgressChart, indica el progreso del negocio durante los ultimos 12 meses.
 
 G#279 Reivision de SpaceDetailsModal.css.
+
+G#280 Se crea el componente SpaceCard para refactorizar AnalyticsPage.

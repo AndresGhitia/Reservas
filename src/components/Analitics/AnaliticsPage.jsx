@@ -3,8 +3,9 @@ import { db, auth } from '../../firebase';
 import { doc, getDoc, collection, getDocs } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import SpaceDetailsModal from './SpaceDetailsModal';
-import { getWeek, format } from 'date-fns';
+import { getWeek } from 'date-fns';
 import ChartsComponent from './ChartsComponent';
+import SpaceCard from './SpaceCard'; // Importa el nuevo componente
 
 const AnalyticsPage = () => {
   const [spaces, setSpaces] = useState([]);
@@ -44,17 +45,14 @@ const AnalyticsPage = () => {
             const reservationsByWeek = {};
             const reservationsByMonth = {};
 
-            // Recorrer todos los documentos del calendario de ese espacio
             calendarSnap.docs.forEach((calendarDoc) => {
               const { timeslots, date } = calendarDoc.data();
-              const dayKey = date.split('T')[0]; // Obtener el día en formato YYYY-MM-DD
-              const weekKey = getWeek(new Date(date)); // Función para obtener la semana del año
-              const monthKey = date.split('-').slice(0, 2).join('-'); // Obtener el mes en formato YYYY-MM
+              const dayKey = date.split('T')[0];
+              const weekKey = getWeek(new Date(date));
+              const monthKey = date.split('-').slice(0, 2).join('-');
 
-              // Contar los timeslots ocupados
               const occupied = timeslots.filter((slot) => !slot.available).length;
 
-              // Agrupar por día, semana y mes
               reservationsByDay[dayKey] = (reservationsByDay[dayKey] || 0) + occupied;
               reservationsByWeek[weekKey] = (reservationsByWeek[weekKey] || 0) + occupied;
               reservationsByMonth[monthKey] = (reservationsByMonth[monthKey] || 0) + occupied;
@@ -101,8 +99,6 @@ const AnalyticsPage = () => {
     return <div>{error}</div>;
   }
 
-  const todayDate = format(new Date(), 'yyyy-MM-dd'); // Obtener la fecha actual en formato YYYY-MM-DD
-
   return (
     <div>
       <div>
@@ -112,39 +108,7 @@ const AnalyticsPage = () => {
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', justifyContent: 'center' }}>
         {spaces.length > 0 ? (
           spaces.map((space) => (
-            <div
-              key={space.id}
-              style={{
-                border: '1px solid #ccc',
-                borderRadius: '8px',
-                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-                padding: '16px',
-                width: '300px',
-                textAlign: 'center',
-                backgroundColor: '#fff',
-              }}
-            >
-              <h3>{space.name}</h3>
-              
-              {/* <p>
-                <strong>Reservas de hoy:</strong>{' '}
-                {space.reservationsByDay[todayDate] || 0}
-              </p> */}
-
-              <button
-                onClick={() => handleOpenModal(space)}
-                style={{
-                  backgroundColor: '#007BFF',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '4px',
-                  padding: '10px 16px',
-                  cursor: 'pointer',
-                }}
-              >
-                Ver detalles
-              </button>
-            </div>
+            <SpaceCard key={space.id} space={space} onOpenModal={handleOpenModal} />
           ))
         ) : (
           <p>No hay espacios disponibles.</p>
