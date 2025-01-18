@@ -7,7 +7,6 @@ const SpaceCard = ({ space, onOpenModal }) => {
  
 
       <h3>{space.name}</h3>
-      {/* <div className="data-highlight">{space.income} $$$</div> */}
       <div className="icon-container">
   <svg
     xmlns="http://www.w3.org/2000/svg"

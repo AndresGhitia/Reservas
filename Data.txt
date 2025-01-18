@@ -541,3 +541,8 @@ G#278 Se crea e implementa componente ProgressChart, indica el progreso del nego
 G#279 Reivision de SpaceDetailsModal.css.
 
 G#280 Se crea el componente SpaceCard para refactorizar AnalyticsPage.
+
+G#281 Se añade la seccion Store.jsx, este commit presenta cambios extensos en el backend mas que nada, por lo que hay que seguir adaptando 
+el back acorde a las nuevas necesidades y requerimientos para el sistema que presenta la nueva seccion. ahora hacemos el commit con la presentacion
+de la seccion para hacer pruebas mientras se adapta el backend. Esta muy pelado en terminos de diseño y recien se esta planteando por lo que hay muchas
+cosas que no son difinitivas.

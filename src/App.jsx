@@ -14,6 +14,7 @@ import RecoverForm from "./pages/RecoverForm/RecoverForm";
 import EditData from './pages/EditData/EditData';
 import PrivacyPolicy from "./pages/PrivacyPolicy/PrivacyPolicy";
 import AnalyticsPage from "./components/Analitics/AnaliticsPage";
+import Store from "./components/Store/Store";
 
 const App = () => {
   const location = useLocation();
@@ -33,6 +34,8 @@ const App = () => {
           <Route path="add" element={<Add />} />  
           <Route path="list" element={<List />} /> 
           <Route path="Analytics" element={<AnalyticsPage />} />
+          <Route path="store" element={<Store />} />
+
         </Route>
 
         <Route path="/:establishmentName" element={<BusinessPage />} />

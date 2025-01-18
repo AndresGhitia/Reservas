@@ -85,31 +85,31 @@ function CalendarComponent({ selectedSpace, calendarData, setCalendarData, setSe
     }
   }, [date, selectedSpace, calendarData]);
 
-  const generateTimeSlots = (openTime, closeTime) => {
-    const timeSlots = [];
-    let [openHour, openMinute] = openTime.split(':').map(Number);
-    let [closeHour, closeMinute] = closeTime.split(':').map(Number);
-  
-    const incrementMinute = selectedSpace.sport === "Paddle" ? 30 : 60;
-    let isOvernight = closeHour < openHour || (closeHour === openHour && closeMinute < openMinute);
-  
-    while (true) {
-      const time = `${String(openHour).padStart(2, '0')}:${String(openMinute).padStart(2, '0')}`;
-      timeSlots.push({ time, available: true, name: null, whatsapp: null });
-  
-      openMinute += incrementMinute;
-  
-      if (openMinute >= 60) {
-        openMinute -= 60;
-        openHour = (openHour + 1) % 24;
+    const generateTimeSlots = (openTime, closeTime) => {
+      const timeSlots = [];
+      let [openHour, openMinute] = openTime.split(':').map(Number);
+      let [closeHour, closeMinute] = closeTime.split(':').map(Number);
+    
+      const incrementMinute = selectedSpace.sport === "Paddle" ? 30 : 60;
+      let isOvernight = closeHour < openHour || (closeHour === openHour && closeMinute < openMinute);
+    
+      while (true) {
+        const time = `${String(openHour).padStart(2, '0')}:${String(openMinute).padStart(2, '0')}`;
+        timeSlots.push({ time, available: true, name: null, whatsapp: null });
+    
+        openMinute += incrementMinute;
+    
+        if (openMinute >= 60) {
+          openMinute -= 60;
+          openHour = (openHour + 1) % 24;
+        }
+    
+        if (!isOvernight && openHour === closeHour && openMinute >= closeMinute) break;
+        if (isOvernight && openHour === closeHour && openMinute >= closeMinute) break;
       }
-  
-      if (!isOvernight && openHour === closeHour && openMinute >= closeMinute) break;
-      if (isOvernight && openHour === closeHour && openMinute >= closeMinute) break;
-    }
-  
-    return timeSlots;
-  };
+    
+      return timeSlots;
+    };
 
   const askUserDetails = async () => {
     const { value: name } = await Swal.fire({
