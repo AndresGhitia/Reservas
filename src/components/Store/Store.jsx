@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { auth, db } from "../../firebase";
-import { doc, collection, getDocs, addDoc, deleteDoc } from "firebase/firestore";
-import './Store.css';
+import { doc, collection, getDocs, addDoc, deleteDoc, updateDoc } from "firebase/firestore";
+import "./Store.css";
 
 const Store = () => {
   const [items, setItems] = useState({});
@@ -9,10 +9,10 @@ const Store = () => {
   const [showForm, setShowForm] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const debounceTimers = {};
 
-  // Función para obtener los datos de Firestore
   const fetchItems = async () => {
-    setLoading(true); // Mostrar el estado de carga al comenzar
+    setLoading(true);
     try {
       const user = auth.currentUser;
       if (!user) throw new Error("Usuario no autenticado.");
@@ -30,31 +30,25 @@ const Store = () => {
         }));
       }
 
-      setItems(itemsByCategory); // Actualizar el estado con los datos obtenidos
+      setItems(itemsByCategory);
     } catch (err) {
       console.error("Error al obtener los datos:", err);
       setError(err.message);
     } finally {
-      setLoading(false); // Ocultar el estado de carga al finalizar
+      setLoading(false);
     }
   };
 
-  // Obtener datos al cargar el componente
   useEffect(() => {
     fetchItems();
   }, []);
 
-  // Manejar el envío de un nuevo artículo
   const handleSubmit = async (e, category) => {
     e.preventDefault();
-    const user = auth.currentUser;
-
-    if (!user) {
-      console.error("Usuario no autenticado");
-      return;
-    }
-
     try {
+      const user = auth.currentUser;
+      if (!user) throw new Error("Usuario no autenticado.");
+
       const itemsRef = collection(db, `owners/${user.uid}/store/${category}/items`);
       await addDoc(itemsRef, {
         nombre: newItem[category]?.nombre || "",
@@ -64,25 +58,65 @@ const Store = () => {
 
       setNewItem((prev) => ({ ...prev, [category]: { nombre: "", precio: "", stock: "" } }));
       console.log("Ítem agregado correctamente.");
-      fetchItems(); // Volver a obtener los datos actualizados
+      fetchItems();
     } catch (err) {
       console.error("Error al agregar el ítem:", err);
     }
   };
 
-  // Manejar la eliminación de un artículo
+  const handleStockChange = (category, itemId, change) => {
+    setItems((prevItems) => {
+      const updatedCategory = prevItems[category].map((item) => {
+        if (item.id === itemId) {
+          return { ...item, stock: Math.max(item.stock + change, 0) }; // Evitar stock negativo
+        }
+        return item;
+      });
+  
+      return { ...prevItems, [category]: updatedCategory };
+    });
+  
+    // Guardar el nuevo stock local para evitar problemas con la referencia a `items`
+    const updatedItem = items[category]?.find((item) => item.id === itemId);
+    const newStock = (updatedItem?.stock || 0) + change;
+  
+    if (debounceTimers[itemId]) clearTimeout(debounceTimers[itemId]);
+  
+    debounceTimers[itemId] = setTimeout(async () => {
+      try {
+        const user = auth.currentUser;
+        if (!user) throw new Error("Usuario no autenticado.");
+  
+        const itemRef = doc(db, `owners/${user.uid}/store/${category}/items/${itemId}`);
+        await updateDoc(itemRef, { stock: Math.max(newStock, 0) });
+  
+        console.log("Stock actualizado en Firestore.");
+      } catch (err) {
+        console.error("Error al actualizar el stock:", err);
+      }
+    }, 1000); // Esperar 1 segundo después de la última acción
+  };
+  
+
   const handleDelete = async (category, itemId) => {
     try {
-      const itemRef = doc(db, `owners/${auth.currentUser.uid}/store/${category}/items/${itemId}`);
+      const user = auth.currentUser;
+      if (!user) throw new Error("Usuario no autenticado.");
+
+      const itemRef = doc(db, `owners/${user.uid}/store/${category}/items/${itemId}`);
       await deleteDoc(itemRef);
+
+      setItems((prevItems) => {
+        const updatedCategory = prevItems[category].filter((item) => item.id !== itemId);
+        return { ...prevItems, [category]: updatedCategory };
+      });
+
       console.log("Ítem eliminado correctamente.");
-      fetchItems(); // Volver a obtener los datos actualizados
     } catch (err) {
       console.error("Error al eliminar el ítem:", err);
     }
   };
 
-  // Alternar el formulario de añadir ítems
   const toggleForm = (category) => {
     setShowForm((prev) => ({ ...prev, [category]: !prev[category] }));
   };
@@ -105,7 +139,11 @@ const Store = () => {
               <div key={item.id} className="store-item">
                 <span>{item.nombre}</span>
                 <span>${item.precio}</span>
-                <span>{item.stock}</span>
+                <div className="stock-controls">
+                  <button onClick={() => handleStockChange(category, item.id, -1)}>-</button>
+                  <span>{item.stock}</span>
+                  <button onClick={() => handleStockChange(category, item.id, 1)}>+</button>
+                </div>
                 <button onClick={() => handleDelete(category, item.id)}>Eliminar</button>
               </div>
             ))}
@@ -161,3 +199,4 @@ const Store = () => {
 };
 
 export default Store;
+

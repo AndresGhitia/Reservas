@@ -549,3 +549,5 @@ cosas que no son difinitivas.
 
 G#282 se ajusta el formulario RegisterForm (funcion handleSubmit) con el fin de que al crear el usuario Owner, se creen los datos para la carga de articulos
 en la seccion store.
+
+G#283 Agregamos variador de stock a cada articulo.
