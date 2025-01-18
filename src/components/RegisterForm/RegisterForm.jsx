@@ -118,8 +118,18 @@
                 statusHistory: [statusHistoryEntry] // Historial inicial
               });
             }
-             else if (accountType === 'owner') {
-              await setDoc(doc(db, 'owners', user.uid), {
+            if (accountType === 'user') {
+              await setDoc(doc(db, 'users', user.uid), {
+                firstName,
+                lastName,
+                email,
+                status: "enabled", // Estado inicial por separado
+                statusHistory: [statusHistoryEntry], // Historial inicial
+              });
+            } else if (accountType === 'owner') {
+              // Crear documento principal del propietario
+              const ownerRef = doc(db, 'owners', user.uid);
+              await setDoc(ownerRef, {
                 establishmentName,
                 ownerName,
                 establishmentEmail: email,
@@ -128,10 +138,27 @@
                 address,
                 createdAt: createdAtTimestamp,
                 expdate: expdateTimestamp,
-                status: "enabled", 
-                statusHistory: [statusHistoryEntry], 
-                amenities:[] // arreglo vacio que contendra las prestaciones del complejo
-
+                status: "enabled",
+                statusHistory: [statusHistoryEntry],
+                amenities: [], // arreglo vacío que contendrá las prestaciones del complejo
+              });
+            
+              // Crear colección 'store' con documentos iniciales
+              const storeRef = collection(ownerRef, 'store');
+            
+              // Crear documento 'bebidas'
+              await setDoc(doc(storeRef, 'bebidas'), {
+                items: [], // Array vacío para los ítems iniciales
+              });
+            
+              // Crear documento 'buffet'
+              await setDoc(doc(storeRef, 'buffet'), {
+                items: [], // Array vacío para los ítems iniciales
+              });
+            
+              // Crear documento 'tienda'
+              await setDoc(doc(storeRef, 'tienda'), {
+                items: [], // Array vacío para los ítems iniciales
               });
             }
       

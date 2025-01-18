@@ -546,3 +546,6 @@ G#281 Se añade la seccion Store.jsx, este commit presenta cambios extensos en e
 el back acorde a las nuevas necesidades y requerimientos para el sistema que presenta la nueva seccion. ahora hacemos el commit con la presentacion
 de la seccion para hacer pruebas mientras se adapta el backend. Esta muy pelado en terminos de diseño y recien se esta planteando por lo que hay muchas
 cosas que no son difinitivas.
+
+G#282 se ajusta el formulario RegisterForm (funcion handleSubmit) con el fin de que al crear el usuario Owner, se creen los datos para la carga de articulos
+en la seccion store.
