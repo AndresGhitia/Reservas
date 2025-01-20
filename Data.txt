@@ -551,3 +551,6 @@ G#282 se ajusta el formulario RegisterForm (funcion handleSubmit) con el fin de 
 en la seccion store.
 
 G#283 Agregamos variador de stock a cada articulo.
+
+G#284 Agregamos boton de venta de articulo, ese genera un -1 en el stock de la base datos y genera arbol de datos realtivo a la venta, para manejar estadisitcas 
+e indicadores de ganancia de la tienda. se modifica handledelete de Store para que cuando se borre un articulo, se borren los datos de ventas.
