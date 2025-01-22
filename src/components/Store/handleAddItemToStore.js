@@ -1,15 +1,12 @@
 import { collection, addDoc, doc, deleteDoc,setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 
-// Función para agregar un ítem a la tienda
 export const handleAddItemToStore = async (ownerId, category, item) => {
     try {
-      // Crear una referencia al documento de la categoría en Firestore
       const categoryRef = doc(db, `owners/${ownerId}/store/${category}`);
   
-      // Agregar el nuevo ítem dentro de la categoría
       await setDoc(categoryRef, {
-        items: [...(categoryRef.items || []), item],  // Agregar el nuevo ítem al array de ítems
+        items: [...(categoryRef.items || []), item],  
       }, { merge: true });
   
       console.log("Ítem agregado correctamente");
@@ -18,7 +15,6 @@ export const handleAddItemToStore = async (ownerId, category, item) => {
       throw error;
     }
   };
-// Función para eliminar un ítem de la tienda
 export const deleteItemFromStore = async (ownerId, category, itemId) => {
   console.log("Inicio de deleteItemFromStore");
   console.log("Parámetros recibidos:", { ownerId, category, itemId });

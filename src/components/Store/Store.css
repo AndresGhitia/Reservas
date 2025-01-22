@@ -206,6 +206,7 @@
     transform: scale(1.05);
   }
   
+  
   /* Error and loading states */
   .loading {
     text-align: center;

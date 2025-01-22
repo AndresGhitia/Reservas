@@ -554,3 +554,13 @@ G#283 Agregamos variador de stock a cada articulo.
 
 G#284 Agregamos boton de venta de articulo, ese genera un -1 en el stock de la base datos y genera arbol de datos realtivo a la venta, para manejar estadisitcas 
 e indicadores de ganancia de la tienda. se modifica handledelete de Store para que cuando se borre un articulo, se borren los datos de ventas.
+
+G#285 Agregamos listado, datos estructurados de ventas con el formato:
+
+ventas (coleccion)
+                |__DocId (documento)
+                                   |_cantidad
+                                   |_ date (fecha)
+
+De esta menera las ventas de agrupan por articulo y fecha, entonces el usuario tendra la posibilidad de alternar y ver ventas de hoy y ventas de un periodo determinado.
+La idea es programar el borrado automatico de datos que queden por fuera del periodo estipulado, con el fin de evitar "bola de nieve de datos" y optimizar rendimiento.                                   

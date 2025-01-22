@@ -1,45 +1,103 @@
 import React, { useState, useEffect } from "react";
 import { auth, db } from "../../firebase";
 import { doc, collection, getDocs, addDoc, deleteDoc, updateDoc } from "firebase/firestore";
-import { MdAdd, MdRemove, MdEdit } from "react-icons/md";
+import SalesComponent from "./SalesComponent";
+import ToggleSwitch from "./ToggleSwitch"; 
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
 import "./Store.css";
 
 const Store = () => {
-  const [items, setItems] = useState({});
-  const [newItem, setNewItem] = useState({});
-  const [showForm, setShowForm] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const debounceTimers = {};
-
-  const fetchItems = async () => {
-    setLoading(true);
-    try {
-      const user = auth.currentUser;
-      if (!user) throw new Error("Usuario no autenticado.");
-
-      const categories = ["bebidas", "buffet", "tienda"];
-      const itemsByCategory = {};
-
-      for (const category of categories) {
-        const categoryRef = collection(db, `owners/${user.uid}/store/${category}/items`);
-        const categorySnap = await getDocs(categoryRef);
-
-        itemsByCategory[category] = categorySnap.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+    const [items, setItems] = useState({});
+    const [salesData, setSalesData] = useState({});
+    const [newItem, setNewItem] = useState({});
+    const [showForm, setShowForm] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [loadingSales, setLoadingSales] = useState(false);
+    const [error, setError] = useState("");
+    const [salesRange, setSalesRange] = useState("today");
+    const [showTodaySales, setShowTodaySales] = useState("");      
+    const debounceTimers = {};
+  
+    const fetchItems = async () => {
+      setLoading(true);
+      try {
+        const user = auth.currentUser;
+        if (!user) throw new Error("Usuario no autenticado.");
+  
+        const categories = ["bebidas", "buffet", "tienda"];
+        const itemsByCategory = {};
+        const salesByCategory = {};
+        const today = new Date().toISOString().split("T")[0];
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+        const thirtyDaysAgoString = thirtyDaysAgo.toISOString().split("T")[0];
+  
+        for (const category of categories) {
+          const categoryRef = collection(db, `owners/${user.uid}/store/${category}/items`);
+          const categorySnap = await getDocs(categoryRef);
+  
+          itemsByCategory[category] = [];
+          salesByCategory[category] = [];
+  
+          for (const docItem of categorySnap.docs) {
+            const item = { id: docItem.id, ...docItem.data() };
+            itemsByCategory[category].push(item);
+  
+            const salesRef = collection(db, `owners/${user.uid}/store/${category}/items/${docItem.id}/ventas`);
+            const salesSnap = await getDocs(salesRef);
+  
+            const allSales = salesSnap.docs.map((doc) => doc.data());
+  
+            let filteredSales = [];
+            if (salesRange === "today") {
+              filteredSales = allSales.filter((sale) => sale.date === today);
+            } else if (salesRange === "last30") {
+              filteredSales = allSales.filter((sale) => sale.date >= thirtyDaysAgoString);
+            }
+  
+            const totalSales = filteredSales.reduce((total, sale) => total + (sale.cantidad || 0), 0);
+            salesByCategory[category].push({
+              item,
+              sales: totalSales,
+            });
+          }
+        }
+  
+        setItems(itemsByCategory);
+        setSalesData(salesByCategory);
+      } catch (err) {
+        console.error("Error al obtener los datos:", err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
       }
+    };
+  
+    const toggleSalesRange = () => {
+      setSalesRange((prev) => (prev === "today" ? "last30" : "today"));
+    };
+  
+    useEffect(() => {
+      fetchItems();
+    }, [salesRange]);
+  
+  useEffect(() => {
+    fetchItems();
+  }, [showTodaySales]); // Recargar datos al cambiar el filtro
 
-      setItems(itemsByCategory);
-    } catch (err) {
-      console.error("Error al obtener los datos:", err);
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
+  const toggleSalesView = () => {
+    setShowTodaySales((prev) => !prev);
   };
 
+  useEffect(() => {
+    // Simula el tiempo de carga de las ventas al cambiar la vista
+    if (showTodaySales) {
+      setLoadingSales(false); // Si ya tenemos las ventas de hoy, detén el spinner
+    } else {
+      setLoadingSales(false); // Si cambiamos a las ventas totales, detén el spinner
+    }
+  }, [showTodaySales]);
+  
   useEffect(() => {
     fetchItems();
   }, []);
@@ -191,95 +249,175 @@ const Store = () => {
     }
   };
   
-  
-
   const toggleForm = (category) => {
     setShowForm((prev) => ({ ...prev, [category]: !prev[category] }));
   };
 
-  if (loading) return <p className="loading">Cargando...</p>;
-  if (error) return <p className="error">Error: {error}</p>;
 
+  const groupedSales = Object.keys(salesData).reduce((acc, category) => {
+    acc[category] = Object.values(salesData[category]); // Convertir el objeto mapeado en un array
+    return acc;
+  }, {});
+  
+  
+
+
+  if (loading) {
+    return (
+      <div className="loading-spinner-container">
+        <LoadingSpinner /> {/* Aquí se utiliza tu spinner */}
+      </div>
+    );
+  }
+  
+  if (error) {
+    return <p className="error">Error: {error}</p>;
+  }
+  
   return (
     <div className="store-container">
-      {Object.keys(items).map((category) => (
-        <div key={category} className="store-column">
-          <h2 className="category-title">{category.toUpperCase()}</h2>
-          <div className="store-items">
-            <div className="store-header">
-              <span>Artículo</span>
-              <span>Precio</span>
-              <span>Stock</span>
-            </div>
-            {items[category].map((item) => (
-              <div key={item.id} className="store-item">
-                <span>{item.nombre}</span>
-                <span>${item.precio}</span>
-               
-                <div className="stock-controls">
-                  <button className="stock-button" onClick={() => handleStockChange(category, item.id, -1)}>-</button>
-                  <span>{item.stock}</span>
-                  <button className="stock-button" onClick={() => handleStockChange(category, item.id, 1)}>+</button>
-
-                  <button
-      className="sale-button"
-      onClick={() => handleRegisterSale(category, item.id, 1)} // 1 es la cantidad vendida por defecto.
-    >
-      Registrar Venta
-    </button>
-                  
-                </div>
-                <button className="remove-button" onClick={() => handleDelete(category, item.id)}>x</button>
-              </div>
-            ))}
+    {Object.keys(items).map((category) => (
+      <div key={category} className="store-column">
+        <h2 className="category-title">{category.charAt(0).toUpperCase() + category.slice(1)}</h2>
+        
+        {/* Mostrar los productos */}
+        <div className="store-items">
+          <div className="store-header">
+            <span>Artículo</span>
+            <span>Precio</span>
+            <span>Stock</span>
           </div>
-          <button className="add-item-button" onClick={() => toggleForm(category)}>
-            + Agregar
-          </button>
-          {showForm[category] && (
-            <form onSubmit={(e) => handleSubmit(e, category)} className="add-item-form">
-              <input
-                type="text"
-                placeholder="Nombre del ítem"
-                value={newItem[category]?.nombre || ""}
-                onChange={(e) =>
-                  setNewItem((prev) => ({
-                    ...prev,
-                    [category]: { ...prev[category], nombre: e.target.value },
-                  }))
-                }
-                required
-              />
-              <input
-                type="number"
-                placeholder="Precio"
-                value={newItem[category]?.precio || ""}
-                onChange={(e) =>
-                  setNewItem((prev) => ({
-                    ...prev,
-                    [category]: { ...prev[category], precio: e.target.value },
-                  }))
-                }
-                required
-              />
-              <input
-                type="number"
-                placeholder="Stock"
-                value={newItem[category]?.stock || ""}
-                onChange={(e) =>
-                  setNewItem((prev) => ({
-                    ...prev,
-                    [category]: { ...prev[category], stock: e.target.value },
-                  }))
-                }
-                required
-              />
-              <button type="submit" className="submit-button">Guardar</button>
-            </form>
-          )}
+          {items[category].map((item) => (
+            <div key={item.id} className="store-item">
+              <span>{item.nombre}</span>
+              <span>${item.precio}</span>
+              <div className="stock-controls">
+                <button
+                  className="stock-button"
+                  onClick={() => handleStockChange(category, item.id, -1)}
+                >
+                  -
+                </button>
+                <span>{item.stock}</span>
+                <button
+                  className="stock-button"
+                  onClick={() => handleStockChange(category, item.id, 1)}
+                >
+                  +
+                </button>
+  
+                <button
+                  className="sale-button"
+                  onClick={() => handleRegisterSale(category, item.id, 1)}
+                >
+                  ✔️
+                </button>
+              </div>
+  
+              <button
+                className="remove-button"
+                onClick={() => handleDelete(category, item.id)}
+              >
+                x
+              </button>
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
+  
+        <button
+          className="add-item-button"
+          onClick={() => toggleForm(category)}
+        >
+          + Agregar
+        </button>
+  
+        {showForm[category] && (
+          <form
+            onSubmit={(e) => handleSubmit(e, category)}
+            className="add-item-form"
+          >
+            <input
+              type="text"
+              placeholder="Nombre del ítem"
+              value={newItem[category]?.nombre || ""}
+              onChange={(e) =>
+                setNewItem((prev) => ({
+                  ...prev,
+                  [category]: {
+                    ...prev[category],
+                    nombre: e.target.value,
+                  },
+                }))
+              }
+              required
+            />
+            <input
+              type="number"
+              placeholder="Precio"
+              value={newItem[category]?.precio || ""}
+              onChange={(e) =>
+                setNewItem((prev) => ({
+                  ...prev,
+                  [category]: {
+                    ...prev[category],
+                    precio: e.target.value,
+                  },
+                }))
+              }
+              required
+            />
+            <input
+              type="number"
+              placeholder="Stock"
+              value={newItem[category]?.stock || ""}
+              onChange={(e) =>
+                setNewItem((prev) => ({
+                  ...prev,
+                  [category]: {
+                    ...prev[category],
+                    stock: e.target.value,
+                  },
+                }))
+              }
+              required
+            />
+            <button type="submit" className="submit-button">
+              Guardar
+            </button>
+          </form>
+        )}
+  
+        {/* Mostrar las ventas de los artículos de esta categoría */}
+        <div className="sales-list">
+          <h3>Ventas</h3>
+      
+          <ToggleSwitch
+        checked={showTodaySales}
+        onChange={toggleSalesRange}
+        label={showTodaySales ? "Ventas de hoy" : "Ventas totales"}
+      />
+          <div className="sales-columns">
+            <div key={category} className="sales-column">
+              <h4>{category.charAt(0).toUpperCase() + category.slice(1)}</h4>
+              {loadingSales ? (
+  <div className="loading-spinner-container">
+    <div className="loading-spinner">{/* Aquí tu spinner */}</div>
+  </div>
+) : (
+  <SalesComponent 
+    sales={groupedSales[category].filter(({ sales }) => sales > 0)} 
+    category={category} 
+  />
+)}
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+  
   );
 };
 
