@@ -82,27 +82,114 @@
     color: #444444;
   }
   
-  /* Buttons and controls */
   .stock-controls {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 0.3rem;
   }
-  .sale-button {
-    background-color: #4caf50;
+  .sales-list{
+    margin-top: 0.5rem;
+    border: solid 1px, rgb(53, 50, 50);
+    border-radius: 8px;
+    background-color: #d8dbe0;
+  }
+
+  .sales-filter-button {
+    background-color: #007bff;
     color: white;
     border: none;
-    padding: 5px 10px;
-    cursor: pointer;
+    padding: 10px 20px;
     border-radius: 5px;
-    margin-left: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  .sales-filter-buttons {
+    display: flex;
+    justify-content: center; /* Centra los botones horizontalmente */
+    align-items: center;    /* Asegura que estén alineados verticalmente */
+    gap: 1rem;              /* Espacio entre los botones */
+    margin: 1rem 0;         /* Separación vertical del contenedor */
   }
   
-  .sale-button:hover {
-    background-color: #45a049;
+  .sales-filter-button:hover {
+    background-color: #0056b3;
   }
   
+  .sales-filter-button.selected {
+    background-color: #28a745; /* Verde o cualquier color para el botón activo */
+    color: white;
+    border: 2px solid #218838;
+    transform: scale(1.05); /* Pequeño efecto de agrandamiento */
+  }
+@keyframes loadingDots {
+  0% {
+    content: '';
+  }
+  33% {
+    content: '.';
+  }
+  66% {
+    content: '..';
+  }
+  100% {
+    content: '...';
+  }
+}
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.sales-logo {
+  background-color: #4caf50;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 50%;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.loading-message {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #a2a4a7;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  font-family: 'Roboto', sans-serif;
+}
+.sales-summary {
+  display: flex;
+  justify-content: space-between; /* Alinear elementos horizontalmente */
+  align-items: center; /* Alinear verticalmente si es necesario */
+  margin-top: 10px; /* Espacio con respecto a la tabla */
+  padding: 0 10px; /* Alineación interna opcional */
+}
+
+.sales-summary p {
+  margin: 0;
+  flex: 1; /* Esto asegura que cada sección ocupe el mismo ancho */
+  text-align: center; /* Centra el texto en su columna */
+}
+
+.sales-summary .total-sales {
+  text-align: left; /* Alinea hacia la izquierda si lo prefieres */
+}
+
+.sales-summary .total-revenue {
+  text-align: right; /* Alinea hacia la derecha */
+}
+
+
+.loading-dots::after {
+  content: '';
+  animation: loadingDots 0.8s infinite steps(3);
+}
   
   .stock-controls button {
     background-color: transparent;
@@ -205,9 +292,7 @@
     background-color: #0056b3;
     transform: scale(1.05);
   }
-  
-  
-  /* Error and loading states */
+
   .loading {
     text-align: center;
     font-size: 1.2rem;

@@ -2,6 +2,15 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./SalesComponent.css";
 
+const formatCurrency = (value) => {
+    return new Intl.NumberFormat("es-AR", {
+        style: "currency",
+        currency: "ARS",
+        minimumFractionDigits: 0, // Sin decimales
+        maximumFractionDigits: 0, // Sin decimales
+    }).format(value);
+};
+
 const SalesComponent = ({ sales, category }) => {
   return (
     <div className="sales-table-container">
@@ -19,7 +28,8 @@ const SalesComponent = ({ sales, category }) => {
               <tr key={item.id}>
                 <td>{item.nombre || "Sin nombre"}</td>
                 <td>x{sales || 0}u.</td>
-                <td>${(sales || 0) * item.precio}</td>
+                <td>{formatCurrency((sales || 0) * item.precio)}</td>
+
               </tr>
             ))}
           </tbody>
