@@ -576,3 +576,6 @@ G#289 Se crea el componente Stock.jsx, el cual maneja la tabla superior de Store
 SalesComponent y Stock.
 
 G#290 Revision de estilos y orden.
+
+G#291 Correccion en error al mostrar formulario "agregar articulo". Se establece un limete de articulos por categoria,Si bien ahora se establecion en 5 para realizar pruebas,
+el numero esta a definir para ser funcional al rendimiento del proyecto.

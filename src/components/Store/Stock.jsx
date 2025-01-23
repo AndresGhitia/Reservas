@@ -83,9 +83,59 @@ const Stock = ({
       </button>
 
       {showForm && (
-        <form onSubmit={handleSubmit}>
-          {/* Aquí puedes agregar los campos para el formulario de agregar un artículo */}
-        </form>
+           <form
+           onSubmit={(e) => handleSubmit(e, category)}
+           className="add-item-form"
+         >
+           <input
+             type="text"
+             placeholder="Nombre del ítem"
+             value={newItem[category]?.nombre || ""}
+             onChange={(e) =>
+               setNewItem((prev) => ({
+                 ...prev,
+                 [category]: {
+                   ...prev[category],
+                   nombre: e.target.value,
+                 },
+               }))
+             }
+             required
+           />
+           <input
+             type="number"
+             placeholder="Precio"
+             value={newItem[category]?.precio || ""}
+             onChange={(e) =>
+               setNewItem((prev) => ({
+                 ...prev,
+                 [category]: {
+                   ...prev[category],
+                   precio: e.target.value,
+                 },
+               }))
+             }
+             required
+           />
+           <input
+             type="number"
+             placeholder="Stock"
+             value={newItem[category]?.stock || ""}
+             onChange={(e) =>
+               setNewItem((prev) => ({
+                 ...prev,
+                 [category]: {
+                   ...prev[category],
+                   stock: e.target.value,
+                 },
+               }))
+             }
+             required
+           />
+           <button type="submit" className="submit-button">
+             Guardar
+           </button>
+         </form>
       )}
     </div>
   );

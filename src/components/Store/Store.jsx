@@ -4,6 +4,7 @@ import { doc, collection, getDocs, addDoc, deleteDoc, updateDoc } from "firebase
 import SalesComponent from "./SalesComponent";
 import { FaGlassWhiskey, FaUtensils, FaTshirt } from "react-icons/fa";
 import Stock from "./Stock";
+import Swal from "sweetalert2";
 import "./Store.css";
 
 const Store = () => {
@@ -96,25 +97,57 @@ const Store = () => {
     fetchItems();
   }, []);
 
+
   const handleSubmit = async (e, category) => {
-    e.preventDefault();
-    try {
-      const user = auth.currentUser;
-      if (!user) throw new Error("Usuario no autenticado.");
-
-      const itemsRef = collection(db, `owners/${user.uid}/store/${category}/items`);
-      await addDoc(itemsRef, {
-        nombre: newItem[category]?.nombre || "",
-        precio: parseFloat(newItem[category]?.precio || 0),
-        stock: parseInt(newItem[category]?.stock || 0, 10),
-      });
-
-      setNewItem((prev) => ({ ...prev, [category]: { nombre: "", precio: "", stock: "" } }));
-      fetchItems();
-    } catch (err) {
-      console.error("Error al agregar el ítem:", err);
-    }
+      e.preventDefault();
+      try {
+          const user = auth.currentUser;
+          if (!user) throw new Error("Usuario no autenticado.");
+  
+          // Referencia a la colección de ítems
+          const itemsRef = collection(db, `owners/${user.uid}/store/${category}/items`);
+  
+          // Verificar el número de ítems existentes
+          const itemsSnapshot = await getDocs(itemsRef);
+          const itemCount = itemsSnapshot.size;
+  
+          if (itemCount >= 5) {
+              // Mostrar mensaje con SweetAlert2
+              Swal.fire({
+                  icon: "warning",
+                  title: "Límite de artículos alcanzado",
+                  text: "Has alcanzado el límite de 5 artículos. Elimina algunos para agregar nuevos.",
+                  confirmButtonText: "Entendido",
+              });
+              return; // Terminar la función aquí si se excede el límite
+          }
+  
+          // Agregar un nuevo ítem si no se alcanza el límite
+          await addDoc(itemsRef, {
+              nombre: newItem[category]?.nombre || "",
+              precio: parseFloat(newItem[category]?.precio || 0),
+              stock: parseInt(newItem[category]?.stock || 0, 10),
+          });
+  
+          // Resetear el formulario
+          setNewItem((prev) => ({ ...prev, [category]: { nombre: "", precio: "", stock: "" } }));
+          
+          // Actualizar la lista de ítems
+          fetchItems();
+      } catch (err) {
+          console.error("Error al agregar el ítem:", err.message);
+  
+          // Mostrar mensaje de error con SweetAlert2 si ocurre otro problema
+          Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: `No se pudo agregar el ítem: ${err.message}`,
+              confirmButtonText: "Entendido",
+          });
+      }
   };
+  
+
 
   const handleStockChange = (category, itemId, change) => {
     setItems((prevItems) => {
@@ -243,8 +276,8 @@ const Store = () => {
     }
   };
   
-  const toggleForm = (category) => {
-    setShowForm((prev) => ({ ...prev, [category]: !prev[category] }));
+  const toggleForm = () => {
+    setShowForm((prev) => !prev); // Toggle the form visibility
   };
 
   const groupedSales = Object.keys(salesData).reduce((acc, category) => {
