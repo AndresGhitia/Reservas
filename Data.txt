@@ -571,3 +571,6 @@ G#287 Se ajusta un calculo de de los graficos (charts) ocurria que al calcular u
 por el uso de "isSameWeek", se reemplaza esa implementacion por calculo de los ultimos 7 dias corridos.
 
 G#288 Se agrega al componente Store, en la parte de stock, orden alfabetico y scroll. Ademas se añade buscador.
+
+G#289 Se crea el componente Stock.jsx, el cual maneja la tabla superior de Store.jsx, de esta manera refactorizamos y ordenamos el codigo. Quedando dos grandes componente
+SalesComponent y Stock.

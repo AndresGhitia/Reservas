@@ -3,6 +3,7 @@ import { auth, db } from "../../firebase";
 import { doc, collection, getDocs, addDoc, deleteDoc, updateDoc } from "firebase/firestore";
 import SalesComponent from "./SalesComponent";
 import { FaGlassWhiskey, FaUtensils, FaTshirt } from "react-icons/fa";
+import Stock from "./Stock";
 import "./Store.css";
 
 const Store = () => {
@@ -269,147 +270,43 @@ const categoryIcons = {
     return <p className="error">Error: {error}</p>;
   }
   
+  
   return (
     <div className="store-container">
       {Object.keys(items).map((category) => {
-        // Filtrar los artículos basados en el término de búsqueda
-        const filteredItems = items[category].filter((item) =>
-          item.nombre.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-  
-        // Calcular las ventas totales y el ingreso total para esta categoría
+        // Calcular ventas e ingresos totales por categoría
         const totalSalesByCategory =
           groupedSales[category]?.reduce((total, sale) => total + sale.sales, 0) || 0;
-  
+
         const totalRevenueByCategory =
           groupedSales[category]?.reduce(
             (total, sale) => total + sale.sales * sale.precio,
             0
           ) || 0;
-  
+
         return (
           <div key={category} className="store-column">
             <h2 className="category-title">
               {categoryIcons[category]}
               {category.charAt(0).toUpperCase() + category.slice(1)}
             </h2>
-  
-            {/* Encabezado con buscador */}
-            <div className="store-header">
-              <span>Artículo</span>
-              <span>Precio</span>
-              <span> Stock              </span>
 
-             
- 
-              <input
-                  type="text"
-                  placeholder="Buscar..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="search-input"
-                />
-               
-            </div>
-  
-            {/* Lista de artículos filtrados */}
-            <div className="store-items">
-              {filteredItems.map((item) => (
-                <div key={item.id} className="store-item">
-                  <span>{item.nombre}</span>
-                  <span>{formatCurrency(item.precio)}</span>
-                  <div className="stock-controls">
-                    <button
-                      className="stock-button"
-                      onClick={() => handleStockChange(category, item.id, -1)}
-                    >
-                      -
-                    </button>
-                    <span>{item.stock}</span>
-                    <button
-                      className="stock-button"
-                      onClick={() => handleStockChange(category, item.id, 1)}
-                    >
-                      +
-                    </button>
-                    <button
-                      className="sale-button"
-                      onClick={() => handleRegisterSale(category, item.id, 1)}
-                    >
-                      ✔️
-                    </button>
-                  </div>
-                  <button
-                    className="remove-button"
-                    onClick={() => handleDelete(category, item.id)}
-                  >
-                    x
-                  </button>
-                </div>
-              ))}
-            </div>
-  
-            <button className="add-item-button" onClick={() => toggleForm(category)}>
-              + Agregar
-            </button>
-  
-            {showForm[category] && (
-              <form
-                onSubmit={(e) => handleSubmit(e, category)}
-                className="add-item-form"
-              >
-                <input
-                  type="text"
-                  placeholder="Nombre del ítem"
-                  value={newItem[category]?.nombre || ""}
-                  onChange={(e) =>
-                    setNewItem((prev) => ({
-                      ...prev,
-                      [category]: {
-                        ...prev[category],
-                        nombre: e.target.value,
-                      },
-                    }))
-                  }
-                  required
-                />
-                <input
-                  type="number"
-                  placeholder="Precio"
-                  value={newItem[category]?.precio || ""}
-                  onChange={(e) =>
-                    setNewItem((prev) => ({
-                      ...prev,
-                      [category]: {
-                        ...prev[category],
-                        precio: e.target.value,
-                      },
-                    }))
-                  }
-                  required
-                />
-                <input
-                  type="number"
-                  placeholder="Stock"
-                  value={newItem[category]?.stock || ""}
-                  onChange={(e) =>
-                    setNewItem((prev) => ({
-                      ...prev,
-                      [category]: {
-                        ...prev[category],
-                        stock: e.target.value,
-                      },
-                    }))
-                  }
-                  required
-                />
-                <button type="submit" className="submit-button">
-                  Guardar
-                </button>
-              </form>
-            )}
-  
-            {/* Mostrar las ventas de los artículos de esta categoría */}
+            <Stock
+              category={category}
+              items={items[category]}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              handleStockChange={handleStockChange}
+              handleRegisterSale={handleRegisterSale}
+              handleDelete={handleDelete}
+              formatCurrency={formatCurrency}
+              toggleForm={toggleForm}
+              handleSubmit={handleSubmit}
+              newItem={newItem}
+              setNewItem={setNewItem}
+              showForm={showForm}
+            />
+
             <div className="sales-list">
               <div className="sales-filter-buttons">
                 <button
@@ -429,18 +326,18 @@ const categoryIcons = {
                   Últimos 30 días
                 </button>
               </div>
-  
+
               {loading && (
                 <p className="loading-message">
                   Cargando ventas<span className="loading-dots"></span>
                 </p>
               )}
-  
+
               <div className="sales-columns">
                 <div key={category} className="sales-column">
                   {loadingSales ? (
                     <div className="loading-spinner-container">
-                      <div className="loading-spinner">{/* Aquí tu spinner */}</div>
+                      <div className="loading-spinner">{/* Spinner */}</div>
                     </div>
                   ) : (
                     <SalesComponent
@@ -464,8 +361,6 @@ const categoryIcons = {
       })}
     </div>
   );
-  
-
 };
 
 export default Store;
