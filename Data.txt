@@ -574,3 +574,5 @@ G#288 Se agrega al componente Store, en la parte de stock, orden alfabetico y sc
 
 G#289 Se crea el componente Stock.jsx, el cual maneja la tabla superior de Store.jsx, de esta manera refactorizamos y ordenamos el codigo. Quedando dos grandes componente
 SalesComponent y Stock.
+
+G#290 Revision de estilos y orden.

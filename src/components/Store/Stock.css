@@ -1,29 +1,147 @@
-.stock-table {
+.stock-container {
     margin: 20px;
-}
-
-.category-section {
-    margin-bottom: 30px;
-}
-
-.stock-table-content {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.stock-table-content th,
-.stock-table-content td {
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: center;
-}
-
-.stock-table-content th {
-    background-color: #f5f5f5;
-}
-
-.category-section h3 {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    overflow-x: auto;
+  }
+  
+  .store-header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .store-header span {
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  
+  .search-input {
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 200px;
+  }
+  
+  .store-items {
+    margin-top: 20px;
+  }
+  
+  .store-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+  
+  .store-item:hover {
+    background-color: #f7f7f7;
+  }
+  
+  .stock-controls {
+    display: flex;
     gap: 10px;
-}
+    align-items: center;
+  }
+  
+  .stock-button,
+  .sale-button,
+  .remove-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .stock-button:hover,
+  .sale-button:hover,
+  .remove-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+  }
+  
+  .sale-button {
+    background-color: #28a745;
+  }
+  
+  .remove-button {
+    background-color: #e74c3c;
+  }
+  
+  .remove-button:hover {
+    background-color: #c0392b;
+  }
+  
+  .add-item-btn {
+    display: inline-block;
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    border-radius: 5px;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-align: center;
+  }
+  
+  .add-item-btn:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+  }
+  
+  @media (max-width: 768px) {
+    .stock-container {
+      margin: 10px;
+      padding: 15px;
+    }
+  
+    .store-header span {
+      font-size: 1rem;
+    }
+  
+    .search-input {
+      width: 150px;
+    }
+  
+    .store-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .stock-controls {
+      flex-direction: column;
+      gap: 5px;
+    }
+  
+    .stock-button,
+    .sale-button,
+    .remove-button {
+      padding: 4px 8px;
+      font-size: 0.9rem;
+    }
+  
+    .add-item-btn {
+      font-size: 1rem;
+      padding: 8px 16px;
+    }
+  }
+  

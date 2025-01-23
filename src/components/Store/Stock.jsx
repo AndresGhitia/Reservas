@@ -1,80 +1,94 @@
+import './Stock.css';
+
 const Stock = ({
-    category,
-    items,
-    searchTerm,
-    setSearchTerm,
-    handleStockChange,
-    handleRegisterSale,
-    handleDelete,
-    formatCurrency,
-    toggleForm,
-    handleSubmit,
-    newItem,
-    setNewItem,
-    showForm,
-  }) => {
-    // Validar que items[category] sea un arreglo
-    const filteredItems = Array.isArray(items)
-      ? items.filter((item) =>
+  category,
+  items,
+  searchTerm,
+  setSearchTerm,
+  handleStockChange,
+  handleRegisterSale,
+  handleDelete,
+  formatCurrency,
+  toggleForm,
+  handleSubmit,
+  newItem,
+  setNewItem,
+  showForm,
+}) => {
+  // Validar que items[category] sea un arreglo
+  const filteredItems = Array.isArray(items)
+    ? items
+        .filter((item) =>
           item.nombre.toLowerCase().includes(searchTerm.toLowerCase())
         )
-      : [];
-  
-    return (
-      <div className="stock-container">
-        {/* Encabezado con buscador */}
-        <div className="store-header">
-          <span>Artículo</span>
-          <span>Precio</span>
-          <span>Stock</span>
-          <input
-            type="text"
-            placeholder="Buscar..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="search-input"
-          />
-        </div>
-  
-        {/* Lista de artículos filtrados */}
-        <div className="store-items">
-          {filteredItems.map((item) => (
-            <div key={item.id} className="store-item">
-              <span>{item.nombre}</span>
-              <span>{formatCurrency(item.precio)}</span>
-              <div className="stock-controls">
-                <button
-                  className="stock-button"
-                  onClick={() => handleStockChange(category, item.id, -1)}
-                >
-                  -
-                </button>
-                <span>{item.stock}</span>
-                <button
-                  className="stock-button"
-                  onClick={() => handleStockChange(category, item.id, 1)}
-                >
-                  +
-                </button>
-                <button
-                  className="sale-button"
-                  onClick={() => handleRegisterSale(category, item.id, 1)}
-                >
-                  ✔️
-                </button>
-              </div>
+        .sort((a, b) => a.nombre.localeCompare(b.nombre)) // Ordena alfabéticamente
+    : [];
+
+  return (
+    <div className="stock-container">
+      {/* Encabezado con buscador */}
+      <div className="store-header">
+        <span>Artículo</span>
+        <span>Precio</span>
+        <span>Stock</span>
+        <input
+          type="text"
+          placeholder="Buscar..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-input"
+        />
+      </div>
+
+      {/* Lista de artículos filtrados y ordenados */}
+      <div className="store-items">
+        {filteredItems.map((item) => (
+          <div key={item.id} className="store-item">
+            <span>{item.nombre}</span>
+            <span>{formatCurrency(item.precio)}</span>
+            <div className="stock-controls">
               <button
-                className="remove-button"
-                onClick={() => handleDelete(category, item.id)}
+                className="stock-button"
+                onClick={() => handleStockChange(category, item.id, -1)}
               >
-                x
+                -
+              </button>
+              <span>{item.stock}</span>
+              <button
+                className="stock-button"
+                onClick={() => handleStockChange(category, item.id, 1)}
+              >
+                +
+              </button>
+              <button
+                className="sale-button"
+                onClick={() => handleRegisterSale(category, item.id, 1)}
+              >
+                ✔️
               </button>
             </div>
-          ))}
-        </div>
+            <button
+              className="remove-button"
+              onClick={() => handleDelete(category, item.id)}
+            >
+              x
+            </button>
+          </div>
+        ))}
       </div>
-    );
-  };
-  
-  export default Stock;
-  
+
+      {/* Botón para añadir nuevo artículo */}
+      <button className="add-item-btn" onClick={toggleForm}>
+        Agregar Artículo
+      </button>
+
+      {showForm && (
+        <form onSubmit={handleSubmit}>
+          {/* Aquí puedes agregar los campos para el formulario de agregar un artículo */}
+        </form>
+      )}
+    </div>
+  );
+};
+
+export default Stock;
