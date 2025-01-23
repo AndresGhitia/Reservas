@@ -96,7 +96,7 @@
   }
 
   .sales-filter-button {
-    background-color: #007bff;
+    background-color: #393a3b;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -106,10 +106,10 @@
   }
   .sales-filter-buttons {
     display: flex;
-    justify-content: center; /* Centra los botones horizontalmente */
-    align-items: center;    /* Asegura que estén alineados verticalmente */
-    gap: 1rem;              /* Espacio entre los botones */
-    margin: 1rem 0;         /* Separación vertical del contenedor */
+    justify-content: center;
+    align-items: center;   
+    gap: 1rem;              
+    margin: 1rem 0;         
   }
   
   .sales-filter-button:hover {
@@ -117,10 +117,10 @@
   }
   
   .sales-filter-button.selected {
-    background-color: #28a745; /* Verde o cualquier color para el botón activo */
+    background-color: #12c03a; 
     color: white;
     border: 2px solid #218838;
-    transform: scale(1.05); /* Pequeño efecto de agrandamiento */
+    transform: scale(1.05); 
   }
 @keyframes loadingDots {
   0% {

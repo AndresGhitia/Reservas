@@ -566,3 +566,6 @@ De esta menera las ventas de agrupan por articulo y fecha, entonces el usuario t
 La idea es programar el borrado automatico de datos que queden por fuera del periodo estipulado, con el fin de evitar "bola de nieve de datos" y optimizar rendimiento.
 
 G#286 Se agrega el valor total de las ventas a cada categoria, y se formatean los montos.
+
+G#287 Se ajusta un calculo de de los graficos (charts) ocurria que al calcular ultimos 7 dias, solo tomaba los dias de la semana, osea retrocedia hasta el domingo nomas
+por el uso de "isSameWeek", se reemplaza esa implementacion por calculo de los ultimos 7 dias corridos.

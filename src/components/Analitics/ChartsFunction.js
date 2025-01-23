@@ -1,11 +1,14 @@
-import { isSameDay, isSameWeek, isSameMonth, isSameYear } from 'date-fns';
+import { isSameDay, isSameMonth, isSameYear } from 'date-fns';
 
 // Función genérica para calcular ingresos o reservas por periodo
 export const calculateByPeriod = (spaces, calculateValue) => {
   const today = new Date();
+  const sevenDaysAgo = new Date();
+  sevenDaysAgo.setDate(today.getDate() - 7); // Fecha de hace 7 días
+
   const periods = {
     day: {},
-    week: {},
+    week: {}, // Últimos 7 días
     month: {},
     year: {},
   };
@@ -33,8 +36,9 @@ export const calculateByPeriod = (spaces, calculateValue) => {
         periods.day[space.name] = (periods.day[space.name] || 0) + value;
       }
 
-      // Semana
-      if (isSameWeek(reservationDate, today)) {
+      // Últimos 7 días
+      if (reservationDate >= sevenDaysAgo && reservationDate <= today) {
+        console.log(`Fecha de reserva: ${reservationDate.toISOString().split('T')[0]}`);
         periods.week[space.name] = (periods.week[space.name] || 0) + value;
       }
 
@@ -52,6 +56,7 @@ export const calculateByPeriod = (spaces, calculateValue) => {
 
   return periods;
 };
+
 
 // Función para calcular ingresos
 export const calculateEarnings = (space, count) => {

@@ -98,9 +98,9 @@ const IncomeCharts = ({ spaces }) => {
                 data={prepareChartData(incomeByPeriod[period])} 
                 options={{
                   ...chartOptions,
-                  maintainAspectRatio: false, // Para ajustar el tamaño
+                  maintainAspectRatio: false, 
                 }} 
-                height={300} // Aumentar altura del gráfico
+                height={300} 
               />
             ) : (
               <p>No hay datos disponibles</p>

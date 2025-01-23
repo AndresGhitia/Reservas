@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { auth, db } from "../../firebase";
 import { doc, collection, getDocs, addDoc, deleteDoc, updateDoc } from "firebase/firestore";
 import SalesComponent from "./SalesComponent";
+import { FaGlassWhiskey, FaUtensils, FaTshirt } from "react-icons/fa";
 import "./Store.css";
 
 const Store = () => {
@@ -257,6 +258,11 @@ const Store = () => {
         maximumFractionDigits: 0, // Sin decimales
     }).format(value);
 };
+const categoryIcons = {
+    bebidas: <FaGlassWhiskey />, // Refresco
+    buffet: <FaUtensils />, // Utensilios
+    tienda: <FaTshirt />, // Camiseta representando deportes/ropa
+  };
 
   if (error) {
     return <p className="error">Error: {error}</p>;
@@ -276,15 +282,13 @@ const Store = () => {
       0
     ) || 0;
 
-  console.log(`Ventas totales para ${category}:`, totalSalesByCategory);
-  console.log(`Monto total recaudado para ${category}: $${totalRevenueByCategory}`);
-
-  return (
-    <div key={category} className="store-column">
-   
-      <h2 className="category-title">
-        {category.charAt(0).toUpperCase() + category.slice(1)}
-      </h2>
+    return (
+        <div key={category} className="store-column">
+          <h2 className="category-title">
+            {categoryIcons[category]} {/* Muestra el ícono */}
+            {category.charAt(0).toUpperCase() + category.slice(1)}
+          </h2>
+      
    
 
           {/* Mostrar los productos */}
