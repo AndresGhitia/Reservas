@@ -40,37 +40,56 @@
     color: #007bff;
   }
   
-  .store-header {
+  .store-header,
+  .store-item {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
-    gap: 0.5rem;
-    padding: 0.5rem 0;
-    font-weight: bold;
-    border-bottom: 2px solid #e0e0e0;
-    text-align: center;
-    background-color: #fafafa;
-    color: #666666;
-    font-size: 1rem;
+    grid-template-columns: 2fr 1fr 2fr 2fr 1fr; /* Ajusta proporciones según tus necesidades */
+    gap: 10px;
+    align-items: center;
+  }
+  .search-input {
+    margin-left: 10px;
+    padding: 5px;
+    font-size: 14px;
+    width: 120px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
   }
   
-  .store-items {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+  
+  .store-header {
+    font-weight: bold;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 10px;
+    padding: 5px 0;
   }
   
   .store-item {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr auto;
-    gap: 0.5rem;
-    align-items: center;
-    /* padding: 0.8rem 0.5rem; */
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    background-color: #ffffff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease;
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
   }
+  
+  .store-item span,
+  .store-header span {
+    text-align: left; /* Alinear el contenido a la izquierda */
+  }
+  
+  .stock-controls {
+    display: flex;
+    margin-left: 46px;
+    gap: 8px;
+    align-items: center;
+
+  }
+  
+  .stock-button,
+  .sale-button,
+  .remove-button {
+    padding: 0px 0px;
+    font-size: 1px;
+    cursor: pointer;
+  }
+  
   
   .store-item:hover {
     transform: scale(1.02);
@@ -82,12 +101,20 @@
     color: #444444;
   }
   
-  .stock-controls {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.3rem;
+
+  .store-items::-webkit-scrollbar {
+    width: 8px;
   }
+  
+  .store-items::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+  }
+  
+  .store-items::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+  
   .sales-list{
     margin-top: 0.5rem;
     border: solid 1px, rgb(53, 50, 50);
@@ -211,7 +238,7 @@
     background-color: #007bff;
     color: white;
   }
-  
+
   .stock-controls button i {
     font-size: 1rem;
   }

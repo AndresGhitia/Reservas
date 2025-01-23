@@ -16,6 +16,7 @@ const Store = () => {
     const [salesRange, setSalesRange] = useState("today");
     const [showTodaySales, setShowTodaySales] = useState("");      
     const debounceTimers = {};
+    const [searchTerm, setSearchTerm] = useState("");
 
     const fetchItems = async () => {
         setLoading(true);
@@ -268,191 +269,203 @@ const categoryIcons = {
     return <p className="error">Error: {error}</p>;
   }
   
- return (
-  <div className="store-container">
-   {Object.keys(items).map((category) => {
-  // Calcular las ventas totales por categoría (cantidad de ventas)
-  const totalSalesByCategory =
-    groupedSales[category]?.reduce((total, sale) => total + sale.sales, 0) || 0;
-
-  // Calcular el monto total generado por ventas
-  const totalRevenueByCategory =
-    groupedSales[category]?.reduce(
-      (total, sale) => total + sale.sales * sale.precio, // Asegúrate de usar "precio" si corresponde
-      0
-    ) || 0;
-
-    return (
-        <div key={category} className="store-column">
-          <h2 className="category-title">
-            {categoryIcons[category]} {/* Muestra el ícono */}
-            {category.charAt(0).toUpperCase() + category.slice(1)}
-          </h2>
-      
-   
-
-          {/* Mostrar los productos */}
-          <div className="store-items">
+  return (
+    <div className="store-container">
+      {Object.keys(items).map((category) => {
+        // Filtrar los artículos basados en el término de búsqueda
+        const filteredItems = items[category].filter((item) =>
+          item.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+  
+        // Calcular las ventas totales y el ingreso total para esta categoría
+        const totalSalesByCategory =
+          groupedSales[category]?.reduce((total, sale) => total + sale.sales, 0) || 0;
+  
+        const totalRevenueByCategory =
+          groupedSales[category]?.reduce(
+            (total, sale) => total + sale.sales * sale.precio,
+            0
+          ) || 0;
+  
+        return (
+          <div key={category} className="store-column">
+            <h2 className="category-title">
+              {categoryIcons[category]}
+              {category.charAt(0).toUpperCase() + category.slice(1)}
+            </h2>
+  
+            {/* Encabezado con buscador */}
             <div className="store-header">
               <span>Artículo</span>
               <span>Precio</span>
-              <span>Stock</span>
+              <span> Stock              </span>
+
+             
+ 
+              <input
+                  type="text"
+                  placeholder="Buscar..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="search-input"
+                />
+               
             </div>
-            {items[category].map((item) => (
-              <div key={item.id} className="store-item">
-                <span>{item.nombre}</span>
-                <span>{formatCurrency(item.precio)}</span>
-                <div className="stock-controls">
+  
+            {/* Lista de artículos filtrados */}
+            <div className="store-items">
+              {filteredItems.map((item) => (
+                <div key={item.id} className="store-item">
+                  <span>{item.nombre}</span>
+                  <span>{formatCurrency(item.precio)}</span>
+                  <div className="stock-controls">
+                    <button
+                      className="stock-button"
+                      onClick={() => handleStockChange(category, item.id, -1)}
+                    >
+                      -
+                    </button>
+                    <span>{item.stock}</span>
+                    <button
+                      className="stock-button"
+                      onClick={() => handleStockChange(category, item.id, 1)}
+                    >
+                      +
+                    </button>
+                    <button
+                      className="sale-button"
+                      onClick={() => handleRegisterSale(category, item.id, 1)}
+                    >
+                      ✔️
+                    </button>
+                  </div>
                   <button
-                    className="stock-button"
-                    onClick={() => handleStockChange(category, item.id, -1)}
+                    className="remove-button"
+                    onClick={() => handleDelete(category, item.id)}
                   >
-                    -
-                  </button>
-                  <span>{item.stock}</span>
-                  <button
-                    className="stock-button"
-                    onClick={() => handleStockChange(category, item.id, 1)}
-                  >
-                    +
-                  </button>
-                  <button
-                    className="sale-button"
-                    onClick={() => handleRegisterSale(category, item.id, 1)}
-                  >
-                    ✔️
+                    x
                   </button>
                 </div>
+              ))}
+            </div>
+  
+            <button className="add-item-button" onClick={() => toggleForm(category)}>
+              + Agregar
+            </button>
+  
+            {showForm[category] && (
+              <form
+                onSubmit={(e) => handleSubmit(e, category)}
+                className="add-item-form"
+              >
+                <input
+                  type="text"
+                  placeholder="Nombre del ítem"
+                  value={newItem[category]?.nombre || ""}
+                  onChange={(e) =>
+                    setNewItem((prev) => ({
+                      ...prev,
+                      [category]: {
+                        ...prev[category],
+                        nombre: e.target.value,
+                      },
+                    }))
+                  }
+                  required
+                />
+                <input
+                  type="number"
+                  placeholder="Precio"
+                  value={newItem[category]?.precio || ""}
+                  onChange={(e) =>
+                    setNewItem((prev) => ({
+                      ...prev,
+                      [category]: {
+                        ...prev[category],
+                        precio: e.target.value,
+                      },
+                    }))
+                  }
+                  required
+                />
+                <input
+                  type="number"
+                  placeholder="Stock"
+                  value={newItem[category]?.stock || ""}
+                  onChange={(e) =>
+                    setNewItem((prev) => ({
+                      ...prev,
+                      [category]: {
+                        ...prev[category],
+                        stock: e.target.value,
+                      },
+                    }))
+                  }
+                  required
+                />
+                <button type="submit" className="submit-button">
+                  Guardar
+                </button>
+              </form>
+            )}
+  
+            {/* Mostrar las ventas de los artículos de esta categoría */}
+            <div className="sales-list">
+              <div className="sales-filter-buttons">
                 <button
-                  className="remove-button"
-                  onClick={() => handleDelete(category, item.id)}
+                  className={`sales-filter-button ${
+                    salesRange === "today" ? "selected" : ""
+                  }`}
+                  onClick={() => setSalesRange("today")}
                 >
-                  x
+                  Ventas de hoy
+                </button>
+                <button
+                  className={`sales-filter-button ${
+                    salesRange === "last30" ? "selected" : ""
+                  }`}
+                  onClick={() => setSalesRange("last30")}
+                >
+                  Últimos 30 días
                 </button>
               </div>
-            ))}
-          </div>
-
-          <button className="add-item-button" onClick={() => toggleForm(category)}>
-            + Agregar
-          </button>
-
-          {showForm[category] && (
-            <form
-              onSubmit={(e) => handleSubmit(e, category)}
-              className="add-item-form"
-            >
-              <input
-                type="text"
-                placeholder="Nombre del ítem"
-                value={newItem[category]?.nombre || ""}
-                onChange={(e) =>
-                  setNewItem((prev) => ({
-                    ...prev,
-                    [category]: {
-                      ...prev[category],
-                      nombre: e.target.value,
-                    },
-                  }))
-                }
-                required
-              />
-              <input
-                type="number"
-                placeholder="Precio"
-                value={newItem[category]?.precio || ""}
-                onChange={(e) =>
-                  setNewItem((prev) => ({
-                    ...prev,
-                    [category]: {
-                      ...prev[category],
-                      precio: e.target.value,
-                    },
-                  }))
-                }
-                required
-              />
-              <input
-                type="number"
-                placeholder="Stock"
-                value={newItem[category]?.stock || ""}
-                onChange={(e) =>
-                  setNewItem((prev) => ({
-                    ...prev,
-                    [category]: {
-                      ...prev[category],
-                      stock: e.target.value,
-                    },
-                  }))
-                }
-                required
-              />
-              <button type="submit" className="submit-button">
-                Guardar
-              </button>
-            </form>
-          )}
-
-          {/* Mostrar las ventas de los artículos de esta categoría */}
-          <div className="sales-list">
-            <div className="sales-filter-buttons">
-              <button
-                className={`sales-filter-button ${
-                  salesRange === "today" ? "selected" : ""
-                }`}
-                onClick={() => setSalesRange("today")}
-              >
-                Ventas de hoy
-              </button>
-              <button
-                className={`sales-filter-button ${
-                  salesRange === "last30" ? "selected" : ""
-                }`}
-                onClick={() => setSalesRange("last30")}
-              >
-                Últimos 30 días
-              </button>
-            </div>
-
-            {loading && (
-              <p className="loading-message">
-                Cargando ventas<span className="loading-dots"></span>
-              </p>
-            )}
-
-            <div className="sales-columns">
-              <div key={category} className="sales-column">
-                {loadingSales ? (
-                  <div className="loading-spinner-container">
-                    <div className="loading-spinner">{/* Aquí tu spinner */}</div>
+  
+              {loading && (
+                <p className="loading-message">
+                  Cargando ventas<span className="loading-dots"></span>
+                </p>
+              )}
+  
+              <div className="sales-columns">
+                <div key={category} className="sales-column">
+                  {loadingSales ? (
+                    <div className="loading-spinner-container">
+                      <div className="loading-spinner">{/* Aquí tu spinner */}</div>
+                    </div>
+                  ) : (
+                    <SalesComponent
+                      sales={groupedSales[category]?.filter(({ sales }) => sales > 0)}
+                      category={category}
+                    />
+                  )}
+                  <div className="sales-summary">
+                    <p className="total-sales">
+                      Ventas Totales: {totalSalesByCategory} unidades
+                    </p>
+                    <p className="total-revenue">
+                      Monto Total: {formatCurrency(totalRevenueByCategory)}
+                    </p>
                   </div>
-                ) : (
-                  <SalesComponent
-                    sales={groupedSales[category]?.filter(({ sales }) => sales > 0)}
-                    category={category}
-                  />
-                  
-                )}
-                
-                <div className="sales-summary">
-  <p className="total-sales">
-    Ventas Totales: {totalSalesByCategory} unidades
-  </p>
-  <p className="total-revenue">
-  Monto Total: {formatCurrency(totalRevenueByCategory)}
-</p>
-</div>
-
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      );
-    })}
-  </div>
-);
-
+        );
+      })}
+    </div>
+  );
   
+
 };
 
 export default Store;
