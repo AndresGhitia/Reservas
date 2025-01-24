@@ -579,3 +579,5 @@ G#290 Revision de estilos y orden.
 
 G#291 Correccion en error al mostrar formulario "agregar articulo". Se establece un limete de articulos por categoria,Si bien ahora se establecion en 5 para realizar pruebas,
 el numero esta a definir para ser funcional al rendimiento del proyecto.
+
+G#292 Creamos el Script fetchFirestoreData.cjs con el fin de imprimir el arbol de datos total del proyecto. el JSON que contiene las claves esta en el gitignore.

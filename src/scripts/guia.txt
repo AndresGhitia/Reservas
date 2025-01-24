@@ -1,0 +1,3 @@
+El script se ejecuta con el comando
+
+node fetchFirestoreData.cjs 
