@@ -147,8 +147,6 @@ const Store = () => {
       }
   };
   
-
-
   const handleStockChange = (category, itemId, change) => {
     setItems((prevItems) => {
       const updatedCategory = prevItems[category].map((item) => {

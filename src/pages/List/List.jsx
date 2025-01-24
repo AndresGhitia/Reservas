@@ -10,8 +10,8 @@ import './List.css';
 import { assets } from '../../assets/assets';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
-
 
 function List() {
   const [ownerData, setOwnerData] = useState(null);
@@ -95,6 +95,19 @@ function List() {
     }
   };
 
+  const handleAddSpace = () => {
+    if (spaces.length >= 5) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Límite alcanzado',
+        text: 'Has alcanzado el límite de 8 canchas/espacios.',
+        confirmButtonText: 'Entendido'
+      });
+    } else {
+      navigate(dashboardUrl + '/add/add');
+    }
+  };
+
   if (loading) {
     return <div>Cargando espacios...</div>;
   }
@@ -148,7 +161,7 @@ function List() {
       {/* Botón para agregar cancha */}
       <button
         className="add-space-button"
-        onClick={() => navigate(dashboardUrl + '/add/add')}
+        onClick={handleAddSpace}
       >
         Agregar cancha (+)
       </button>
