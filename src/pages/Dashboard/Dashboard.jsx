@@ -132,7 +132,7 @@ function Dashboard() {
         <p>Bienvenido al panel de administración de {decodedName}</p>
       </div>
       <hr />
-      <Sidebar />
+      <Sidebar spaces={spaces} />
       <div className='outlet-container'>
         <Outlet />
       </div>

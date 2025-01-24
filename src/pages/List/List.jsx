@@ -96,7 +96,7 @@ function List() {
   };
 
   const handleAddSpace = () => {
-    if (spaces.length >= 5) {
+    if (spaces.length >= 8) {
       Swal.fire({
         icon: 'error',
         title: 'Límite alcanzado',
