@@ -27,5 +27,7 @@ dist-ssr
 
 src/scripts/service-account-key.json
 
+tickets.txt
+
 
 CONSIDERACIONES DE ESCALABILIDAD.docx

@@ -144,8 +144,10 @@ function Navbar() {
 
       {showLogin && (
         <LoginForm
+        show={showLogin} 
           onClose={handleCloseLoginForm}
           setShowAccountTypeModal={setShowAccountTypeModal}
+          setShowLogin={setShowLogin} 
         />
       )}
 

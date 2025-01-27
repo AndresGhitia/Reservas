@@ -1,39 +1,107 @@
-pero necesito que este por fuera de spaces. seria una coleccion paralela a spces:
-supongamos que un usuario agrega un item a una de las 3 columnas del componente Store.jsx
-de no existir, se deberia crear la coleccion Store, y quedaria algo asi:
-  
-owner (coleccion)
-   |
-  docID (documento)
-   |					
-  Store (coleccion)
-   |
-   |
-   |_bebidas (documento)
-                       |_ "items" ( coleccion) 
-   |                           |_
-   |                           |_ docId 
-   |_buffet (documento)               |_campos_ nombre              
-   |                                          _precio 
-   |                                          _stock 
-   |_tienda (documento)
 
-
-
-owner (coleccion)
-   |
-  docID (documento)
-   |					
-  spaces(coleccion)
-   |
-   |
-   |_cancha I  -------   (documento)
-   |	                       |_ capmpos (sport, players, prices, etc) 
-   |                           |  
-   |                           |_ calendar( coleccion) 
-   |                                               |_fecha ej: 18/9 (documento)
-   |                                                                          |_array (state, time, name)
-   |_cancha II (documento)               
-   |                                          
-   |                                          
-   |_cancha III (documento)
+Clunweb
+   |_ Owners (Colección)
+       |_ <DocId> (Documento)
+           |_ address: string
+           |_ establishmentName: string
+           |_ businessType: [string]
+           |_ id: string
+           |_ amenities: [string]
+           |_ ownerName: string
+           |_ establishmentEmail: string
+           |_ whatsapp: string
+           |_ createdAt: Timestamp
+           |_ expdate: Timestamp
+           |_ status: string
+           |_ statusHistory (Arreglo de objetos)
+               |_ 0: { enabled: Timestamp }
+               |_ 1: { disabled: Timestamp }
+           |_ spaces (Arreglo de objetos)
+               |_ 0:
+                   |_ id: string
+                   |_ closedDays: [string]
+                   |_ name: string
+                   |_ sport: string
+                   |_ surface: string
+                   |_ players: number
+                   |_ rate: number
+                   |_ openTime: string
+                   |_ closeTime: string
+                   |_ roof: string
+                   |_ walls: string
+           |_ store
+               |_ bebidas (Documento)
+                   |_ items (Subcolección)
+                       |_ <DocId> (Documento)
+                           |_ nombre: string
+                           |_ precio: number
+                           |_ stock: number
+                           |_ ventas (Subcolección)
+                               |_ <DocId> (Documento)
+                                   |_ cantidad: number
+                                   |_ fecha: Timestamp
+                                   |_ cliente: string
+                                   |_ total: number
+                                   |_ métodoDePago: string
+               |_ buffet (Documento)
+                   |_ items (Subcolección)
+                       |_ <DocId> (Documento)
+                           |_ nombre: string
+                           |_ precio: number
+                           |_ stock: number
+                           |_ ventas (Subcolección)
+                               |_ <DocId> (Documento)
+                                   |_ cantidad: number
+                                   |_ fecha: Timestamp
+                                   |_ cliente: string
+                                   |_ total: number
+                                   |_ métodoDePago: string
+               |_ tienda (Documento)
+                   |_ items (Subcolección)
+                       |_ <DocId> (Documento)
+                           |_ nombre: string
+                           |_ precio: number
+                           |_ stock: number
+                           |_ ventas (Subcolección)
+                               |_ <DocId> (Documento)
+                                   |_ cantidad: number
+                                   |_ fecha: Timestamp
+                                   |_ cliente: string
+                                   |_ total: number
+                                   |_ métodoDePago: string
+           |_ news: [string]
+           |_ backgroundImageUrl: string
+   |_ Spaces (Colección)
+       |_ <DocId> (Documento)
+           |_ name: string
+           |_ sport: string
+           |_ surface: string
+           |_ players: number
+           |_ rate: number
+           |_ openTime: string
+           |_ closeTime: string
+           |_ roof: string
+           |_ walls: string
+           |_ closedDays: [string]
+           |_ schedule (Subcolección)
+               |_ <DocId> (Documento)
+                   |_ day: string
+                   |_ reservedSlots: [string]
+   |_ Store (Colección independiente)
+       |_ <DocId> (Documento)
+           |_ productName: string
+           |_ description: string
+           |_ price: number
+           |_ stock: number
+           |_ category: string
+           |_ createdAt: Timestamp
+|_ Users (Colección)
+   |_ <DocId> (Documento)
+      |_ name: string
+      |_ email: string
+      |_ phone: string
+      |_ reservations (Subcolección)
+      |_ <DocId> (Documento)
+                   |_ date: string
+                   |_ spaceId: string
+                   |_ timeSlot: string

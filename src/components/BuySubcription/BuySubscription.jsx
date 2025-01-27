@@ -1,8 +1,7 @@
-// components/BuySubscription/BuySubscription.jsx
 import React from 'react';
 import './BuySubscription.css';
 
-function BuySubscription({ isOpen, onClose, onRenew }) {
+function BuySubscription({ isOpen, onClose, onRenew,setShowLogin  }) {
   if (!isOpen) return null; 
 
   return (

@@ -3,7 +3,6 @@ import { signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopu
 import { auth, db } from '../../firebase';
 import './LoginForm.css';
 import RegisterForm from '../RegisterForm/RegisterForm';
-import AccountTypeModal from '../AccountTypeModal/AccountTypeModal';
 import { useNavigate } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { assets } from '../../assets/assets';
@@ -19,7 +18,7 @@ const validationSchema = Yup.object({
   password: Yup.string().required('Por favor, introduzca una contraseña'),
 });
 
-function LoginForm({ onClose, setShowAccountTypeModal }) {
+function LoginForm({ onClose, setShowAccountTypeModal,setShowLogin , show }) {
   const [error, setError] = useState('');
   const [showRegister, setShowRegister] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -27,8 +26,11 @@ function LoginForm({ onClose, setShowAccountTypeModal }) {
   const [userEmail, setUserEmail] = useState('');
   const [isDisabledUser, setIsDisabledUser] = useState(false);
   const [showRecoverScreen, setShowRecoverScreen] = useState(false); // Estado para mostrar la pantalla de recuperación
+  const [_, forceUpdate] = useState();
 
   const navigate = useNavigate();
+
+  if (!show) return null; 
 
   const handleLogin = async (values, { setSubmitting }) => {
     try {
@@ -105,13 +107,11 @@ function LoginForm({ onClose, setShowAccountTypeModal }) {
           if (result.isConfirmed) {
             setUserEmail(user.email);
             setTimeout(() => {
-              console.log('**', user.email); // Ahora tendrá el valor actualizado
               openRecoverScreen(user.email);
             }, 0);
           }
         });  
-        // setError("Tu cuenta ha sido deshabilitada. Contacta al soporte para más información.");
-        // setIsDisabledUser(true);
+     
         await signOut(auth);
         setSubmitting(false);
         return;
@@ -122,7 +122,6 @@ function LoginForm({ onClose, setShowAccountTypeModal }) {
 
       if (today > expdate) {
         setError("Tu cuenta ha vencido. Por favor, contacta a soporte para renovarla.");
-        // console.log("Usuario vencido.");
         setIsSubscriptionModalOpen(true);
         await signOut(auth);
         return;
@@ -152,44 +151,108 @@ function LoginForm({ onClose, setShowAccountTypeModal }) {
     }
   };
 
-  // Inicio de sesión con Google
   const handleGoogleLogin = async () => {
-    const provider = new GoogleAuthProvider();
-
     try {
-      console.log('Abriendo popup para autenticación con Google...'); // LOG
-
-      // Crear popup manualmente para verificar si se bloquea
-      const popupWindow = window.open('', '_blank', 'width=500,height=600');
-      if (!popupWindow || popupWindow.closed || typeof popupWindow.closed === 'undefined') {
-        console.error('El navegador bloqueó el popup.'); // LOG
-        setError("El navegador bloqueó el popup. Habilita las ventanas emergentes.");
+      const provider = new GoogleAuthProvider();
+      const userCredential = await signInWithPopup(auth, provider);
+      const user = userCredential.user;
+  
+      setUserEmail(user.email); // Actualiza el correo del usuario en el estado
+      console.log("Google Login Email:", user.email);
+  
+      console.log("Autenticación con Google exitosa. Usuario:", user);
+  
+      if (!user.emailVerified) {
+        Swal.fire({
+          title: "Verifica tu correo!",
+          text: "Tu correo electrónico no ha sido verificado. Por favor, revisa tu correo y sigue las instrucciones para verificarlo.",
+          icon: "info",
+          confirmButtonText: "Entendido",
+        });
+        await signOut(auth);
         return;
       }
-      popupWindow.close();
+  
+      // Buscar el documento correspondiente en Firestore
+      var userDoc = await getDoc(doc(db, "owners", user.uid));
+      if (!userDoc.exists()) {
+        userDoc = await getDoc(doc(db, "users", user.uid));
+      }
+  
+      if (!userDoc.exists()) {
+        Swal.fire({
+          title: "Usuario no encontrado",
+          text: "Parece que no tienes una cuenta registrada. Por favor, contacta a soporte.",
+          icon: "info",
+          confirmButtonText: "Entendido",
+        });
+        await signOut(auth);
+        return;
+      }
+  
+      const userData = userDoc.data();
+      console.log("Datos del usuario encontrados:", userData);
+  
+      // Lógica para usuarios deshabilitados
+      if (userData.status === "disabled") {
+        Swal.fire({
+          title: "Cuenta deshabilitada",
+          text: "Tu cuenta se encuentra deshabilitada. Contacta al soporte para más información.",
+          icon: "info",
+          confirmButtonText: "Recuperar cuenta",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            setTimeout(() => {
+              openRecoverScreen(user.email); // Reemplaza con tu función de recuperación
+            }, 0);
+          }
+        });
+  
+        await signOut(auth);
+        return;
+      }
 
-      // Inicia el proceso de autenticación
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      console.log('Usuario autenticado:', user); // LOG
+      const expdate = userData.expdate?.toDate ? userData.expdate.toDate() : new Date(userData.expdate);
+      const today = new Date();
+      setShowLogin(true); // Reabre LoginForm
 
-      // Procesar el inicio de sesión...
+      if (today > expdate) {
+        Swal.fire({
+          title: "Suscripción vencida",
+          text: "Tu suscripción ha expirado. Por favor, renueva tu cuenta para continuar.",
+          icon: "info",
+          confirmButtonText: "Renovar",
+        }).then(() => {
+
+
+          console.log("Botón Renovar presionado");
+          setShowLogin(true); // Reabre LoginForm
+          forceUpdate();  // Forzar renderizado
+
+          setIsSubscriptionModalOpen(true); // Activa BuySubscription
+          
+        });
+  
+        await signOut(auth);
+        return;
+      }
+  
+      console.log("Usuario activo. Redirigiendo...");
+      const dashboardUrl = `/dashboard/${encodeURIComponent(userData.establishmentName.replace(/\s+/g, '-'))}`;
+      navigate(dashboardUrl + "/list");
     } catch (error) {
-      console.error('Error en el inicio de sesión con Google:', error); // LOG
+      console.error("Error durante el inicio de sesión con Google:", error);
+  
       Swal.fire({
-        title: 'Error',
-        text: 'Error al iniciar sesión con Google. Intenta de nuevo.',
-        icon: 'info',
-        confirmButtonText: 'Entendido',
-        target: document.querySelector('.modal'), 
-        customClass: {
-          popup: 'swal2-zindex' 
-        }
+        title: "Error",
+        text: "Hubo un problema al iniciar sesión. Por favor, inténtalo de nuevo.",
+        icon: "error",
+        confirmButtonText: "Entendido",
       });
-      // setError(error.message || "Error al iniciar sesión con Google. Intenta de nuevo.");
     }
   };
-
+  
+  
   const openRecoverScreen = (userEmail) => {
     // console.log('Navigating to recover screen with email:', userEmail);
 
@@ -197,10 +260,10 @@ function LoginForm({ onClose, setShowAccountTypeModal }) {
     // setShowRecoverScreen(true); // Mostrar la pantalla de recuperación
   };
 
-  const handleAccountRecovery = () => {
-    alert("Se ha solicitado la recuperación de tu cuenta. Nuestro equipo se pondrá en contacto contigo pronto.");
-    setIsDisabledUser(false); 
-  };
+  // const handleAccountRecovery = () => {
+    //   alert("Se ha solicitado la recuperación de tu cuenta. Nuestro equipo se pondrá en contacto contigo pronto.");
+    //   setIsDisabledUser(false); 
+    // };
 
   const handleModalClose = () => {
     setIsSubscriptionModalOpen(false);
@@ -208,12 +271,9 @@ function LoginForm({ onClose, setShowAccountTypeModal }) {
   };
 
   const handleRenewSubscription = async () => {
-    //   console.log('Renovando suscripción...');
-
-    // console.log('enviando a la preference el mail: '+ userEmail)
-
     const preference = await handleIntegrationMP(userEmail);
 
+    console.log('usuario: '+userEmail)
     if (preference) {
       window.location.href = preference.init_point;
     } else {
@@ -336,10 +396,13 @@ function LoginForm({ onClose, setShowAccountTypeModal }) {
         onClose={handleModalClose}
         onRenew={handleRenewSubscription}
         userEmail={userEmail}
+        setShowLogin={setShowLogin}
       />
 
       {/* Modal de registro */}
-      {showRegister && <RegisterForm onClose={() => setShowRegister(false)} />}
+      {showRegister &&
+       <RegisterForm 
+       onClose={() => setShowRegister(false)} />}
     </>
   );
 }

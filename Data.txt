@@ -585,3 +585,9 @@ G#292 Creamos el Script fetchFirestoreData.cjs con el fin de imprimir el arbol d
 G#293 Se añade al componente List, al boton "Agregar cancha (+)" limite al alcanzar los 8 espacios, limite a definir.
 
 G#294 Se añade al componente Sidebar, limite al alcanzar los 8 espacios, limite a definir.
+
+G#295 Ajustes en el backend (functios/index.js) para al eliminar usuario, se borre tambien la coleccion "store".
+*Se crea el archivo tickects.txt como para ir agregando pendiente y cosas que vamos notando a corregir del sistema.
+
+G#296 Ajustando el flujo de GoogleLogin, ya que logueaba derecho sin ningua restriccion (vencido o disabled), lo estoy ajustando de a poco. 
+La solucion esta mas que encarada, restan algunas comprobaciones.
