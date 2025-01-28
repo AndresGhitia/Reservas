@@ -26,7 +26,6 @@ function LoginForm({ onClose, setShowAccountTypeModal,setShowLogin , show }) {
   const [userEmail, setUserEmail] = useState('');
   const [isDisabledUser, setIsDisabledUser] = useState(false);
   const [showRecoverScreen, setShowRecoverScreen] = useState(false); // Estado para mostrar la pantalla de recuperación
-  const [_, forceUpdate] = useState();
 
   const navigate = useNavigate();
 
@@ -217,22 +216,7 @@ function LoginForm({ onClose, setShowAccountTypeModal,setShowLogin , show }) {
       setShowLogin(true); // Reabre LoginForm
 
       if (today > expdate) {
-        Swal.fire({
-          title: "Suscripción vencida",
-          text: "Tu suscripción ha expirado. Por favor, renueva tu cuenta para continuar.",
-          icon: "info",
-          confirmButtonText: "Renovar",
-        }).then(() => {
-
-
-          console.log("Botón Renovar presionado");
-          setShowLogin(true); // Reabre LoginForm
-          forceUpdate();  // Forzar renderizado
-
-          setIsSubscriptionModalOpen(true); // Activa BuySubscription
-          
-        });
-  
+        setIsSubscriptionModalOpen(true);
         await signOut(auth);
         return;
       }

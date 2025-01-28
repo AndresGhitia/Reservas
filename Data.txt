@@ -591,3 +591,5 @@ G#295 Ajustes en el backend (functios/index.js) para al eliminar usuario, se bor
 
 G#296 Ajustando el flujo de GoogleLogin, ya que logueaba derecho sin ningua restriccion (vencido o disabled), lo estoy ajustando de a poco. 
 La solucion esta mas que encarada, restan algunas comprobaciones.
+
+G#297 Ajustes en hadleGoogleLogin, se elimina el alert de renovacion de suscripcion porque es redundante, dejamos solo el modal de redireccion a MP.
