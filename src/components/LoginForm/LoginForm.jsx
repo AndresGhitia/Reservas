@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth, db } from '../../firebase';
 import './LoginForm.css';
@@ -9,7 +9,7 @@ import { assets } from '../../assets/assets';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import BuySubscription from '../BuySuscription/BuySubscription';
 import { handleIntegrationMP } from '../../../MP/preference';
-import RecoverForm from '../../pages/RecoverForm/RecoverForm';  // Importamos RecoverForm
+import RecoverForm from '../../pages/RecoverForm/RecoverForm';
 import * as Yup from 'yup';
 import Swal from 'sweetalert2';
 
@@ -18,81 +18,82 @@ const validationSchema = Yup.object({
   password: Yup.string().required('Por favor, introduzca una contraseña'),
 });
 
-function LoginForm({ onClose, setShowAccountTypeModal,setShowLogin , show }) {
+const showErrorAlert = (title, text) => {
+  Swal.fire({
+    title,
+    text,
+    icon: 'info',
+    confirmButtonText: 'Entendido',
+    target: document.querySelector('.modal'),
+    customClass: {
+      popup: 'swal2-zindex'
+    }
+  });
+};
+
+const fetchUserDoc = async (uid) => {
+  let userDoc = await getDoc(doc(db, 'owners', uid));
+  if (!userDoc.exists()) {
+    userDoc = await getDoc(doc(db, 'users', uid));
+  }
+  return userDoc;
+};
+
+const navigateToDashboard = (navigate, establishmentName) => {
+  const dashboardUrl = `/dashboard/${encodeURIComponent(establishmentName.replace(/\s+/g, '-'))}`;
+  navigate(dashboardUrl + '/list');
+};
+
+const GoogleLoginButton = ({ onClick }) => (
+  <button className="google-login-button" onClick={onClick}>
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/150px-Google_%22G%22_logo.svg.png"
+      alt="Google icon"
+      className="google-icon"
+    />
+    Continuar con Google
+  </button>
+);
+
+function LoginForm({ onClose, setShowAccountTypeModal, setShowLogin, show }) {
   const [error, setError] = useState('');
-  const [showRegister, setShowRegister] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false);
+  const [modalStates, setModalStates] = useState({
+    showRegister: false,
+    showRecoverScreen: false,
+    isSubscriptionModalOpen: false,
+  });
   const [userEmail, setUserEmail] = useState('');
   const [isDisabledUser, setIsDisabledUser] = useState(false);
-  const [showRecoverScreen, setShowRecoverScreen] = useState(false); // Estado para mostrar la pantalla de recuperación
 
   const navigate = useNavigate();
 
-  if (!show) return null; 
-
-  const handleLogin = async (values, { setSubmitting }) => {
+  const handleLogin = useCallback(async (values, { setSubmitting }) => {
     try {
-      // console.log("Iniciando sesión con email:", values.email);
-
       const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
       const user = userCredential.user;
 
       if (!user.emailVerified) {
-       
-        Swal.fire({
-          title: 'Verifica tu correo!',
-          text: 'Tu correo electrónico no ha sido verificado. Por favor, revisa tu correo y sigue las instrucciones para verificarlo.',
-          icon: 'info',
-          confirmButtonText: 'Entendido',
-          target: document.querySelector('.modal'), 
-          customClass: {
-            popup: 'swal2-zindex' 
-          }
-        });
-        // setError("Tu correo electrónico no ha sido verificado. Por favor, revisa tu correo y sigue las instrucciones para verificarlo.");
+        showErrorAlert('Verifica tu correo!', 'Tu correo electrónico no ha sido verificado. Por favor, revisa tu correo y sigue las instrucciones para verificarlo.');
         await signOut(auth);
         setSubmitting(false);
         return;
       }
 
       setUserEmail(user.email);
-      // console.log("Email del usuario:", user.email); 
-
-      // console.log("Buscando usuario en Firestore con UID:", user.uid);
-
-      var userDoc = await getDoc(doc(db, 'owners', user.uid));
-      if (!userDoc.exists()) {
-        // console.log("Usuario no encontrado en 'owners'. Buscando en 'users'...");
-        userDoc = await getDoc(doc(db, 'users', user.uid));
-      }
+      const userDoc = await fetchUserDoc(user.uid);
 
       if (!userDoc.exists()) {
-        // console.log("Usuario no encontrado en Firestore.");
-        Swal.fire({
-          title: 'Verifica tu correo!',
-          text: 'Usuario no encontrado, por favor verifica el mail ingresado.',
-          icon: 'info',
-          confirmButtonText: 'Entendido',
-          target: document.querySelector('.modal'), 
-          customClass: {
-            popup: 'swal2-zindex' 
-          }
-        });
-        // setError("Usuario no encontrado, por favor verifica tus credenciales.");
+        showErrorAlert('Usuario no encontrado', 'Usuario no encontrado, por favor verifica el mail ingresado.');
         await signOut(auth);
         setSubmitting(false);
         return;
       }
 
       const userData = userDoc.data();
-      // console.log("Datos del usuario:", userData);
       setUserEmail(user.email);
 
-
       if (userData.status === "disabled") {
-        setUserEmail(user.email);
-
         Swal.fire({
           title: 'Cuenta deshabilitada',
           text: 'Tu cuenta se encuentra deshabilitada. Contacta al soporte para más información.',
@@ -106,11 +107,11 @@ function LoginForm({ onClose, setShowAccountTypeModal,setShowLogin , show }) {
           if (result.isConfirmed) {
             setUserEmail(user.email);
             setTimeout(() => {
-              openRecoverScreen(user.email);
+              setModalStates(prev => ({ ...prev, showRecoverScreen: true }));
             }, 0);
           }
-        });  
-     
+        });
+
         await signOut(auth);
         setSubmitting(false);
         return;
@@ -121,78 +122,45 @@ function LoginForm({ onClose, setShowAccountTypeModal,setShowLogin , show }) {
 
       if (today > expdate) {
         setError("Tu cuenta ha vencido. Por favor, contacta a soporte para renovarla.");
-        setIsSubscriptionModalOpen(true);
+        setModalStates(prev => ({ ...prev, isSubscriptionModalOpen: true }));
         await signOut(auth);
         return;
       }
 
       onClose();
       setTimeout(() => {
-
-        const dashboardUrl = `/dashboard/${encodeURIComponent(userData.establishmentName.replace(/\s+/g, '-'))}`;
-        navigate(dashboardUrl + '/list');
+        navigateToDashboard(navigate, userData.establishmentName);
       }, 100);
     } catch (error) {
       console.error("Error de inicio de sesión:", error);
-   
-      Swal.fire({
-        title: 'Usuario o contraseña incorrectos',
-        text: 'Revísalos y vuelve a ingresarlos por favor.',
-        icon: 'info',
-        confirmButtonText: 'Entendido',
-        target: document.querySelector('.modal'), 
-        customClass: {
-          popup: 'swal2-zindex' 
-        }
-      });
-      // setError("Usuario o contraseña incorrectos, revísalos y vuelve a ingresarlos por favor.");
+      showErrorAlert('Usuario o contraseña incorrectos', 'Revísalos y vuelve a ingresarlos por favor.');
       setSubmitting(false);
     }
-  };
+  }, [navigate, onClose]);
 
-  const handleGoogleLogin = async () => {
+  const handleGoogleLogin = useCallback(async () => {
     try {
       const provider = new GoogleAuthProvider();
       const userCredential = await signInWithPopup(auth, provider);
       const user = userCredential.user;
-  
-      setUserEmail(user.email); // Actualiza el correo del usuario en el estado
-      console.log("Google Login Email:", user.email);
-  
-      console.log("Autenticación con Google exitosa. Usuario:", user);
-  
+
+      setUserEmail(user.email);
+
       if (!user.emailVerified) {
-        Swal.fire({
-          title: "Verifica tu correo!",
-          text: "Tu correo electrónico no ha sido verificado. Por favor, revisa tu correo y sigue las instrucciones para verificarlo.",
-          icon: "info",
-          confirmButtonText: "Entendido",
-        });
+        showErrorAlert("Verifica tu correo!", "Tu correo electrónico no ha sido verificado. Por favor, revisa tu correo y sigue las instrucciones para verificarlo.");
         await signOut(auth);
         return;
       }
-  
-      // Buscar el documento correspondiente en Firestore
-      var userDoc = await getDoc(doc(db, "owners", user.uid));
+
+      const userDoc = await fetchUserDoc(user.uid);
       if (!userDoc.exists()) {
-        userDoc = await getDoc(doc(db, "users", user.uid));
-      }
-  
-      if (!userDoc.exists()) {
-        Swal.fire({
-          title: "Usuario no encontrado",
-          text: "Parece que no tienes una cuenta registrada. Por favor, contacta a soporte.",
-          icon: "info",
-          confirmButtonText: "Entendido",
-        });
+        showErrorAlert("Usuario no encontrado", "Parece que no tienes una cuenta registrada. Por favor, contacta a soporte.");
         await signOut(auth);
         return;
       }
-  
+
       const userData = userDoc.data();
-      console.log("Datos del usuario encontrados:", userData);
-  
-      // Lógica para usuarios deshabilitados
+
       if (userData.status === "disabled") {
         Swal.fire({
           title: "Cuenta deshabilitada",
@@ -202,77 +170,53 @@ function LoginForm({ onClose, setShowAccountTypeModal,setShowLogin , show }) {
         }).then((result) => {
           if (result.isConfirmed) {
             setTimeout(() => {
-              openRecoverScreen(user.email); // Reemplaza con tu función de recuperación
+              setModalStates(prev => ({ ...prev, showRecoverScreen: true }));
             }, 0);
           }
         });
-  
+
         await signOut(auth);
         return;
       }
 
       const expdate = userData.expdate?.toDate ? userData.expdate.toDate() : new Date(userData.expdate);
       const today = new Date();
-      setShowLogin(true); // Reabre LoginForm
 
       if (today > expdate) {
-        setIsSubscriptionModalOpen(true);
+        setModalStates(prev => ({ ...prev, isSubscriptionModalOpen: true }));
         await signOut(auth);
         return;
       }
-  
-      console.log("Usuario activo. Redirigiendo...");
-      const dashboardUrl = `/dashboard/${encodeURIComponent(userData.establishmentName.replace(/\s+/g, '-'))}`;
-      navigate(dashboardUrl + "/list");
+
+      navigateToDashboard(navigate, userData.establishmentName);
     } catch (error) {
       console.error("Error durante el inicio de sesión con Google:", error);
-  
-      Swal.fire({
-        title: "Error",
-        text: "Hubo un problema al iniciar sesión. Por favor, inténtalo de nuevo.",
-        icon: "error",
-        confirmButtonText: "Entendido",
-      });
+      showErrorAlert("Error", "Hubo un problema al iniciar sesión. Por favor, inténtalo de nuevo.");
     }
-  };
-  
-  
-  const openRecoverScreen = (userEmail) => {
-    // console.log('Navigating to recover screen with email:', userEmail);
+  }, [navigate]);
 
-    navigate(`/recover?email=${userEmail}`);
-    // setShowRecoverScreen(true); // Mostrar la pantalla de recuperación
-  };
+  const handleModalClose = useCallback(() => {
+    setModalStates(prev => ({ ...prev, isSubscriptionModalOpen: false }));
+  }, []);
 
-  // const handleAccountRecovery = () => {
-    //   alert("Se ha solicitado la recuperación de tu cuenta. Nuestro equipo se pondrá en contacto contigo pronto.");
-    //   setIsDisabledUser(false); 
-    // };
-
-  const handleModalClose = () => {
-    setIsSubscriptionModalOpen(false);
-
-  };
-
-  const handleRenewSubscription = async () => {
+  const handleRenewSubscription = useCallback(async () => {
     const preference = await handleIntegrationMP(userEmail);
-
-    console.log('usuario: '+userEmail)
     if (preference) {
       window.location.href = preference.init_point;
     } else {
       alert("Error al crear la preferencia de pago.");
     }
-    setIsSubscriptionModalOpen(false);
-  };
+    setModalStates(prev => ({ ...prev, isSubscriptionModalOpen: false }));
+  }, [userEmail]);
+
+  if (!show) return null;
 
   return (
     <>
-      {showRecoverScreen ? (
-
+      {modalStates.showRecoverScreen ? (
         <RecoverForm
-          onClose={() => setShowRecoverScreen(false)}
-          onRecover={handleAccountRecovery}
+          onClose={() => setModalStates(prev => ({ ...prev, showRecoverScreen: false }))}
+          userEmail={userEmail}
         />
       ) : (
         <div className="modal">
@@ -280,12 +224,9 @@ function LoginForm({ onClose, setShowAccountTypeModal,setShowLogin , show }) {
             <div className="modal-content-form">
               <div className='modal-header'>
                 <p className="login-header">Bienvenido a Clubweb</p>
-                <span className="close"
-                  onClick={onClose}>&times;
-                </span>
+                <span className="close" onClick={onClose}>&times;</span>
               </div>
               <div className='modal-body'>
-
                 <section className='modal-login'>
                   <h3 onClick={onClose}>LOG IN</h3>
                   <p>No tienes cuenta?
@@ -294,18 +235,16 @@ function LoginForm({ onClose, setShowAccountTypeModal,setShowLogin , show }) {
                       onClick={() => {
                         onClose();
                         setShowAccountTypeModal(true);
-
                       }}
                     >
                       CREAR CUENTA
                     </span>
                   </p>
-
                 </section>
 
                 {error && <p className="error">{error}</p>}
                 {isDisabledUser && (
-                  <button className="recover-account-button" onClick={openRecoverScreen}>
+                  <button className="recover-account-button" onClick={() => setModalStates(prev => ({ ...prev, showRecoverScreen: true }))}>
                     Recuperar cuenta
                   </button>
                 )}
@@ -347,9 +286,7 @@ function LoginForm({ onClose, setShowAccountTypeModal,setShowLogin , show }) {
                         <span onClick={() => navigate("/password-reset")}>¿Olvidaste tu contraseña?</span>
                       </p>
 
-                      <button type="submit"
-                        className="login-button"
-                        disabled={isSubmitting}>
+                      <button type="submit" className="login-button" disabled={isSubmitting}>
                         LOG IN TO CLUBWEB
                       </button>
 
@@ -358,14 +295,7 @@ function LoginForm({ onClose, setShowAccountTypeModal,setShowLogin , show }) {
                         <span>OR</span>
                         <hr />
                       </div>
-                      <button className="google-login-button" onClick={handleGoogleLogin}>
-                        <img
-                          src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/150px-Google_%22G%22_logo.svg.png"
-                          alt="Google icon"
-                          className="google-icon"
-                        />
-                        Continuar con Google
-                      </button>
+                      <GoogleLoginButton onClick={handleGoogleLogin} />
                     </Form>
                   )}
                 </Formik>
@@ -376,17 +306,14 @@ function LoginForm({ onClose, setShowAccountTypeModal,setShowLogin , show }) {
       )}
 
       <BuySubscription
-        isOpen={isSubscriptionModalOpen}
+        isOpen={modalStates.isSubscriptionModalOpen}
         onClose={handleModalClose}
         onRenew={handleRenewSubscription}
         userEmail={userEmail}
         setShowLogin={setShowLogin}
       />
 
-      {/* Modal de registro */}
-      {showRegister &&
-       <RegisterForm 
-       onClose={() => setShowRegister(false)} />}
+      {modalStates.showRegister && <RegisterForm onClose={() => setModalStates(prev => ({ ...prev, showRegister: false }))} />}
     </>
   );
 }
