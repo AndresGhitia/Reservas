@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Autocomplete } from '@react-google-maps/api';
 import './HomeFilter.css';
+import SearchByName from './SearchByName';
 import SportFilter from '../SportFilter/SportFilter';
 
-const HomeFilter = ({ userLocation, setUserLocation, cardContainerRef, businessListRef, category, setCategory }) => {
+const HomeFilter = ({ userLocation, setUserLocation, cardContainerRef, businessListRef, category, setCategory,searchTerm, setSearchTerm }) => {
   const [manualLocation, setManualLocation] = useState('');
   const [error, setError] = useState(null);
   const [highlightInput, setHighlightInput] = useState(false);
@@ -108,6 +109,7 @@ const HomeFilter = ({ userLocation, setUserLocation, cardContainerRef, businessL
           </div>
           <SportFilter setCategory={setCategory}
             category={category} />
+             <SearchByName searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
           <div className="location-header-subtitle">
             <p>Ingresa la dirección o zona</p>
           </div>

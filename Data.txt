@@ -593,3 +593,5 @@ G#296 Ajustando el flujo de GoogleLogin, ya que logueaba derecho sin ningua rest
 La solucion esta mas que encarada, restan algunas comprobaciones.
 
 G#297 Ajustes en hadleGoogleLogin, se elimina el alert de renovacion de suscripcion porque es redundante, dejamos solo el modal de redireccion a MP.
+
+G#298 Se crea componente SearchByName, realiza filtrado por nombre, se suma a los filtros de deporte y zona de HomeFilter.jsx

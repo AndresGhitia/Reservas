@@ -9,7 +9,7 @@ const Home = () => {
   const [category, setCategory] = useState("All");
   const [userLocation, setUserLocation] = useState(null);
   const [error, setError] = useState(null);
-
+  const [searchTerm, setSearchTerm] = useState(''); 
   const businessListRef = useRef(null);
 
   
@@ -38,6 +38,8 @@ const Home = () => {
   setUserLocation={setUserLocation}
   businessListRef={businessListRef}
   category={category}
+  searchTerm={searchTerm}
+  setSearchTerm={setSearchTerm}
   setCategory={setCategory}
 />
 
@@ -46,7 +48,10 @@ const Home = () => {
                     setCategory={setCategory} />
 
       <div ref={businessListRef}>
-        <BusinessList category={category} userLocation={userLocation} />
+        <BusinessList 
+        category={category}
+         userLocation={userLocation}
+         searchTerm={searchTerm} />
       </div>
     </div>
   );
