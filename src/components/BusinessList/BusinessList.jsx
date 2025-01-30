@@ -8,12 +8,12 @@ import '../Whatsapp/Whatsapp.css';
 const BusinessList = ({ category, userLocation, searchTerm }) => {
   const [businesses, setBusinesses] = useState([]);
   const [distances, setDistances] = useState({});
+  const [visibleCount, setVisibleCount] = useState(8);
   const Maps_ApiKey = import.meta.env.VITE_MAPS_APIKEY;
 
-  // 📌 Función para calcular la distancia con la fórmula de Haversine
   const calculateDistance = (lat1, lng1, lat2, lng2) => {
     const toRad = (value) => (value * Math.PI) / 180;
-    const R = 6371; // Radio de la Tierra en km
+    const R = 6371;
     const dLat = toRad(lat2 - lat1);
     const dLng = toRad(lng2 - lng1);
     const a =
@@ -23,10 +23,9 @@ const BusinessList = ({ category, userLocation, searchTerm }) => {
         Math.sin(dLng / 2) *
         Math.sin(dLng / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c; // Distancia en km
+    return R * c;
   };
 
-  // 📌 Obtener negocios desde Firebase
   useEffect(() => {
     const fetchBusinesses = async () => {
       try {
@@ -36,7 +35,6 @@ const BusinessList = ({ category, userLocation, searchTerm }) => {
           ...doc.data(),
         }));
         setBusinesses(businessData);
-        console.log('Negocios obtenidos:', businessData);
       } catch (error) {
         console.error('Error al obtener negocios:', error);
       }
@@ -44,7 +42,6 @@ const BusinessList = ({ category, userLocation, searchTerm }) => {
     fetchBusinesses();
   }, []);
 
-  // 📌 Geocodificar una dirección con Google Maps API
   const geocodeAddress = async (address) => {
     try {
       const response = await fetch(
@@ -54,7 +51,6 @@ const BusinessList = ({ category, userLocation, searchTerm }) => {
       );
       if (!response.ok) throw new Error('Error en la respuesta de la API');
       const data = await response.json();
-
       if (data.results.length > 0) {
         return {
           lat: data.results[0].geometry.location.lat,
@@ -69,17 +65,13 @@ const BusinessList = ({ category, userLocation, searchTerm }) => {
     }
   };
 
-  // 📌 Calcular distancias cuando cambian negocios o ubicación del usuario
   useEffect(() => {
     if (!userLocation || businesses.length === 0) return;
-
-    console.log('Calculando distancias para los negocios...');
 
     const fetchDistances = async () => {
       const newDistances = {};
       const promises = businesses.map(async (business) => {
         if (!business.address) return;
-
         const businessLocation = await geocodeAddress(business.address);
         if (businessLocation) {
           const distance = calculateDistance(
@@ -94,13 +86,11 @@ const BusinessList = ({ category, userLocation, searchTerm }) => {
 
       await Promise.all(promises);
       setDistances(newDistances);
-      console.log('Distancias calculadas:', newDistances);
     };
 
     fetchDistances();
   }, [userLocation, businesses]);
 
-  // 📌 Filtrar y ordenar negocios por distancia
   const filteredAndSortedBusinesses = [...businesses]
     .filter((business) => {
       const matchesCategory =
@@ -122,10 +112,12 @@ const BusinessList = ({ category, userLocation, searchTerm }) => {
       return 0;
     });
 
+  const visibleBusinesses = filteredAndSortedBusinesses.slice(0, visibleCount);
+
   return (
     <div className="business-list">
-      {filteredAndSortedBusinesses.length > 0 ? (
-        filteredAndSortedBusinesses.map((business) => (
+      {visibleBusinesses.length > 0 ? (
+        visibleBusinesses.map((business) => (
           <div key={business.id} className="business-card">
             <img
               className="business-image"
@@ -166,8 +158,21 @@ const BusinessList = ({ category, userLocation, searchTerm }) => {
       ) : (
         <p>No se encontraron negocios que coincidan con la búsqueda.</p>
       )}
+
+      {/* 📌 Botones de paginación */}
+      <div className="pagination-buttons">
+        {visibleCount < filteredAndSortedBusinesses.length && (
+          <button onClick={() => setVisibleCount(visibleCount + 8)}>Ver más</button>
+        )}
+        {visibleCount > 8 && (
+          <button onClick={() => setVisibleCount(Math.max(8, visibleCount - 8))}>
+            Ver menos
+          </button>
+        )}
+      </div>
     </div>
   );
 };
 
 export default BusinessList;
+  

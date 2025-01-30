@@ -127,28 +127,25 @@
   margin-top: 20px;
 }
 
-.see-more-button,
-.see-less-button {
-  padding: 10px 20px;
-  font-size: 16px;
+.pagination-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.pagination-buttons button {
   background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 16px;
   cursor: pointer;
-  transition: background 0.3s;
+  border-radius: 5px;
 }
 
-.see-more-button:hover {
+.pagination-buttons button:hover {
   background-color: #0056b3;
-}
-
-.see-less-button {
-  background-color: #ff4444;
-}
-
-.see-less-button:hover {
-  background-color: #cc0000;
 }
 
 /* Adaptación para móviles: cambiar de columnas a filas */

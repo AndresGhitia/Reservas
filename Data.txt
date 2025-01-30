@@ -599,3 +599,5 @@ G#298 Se crea componente SearchByName, realiza filtrado por nombre, se suma a lo
 G#299 Agregamos limite de cardviews en BusinessList, se muestran de a 8 con el boton "ver mas". 
 
 G#300 Corrigiendo BusinessLIst (habia dejado de marcar las distancias). 
+
+G#301 Corrigiendo BusinessLIst (habia dejado de funcionar boton "ver mas"). Ahora ademas se implementa boton "ver menos". 
