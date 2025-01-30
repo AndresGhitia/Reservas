@@ -96,10 +96,14 @@ const BusinessList = ({ category, userLocation, searchTerm }) => {
       const matchesCategory =
         category === 'All' ||
         category === 'Todos los deportes' ||
+        category === 'Todos' || // Agrega esta línea si es necesario
+        !category || // Si no hay categoría seleccionada
         (business.businessType && business.businessType.includes(category));
+
       const matchesName =
         !searchTerm ||
         business.establishmentName.toLowerCase().includes(searchTerm.toLowerCase());
+
       return matchesCategory && matchesName;
     })
     .sort((a, b) => {
@@ -113,7 +117,6 @@ const BusinessList = ({ category, userLocation, searchTerm }) => {
     });
 
   const visibleBusinesses = filteredAndSortedBusinesses.slice(0, visibleCount);
-
   return (
     <div className="business-list">
       {visibleBusinesses.length > 0 ? (
@@ -175,4 +178,3 @@ const BusinessList = ({ category, userLocation, searchTerm }) => {
 };
 
 export default BusinessList;
-  
