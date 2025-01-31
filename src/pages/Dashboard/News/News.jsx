@@ -11,6 +11,15 @@ const News = ({ db, userDocId }) => {
   const [error, setError] = useState("");
   const [editingIndex, setEditingIndex] = useState(null);
 
+  // Función para formatear la fecha como dd/mm/aaaa
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0"); // Los meses comienzan en 0
+    const year = d.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
   // Cargar las noticias existentes al iniciar
   useEffect(() => {
     const fetchNews = async () => {
@@ -55,7 +64,11 @@ const News = ({ db, userDocId }) => {
     setLoading(true);
     try {
       const userDocRef = doc(db, "owners", userDocId);
-      const newNews = { title, content, date: new Date().toLocaleDateString() };
+      const newNews = {
+        title,
+        content,
+        date: new Date().toISOString(), // Guardar la fecha en formato ISO
+      };
       let updatedNewsList;
 
       if (editingIndex !== null) {
@@ -186,7 +199,7 @@ const News = ({ db, userDocId }) => {
                 <li key={index}>
                   <h3>{news.title}</h3>
                   <span>{news.content}</span>
-                  <span>{news.date}</span>
+                  <p className="news-date">{formatDate(news.date)}</p>
                   <div className="news-buttons">
                     <button className="edit-news-button" onClick={() => handleEditNews(index)}>
                       Editar
