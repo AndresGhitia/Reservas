@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { auth, db } from "../../firebase";
 import { doc, collection, getDocs, addDoc, deleteDoc, updateDoc } from "firebase/firestore";
 import SalesComponent from "./SalesComponent";
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
 import { FaGlassWhiskey, FaUtensils, FaTshirt } from "react-icons/fa";
 import Stock from "./Stock";
 import Swal from "sweetalert2";
@@ -297,9 +298,11 @@ const categoryIcons = {
     tienda: <FaTshirt />, // Camiseta representando deportes/ropa
   };
 
-  if (error) {
-    return <p className="error">Error: {error}</p>;
-  }
+  if (loading) {    return (
+    <div>
+      <LoadingSpinner />
+    </div>
+  )}
   
   
   return (

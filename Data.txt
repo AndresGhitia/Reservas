@@ -607,3 +607,5 @@ G#302 se corrige filteredAndSortedBusinesses de BusinessLIst ya que al seleccion
 G#303 Acomodamos el estilo del boton "ver mas" de BusinessLIst, agregamos el limite de 5 noticias al componente News. 
 
 G#304 Agregamos le fecha de las noticias en el componente Dashboard, para que owner tenga registro de cuando realizo dicha publicacion.
+
+G#305 Se implementa LoadingSpinner en la carga del componente Store.
