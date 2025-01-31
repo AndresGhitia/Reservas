@@ -162,7 +162,6 @@ const BusinessList = ({ category, userLocation, searchTerm }) => {
         <p>No se encontraron negocios que coincidan con la búsqueda.</p>
       )}
 
-      {/* 📌 Botones de paginación */}
       <div className="pagination-buttons">
         {visibleCount < filteredAndSortedBusinesses.length && (
           <button onClick={() => setVisibleCount(visibleCount + 8)}>Ver más</button>

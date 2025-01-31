@@ -603,3 +603,5 @@ G#300 Corrigiendo BusinessLIst (habia dejado de marcar las distancias).
 G#301 Corrigiendo BusinessLIst (habia dejado de funcionar boton "ver mas"). Ahora ademas se implementa boton "ver menos". 
 
 G#302 se corrige filteredAndSortedBusinesses de BusinessLIst ya que al seleccionar "todos" no aparecian los complejos, ahora si. 
+
+G#303 Acomodamos el estilo del boton "ver mas" de BusinessLIst, agregamos el limite de 5 noticias al componente News. 

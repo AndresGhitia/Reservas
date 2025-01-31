@@ -41,6 +41,17 @@ const News = ({ db, userDocId }) => {
       return;
     }
 
+    // Validar si ya hay 5 noticias
+    if (newsList.length >= 5 && editingIndex === null) {
+      await Swal.fire({
+        title: "Límite de noticias alcanzado",
+        text: "Ya tienes publicadas el máximo de 5 noticias. Para agregar una nueva, debes borrar una publicación antigua.",
+        icon: "warning",
+        confirmButtonText: "Entendido",
+      });
+      return;
+    }
+
     setLoading(true);
     try {
       const userDocRef = doc(db, "owners", userDocId);
@@ -62,15 +73,13 @@ const News = ({ db, userDocId }) => {
       setContent("");
       setEditingIndex(null);
       setError("");
-      
-      Swal.fire({
-        title: 'Noticia guardada correctamente.',
-        text: '',
-        icon: 'success',
-        confirmButtonText: 'Entendido',
-      });
 
-      // alert("Noticia guardada correctamente.");
+      await Swal.fire({
+        title: "Noticia guardada correctamente.",
+        text: "",
+        icon: "success",
+        confirmButtonText: "Entendido",
+      });
     } catch (err) {
       console.error("Error al guardar la noticia:", err);
       setError("Hubo un error al guardar la noticia.");
@@ -89,16 +98,16 @@ const News = ({ db, userDocId }) => {
       confirmButtonText: "Sí, borrar",
       cancelButtonText: "Cancelar",
     });
-  
+
     if (!result.isConfirmed) return;
-  
+
     setLoading(true);
     try {
       const userDocRef = doc(db, "owners", userDocId);
       const updatedNewsList = newsList.filter((_, i) => i !== index);
-  
+
       await updateDoc(userDocRef, { news: updatedNewsList }); // Actualizar en Firestore
-  
+
       setNewsList(updatedNewsList);
       await Swal.fire({
         title: "Eliminado",
@@ -193,7 +202,6 @@ const News = ({ db, userDocId }) => {
         </div>
       </div>
     </div>
-
   );
 };
 

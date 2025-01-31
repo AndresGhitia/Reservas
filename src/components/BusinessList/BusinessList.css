@@ -4,20 +4,18 @@
   gap: 20px;
   justify-content: center;
   margin: 20px;
+  position: relative; /* Para posicionar el botón correctamente */
+  padding-bottom: 60px; /* Espacio para el botón "Ver más" */
 }
-
 
 @keyframes fadeInUp {
   0% {
     opacity: 0;
     transform: translateY(20px);
-    /* Aparece desplazado hacia abajo */
   }
-
   100% {
     opacity: 1;
     transform: translateY(0);
-    /* Se desliza a su posición original */
   }
 }
 
@@ -30,17 +28,15 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   width: 300px;
-  /* Fija el ancho de las tarjetas */
   text-align: center;
   padding: 20px;
   transition: transform 0.3s;
   height: 450px;
   opacity: 0;
   animation: fadeInUp 1.2s ease-in-out forwards;
-
 }
 
-.business-card hr{
+.business-card hr {
   border: 1px solid #56e07b;
 }
 
@@ -60,7 +56,6 @@
   border-radius: 8px;
 }
 
-
 .business-card h3 {
   font-size: 1.8rem;
 }
@@ -79,7 +74,7 @@
 }
 
 .business-address {
-  font-size: 1.0rem;
+  font-size: 1rem;
   color: #333;
 }
 
@@ -104,7 +99,7 @@
   color: #0a0101;
 }
 
-.login-button-card{
+.login-button-card {
   background-color: #2f285a;
   color: white;
   padding: 10px;
@@ -117,9 +112,10 @@
   font-weight: bold;
 }
 
-.login-button-card:hover{
+.login-button-card:hover {
   color: #56e07b;
 }
+
 .button-container {
   display: flex;
   justify-content: center;
@@ -132,23 +128,32 @@
   justify-content: center;
   gap: 10px;
   margin: 20px 0;
+  /* margin-top: 80px; */
+  /* position: absolute;  */
+  bottom: 0; /* Lo coloca al pie */
+  left: 0;
+  right: 0;
+  width: 100%; /* Ocupa todo el ancho */
 }
 
 .pagination-buttons button {
-  background-color: #007bff;
+  background-color: rgba(128, 128, 128, 0.8); /* Gris semi-transparente */
   color: white;
   border: none;
-  padding: 10px 15px;
+  padding: 15px 20px; /* Más grande */
   font-size: 16px;
   cursor: pointer;
   border-radius: 5px;
+  width: 90%; /* Ocupa casi todo el ancho */
+  max-width: 800px; /* Limita el ancho máximo */
+  transition: background-color 0.3s;
 }
 
 .pagination-buttons button:hover {
-  background-color: #0056b3;
+  background-color: rgba(128, 128, 128, 1); /* Menos transparente al hover */
 }
 
-/* Adaptación para móviles: cambiar de columnas a filas */
+/* Adaptación para móviles */
 @media (max-width: 768px) {
   .business-list {
     gap: 12px;
@@ -156,4 +161,8 @@
     margin: 20px;
   }
 
+  .pagination-buttons button {
+    width: 95%; /* Ajuste para móviles */
+    padding: 12px 15px; /* Menos padding en móviles */
+  }
 }
