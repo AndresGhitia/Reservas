@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
-import { doc, setDoc } from 'firebase/firestore';
 import { db, auth } from '../../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { fetchOwnerDataAndSpaces } from '../../utils/fetchOwnerData';
-import { uploadImageToCloudinary } from '../../utils/cloudinaryUpload';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import CalendarOwner from '../../components/Calendar/CalendarOwner';
 import Navbar from '../../components/Navbar/Navbar';
@@ -13,8 +11,12 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import AmenitiesSelector from './AmenitiesSelector/AmenitiesSelector';
 import ShareQR from '../../components/ShareQR/ShareQR';
 import News from './News/News';
+import { setupAuthListener } from './UtilsDashboard/authUtils';
+import { handleUploadBackgroundImage, saveBackgroundImageUrl } from './UtilsDashboard/imageUtils';
+import { handleCopy } from './UtilsDashboard/shareUtils';
+import { handleCloseModal } from './UtilsDashboard/modalUtils';
+import { handleUpdateAmenities } from './UtilsDashboard/amenitiesUtils';
 import './Dashboard.css';
-
 
 function Dashboard() {
   const { establishmentName } = useParams();
@@ -34,13 +36,14 @@ function Dashboard() {
   const [amenities, setAmenities] = useState([]);
   const navigate = useNavigate();
 
+  // Configuración del listener de autenticación
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    const unsubscribe = setupAuthListener(async (user) => {
       if (user) {
         try {
           await fetchOwnerDataAndSpaces(setOwnerData, setSpaces, setError, setLoading);
         } catch (fetchError) {
-          setLoading(false)
+          setLoading(false);
           console.error("Error al cargar los datos:", fetchError);
           setError("Error al cargar los datos del propietario.");
         }
@@ -48,80 +51,42 @@ function Dashboard() {
         navigate("/"); // Redirigir al home
         console.log("Usuario no autenticado.");
         setError("Usuario no autenticado.");
-        setLoading(false)
+        setLoading(false);
       }
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [navigate]);
 
-  const handleCopy = () => {
-    const textToCopy = `${bookItUrl}/${encodeURIComponent(decodedName.replace(/ /g, '-'))}`;
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(textToCopy)
-        .then(() => alert("Dirección de tu negocio copiada en el portapapeles"))
-        .catch(err => console.error('Error al copiar el enlace: ', err));
-    } else {
-      const textArea = document.createElement("textarea");
-      textArea.value = textToCopy;
-      document.body.appendChild(textArea);
-      textArea.select();
-      try {
-        document.execCommand('copy');
-        alert("Dirección de tu negocio copiada en el portapapeles");
-      } catch (err) {
-        console.error('Error al copiar el enlace: ', err);
-      }
-      document.body.removeChild(textArea);
-    }
+  // Manejo de la carga de la imagen de fondo
+  const handleImageUpload = async (e) => {
+    await handleUploadBackgroundImage(e, setImageUrl);
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setSelectedSpace(null);
-    setCalendarData([]);
-    setSelectedDate(null);
-    setTimeSlots([]);
+  // Manejo del cierre del modal
+  const closeModal = () => {
+    handleCloseModal(setShowModal, setSelectedSpace, setCalendarData, setSelectedDate, setTimeSlots);
   };
 
-  const handleUploadBackgroundImage = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    try {
-      const url = await uploadImageToCloudinary(file);
-      setImageUrl(url);
-      saveBackgroundImageUrl(url);
-    } catch (error) {
-      console.error("Error al subir la imagen a Cloudinary: ", error);
-    }
+  // Manejo de la copia de la URL
+  const copyUrl = () => {
+    handleCopy(bookItUrl, decodedName);
   };
 
-  const saveBackgroundImageUrl = async (url) => {
-    try {
-      const user = auth.currentUser;
-      const docRef = doc(db, 'owners', user.uid);
-      await setDoc(docRef, { backgroundImageUrl: url }, { merge: true });
-    } catch (error) {
-      console.error("Error al guardar la URL de la imagen: ", error);
-    }
+  // Manejo de la actualización de amenities
+  const updateAmenities = (updatedAmenities) => {
+    handleUpdateAmenities(updatedAmenities, setAmenities);
   };
 
-  const handleShowQRModal = () => setShowQRModal(true);
-  const handleCloseQRModal = () => setShowQRModal(false);
+  if (loading) {
+    return (
+      <div>
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
-  const handleUpdateAmenities = (updatedAmenities) => {
-    setAmenities(updatedAmenities);
-    console.log('Prestaciones actualizadas:', updatedAmenities);
-  };
-
-  if (loading) {    return (
-    <div>
-      <LoadingSpinner />
-    </div>
-  );
-  
-}  if (error) return <div>{error}</div>;
+  if (error) return <div>{error}</div>;
   if (!ownerData) return <div>No se encontraron datos del propietario.</div>;
 
   return (
@@ -144,7 +109,7 @@ function Dashboard() {
             setCalendarData={setCalendarData}
             setTimeSlots={setTimeSlots}
             setSelectedDate={setSelectedDate}
-            onClose={handleCloseModal}
+            onClose={closeModal}
             sport={selectedSpace?.sport}
           />
           {selectedDate && (
@@ -178,7 +143,7 @@ function Dashboard() {
             <AmenitiesSelector
               db={db}
               userDocId={auth.currentUser?.uid}
-              onUpdateAmenities={handleUpdateAmenities}
+              onUpdateAmenities={updateAmenities}
             />
             <News db={db} userDocId={auth.currentUser?.uid} />
           </div>
@@ -197,7 +162,7 @@ function Dashboard() {
                 id="file-upload"
                 type="file"
                 accept="image/*"
-                onChange={handleUploadBackgroundImage}
+                onChange={handleImageUpload}
                 style={{ display: "none" }}
               />
               {imageUrl && <img src={imageUrl} alt="Imagen de fondo" />}
@@ -208,8 +173,8 @@ function Dashboard() {
               <h1>Compartir Info</h1>
             </div>
             <div className="share-buttons">
-              <button className='share-button-url' onClick={handleCopy}>Compartir URL</button>
-              <button className='share-button-qr' onClick={handleShowQRModal}>Compartir QR</button>
+              <button className='share-button-url' onClick={copyUrl}>Compartir URL</button>
+              <button className='share-button-qr' onClick={() => setShowQRModal(true)}>Compartir QR</button>
               <button className="share-button-web" onClick={() => window.open(`${bookItUrl}/${establishmentName}`, '_blank')}> Ir al sitio del negocio </button>
             </div>
           </div>
@@ -217,13 +182,12 @@ function Dashboard() {
             <ShareQR
               url={`${bookItUrl}/${encodeURIComponent(decodedName.replace(/ /g, '-'))}`}
               businessName={decodedName}
-              onClose={handleCloseQRModal}
+              onClose={() => setShowQRModal(false)}
             />
           )}
         </div>
       </div>
     </div>
-
   );
 }
 

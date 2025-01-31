@@ -216,9 +216,31 @@ const Store = () => {
   
   const handleRegisterSale = async (category, itemId, quantity) => {
     if (quantity <= 0) return; // Evitar cantidades inválidas.
+  
     try {
       const user = auth.currentUser;
       if (!user) throw new Error("Usuario no autenticado.");
+  
+      // Obtener el nombre del artículo
+      const item = items[category].find((item) => item.id === itemId);
+      const itemName = item?.nombre || "Artículo";
+  
+      // Mostrar SWAL de confirmación
+      const result = await Swal.fire({
+        // title: "¿Confirmar venta?",
+        title: `¿Vendiste ${itemName}?`,
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Sí, vender",
+        cancelButtonText: "Cancelar",
+        position: "bottom", // Posición en la parte inferior
+        customClass: {
+          popup: "swal-bottom-left", // Clase personalizada para alinear a la izquierda
+        },
+      });
+  
+      // Si el usuario cancela, no hacer nada
+      if (!result.isConfirmed) return;
   
       // Obtener la fecha actual en formato YYYY-MM-DD
       const today = new Date().toISOString().split("T")[0];
@@ -253,7 +275,6 @@ const Store = () => {
       }
   
       // Reducir el stock en Firestore
-      const item = items[category].find((item) => item.id === itemId);
       const newStock = Math.max(item.stock - quantity, 0);
       await updateDoc(itemRef, { stock: newStock });
   
@@ -269,9 +290,31 @@ const Store = () => {
         return { ...prevItems, [category]: updatedCategory };
       });
   
+      // Mostrar mensaje de éxito
+      Swal.fire({
+        title: "Venta registrada",
+        text: `Se vendió "${itemName}" correctamente.`,
+        icon: "success",
+        position: "bottom", // Posición en la parte inferior
+        customClass: {
+          popup: "swal-bottom-left", // Clase personalizada para alinear a la izquierda
+        },
+      });
+  
       console.log("Venta registrada y stock actualizado.");
     } catch (err) {
       console.error("Error al registrar la venta:", err);
+  
+      // Mostrar mensaje de error
+      Swal.fire({
+        title: "Error",
+        text: "No se pudo registrar la venta. Intenta nuevamente.",
+        icon: "error",
+        position: "bottom", // Posición en la parte inferior
+        customClass: {
+          popup: "swal-bottom-left", // Clase personalizada para alinear a la izquierda
+        },
+      });
     }
   };
   

@@ -269,3 +269,8 @@
   font-size: 1.2rem;
   color: red;
 }
+.swal-bottom-left {
+  left: 20px; 
+  bottom: 40px ; 
+
+}

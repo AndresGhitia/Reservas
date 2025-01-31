@@ -609,3 +609,6 @@ G#303 Acomodamos el estilo del boton "ver mas" de BusinessLIst, agregamos el lim
 G#304 Agregamos le fecha de las noticias en el componente Dashboard, para que owner tenga registro de cuando realizo dicha publicacion.
 
 G#305 Se implementa LoadingSpinner en la carga del componente Store.
+
+G#306 Se agrega a Store, un Alert a modo de confirmar que se realiza venta de articulo. Ademas se refactoriza Dashboard, pasamos las funciones 
+a la carpeta UtilsDashboard, donde colocamos las funciones en .js axuliares que importamos a Dashboard.
